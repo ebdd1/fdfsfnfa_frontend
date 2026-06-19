@@ -56,13 +56,13 @@ export const DetailPageContainer = () => {
         <div className="flex gap-3">
           <button
             onClick={() => refetch()}
-            className="text-xs font-bold bg-emerald-600 text-white px-5 py-2.5 rounded-full hover:bg-emerald-700 transition-colors"
+            className="text-xs font-bold bg-emerald-600 text-white px-5 py-2.5 rounded-full hover:bg-emerald-700 active:scale-95 transition-all cursor-pointer"
           >
             Coba Lagi
           </button>
           <button
             onClick={() => navigate('/search')}
-            className="text-xs font-bold border border-slate-300 text-slate-700 px-5 py-2.5 rounded-full hover:bg-slate-50 transition-colors"
+            className="text-xs font-bold border border-slate-300 text-slate-700 px-5 py-2.5 rounded-full hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
           >
             Kembali ke Pencarian
           </button>

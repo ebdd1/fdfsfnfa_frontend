@@ -82,13 +82,25 @@ export interface SmartAlert {
   notification_frequency: 'instant' | 'daily' | 'weekly';
 }
 
-export type OrderStatus = 'pending' | 'awaiting_payment' | 'active' | 'rejected' | 'cancelled' | 'completed';
+export type OrderStatus =
+  | 'pending'
+  | 'awaiting_payment'
+  | 'awaiting_confirmation'
+  | 'active'
+  | 'rejected'
+  | 'cancelled'
+  | 'completed';
+
+export type PaymentMethod = 'transfer' | 'cod';
 
 export interface OrderParty {
   id: string;
   name: string;
   avatar_url?: string;
   phone?: string;
+  bankName?: string;
+  bankAccountNumber?: string;
+  bankAccountHolder?: string;
 }
 
 export interface RentalOrder {
@@ -98,6 +110,8 @@ export interface RentalOrder {
   propertyId: string;
   roomId: string;
   status: OrderStatus;
+  paymentMethod?: PaymentMethod;
+  paymentProofUrl?: string | null;
   startDate: string;
   durationMonths: number;
   priceMonthly: number;

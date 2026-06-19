@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { User, Mail, Shield, LogOut, Settings, Save, Loader2, CheckCircle, AlertCircle, Camera, Phone, BadgeCheck, ShieldAlert } from 'lucide-react';
+import { User, Mail, Shield, LogOut, Settings, Save, Loader2, CheckCircle, AlertCircle, Camera, Phone, BadgeCheck, ShieldAlert, Building2, CreditCard, UserCircle } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { authService } from '../../services/api/auth.service';
 import { uploadService } from '../../services/api/upload.service';
@@ -18,6 +18,12 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
   const [isVerified, setIsVerified] = useState(false);
   const [origin, setOrigin] = useState({ name: user?.name || '', phone: '', avatar: user?.avatar_url || '' });
 
+  // Bank account state
+  const [bankName, setBankName] = useState('');
+  const [bankAccountNumber, setBankAccountNumber] = useState('');
+  const [bankAccountHolder, setBankAccountHolder] = useState('');
+  const [originBank, setOriginBank] = useState({ bankName: '', bankAccountNumber: '', bankAccountHolder: '' });
+
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [savedOk, setSavedOk] = useState(false);
@@ -25,7 +31,7 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Pull the freshest profile (phone + verification status aren't in the persisted store).
+  // Pull the freshest profile (phone + bank + verification status aren't in the persisted store).
   useEffect(() => {
     let cancelled = false;
     authService
@@ -37,6 +43,11 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
         setAvatarUrl(me.avatar_url ?? '');
         setIsVerified(Boolean(me.isVerified ?? me.is_verified));
         setOrigin({ name: me.name ?? '', phone: me.phone ?? '', avatar: me.avatar_url ?? '' });
+        // Load bank fields
+        setBankName(me.bankName ?? '');
+        setBankAccountNumber(me.bankAccountNumber ?? '');
+        setBankAccountHolder(me.bankAccountHolder ?? '');
+        setOriginBank({ bankName: me.bankName ?? '', bankAccountNumber: me.bankAccountNumber ?? '', bankAccountHolder: me.bankAccountHolder ?? '' });
       })
       .catch(() => {
         /* fall back to whatever the store already gave us */
@@ -48,6 +59,10 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
 
   const dirty =
     name.trim() !== origin.name || phone.trim() !== origin.phone || avatarUrl.trim() !== origin.avatar;
+  const dirtyBank =
+    bankName.trim() !== originBank.bankName ||
+    bankAccountNumber.trim() !== originBank.bankAccountNumber ||
+    bankAccountHolder.trim() !== originBank.bankAccountHolder;
 
   const handlePickFile = () => fileInputRef.current?.click();
 
@@ -79,6 +94,9 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
         name: name.trim(),
         phone: phone.trim(),
         avatar_url: avatarUrl.trim(),
+        bankName: bankName.trim(),
+        bankAccountNumber: bankAccountNumber.trim(),
+        bankAccountHolder: bankAccountHolder.trim(),
       });
       if (token && storeUser) {
         setAuth(token, {
@@ -89,6 +107,7 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
         });
       }
       setOrigin({ name: name.trim(), phone: phone.trim(), avatar: avatarUrl.trim() });
+      setOriginBank({ bankName: bankName.trim(), bankAccountNumber: bankAccountNumber.trim(), bankAccountHolder: bankAccountHolder.trim() });
       setSavedOk(true);
       setTimeout(() => setSavedOk(false), 3000);
     } catch {
@@ -202,10 +221,67 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
               </p>
             )}
 
+            {/* Rekening bank */}
+            <div className="border-t border-slate-100 pt-5">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
+                  <Building2 className="w-3.5 h-3.5 text-blue-600" />
+                </div>
+                <div>
+                  <h4 className="text-[13px] font-semibold text-slate-800">Rekening Bank</h4>
+                  <p className="text-[11px] text-slate-400">Untuk menerima pembayaran sewa via transfer</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="text-[12px] font-medium text-slate-400 mb-2 block">Nama Bank</label>
+                  <div className="flex items-center gap-2 bg-slate-50 px-3.5 rounded-xl border border-slate-100/50 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all">
+                    <Building2 className="w-4 h-4 text-slate-400 shrink-0" />
+                    <input
+                      type="text"
+                      value={bankName}
+                      onChange={(e) => setBankName(e.target.value)}
+                      placeholder="BCA, Mandiri, BRI..."
+                      className="w-full bg-transparent py-3 text-[13px] font-medium text-slate-700 outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-[12px] font-medium text-slate-400 mb-2 block">No. Rekening</label>
+                  <div className="flex items-center gap-2 bg-slate-50 px-3.5 rounded-xl border border-slate-100/50 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all">
+                    <CreditCard className="w-4 h-4 text-slate-400 shrink-0" />
+                    <input
+                      type="text"
+                      value={bankAccountNumber}
+                      onChange={(e) => setBankAccountNumber(e.target.value)}
+                      placeholder="1234567890"
+                      className="w-full bg-transparent py-3 text-[13px] font-medium text-slate-700 outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-[12px] font-medium text-slate-400 mb-2 block">Atas Nama</label>
+                  <div className="flex items-center gap-2 bg-slate-50 px-3.5 rounded-xl border border-slate-100/50 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all">
+                    <UserCircle className="w-4 h-4 text-slate-400 shrink-0" />
+                    <input
+                      type="text"
+                      value={bankAccountHolder}
+                      onChange={(e) => setBankAccountHolder(e.target.value)}
+                      placeholder="Nama di rekening"
+                      className="w-full bg-transparent py-3 text-[13px] font-medium text-slate-700 outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="flex items-center gap-3 pt-1">
               <button
                 onClick={handleSave}
-                disabled={isSaving || isUploading || !dirty}
+                disabled={isSaving || isUploading || !(dirty || dirtyBank)}
                 className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold text-[13px] px-5 py-2.5 rounded-xl transition-colors shadow-sm"
               >
                 {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
+import { useSettingsStore } from '../stores/settingsStore';
 import { InboxPage } from './InboxPage';
 import { WatchlistPage } from './WatchlistPage';
 import { SeekerOrdersSection } from '../pages/SeekerOrdersSection';
@@ -38,17 +39,18 @@ import type { LucideIcon } from 'lucide-react';
 
 type SeekerSection = 'overview' | 'leases' | 'watchlist' | 'chat' | 'search';
 
-// Sections shown in the mobile bottom navigation bar (thumb-reachable).
-// "Riwayat Sewa" lives in the drawer to keep the bar to 4 primary items.
+// Bottom nav: 4 thumb-reachable items. Pesan Masuk diakses via sidebar/bottom-sheet.
+// Keep it minimal — only the 4 most essential daily actions.
 const BOTTOM_NAV: { key: SeekerSection; label: string; icon: LucideIcon }[] = [
   { key: 'overview', label: 'Beranda', icon: LayoutDashboard },
-  { key: 'search', label: 'Cari', icon: Search },
+  { key: 'search', label: 'Cari Kost', icon: Search },
   { key: 'watchlist', label: 'Tersimpan', icon: Heart },
-  { key: 'chat', label: 'Pesan', icon: Mail },
+  { key: 'leases', label: 'Sewa Saya', icon: MessageSquare },
 ];
 
 export const UserDashboardPage: React.FC = () => {
   const { user, logout } = useAuthStore();
+  const { settings } = useSettingsStore();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -197,9 +199,13 @@ export const UserDashboardPage: React.FC = () => {
         </button>
 
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
+          {settings.logo_url ? (
+            <img src={settings.logo_url} alt={settings.site_name} className="h-8 w-auto object-contain rounded-lg" />
+          ) : (
           <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/40 text-emerald-600">
             <Shield className="w-4 h-4" />
           </div>
+          )}
           <BrandName className="text-[15px] font-black text-slate-900 tracking-tight" />
         </div>
 
@@ -389,14 +395,18 @@ export const UserDashboardPage: React.FC = () => {
           {/* Brand */}
           <div className={`flex items-center ${isSidebarCollapsed ? 'flex-col gap-3 justify-center' : 'justify-between'} px-1`}>
             <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => onNavigate?.('landing')}>
-              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/30 text-emerald-600 shadow-sm shadow-emerald-600/5 animate-pulse">
+              {settings.logo_url ? (
+                <img src={settings.logo_url} alt={settings.site_name} className="h-9 w-auto object-contain rounded-xl" />
+              ) : (
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/30 text-emerald-600 shadow-sm shadow-emerald-600/5">
                 <Shield className="h-4.5 w-4.5" />
               </div>
+              )}
               {!isSidebarCollapsed && <BrandName className="text-[17px] font-black tracking-tight text-slate-900" />}
             </div>
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-              className="rounded-lg border border-slate-200/60 p-1.5 text-slate-400 hover:bg-slate-50 hover:text-slate-700 transition-colors"
+              className="rounded-lg border border-slate-200/60 p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors cursor-pointer"
               title={isSidebarCollapsed ? "Tampilkan Sidebar" : "Sembunyikan Sidebar"}
             >
               {isSidebarCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -671,13 +681,13 @@ export const UserDashboardPage: React.FC = () => {
                 }}
                 className="flex items-center gap-2 p-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition-all duration-200 cursor-pointer group"
               >
-                <div className="w-7 h-7 rounded-lg bg-slate-200 overflow-hidden border border-slate-200 flex-shrink-0">
-                  <img
-                    src={user?.avatar_url || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80"}
-                    alt={user?.name || "Pencari Kost"}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                {user?.avatar_url ? (
+                  <img src={user.avatar_url} alt={user.name || "Pencari Kost"} className="w-full h-full object-cover rounded-lg" />
+                ) : (
+                  <div className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-black text-sm shrink-0">
+                    {(user?.name || 'P')[0].toUpperCase()}
+                  </div>
+                )}
                 <ChevronDown className={`w-3.5 h-3.5 text-slate-400 group-hover:text-slate-600 transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -693,6 +703,7 @@ export const UserDashboardPage: React.FC = () => {
                     </div>
 
                     <div className="py-1">
+                      {user?.role === 'admin' && (
                       <button
                         onClick={() => {
                           setIsProfileOpen(false);
@@ -701,19 +712,22 @@ export const UserDashboardPage: React.FC = () => {
                         className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-indigo-600 flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
                         <Shield className="w-4 h-4 text-indigo-500" />
-                        <span>Mode Admin (Secret)</span>
+                        <span>Mode Admin</span>
                       </button>
+                    )}
 
-                      <button
-                        onClick={() => {
-                          setIsProfileOpen(false);
-                          onNavigate?.('dashboard'); // Switch to Owner dashboard
-                        }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-emerald-600 flex items-center gap-2.5 transition-colors cursor-pointer"
-                      >
-                        <Sparkles className="w-4 h-4 text-emerald-500" />
-                        <span>Mode Pemilik Kost</span>
-                      </button>
+                      {user?.role !== 'owner' && (
+                        <button
+                          onClick={() => {
+                            setIsProfileOpen(false);
+                            onNavigate?.('dashboard');
+                          }}
+                          className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-emerald-600 flex items-center gap-2.5 transition-colors cursor-pointer"
+                        >
+                          <Sparkles className="w-4 h-4 text-emerald-500" />
+                          <span>Mode Pemilik Kost</span>
+                        </button>
+                      )}
 
                       <button
                         onClick={() => {
@@ -737,7 +751,7 @@ export const UserDashboardPage: React.FC = () => {
                         className="w-full text-left px-4 py-2 text-xs font-extrabold text-red-500 hover:bg-red-50 flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
                         <LogOut className="w-4 h-4 text-red-500" />
-                        <span>Keluar / Logout</span>
+                        <span>Keluar</span>
                       </button>
                     </div>
                   </div>

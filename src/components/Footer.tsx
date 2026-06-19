@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Sparkles, Globe, Mail, Phone } from 'lucide-react';
+import { Sparkles, Globe, Mail, Phone, Link2 } from 'lucide-react';
 import { BrandName } from './BrandName';
 import { useSettings } from '../hooks/useSettings';
 
@@ -21,21 +21,28 @@ export const Footer: React.FC = () => {
           {/* Brand column */}
           <div className="col-span-2 space-y-4 text-left">
             <span className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-              <Sparkles className="w-6 h-6 text-emerald-500 animate-spin-slow" />
+              {settings.logo_url ? (
+                <img src={settings.logo_url} alt={settings.site_name} className="w-8 h-8 object-contain rounded" />
+              ) : (
+                <Sparkles className="w-6 h-6" style={{ color: 'var(--primary-color, #10b981)' }} />
+              )}
               <BrandName />
             </span>
             <p className="text-slate-400 text-xs leading-relaxed max-w-xs font-semibold">
-              Platform pencarian dan pengelolaan kost real-time bergaransi verifikasi GPS lokasi pertama di Indonesia.
+              {settings.footer_text || 'Platform pencarian dan pengelolaan kost real-time bergaransi verifikasi GPS lokasi pertama di Indonesia.'}
             </p>
+            {settings.company_address && (
+              <p className="text-slate-500 text-[11px] font-medium">{settings.company_address}</p>
+            )}
           </div>
 
           {/* Sitemap Column 1 */}
           <div className="space-y-4 text-left">
             <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Pencari Kost</h5>
             <ul className="space-y-2.5 text-xs text-slate-300 font-bold">
-              <li><button onClick={() => handleSearchCity('Palopo')} className="hover:text-emerald-400 transition-colors">Kost Palopo</button></li>
-              <li><button onClick={() => handleSearchCity('Jakarta')} className="hover:text-emerald-400 transition-colors">Kost Jakarta</button></li>
-              <li><button onClick={() => handleSearchCity('Bandung')} className="hover:text-emerald-400 transition-colors">Kost Bandung</button></li>
+              <li><button onClick={() => handleSearchCity('Palopo')} className="hover:opacity-80 transition-opacity">Kost Palopo</button></li>
+              <li><button onClick={() => handleSearchCity('Jakarta')} className="hover:opacity-80 transition-opacity">Kost Jakarta</button></li>
+              <li><button onClick={() => handleSearchCity('Bandung')} className="hover:opacity-80 transition-opacity">Kost Bandung</button></li>
             </ul>
           </div>
 
@@ -43,19 +50,24 @@ export const Footer: React.FC = () => {
           <div className="space-y-4 text-left">
             <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Pemilik Kost</h5>
             <ul className="space-y-2.5 text-xs text-slate-300 font-bold">
-              <li><Link to="/register?role=owner" className="hover:text-emerald-400 transition-colors">Pasang Iklan</Link></li>
-              <li><Link to="/dashboard" className="hover:text-emerald-400 transition-colors">Dasbor Owner</Link></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Panduan Sewa</a></li>
+              <li><Link to="/register?role=owner" className="hover:opacity-80 transition-opacity">Pasang Iklan</Link></li>
+              <li><Link to="/dashboard" className="hover:opacity-80 transition-opacity">Dasbor Owner</Link></li>
             </ul>
           </div>
 
           {/* Sitemap Column 3 */}
           <div className="space-y-4 text-left">
-            <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Dukungan</h5>
+            <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Legal</h5>
             <ul className="space-y-2.5 text-xs text-slate-300 font-bold">
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Pusat Bantuan</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Privasi & Syarat</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Hubungi Kami</a></li>
+              {settings.privacy_url && (
+                <li><a href={settings.privacy_url} target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">Kebijakan Privasi</a></li>
+              )}
+              {settings.terms_url && (
+                <li><a href={settings.terms_url} target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">Syarat & Ketentuan</a></li>
+              )}
+              {settings.support_email && (
+                <li><a href={`mailto:${settings.support_email}`} className="hover:opacity-80 transition-opacity">Hubungi Kami</a></li>
+              )}
             </ul>
           </div>
 
@@ -64,15 +76,24 @@ export const Footer: React.FC = () => {
         <div className="border-t border-slate-900 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
           <span>&copy; {new Date().getFullYear()} {settings.site_name}. Seluruh hak cipta dilindungi.</span>
           <div className="flex gap-4">
-            <a href="#" className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all hover:-translate-y-0.5" title="Website">
+            {settings.social_instagram && (
+              <a href={settings.social_instagram} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all hover:-translate-y-0.5" title="Instagram">
+              <Link2 className="w-4 h-4" />
+            </a>
+            )}
+            {settings.social_twitter && (
+              <a href={settings.social_twitter} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all hover:-translate-y-0.5" title="Twitter / X">
               <Globe className="w-4 h-4" />
             </a>
+            )}
             <a href={`mailto:${settings.support_email}`} className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all hover:-translate-y-0.5" title="Email">
               <Mail className="w-4 h-4" />
             </a>
-            <a href={`tel:${settings.support_phone}`} className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all hover:-translate-y-0.5" title="Telepon">
-              <Phone className="w-4 h-4" />
-            </a>
+            {settings.support_phone && (
+              <a href={`tel:${settings.support_phone}`} className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-all hover:-translate-y-0.5" title="Telepon">
+                <Phone className="w-4 h-4" />
+              </a>
+            )}
           </div>
         </div>
 

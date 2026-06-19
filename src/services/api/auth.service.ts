@@ -24,6 +24,9 @@ export interface LoginResponse {
     avatar_url?: string;
     banner_url?: string;
     is_verified?: boolean;
+    bankName?: string;
+    bankAccountNumber?: string;
+    bankAccountHolder?: string;
   };
 }
 
@@ -43,7 +46,15 @@ export const authService = {
     return response.data;
   },
 
-  updateMe: async (data: { name?: string; phone?: string; avatar_url?: string; banner_url?: string }) => {
+  updateMe: async (data: {
+    name?: string;
+    phone?: string;
+    avatar_url?: string;
+    banner_url?: string;
+    bankName?: string;
+    bankAccountNumber?: string;
+    bankAccountHolder?: string;
+  }) => {
     const response = await api.patch('/auth/me', data);
     return response.data;
   },

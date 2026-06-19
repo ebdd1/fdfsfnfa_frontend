@@ -385,7 +385,7 @@ export const DashboardPage = () => {
             </div>
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-              className="rounded-lg border border-slate-200/60 p-1.5 text-slate-400 hover:bg-slate-50 hover:text-slate-700 transition-colors"
+              className="rounded-lg border border-slate-200/60 p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors cursor-pointer"
               title={isSidebarCollapsed ? 'Tampilkan Sidebar' : 'Sembunyikan Sidebar'}
             >
               {isSidebarCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}

@@ -101,17 +101,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-bold"
             >
               <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-spin-slow" />
-              <span>Platform Kos Digital Mahasiswa & Pekerja Muda</span>
+              <span>{settings.tagline || 'Platform Kos Digital'}</span>
             </motion.div>
-            
-            <motion.h1 
+
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-slate-900"
             >
-              Cari kost nyaman <br />
-              tanpa cemas <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">foto menipu</span>.
+              {settings.hero_title || 'Cari kost nyaman tanpa cemas foto menipu'}
             </motion.h1>
             
             <motion.p 

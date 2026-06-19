@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
+import { useSettingsStore } from '../stores/settingsStore';
 import { useAdminUsers, useAdminListings, useAdminStats } from '../hooks/useAdmin';
 import { AdminSettingsPanel } from './admin/AdminSettingsPanel';
 import { AdminOrdersTab } from './admin/AdminOrdersTab';
@@ -84,6 +85,7 @@ const BOTTOM_NAV_ICONS: Record<Section, React.ComponentType<{ className?: string
 export const AdminDashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
+  const { settings } = useSettingsStore();
   const [activeSection, setActiveSection] = useState<Section>('overview');
   const [collapsed, setCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -135,9 +137,17 @@ export const AdminDashboardPage: React.FC = () => {
             <div className="space-y-6">
               <div className="flex h-11 items-center justify-between px-2">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/30 text-emerald-600 shadow-sm shadow-emerald-600/5">
-                    <Shield className="h-4.5 w-4.5" />
-                  </div>
+                  {settings.logo_url ? (
+                    <img
+                      src={settings.logo_url}
+                      alt={settings.site_name || 'Logo'}
+                      className="h-9 w-auto object-contain rounded-xl flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/30 text-emerald-600 shadow-sm shadow-emerald-600/5">
+                      <Shield className="h-4.5 w-4.5" />
+                    </div>
+                  )}
                   <BrandName className="text-[17px] font-black tracking-tight text-slate-900" />
                 </div>
                 <button
@@ -214,9 +224,17 @@ export const AdminDashboardPage: React.FC = () => {
           {/* Brand */}
           <div className={`flex items-center ${collapsed ? 'flex-col gap-3 justify-center' : 'justify-between'} px-1`}>
             <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/30 text-emerald-600 shadow-sm shadow-emerald-600/5">
-                <Shield className="h-4.5 w-4.5" />
-              </div>
+              {settings.logo_url ? (
+                <img
+                  src={settings.logo_url}
+                  alt={settings.site_name || 'Logo'}
+                  className="h-9 w-auto object-contain rounded-xl flex-shrink-0"
+                />
+              ) : (
+                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/30 text-emerald-600 shadow-sm shadow-emerald-600/5">
+                  <Shield className="h-4.5 w-4.5" />
+                </div>
+              )}
               {!collapsed && <BrandName className="text-[17px] font-black tracking-tight text-slate-900" />}
             </div>
             <button

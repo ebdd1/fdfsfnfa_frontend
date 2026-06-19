@@ -55,5 +55,25 @@ export const propertyService = {
   getRooms: async (propertyId: string) => {
     const response = await api.get(`/listings/${propertyId}/rooms`);
     return response.data;
+  },
+
+  addRooms: async (propertyId: string, count: number, priceMonthly: number) => {
+    const response = await api.post(`/listings/${propertyId}/rooms`, { count, priceMonthly });
+    return response.data;
+  },
+
+  deleteRoom: async (propertyId: string, roomId: string) => {
+    const response = await api.delete(`/listings/${propertyId}/rooms/${roomId}`);
+    return response.data;
+  },
+
+  deleteProperty: async (propertyId: string) => {
+    const response = await api.delete(`/listings/${propertyId}`);
+    return response.data;
+  },
+
+  deletePropertiesBulk: async (propertyIds: string[]) => {
+    const response = await api.delete('/listings', { data: { ids: propertyIds } });
+    return response.data;
   }
 };

@@ -33,6 +33,7 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
     address: '',
     type: 'kost_campur',
     price: '',
+    totalRooms: '1',
     lat: '',
     lng: '',
     facilities: [] as string[]
@@ -87,8 +88,9 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
         lat,
         lng,
         facilities: formData.facilities,
-        // Persist the entered price as an initial room so it isn't lost.
+        // priceMonthly seeds the room price; totalRooms creates N available rooms.
         priceMonthly: formData.price ? Number(formData.price) : undefined,
+        totalRooms: Number(formData.totalRooms) || 1,
       };
 
       const newProperty = await propertyService.create(payload);
@@ -244,18 +246,34 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
 
           {step === 2 && (
             <form onSubmit={handleSubmit} className="space-y-5 animate-in slide-in-from-right-4">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">Harga Kamar Terendah / Bulan</label>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold text-sm">Rp</span>
+              {/* Jumlah Kamar + Harga dalam 1 row */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">Jumlah Kamar</label>
                   <input
                     type="number"
-                    name="price"
-                    value={formData.price}
+                    name="totalRooms"
+                    value={formData.totalRooms}
                     onChange={handleChange}
-                    placeholder="1500000"
-                    className="w-full pl-12 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-black text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                    min="1"
+                    placeholder="10"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-black text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
                   />
+                  <p className="text-[10px] text-slate-400 mt-1">Kamar 1–N otomatis dibuat</p>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">Harga / Bulan</label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold text-sm">Rp</span>
+                    <input
+                      type="number"
+                      name="price"
+                      value={formData.price}
+                      onChange={handleChange}
+                      placeholder="1500000"
+                      className="w-full pl-12 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-black text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                    />
+                  </div>
                 </div>
               </div>
 

@@ -2,12 +2,14 @@ import React, { useState, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Sparkles, Shield, User, LayoutDashboard, LogOut } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
+import { useSettingsStore } from '../stores/settingsStore';
 import { BrandName } from './BrandName';
 
 export const Navbar: React.FC = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { user, token, logout } = useAuthStore();
+  const { settings } = useSettingsStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -38,9 +40,17 @@ export const Navbar: React.FC = () => {
         
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2.5 cursor-pointer group">
-          <div className="bg-emerald-500/10 text-emerald-600 p-2 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-emerald-500/15">
-            <Sparkles className="w-4 h-4 fill-emerald-600 transition-transform duration-500 group-hover:rotate-12" />
-          </div>
+          {settings.logo_url ? (
+            <img
+              src={settings.logo_url}
+              alt={settings.site_name || 'Logo'}
+              className="h-9 w-auto object-contain rounded-xl"
+            />
+          ) : (
+            <div className="bg-emerald-500/10 text-emerald-600 p-2 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-emerald-500/15">
+              <Sparkles className="w-4 h-4 fill-emerald-600 transition-transform duration-500 group-hover:rotate-12" />
+            </div>
+          )}
           <BrandName className="text-base font-black tracking-tight text-slate-900" />
         </Link>
 
@@ -100,9 +110,13 @@ export const Navbar: React.FC = () => {
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2.5 w-56 bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] py-2.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex-shrink-0 flex items-center justify-center font-bold text-sm">
-                        {user.name.charAt(0).toUpperCase()}
+                      {user.avatar_url ? (
+                        <img src={user.avatar_url} alt={user.name} className="w-8 h-8 rounded-lg object-cover shrink-0" />
+                      ) : (
+                        <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm shrink-0">
+                          {user.name?.charAt(0).toUpperCase()}
                       </div>
+                      )}
                       <div className="min-w-0">
                         <p className="text-xs font-black text-slate-800 truncate leading-none">{user.name}</p>
                         <p className="text-[10px] font-semibold text-slate-400 mt-1 uppercase tracking-wider leading-none">
@@ -155,7 +169,7 @@ export const Navbar: React.FC = () => {
                         className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-red-500 hover:bg-rose-50 hover:text-red-700 transition-colors"
                       >
                         <LogOut className="h-4 w-4 text-rose-400 group-hover:text-red-650 transition-colors" />
-                        <span>Keluar / Logout</span>
+                        <span>Keluar</span>
                       </button>
                     </div>
                   </div>

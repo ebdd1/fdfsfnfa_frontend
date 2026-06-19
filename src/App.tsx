@@ -39,6 +39,43 @@ function App() {
   // with the admin-configured site name.
   const { settings } = useSettings();
   const { user } = useAuthStore();
+
+  // Apply primary color CSS variable site-wide
+  useEffect(() => {
+    if (settings.primary_color) {
+      document.documentElement.style.setProperty('--primary-color', settings.primary_color);
+    }
+  }, [settings.primary_color]);
+
+  // Set favicon from admin settings
+  useEffect(() => {
+    if (settings.favicon_url) {
+      const existing = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+      if (existing) {
+        existing.href = settings.favicon_url;
+        existing.type = 'image/png';
+      } else {
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.type = 'image/png';
+        link.href = settings.favicon_url;
+        document.head.appendChild(link);
+      }
+    }
+  }, [settings.favicon_url]);
+
+  // Set SEO meta description
+  useEffect(() => {
+    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement;
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = 'description';
+      document.head.appendChild(meta);
+    }
+    meta.content = settings.seo_description || '';
+  }, [settings.seo_description]);
+
+  // Browser tab title
   useEffect(() => {
     document.title = `${settings.site_name} — ${settings.tagline}`;
   }, [settings.site_name, settings.tagline]);
@@ -51,7 +88,10 @@ function App() {
   const isAdmin = user?.role === 'admin';
   if (settings.maintenance_mode && !isAdmin) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
+      <div
+        className="min-h-screen bg-slate-50 flex flex-col font-sans"
+        style={{ '--primary-color': settings.primary_color || '#10b981' } as React.CSSProperties}
+      >
         <ToastProvider />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
@@ -62,7 +102,10 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
+    <div
+      className="min-h-screen bg-slate-50 flex flex-col font-sans"
+      style={{ '--primary-color': settings.primary_color || '#10b981' } as React.CSSProperties}
+    >
       <ToastProvider />
       <Navbar />
       <Routes>

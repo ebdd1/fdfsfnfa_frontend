@@ -365,7 +365,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                 onClick={() => onSelectProperty(p.id)}
                 style={{ top: pos.top, left: pos.left }}
                 className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center transition-all duration-300 z-20 ${
-                  isHovered ? 'scale-110 z-30' : 'scale-100 hover:scale-105'
+                  isHovered ? 'scale-110 z-30' : 'scale-100 hover:scale-105 cursor-pointer'
                 }`}
               >
                 <div className={`px-3 py-1.5 rounded-full text-[10px] font-black shadow-lg transition-all ${

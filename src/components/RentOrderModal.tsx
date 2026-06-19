@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { X, CalendarDays, CheckCircle, Loader2, AlertCircle } from 'lucide-react';
-import type { Room } from '../types';
+import { X, CalendarDays, CheckCircle, Loader2, AlertCircle, Banknote, HandCoins } from 'lucide-react';
+import type { Room, PaymentMethod } from '../types';
 import { useOrderActions } from '../hooks/useOrders';
 
 interface RentOrderModalProps {
@@ -20,6 +20,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
   const [roomId, setRoomId] = useState('');
   const [startDate, setStartDate] = useState('');
   const [durationMonths, setDurationMonths] = useState(1);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('transfer');
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
 
@@ -33,7 +34,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
     if (!roomId) return setError('Pilih kamar terlebih dahulu.');
     if (!startDate) return setError('Pilih tanggal mulai sewa.');
     try {
-      await createOrder({ roomId, startDate, durationMonths });
+      await createOrder({ roomId, startDate, durationMonths, paymentMethod });
       setDone(true);
     } catch (e: any) {
       setError(e?.response?.data?.message || 'Gagal mengajukan sewa. Coba lagi.');
@@ -44,6 +45,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
     setRoomId('');
     setStartDate('');
     setDurationMonths(1);
+    setPaymentMethod('transfer');
     setError('');
     setDone(false);
     onClose();
@@ -83,6 +85,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
             </div>
           ) : (
             <div className="space-y-5">
+              {/* Pilih kamar */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">Pilih Kamar</label>
                 <select
@@ -99,6 +102,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
                 </select>
               </div>
 
+              {/* Tanggal & durasi */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">Tanggal Mulai</label>
@@ -124,7 +128,40 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
                 </div>
               </div>
 
-              {/* Total summary */}
+              {/* Metode pembayaran */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wider">Metode Pembayaran</label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('transfer')}
+                    className={`flex flex-col items-center gap-2 p-3.5 rounded-xl border-2 transition-all cursor-pointer ${
+                      paymentMethod === 'transfer'
+                        ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+                        : 'border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300'
+                    }`}
+                  >
+                    <Banknote className="w-5 h-5" />
+                    <span className="text-xs font-extrabold">Transfer Bank</span>
+                    <span className="text-[10px] font-medium text-center leading-tight opacity-70">Upload bukti setelah transfer</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('cod')}
+                    className={`flex flex-col items-center gap-2 p-3.5 rounded-xl border-2 transition-all cursor-pointer ${
+                      paymentMethod === 'cod'
+                        ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+                        : 'border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300'
+                    }`}
+                  >
+                    <HandCoins className="w-5 h-5" />
+                    <span className="text-xs font-extrabold">COD / Tunai</span>
+                    <span className="text-[10px] font-medium text-center leading-tight opacity-70">Bayar langsung saat check-in</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Total estimasi */}
               <div className="bg-emerald-50/60 border border-emerald-100 rounded-2xl p-4 flex items-center justify-between">
                 <div>
                   <p className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider">Total Estimasi</p>
