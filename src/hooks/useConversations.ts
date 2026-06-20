@@ -75,6 +75,7 @@ export const useConversations = () => {
   useEffect(() => {
     const socket = getSocket();
     const handler = (payload: { conversationId: string; fromUserId: string; fromName: string; isTyping: boolean }) => {
+      console.log('[Typing] Event received:', payload);
       if (payload.fromUserId === userId) return;
       clearTimeout(typingTimers[payload.conversationId]);
       if (payload.isTyping) {
@@ -104,13 +105,25 @@ export const useConversations = () => {
   useEffect(() => {
     const socket = getSocket();
 
-    // Initial presence check
-    socket.emit('presence:check', (response: { onlineUserIds: string[] }) => {
-      setOnlineUsers(new Set(response.onlineUserIds));
-    });
+    const setupPresence = () => {
+      // Initial presence check on connect
+      socket.emit('presence:check', (response: { onlineUserIds: string[] }) => {
+        if (response?.onlineUserIds) {
+          setOnlineUsers(new Set(response.onlineUserIds));
+          console.log('[Presence] Initial state:', response.onlineUserIds);
+        }
+      });
+    };
+
+    // Setup presence on connect/reconnect
+    if (socket.connected) {
+      setupPresence();
+    }
+    socket.on('connect', setupPresence);
 
     // Listen for presence updates
     const presenceHandler = (payload: { userId: string; online: boolean }) => {
+      console.log('[Presence] Update:', payload);
       setOnlineUsers(prev => {
         const next = new Set(prev);
         if (payload.online) {
@@ -123,7 +136,11 @@ export const useConversations = () => {
     };
 
     socket.on('presence:update', presenceHandler);
-    return () => { socket.off('presence:update', presenceHandler); };
+
+    return () => {
+      socket.off('connect', setupPresence);
+      socket.off('presence:update', presenceHandler);
+    };
   }, []);
 
   // Sync missed messages after reconnect
