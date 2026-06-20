@@ -518,7 +518,8 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
           </div>
           <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Panel Administrator</p>
           <h1 className="mt-1 text-2.5xl font-black tracking-tight text-slate-900 sm:text-3xl">
-            Halo, {adminName?.split(' ')[0] || 'Admin'} 👋
+            Halo, {adminName?.split(' ')[0] || 'Admin'}
+          <Sparkles className="inline-block w-5 h-5 ml-1.5 text-amber-400 align-middle" />
           </h1>
           <p className="mt-1.5 text-xs font-semibold text-slate-400">{today}</p>
         </div>

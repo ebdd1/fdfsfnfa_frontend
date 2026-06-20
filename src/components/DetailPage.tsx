@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Shield, ArrowLeft, Send, ChevronRight, Star, KeyRound, Building } from 'lucide-react';
+import { MapPin, Shield, ArrowLeft, Send, ChevronRight, Star, KeyRound, Building, Eye } from 'lucide-react';
 import type { Property, Room } from '../types';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '../stores/authStore';
@@ -59,7 +59,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-8 mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 mt-4 sm:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* 2. Main Content Panel (2 columns wide) */}
         <div className="lg:col-span-2 space-y-8">
@@ -242,7 +242,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
 
       {/* 4. Rekomendasi Kost Terkait */}
       {recommendations && recommendations.length > 0 && (
-        <div className="max-w-6xl mx-auto px-8 mt-16 pt-12 border-t border-slate-200/60 animate-in fade-in slide-in-from-bottom-6 duration-300">
+        <div className="max-w-6xl mx-auto px-4 sm:px-8 mt-10 sm:mt-16 pt-10 sm:pt-12 border-t border-slate-200/60 animate-in fade-in slide-in-from-bottom-6 duration-300">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div className="text-left space-y-1">
               <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest block font-mono">PILIHAN LAINNYA</span>
@@ -258,7 +258,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 text-left">
             {recommendations.map((p) => {
               const pRooms = p.rooms || [];
               const lowestPrice = pRooms.length > 0 ? Math.min(...pRooms.map((r) => r.price_monthly)) : 2000000;
@@ -296,7 +296,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                         4.9 (Trusted)
                       </span>
                       <span className="flex items-center gap-1 bg-slate-900/80 text-white text-[8px] font-extrabold py-0.5 px-2 rounded-full backdrop-blur-sm shadow-sm">
-                        🔥 {Math.floor(Math.random() * 500) + 700}+ Dilihat
+                        <Eye className="w-3 h-3 shrink-0" /> {Math.floor(Math.random() * 500) + 700}+ Dilihat
                       </span>
                     </div>
 

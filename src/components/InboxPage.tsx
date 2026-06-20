@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { Conversation, Message } from '../types';
 import { useAuthStore } from '../stores/authStore';
-import { Send, CheckCheck, ArrowLeft, MessageSquare, Search } from 'lucide-react';
+import { Send, CheckCheck, ArrowLeft, MessageSquare, Search, Image, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface InboxPageProps {
@@ -175,9 +175,9 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                       <p className={`text-[12.5px] truncate ${c.unread_count > 0 ? 'text-slate-700 font-semibold' : 'text-slate-400'}`}>
                         {lastMsg
                           ? lastMsg.content_type === 'image'
-                            ? '📷 Gambar'
+                            ? <span className="inline-flex items-center gap-1"><Image className="w-3 h-3 shrink-0" />Gambar</span>
                             : lastMsg.content_type === 'location'
-                            ? '📍 Lokasi'
+                            ? <span className="inline-flex items-center gap-1"><MapPin className="w-3 h-3 shrink-0" />Lokasi</span>
                             : lastMsg.content
                           : 'Belum ada pesan'}
                       </p>

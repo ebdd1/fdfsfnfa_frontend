@@ -6,6 +6,7 @@ import {
 import { useMyOrders, useOrderActions } from '../hooks/useOrders';
 import { useAuthStore } from '../stores/authStore';
 import { ORDER_STATUS_LABEL } from '../services/api/order.service';
+import { OrderTimeline } from '../components/OrderTimeline';
 import type { RentalOrder, OrderStatus } from '../types';
 
 const fmtIDR = (n: number) =>
@@ -112,6 +113,17 @@ const OrderCard: React.FC<OrderCardProps> = ({
           )}
         </div>
       </div>
+
+      {/* Timeline progress — only for non-terminal statuses */}
+      {!['rejected', 'cancelled', 'completed'].includes(order.status) && (
+        <div className="mt-3 pt-3 border-t border-slate-100">
+          <OrderTimeline
+            status={order.status}
+            createdAt={order.createdAt}
+            paidAt={order.paidAt}
+          />
+        </div>
+      )}
 
       {/* Actions */}
       <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">

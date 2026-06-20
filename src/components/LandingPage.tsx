@@ -84,13 +84,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
     <div className="bg-slate-50/50 min-h-screen font-sans text-slate-900 antialiased selection:bg-emerald-100">
       
       {/* 1. HERO SECTION WITH RADIAL GLOW BLOBS */}
-      <section className="relative py-20 lg:py-32 px-6 sm:px-8 overflow-hidden bg-white border-b border-slate-100">
+      <section className="relative py-12 sm:py-20 lg:py-32 px-6 sm:px-8 overflow-hidden bg-white border-b border-slate-100">
         
         {/* Glow Blobs */}
         <div className="absolute top-1/4 left-1/10 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-1/4 right-1/10 w-[500px] h-[500px] bg-indigo-300/10 rounded-full blur-3xl pointer-events-none"></div>
         
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center relative z-10">
           
           {/* Hero Left */}
           <div className="lg:col-span-7 space-y-8 text-left">
@@ -108,7 +108,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-slate-900"
+              className="text-3xl sm:text-4xl lg:text-6xl font-black tracking-tight leading-[1.15] text-slate-900"
             >
               {settings.hero_title || 'Cari kost nyaman tanpa cemas foto menipu'}
             </motion.h1>

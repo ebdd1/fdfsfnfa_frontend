@@ -816,7 +816,10 @@ export const UserDashboardPage: React.FC = () => {
                     </div>
                     <div className="min-w-0">
                       <p className="text-[12px] font-medium text-slate-400">{greeting},</p>
-                      <h1 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 truncate">{firstName} 👋</h1>
+                      <h1 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 truncate">
+                        {firstName}
+                        <Sparkles className="inline-block w-5 h-5 ml-1.5 text-amber-400 align-middle" />
+                      </h1>
                     </div>
                   </div>
 
@@ -828,7 +831,7 @@ export const UserDashboardPage: React.FC = () => {
                 </div>
 
                 {/* ── Real metric tiles ── */}
-                <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3">
                   {[
                     { key: 'leases' as const, label: 'Sewa Aktif', value: activeLeases.length, icon: Home, tint: 'bg-emerald-50 text-emerald-600', onClick: () => setActiveSection('leases') },
                     { key: 'watchlist' as const, label: 'Tersimpan', value: watchlistIds.length, icon: Heart, tint: 'bg-rose-50 text-rose-500', onClick: () => setActiveSection('watchlist') },
