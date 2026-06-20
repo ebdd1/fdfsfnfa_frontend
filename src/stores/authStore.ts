@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { authService } from '../services/api/auth.service';
 
 interface User {
   id: string;
@@ -13,22 +13,31 @@ interface User {
 }
 
 interface AuthState {
-  token: string | null;
   user: User | null;
-  setAuth: (token: string, user: User) => void;
-  logout: () => void;
+  isAuthenticated: boolean;
+  setUser: (user: User) => void;
+  clearUser: () => void;
+  /** Centralized logout: hit server then clear state [F-009] */
+  logout: () => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
-      token: null,
-      user: null,
-      setAuth: (token, user) => set({ token, user }),
-      logout: () => set({ token: null, user: null }),
-    }),
-    {
-      name: 'auth-storage',
+/**
+ * Auth state WITHOUT persist.
+ * Token is stored in httpOnly cookie (server-set, never accessible to JS) [F-002].
+ * User object is kept in memory only for UI display.
+ */
+export const useAuthStore = create<AuthState>()((set) => ({
+  user: null,
+  isAuthenticated: false,
+  setUser: (user) => set({ user, isAuthenticated: true }),
+  clearUser: () => set({ user: null, isAuthenticated: false }),
+  logout: async () => {
+    try {
+      await authService.logout(); // Hit POST /auth/logout — server blacklists token [F-009]
+    } catch {
+      // Proceed to clear local state even if server call fails
+    } finally {
+      set({ user: null, isAuthenticated: false });
     }
-  )
-);
+  },
+}));

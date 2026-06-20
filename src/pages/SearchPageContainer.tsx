@@ -15,9 +15,9 @@ export const SearchPageContainer = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { pathname } = useLocation();
-  const { user, token } = useAuthStore();
+  const { user, isAuthenticated } = useAuthStore();
 
-  if (pathname === '/search' && token && user && user.role === 'seeker') {
+  if (pathname === '/search' && isAuthenticated && user && user.role === 'seeker') {
     return <Navigate to={`/anda/home?section=search${window.location.search ? '&' + window.location.search.substring(1) : ''}`} replace />;
   }
 
@@ -27,7 +27,7 @@ export const SearchPageContainer = () => {
   const { properties, isLoading, isError, refetch } = useProperties(
     initialCity ? { city: initialCity } : undefined
   );
-  const { watchlistIds, toggleWatchlist, isAuthenticated } = useWatchlist();
+  const { watchlistIds, toggleWatchlist } = useWatchlist();
 
   // Rooms are embedded in each property; flatten them for the presentational page.
   const rooms = useMemo(() => properties.flatMap((p) => p.rooms || []), [properties]);

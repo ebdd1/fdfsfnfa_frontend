@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate, useSearchParams } from 'react-router-dom';
 import { useAuthStore } from './stores/authStore';
+import { useSession } from './hooks/useSession';
 import { useSettings } from './hooks/useSettings';
 import { useRealtime } from './hooks/useRealtime';
 
@@ -16,15 +17,32 @@ import { UserDashboardPage } from './components/UserDashboardPage';
 import { AdminDashboardPage } from './components/AdminDashboardPage';
 import { MaintenancePage } from './components/MaintenancePage';
 
-const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode, allowedRoles?: string[] }) => {
-  const { user, token } = useAuthStore();
-  if (!token || !user) {
+/**
+ * ProtectedRoute validated by server session [F-003].
+ * Reads user from server (not localStorage) to prevent privilege escalation.
+ */
+const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode; allowedRoles?: string[] }) => {
+  const { isAuthenticated } = useAuthStore();
+  const { isLoading, data: sessionUser } = useSession();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated || !sessionUser) {
     return <Navigate to="/login" replace />;
   }
-  if (allowedRoles && !allowedRoles.includes(user.role)) {
+
+  // Role check is still client-side for UX — backend enforces on every request
+  if (allowedRoles && !allowedRoles.includes(sessionUser.role)) {
     return <Navigate to="/" replace />;
   }
-  return children;
+
+  return <>{children}</>;
 };
 
 // Preserves ?c=<conversationId> when redirecting /chat → /anda/home?section=chat&c=...

@@ -16,6 +16,8 @@ dist-ssr
 .env
 .env.*
 !.env.example
+*.bak
+*.backup
 
 # Editor directories and files
 .vscode/*

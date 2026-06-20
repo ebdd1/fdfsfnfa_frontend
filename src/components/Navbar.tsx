@@ -8,7 +8,7 @@ import { BrandName } from './BrandName';
 export const Navbar: React.FC = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { user, token, logout } = useAuthStore();
+  const { user, isAuthenticated } = useAuthStore();
   const { settings } = useSettingsStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -25,7 +25,7 @@ export const Navbar: React.FC = () => {
   };
 
   const handleLogout = () => {
-    logout();
+    useAuthStore.getState().logout();
     navigate('/');
   };
 
@@ -73,7 +73,7 @@ export const Navbar: React.FC = () => {
             Cari Kost
           </Link>
           <Link
-            to={token ? "/watchlist" : "/login"}
+            to={isAuthenticated ? "/watchlist" : "/login"}
             className={`text-[13px] font-bold transition-all duration-200 cursor-pointer ${
               pathname.startsWith('/watchlist') ? 'text-slate-900' : 'text-slate-400 hover:text-slate-950'
             }`}
@@ -81,7 +81,7 @@ export const Navbar: React.FC = () => {
             Watchlist
           </Link>
           <Link
-            to={token ? "/chat" : "/login"}
+            to={isAuthenticated ? "/chat" : "/login"}
             className={`text-[13px] font-bold transition-all duration-200 cursor-pointer ${
               pathname.startsWith('/chat') ? 'text-slate-900' : 'text-slate-400 hover:text-slate-950'
             }`}
@@ -92,7 +92,7 @@ export const Navbar: React.FC = () => {
 
         {/* Right Section */}
         <div className="flex items-center gap-5">
-          {token && user ? (
+          {isAuthenticated && user ? (
             <>
               <div 
                 className="relative"

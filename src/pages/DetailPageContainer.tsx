@@ -28,7 +28,6 @@ export const DetailPageContainer = () => {
     }
     try {
       const conversation = await conversationService.create({
-        seekerId: user.id,
         ownerId,
         propertyId,
       });

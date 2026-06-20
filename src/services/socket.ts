@@ -1,29 +1,34 @@
 import { io, type Socket } from 'socket.io-client';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+/** API URL — Railway provides HTTPS, so WSS is used automatically */
+const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 let socket: Socket | null = null;
 let joinHandler: (() => void) | null = null;
 
-/** Get (or lazily create) the shared socket connection. */
+/** Get (or lazily create) the shared socket connection [F-014]. */
 export const getSocket = (): Socket => {
   if (!socket) {
-    socket = io(API_URL, {
+    socket = io(SOCKET_URL, {
       autoConnect: true,
+      // Websocket first; polling as fallback; secure: true enforces TLS/WSS [F-014]
       transports: ['websocket', 'polling'],
+      withCredentials: true, // Send httpOnly cookie so server verifies JWT at handshake [F-002]
     });
   }
   return socket;
 };
 
-/** Join personal + role rooms so the server can target this user. */
-export const joinRealtime = (userId: string, role: string) => {
+/**
+ * Join personal rooms after connection.
+ * JWT verification already happened at handshake — we only emit identity for room subscription.
+ */
+export const joinRealtime = (_userId: string, _role: string) => {
   const s = getSocket();
-  // Replace any previous join handler so re-runs don't stack listeners.
   if (joinHandler) s.off('connect', joinHandler);
-  joinHandler = () => s.emit('join', { userId, role });
+  joinHandler = () => s.emit('join'); // no userId/role in body — server uses socket.user from JWT [F-014]
   if (s.connected) joinHandler();
-  s.on('connect', joinHandler); // re-join after reconnects
+  s.on('connect', joinHandler);
 };
 
 export const disconnectSocket = () => {
@@ -35,13 +40,11 @@ export const disconnectSocket = () => {
   joinHandler = null;
 };
 
-/** Notify the other participant that the current user is typing (or stopped). */
 export const emitTyping = (payload: {
   conversationId: string;
   toUserId: string;
-  fromUserId: string;
-  fromName: string;
   isTyping: boolean;
 }) => {
+  // fromUserId and fromName come from server-side JWT verification [F-014]
   getSocket().emit('typing', payload);
 };

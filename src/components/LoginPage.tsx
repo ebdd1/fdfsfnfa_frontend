@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 import { authService } from '../services/api/auth.service';
+import { useRateLimit } from '../hooks/useRateLimit';
+import { securityLogger } from '../lib/securityLogger';
 import { Sparkles, Mail, Lock, ArrowRight, AlertCircle, Loader2, Shield, Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Footer } from './Footer';
@@ -14,23 +16,44 @@ export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   
   const navigate = useNavigate();
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const setUser = useAuthStore((state) => state.setUser);
+
+  // Account lockout after 5 failed attempts in 1 min, locked for 5 min [F-005, F-017]
+  const loginRateLimit = useRateLimit({
+    maxAttempts: 5,
+    windowMs: 60 * 1000,
+    lockoutMs: 5 * 60 * 1000,
+  });
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // Rate limit check BEFORE hitting the API [F-005, F-017]
+    if (!loginRateLimit.checkAndIncrement()) {
+      securityLogger.rateLimitHit('login');
+      setError(`Terlalu banyak percobaan. Coba lagi dalam ${loginRateLimit.remainingSeconds} detik.`);
+      return;
+    }
+
     setIsLoading(true);
- 
     try {
       const response = await authService.login({ email, password });
-      setAuth(response.access_token, response.user);
-      
+      // Store user info in memory (token is in httpOnly cookie, not accessible to JS) [F-002]
+      setUser(response.user);
+      securityLogger.loginSuccess(email);
+
       // Redirect based on role
       if (response.user.role === 'owner') navigate('/dashboard');
       else if (response.user.role === 'admin') navigate('/admin');
       else navigate('/anda/home');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Gagal masuk. Periksa kembali email dan kata sandi Anda.');
+      securityLogger.loginFailure(email, 'invalid_credentials');
+      if (loginRateLimit.attempts >= 3) {
+        setError(`${5 - loginRateLimit.attempts} percobaan tersisa sebelum akun dikunci sementara.`);
+      } else {
+        setError(err.response?.data?.message || 'Gagal masuk. Periksa kembali email dan kata sandi Anda.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -180,11 +203,13 @@ export const LoginPage = () => {
 
               <button
                 type="submit"
-                disabled={isLoading}
-                className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white py-3.5 rounded-xl font-extrabold text-xs transition-all mt-8 shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20 hover:-translate-y-0.5 cursor-pointer"
+                disabled={isLoading || loginRateLimit.isLocked}
+                className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed text-white py-3.5 rounded-xl font-extrabold text-xs transition-all mt-8 shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20 hover:-translate-y-0.5 cursor-pointer"
               >
                 {isLoading ? (
                   <Loader2 className="w-4.5 h-4.5 animate-spin" />
+                ) : loginRateLimit.isLocked ? (
+                  <>Coba lagi dalam {loginRateLimit.remainingSeconds}s</>
                 ) : (
                   <>
                     Masuk Sekarang

@@ -14,7 +14,7 @@ export const useConversations = () => {
 
   const conversationsQuery = useQuery({
     queryKey: ['conversations', userId],
-    queryFn: () => conversationService.getByUser(userId as string),
+    queryFn: () => conversationService.getMyConversations(), // server gets userId from JWT cookie [F-010]
     enabled: !!userId,
   });
 
@@ -83,7 +83,8 @@ export const useConversations = () => {
     _contentType?: string,
   ) => {
     if (!userId || !content.trim()) return;
-    await conversationService.sendMessage(convId, { senderId: userId, content });
+    // senderId determined server-side from JWT cookie [F-010]
+    await conversationService.sendMessage(convId, { content });
     queryClient.invalidateQueries({ queryKey: ['messages', convId] });
     queryClient.invalidateQueries({ queryKey: ['conversations', userId] });
   };

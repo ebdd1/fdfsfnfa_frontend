@@ -9,7 +9,7 @@ interface ProfileEditorProps {
 }
 
 export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onClose }) => {
-  const { user, setAuth, token } = useAuthStore();
+  const { user, setUser } = useAuthStore();
 
   const [name, setName] = useState(user?.name || '');
   const [avatarPreview, setAvatarPreview] = useState(user?.avatar_url || '');
@@ -57,7 +57,7 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onClose }) => {
         banner_url,
       });
 
-      setAuth(token || '', { ...user!, ...updated });
+      setUser({ ...user!, ...updated });
       onClose();
     } catch (e: any) {
       setError(e?.response?.data?.message || 'Gagal menyimpan. Coba lagi.');

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 import { authService } from '../services/api/auth.service';
+import { PasswordStrengthMeter } from './PasswordStrengthMeter';
+import { validatePassword } from '../lib/passwordPolicy';
 import { Sparkles, Mail, Lock, User as UserIcon, Phone, ArrowRight, AlertCircle, Loader2, Shield, Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useSettings } from '../hooks/useSettings';
@@ -19,17 +21,26 @@ export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   
   const navigate = useNavigate();
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const setUser = useAuthStore((state) => state.setUser);
   const { settings } = useSettings();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // Enforce password policy before submit [F-011]
+    const pwdError = validatePassword(password);
+    if (pwdError) {
+      setError(pwdError);
+      return;
+    }
+
     setIsLoading(true);
 
     try {
       const response = await authService.register({ name, email, password, phone, role });
-      setAuth(response.access_token, response.user);
+      // Token stored in httpOnly cookie by backend — only keep user info in memory [F-002]
+      setUser(response.user);
       
       if (response.user.role === 'owner') navigate('/dashboard');
       else navigate('/anda/home');
@@ -266,11 +277,11 @@ export const RegisterPage = () => {
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
-                    minLength={6}
+                    minLength={8}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="block w-full pl-10 pr-10 py-3 bg-white border border-slate-200 rounded-xl text-xs focus:ring-4 focus:ring-emerald-500/5 focus:border-emerald-500 transition-all outline-none font-bold text-slate-700 placeholder-slate-400/80"
-                    placeholder="Min. 6 karakter"
+                    placeholder="Min. 8 karakter"
                   />
                   <button
                     type="button"
@@ -280,6 +291,7 @@ export const RegisterPage = () => {
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
+                <PasswordStrengthMeter password={password} />
               </div>
 
               <button

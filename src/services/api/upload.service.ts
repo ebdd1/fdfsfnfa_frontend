@@ -3,23 +3,20 @@ import { useAuthStore } from '../../stores/authStore';
 
 const uploadApi = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+  withCredentials: true, // Send httpOnly cookie [F-002]
 });
 
-uploadApi.interceptors.request.use((config) => {
-  const token = useAuthStore.getState().token;
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  // Do NOT set Content-Type — axios will set multipart/form-data + boundary automatically
-  return config;
-});
+// No manual token — cookie is sent automatically [F-002]
+uploadApi.interceptors.request.use((config) => config, (error) => Promise.reject(error));
 
 uploadApi.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      useAuthStore.getState().logout();
-      window.location.href = '/login';
+      useAuthStore.getState().clearUser();
+      if (!window.location.pathname.includes('/login')) {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }

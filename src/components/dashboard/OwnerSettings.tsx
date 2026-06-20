@@ -10,7 +10,7 @@ interface OwnerSettingsProps {
 }
 
 export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) => {
-  const { token, user: storeUser, setAuth } = useAuthStore();
+  const { user: storeUser, setUser } = useAuthStore();
 
   const [name, setName] = useState(user?.name || '');
   const [phone, setPhone] = useState('');
@@ -98,8 +98,8 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
         bankAccountNumber: bankAccountNumber.trim(),
         bankAccountHolder: bankAccountHolder.trim(),
       });
-      if (token && storeUser) {
-        setAuth(token, {
+      if (storeUser) {
+        setUser({
           ...storeUser,
           name: updated.name,
           phone: updated.phone,

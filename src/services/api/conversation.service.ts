@@ -22,12 +22,14 @@ export interface MessageRecord {
 }
 
 export const conversationService = {
-  getByUser: async (userId: string): Promise<ConversationRecord[]> => {
-    const response = await api.get('/conversations', { params: { userId } });
+  // userId is determined by JWT cookie server-side — not trusted from client [F-010]
+  getMyConversations: async (): Promise<ConversationRecord[]> => {
+    const response = await api.get('/conversations');
     return response.data;
   },
 
-  create: async (payload: { seekerId: string; ownerId: string; propertyId: string }): Promise<ConversationRecord> => {
+  // seekerId is forced server-side from JWT — client only sends ownerId + propertyId [F-010]
+  create: async (payload: { ownerId: string; propertyId: string }): Promise<ConversationRecord> => {
     const response = await api.post('/conversations', payload);
     return response.data;
   },
@@ -37,7 +39,8 @@ export const conversationService = {
     return response.data;
   },
 
-  sendMessage: async (conversationId: string, payload: { senderId: string; content: string }): Promise<MessageRecord> => {
+  // senderId is determined server-side from JWT — body only carries content [F-010]
+  sendMessage: async (conversationId: string, payload: { content: string }): Promise<MessageRecord> => {
     const response = await api.post(`/conversations/${conversationId}/messages`, payload);
     return response.data;
   },
