@@ -3,11 +3,19 @@ import { useAuthStore } from '../../stores/authStore';
 
 const uploadApi = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
-  withCredentials: true, // Send httpOnly cookie [F-002]
 });
 
-// No manual token — cookie is sent automatically [F-002]
-uploadApi.interceptors.request.use((config) => config, (error) => Promise.reject(error));
+// Attach Bearer token from localStorage (cross-origin auth — same as axios.ts)
+uploadApi.interceptors.request.use(
+  (config) => {
+    const token = useAuthStore.getState().token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 uploadApi.interceptors.response.use(
   (response) => response,
