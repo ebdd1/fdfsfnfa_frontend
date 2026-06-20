@@ -10,6 +10,9 @@ interface InboxPageProps {
   onSendMessage: (convId: string, content: string, contentType?: 'text' | 'image' | 'location') => void;
   onSelectConversation: (convId: string | null) => void;
   selectedConversationId: string | null;
+  typingUsers?: Record<string, { name: string }>;
+  onTyping?: (convId: string, toUserId: string, isTyping: boolean) => void;
+  onlineUsers?: Set<string>;
 }
 
 const fmtTime = (d: string) =>
@@ -51,13 +54,19 @@ export const InboxPage: React.FC<InboxPageProps> = ({
   onSendMessage,
   onSelectConversation,
   selectedConversationId,
+  typingUsers,
+  onTyping,
+  onlineUsers,
 }) => {
   const { user } = useAuthStore();
   const currentUserId = user?.id;
   const [inputText, setInputText] = useState('');
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
   const [search, setSearch] = useState('');
+  const [uploadingImage, setUploadingImage] = useState(false);
   const chatBottomRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const activeConversation = conversations.find((c) => c.id === selectedConversationId);
   const activeMessages = messages.filter((m) => m.conversation_id === selectedConversationId);
@@ -65,6 +74,11 @@ export const InboxPage: React.FC<InboxPageProps> = ({
     ? activeConversation.owner_id === currentUserId
       ? activeConversation.seeker
       : activeConversation.owner
+    : undefined;
+  const partnerId = activeConversation
+    ? activeConversation.owner_id === currentUserId
+      ? activeConversation.seeker_id
+      : activeConversation.owner_id
     : undefined;
 
   useEffect(() => {
@@ -75,6 +89,71 @@ export const InboxPage: React.FC<InboxPageProps> = ({
     if (!inputText.trim() || !selectedConversationId) return;
     onSendMessage(selectedConversationId, inputText, 'text');
     setInputText('');
+    // Stop typing indicator
+    if (onTyping && partnerId) {
+      onTyping(selectedConversationId, partnerId, false);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputText(e.target.value);
+
+    // Debounced typing indicator
+    if (onTyping && partnerId && selectedConversationId) {
+      // Clear previous timeout
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+
+      // Emit typing=true
+      onTyping(selectedConversationId, partnerId, true);
+
+      // Auto-stop after 2s idle
+      typingTimeoutRef.current = setTimeout(() => {
+        onTyping(selectedConversationId, partnerId, false);
+      }, 2000);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !selectedConversationId) return;
+
+    setUploadingImage(true);
+    try {
+      const { uploadService } = await import('../services/api/upload.service');
+      const { url } = await uploadService.uploadImage(file);
+      onSendMessage(selectedConversationId, url, 'image');
+    } catch (err) {
+      console.error('Image upload failed:', err);
+      alert('Gagal upload gambar');
+    } finally {
+      setUploadingImage(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  const handleShareLocation = () => {
+    if (!selectedConversationId) return;
+
+    if (!navigator.geolocation) {
+      alert('Browser tidak mendukung GPS');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const locationStr = `${latitude},${longitude}`;
+        onSendMessage(selectedConversationId, locationStr, 'location');
+      },
+      (error) => {
+        console.error('Geolocation error:', error);
+        alert('Gagal mengambil lokasi. Pastikan izin lokasi diaktifkan.');
+      }
+    );
   };
 
   const quickReplies = [
@@ -214,10 +293,16 @@ export const InboxPage: React.FC<InboxPageProps> = ({
               <Avatar src={partner?.avatar_url} name={partner?.name} size="w-10 h-10" />
               <div className="min-w-0">
                 <h3 className="text-[14px] font-bold text-slate-800 truncate">{partner?.name || 'Pengguna'}</h3>
-                <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                  Online
-                </span>
+                {partnerId && (
+                  <span className={`text-[11px] font-semibold flex items-center gap-1.5 ${
+                    onlineUsers?.has(partnerId) ? 'text-emerald-600' : 'text-slate-400'
+                  }`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${
+                      onlineUsers?.has(partnerId) ? 'bg-emerald-500' : 'bg-slate-400'
+                    }`} />
+                    {onlineUsers?.has(partnerId) ? 'Online' : 'Offline'}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -259,7 +344,26 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                             : `bg-white text-slate-800 border border-slate-100 rounded-2xl ${grouped ? 'rounded-tl-md' : 'rounded-tl-md'} rounded-bl-md`
                         }`}
                       >
-                        <p className="text-[13.5px] leading-relaxed whitespace-pre-wrap break-words">{m.content}</p>
+                        {m.content_type === 'image' ? (
+                          <img
+                            src={m.content}
+                            alt="Attachment"
+                            className="max-w-full rounded-lg cursor-pointer"
+                            onClick={() => window.open(m.content, '_blank')}
+                          />
+                        ) : m.content_type === 'location' ? (
+                          <a
+                            href={`https://maps.google.com/?q=${m.content}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 text-[13.5px] font-medium hover:underline"
+                          >
+                            <MapPin className="w-4 h-4" />
+                            <span>Lihat Lokasi di Peta</span>
+                          </a>
+                        ) : (
+                          <p className="text-[13.5px] leading-relaxed whitespace-pre-wrap break-words">{m.content}</p>
+                        )}
                         <div className={`flex items-center justify-end gap-1 mt-1 ${isMe ? 'text-emerald-100/80' : 'text-slate-400'}`}>
                           <span className="text-[9px] font-medium">{fmtTime(m.created_at)}</span>
                           {isMe && <CheckCheck className="w-3 h-3" />}
@@ -271,6 +375,22 @@ export const InboxPage: React.FC<InboxPageProps> = ({
               })}
               <div ref={chatBottomRef} />
             </div>
+
+            {/* Typing indicator */}
+            {typingUsers && selectedConversationId && typingUsers[selectedConversationId] && (
+              <div className="px-4 sm:px-8 pb-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 shrink-0">
+                    <Avatar src={partner?.avatar_url} name={partner?.name} size="w-7 h-7" />
+                  </div>
+                  <div className="bg-white border border-slate-100 rounded-2xl rounded-tl-md px-3.5 py-2.5 shadow-sm">
+                    <p className="text-[12px] text-slate-500 italic">
+                      {typingUsers[selectedConversationId].name} sedang mengetik...
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Quick replies */}
             <div className="px-4 sm:px-6 pt-3 bg-white border-t border-slate-100">
@@ -290,17 +410,40 @@ export const InboxPage: React.FC<InboxPageProps> = ({
             {/* Input */}
             <div className="flex items-center gap-2.5 px-4 sm:px-6 py-4 bg-white">
               <input
+                type="file"
+                ref={fileInputRef}
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+              />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploadingImage}
+                className="shrink-0 p-2 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
+                title="Kirim gambar"
+              >
+                <Image className="w-5 h-5" />
+              </button>
+              <button
+                onClick={handleShareLocation}
+                className="shrink-0 p-2 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                title="Bagikan lokasi"
+              >
+                <MapPin className="w-5 h-5" />
+              </button>
+              <input
                 type="text"
-                placeholder="Ketik pesan..."
+                placeholder={uploadingImage ? "Uploading..." : "Ketik pesan..."}
                 value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
+                onChange={handleInputChange}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                className="flex-1 min-w-0 px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 text-[13.5px] text-slate-700 placeholder-slate-400 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 outline-none transition-all"
+                disabled={uploadingImage}
+                className="flex-1 min-w-0 px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 text-[13.5px] text-slate-700 placeholder-slate-400 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 outline-none transition-all disabled:opacity-50"
               />
               <motion.button
                 whileTap={{ scale: 0.92 }}
                 onClick={handleSend}
-                disabled={!inputText.trim()}
+                disabled={!inputText.trim() || uploadingImage}
                 className="shrink-0 w-11 h-11 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-200 disabled:cursor-not-allowed text-white rounded-2xl shadow-sm transition-colors flex items-center justify-center cursor-pointer"
               >
                 <Send className="w-[18px] h-[18px]" />

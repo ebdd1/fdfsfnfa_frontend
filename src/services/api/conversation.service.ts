@@ -17,6 +17,7 @@ export interface MessageRecord {
   conversationId: string;
   senderId: string;
   content: string;
+  content_type?: string;
   createdAt: string;
   sender?: any;
 }
@@ -40,7 +41,7 @@ export const conversationService = {
   },
 
   // senderId is determined server-side from JWT — body only carries content [F-010]
-  sendMessage: async (conversationId: string, payload: { content: string }): Promise<MessageRecord> => {
+  sendMessage: async (conversationId: string, payload: { content: string; contentType?: string }): Promise<MessageRecord> => {
     const response = await api.post(`/conversations/${conversationId}/messages`, payload);
     return response.data;
   },

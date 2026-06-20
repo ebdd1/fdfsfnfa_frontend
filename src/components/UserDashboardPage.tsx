@@ -56,7 +56,16 @@ export const UserDashboardPage: React.FC = () => {
 
   // Real data sources
   const { watchlistIds, toggleWatchlist } = useWatchlist();
-  const { conversations, messages, selectedConversationId, selectConversation, sendMessage } = useConversations();
+  const {
+    conversations,
+    messages,
+    selectedConversationId,
+    selectConversation,
+    sendMessage,
+    typingUsers,
+    onlineUsers,
+    notifyTyping,
+  } = useConversations();
   const { properties } = useProperties();
   const rooms = properties.flatMap((p) => p.rooms || []);
 
@@ -769,6 +778,9 @@ export const UserDashboardPage: React.FC = () => {
               onSendMessage={sendMessage}
               onSelectConversation={selectConversation}
               selectedConversationId={selectedConversationId}
+              typingUsers={typingUsers}
+              onTyping={notifyTyping}
+              onlineUsers={onlineUsers}
             />
           </div>
         ) : activeSection === 'watchlist' ? (

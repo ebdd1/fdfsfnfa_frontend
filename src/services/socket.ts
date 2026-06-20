@@ -63,3 +63,7 @@ export const emitTyping = (payload: {
   // fromUserId and fromName come from server-side JWT verification [F-014]
   getSocket().emit('typing', payload);
 };
+
+export const emitPresenceCheck = () => {
+  getSocket().emit('presence:check');
+};

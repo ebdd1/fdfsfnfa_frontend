@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { conversationService } from '../services/api/conversation.service';
 import { useAuthStore } from '../stores/authStore';
-import { getSocket } from '../services/socket';
+import { getSocket, emitTyping } from '../services/socket';
 
 export const useConversations = () => {
   const { user } = useAuthStore();
@@ -11,6 +11,7 @@ export const useConversations = () => {
   const [selectedConversationId, setSelectedId] = useState<string | null>(null);
   const [typingUsers, setTypingUsers] = useState<Record<string, { name: string }>>({});
   const [typingTimers] = useState<{ [key: string]: ReturnType<typeof setTimeout> }>({});
+  const [onlineUsers, setOnlineUsers] = useState<Set<string>>(new Set());
 
   const conversationsQuery = useQuery({
     queryKey: ['conversations', userId],
@@ -77,16 +78,46 @@ export const useConversations = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
+  // Presence listener: server → presence:update
+  useEffect(() => {
+    const socket = getSocket();
+
+    // Initial presence check
+    socket.emit('presence:check', (response: { onlineUserIds: string[] }) => {
+      setOnlineUsers(new Set(response.onlineUserIds));
+    });
+
+    // Listen for presence updates
+    const presenceHandler = (payload: { userId: string; online: boolean }) => {
+      setOnlineUsers(prev => {
+        const next = new Set(prev);
+        if (payload.online) {
+          next.add(payload.userId);
+        } else {
+          next.delete(payload.userId);
+        }
+        return next;
+      });
+    };
+
+    socket.on('presence:update', presenceHandler);
+    return () => { socket.off('presence:update', presenceHandler); };
+  }, []);
+
   const sendMessage = async (
     convId: string,
     content: string,
-    _contentType?: string,
+    contentType?: string,
   ) => {
     if (!userId || !content.trim()) return;
     // senderId determined server-side from JWT cookie [F-010]
-    await conversationService.sendMessage(convId, { content });
+    await conversationService.sendMessage(convId, { content, contentType });
     queryClient.invalidateQueries({ queryKey: ['messages', convId] });
     queryClient.invalidateQueries({ queryKey: ['conversations', userId] });
+  };
+
+  const notifyTyping = (convId: string, toUserId: string, isTyping: boolean) => {
+    emitTyping({ conversationId: convId, toUserId, isTyping });
   };
 
   const selectConversation = (convId: string | null) => {
@@ -104,6 +135,8 @@ export const useConversations = () => {
     selectConversation,
     sendMessage,
     typingUsers,
+    onlineUsers,
+    notifyTyping,
     isLoading: conversationsQuery.isLoading,
   };
 };
