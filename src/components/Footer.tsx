@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Sparkles, Globe, Mail, Phone, Link2 } from 'lucide-react';
-import { BrandName } from './BrandName';
+import { LogoText } from './LogoText';
+import { Globe, Mail, Phone, Link2 } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
 
 export const Footer: React.FC = () => {
@@ -24,9 +24,8 @@ export const Footer: React.FC = () => {
               {settings.logo_url ? (
                 <img src={settings.logo_url} alt={settings.site_name} className="w-8 h-8 object-contain rounded" />
               ) : (
-                <Sparkles className="w-6 h-6" style={{ color: 'var(--primary-color, #10b981)' }} />
+                <LogoText />
               )}
-              <BrandName />
             </span>
             <p className="text-slate-400 text-xs leading-relaxed max-w-xs font-semibold">
               {settings.footer_text || 'Platform pencarian dan pengelolaan kost real-time bergaransi verifikasi GPS lokasi pertama di Indonesia.'}

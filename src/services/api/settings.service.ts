@@ -15,6 +15,8 @@ export interface SiteSettings {
   hero_title: string;
   // Branding
   logo_url: string;
+  logo_font_family: string;  // Google Font family for text logo fallback
+  logo_font_size: number;     // Font size in px for text logo fallback
   favicon_url: string;
   primary_color: string;
   // Contact & social
@@ -47,6 +49,8 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   tagline: 'Platform Kos Digital Mahasiswa & Pekerja Muda',
   hero_title: 'Cari kost nyaman tanpa cemas foto menipu.',
   logo_url: '',
+  logo_font_family: 'Inter',
+  logo_font_size: 16,
   favicon_url: '',
   primary_color: 'emerald',
   support_email: 'support@kostfind.com',
@@ -98,6 +102,8 @@ export const recordsToSettings = (records: SiteConfigRecord[]): SiteSettings => 
     tagline: str('tagline', DEFAULT_SETTINGS.tagline),
     hero_title: str('hero_title', DEFAULT_SETTINGS.hero_title),
     logo_url: str('logo_url', DEFAULT_SETTINGS.logo_url),
+    logo_font_family: str('logo_font_family', DEFAULT_SETTINGS.logo_font_family),
+    logo_font_size: num('logo_font_size', DEFAULT_SETTINGS.logo_font_size),
     favicon_url: str('favicon_url', DEFAULT_SETTINGS.favicon_url),
     primary_color: str('primary_color', DEFAULT_SETTINGS.primary_color),
     support_email: str('support_email', DEFAULT_SETTINGS.support_email),
@@ -127,6 +133,8 @@ export const settingsToItems = (s: SiteSettings): SiteConfigRecord[] => [
   { key: 'tagline', value: s.tagline, type: 'string', isPublic: true },
   { key: 'hero_title', value: s.hero_title, type: 'string', isPublic: true },
   { key: 'logo_url', value: s.logo_url, type: 'string', isPublic: true },
+  { key: 'logo_font_family', value: s.logo_font_family, type: 'string', isPublic: true },
+  { key: 'logo_font_size', value: String(s.logo_font_size), type: 'string', isPublic: true },
   { key: 'favicon_url', value: s.favicon_url, type: 'string', isPublic: true },
   { key: 'primary_color', value: s.primary_color, type: 'string', isPublic: true },
   { key: 'support_email', value: s.support_email, type: 'string', isPublic: true },

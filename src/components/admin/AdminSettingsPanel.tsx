@@ -360,6 +360,54 @@ export const AdminSettingsPanel: React.FC = () => {
                     ))}
                   </div>
                 </div>
+                {/* Font untuk Logo Text */}
+                <div className="space-y-3 border-t border-slate-100 pt-5">
+                  <label className={labelClass}>Font Logo</label>
+                  <p className="mt-1.5 text-[11px] text-slate-400">Tampil saat logo image belum diupload. Terapkan di navbar, footer, dan sidebar.</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Font Family</label>
+                      <select
+                        value={form.logo_font_family || 'Inter'}
+                        onChange={(e) => set('logo_font_family', e.target.value)}
+                        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:outline-none focus:border-emerald-500"
+                      >
+                        {['Inter', 'Poppins', 'Nunito', 'Montserrat', 'Raleway', 'Quicksand', 'Josefin Sans', 'Playfair Display'].map((f) => (
+                          <option key={f} value={f}>{f}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wide">Ukuran</label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="number"
+                          min={10}
+                          max={48}
+                          value={form.logo_font_size || 16}
+                          onChange={(e) => set('logo_font_size', Number(e.target.value))}
+                          className="w-20 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:outline-none focus:border-emerald-500"
+                        />
+                        <span className="text-xs text-slate-400 font-medium">px</span>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Live preview */}
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 flex items-center gap-3">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Preview:</span>
+                    <span
+                      style={{
+                        fontFamily: `'${form.logo_font_family || 'Inter'}', sans-serif`,
+                        fontSize: `${form.logo_font_size || 16}px`,
+                        fontWeight: 900,
+                        letterSpacing: '-0.02em',
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {form.site_name || 'KostFind'}
+                    </span>
+                  </div>
+                </div>
                 <div className="space-y-3 border-t border-slate-100 pt-5">
                   <label className={labelClass}>Toggle Fitur</label>
                   <FeatureToggle label="Smart Alerts" desc="Form notifikasi otomatis di halaman watchlist." value={form.feature_smart_alerts} onChange={(v) => set('feature_smart_alerts', v)} />

@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Sparkles, Shield, User, LayoutDashboard, LogOut } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
 import { useSettingsStore } from '../stores/settingsStore';
-import { BrandName } from './BrandName';
+import { LogoText } from './LogoText';
+import { Shield, User, LayoutDashboard, LogOut } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { pathname } = useLocation();
@@ -47,11 +47,8 @@ export const Navbar: React.FC = () => {
               className="h-9 w-auto object-contain rounded-xl"
             />
           ) : (
-            <div className="bg-emerald-500/10 text-emerald-600 p-2 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-emerald-500/15">
-              <Sparkles className="w-4 h-4 fill-emerald-600 transition-transform duration-500 group-hover:rotate-12" />
-            </div>
+            <LogoText />
           )}
-          <BrandName className="text-base font-black tracking-tight text-slate-900" />
         </Link>
 
         {/* Center Navigation Links */}

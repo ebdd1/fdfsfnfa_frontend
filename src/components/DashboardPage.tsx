@@ -16,7 +16,8 @@ import { useConversations } from '../hooks/useConversations';
 import { useNotifications } from '../hooks/useNotifications';
 import { Sparkles, LayoutDashboard, Building2, Wallet, Settings, Menu, X, LogOut, ChevronLeft, ChevronRight, ArrowLeft, User, ClipboardList, Bell, ChevronDown, MessageSquare } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { BrandName } from './BrandName';
+import { LogoText } from './LogoText';
+import { useSettingsStore } from '../stores/settingsStore';
 
 type SectionKey = 'overview' | 'properties' | 'finance' | 'orders' | 'chat' | 'settings';
 
@@ -48,6 +49,7 @@ const BOTTOM_NAV: { key: SectionKey; label: string; icon: LucideIcon }[] = [
 export const DashboardPage = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
+  const { settings } = useSettingsStore();
   const queryClient = useQueryClient();
   // Fetch the logged-in owner's real listings from the API.
   const { properties } = useProperties({ ownerId: user?.id, take: 100 });
@@ -204,7 +206,11 @@ export const DashboardPage = () => {
           <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/40 text-emerald-600">
             <Sparkles className="w-4 h-4" />
           </div>
-          <BrandName className="text-[15px] font-black text-slate-900 tracking-tight" />
+          {settings.logo_url ? (
+            <img src={settings.logo_url} alt={settings.site_name || 'Logo'} className="h-8 w-8 object-contain rounded-xl" />
+          ) : (
+            <LogoText />
+          )}
         </div>
 
         <button
@@ -283,11 +289,12 @@ export const DashboardPage = () => {
             {/* Drawer header */}
             <div className="flex items-center justify-between px-5 h-14 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/40 text-emerald-600">
-                  <Sparkles className="w-4 h-4" />
+                  {settings.logo_url ? (
+                    <img src={settings.logo_url} alt={settings.site_name || 'Logo'} className="h-9 w-9 object-contain rounded-xl" />
+                  ) : (
+                    <LogoText />
+                  )}
                 </div>
-                <BrandName className="text-base font-black text-slate-900 tracking-tight" />
-              </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Tutup menu"
@@ -378,10 +385,11 @@ export const DashboardPage = () => {
           {/* Brand */}
           <div className={`flex items-center ${isSidebarCollapsed ? 'flex-col gap-3 justify-center' : 'justify-between'} px-1`}>
             <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate('/')}>
-              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/30 text-emerald-600 shadow-sm shadow-emerald-600/5">
-                <Sparkles className="h-4 w-4" />
-              </div>
-              {!isSidebarCollapsed && <BrandName className="text-[17px] font-black tracking-tight text-slate-900" />}
+              {settings.logo_url ? (
+                <img src={settings.logo_url} alt={settings.site_name || 'Logo'} className="h-9 w-9 object-contain rounded-xl" />
+              ) : (
+                <LogoText />
+              )}
             </div>
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
@@ -552,8 +560,11 @@ export const DashboardPage = () => {
               onClick={() => navigate('/')}
               className="hover:text-slate-900 transition-colors flex items-center gap-1 cursor-pointer font-bold"
             >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500/10" />
-              <BrandName />
+              {settings.logo_url ? (
+                <img src={settings.logo_url} alt={settings.site_name} className="w-5 h-5 object-contain" />
+              ) : (
+                <LogoText className="text-xs font-black" />
+              )}
             </button>
             <ChevronRight className="w-3 h-3 text-slate-300" />
             <span className="text-slate-800 font-extrabold capitalize bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">

@@ -6,7 +6,7 @@ import { InboxPage } from './InboxPage';
 import { WatchlistPage } from './WatchlistPage';
 import { SeekerOrdersSection } from '../pages/SeekerOrdersSection';
 import { ProfileEditor } from './ProfileEditor';
-import { BrandName } from './BrandName';
+import { LogoText } from './LogoText';
 import { SearchPageContainer } from '../pages/SearchPageContainer';
 import { useWatchlist } from '../hooks/useWatchlist';
 import { useConversations } from '../hooks/useConversations';
@@ -202,11 +202,8 @@ export const UserDashboardPage: React.FC = () => {
           {settings.logo_url ? (
             <img src={settings.logo_url} alt={settings.site_name} className="h-8 w-auto object-contain rounded-lg" />
           ) : (
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/40 text-emerald-600">
-            <Shield className="w-4 h-4" />
-          </div>
+            <LogoText />
           )}
-          <BrandName className="text-[15px] font-black text-slate-900 tracking-tight" />
         </div>
 
         <button
@@ -286,10 +283,7 @@ export const UserDashboardPage: React.FC = () => {
             {/* Drawer header */}
             <div className="flex items-center justify-between px-5 h-14 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/40 text-emerald-600">
-                  <Shield className="w-4 h-4" />
-                </div>
-                <BrandName className="text-base font-black text-slate-900 tracking-tight" />
+                <LogoText />
               </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -398,11 +392,8 @@ export const UserDashboardPage: React.FC = () => {
               {settings.logo_url ? (
                 <img src={settings.logo_url} alt={settings.site_name} className="h-9 w-auto object-contain rounded-xl" />
               ) : (
-              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100/30 text-emerald-600 shadow-sm shadow-emerald-600/5">
-                <Shield className="h-4.5 w-4.5" />
-              </div>
+                <LogoText />
               )}
-              {!isSidebarCollapsed && <BrandName className="text-[17px] font-black tracking-tight text-slate-900" />}
             </div>
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
@@ -571,8 +562,11 @@ export const UserDashboardPage: React.FC = () => {
               onClick={() => onNavigate?.('landing')}
               className="hover:text-slate-900 transition-colors flex items-center gap-1 cursor-pointer font-bold"
             >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500/10" />
-              <BrandName />
+              {settings.logo_url ? (
+                <img src={settings.logo_url} alt={settings.site_name} className="w-4 h-4 object-contain" />
+              ) : (
+                <LogoText className="text-xs font-black" />
+              )}
             </button>
             <ChevronRight className="w-3 h-3 text-slate-300" />
             <span className="text-slate-800 font-extrabold capitalize bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">

@@ -107,6 +107,19 @@ function App() {
     document.title = `${settings.site_name} — ${settings.tagline}`;
   }, [settings.site_name, settings.tagline]);
 
+  // Load Google Font for text logo when non-default font is selected
+  useEffect(() => {
+    const fontFamily = settings.logo_font_family;
+    if (!fontFamily || fontFamily === 'Inter') return;
+    const fontId = `google-font-${fontFamily.replace(/\s+/g, '-')}`;
+    if (document.getElementById(fontId)) return; // already loaded
+    const link = document.createElement('link');
+    link.id = fontId;
+    link.rel = 'stylesheet';
+    link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontFamily)}:wght@400;700;900&display=swap`;
+    document.head.appendChild(link);
+  }, [settings.logo_font_family]);
+
   // Connect realtime (orders + chat) for the logged-in user.
   useRealtime();
 
