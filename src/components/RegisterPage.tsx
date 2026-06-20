@@ -21,7 +21,7 @@ export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   
   const navigate = useNavigate();
-  const setUser = useAuthStore((state) => state.setUser);
+  const setAuth = useAuthStore((state) => state.setAuth);
   const { settings } = useSettings();
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -39,9 +39,9 @@ export const RegisterPage = () => {
 
     try {
       const response = await authService.register({ name, email, password, phone, role });
-      // Token stored in httpOnly cookie by backend — only keep user info in memory [F-002]
-      setUser(response.user);
-      
+      // Store token in localStorage + user in memory for subsequent requests [Bearer auth cross-origin]
+      setAuth(response.access_token, response.user);
+
       if (response.user.role === 'owner') navigate('/dashboard');
       else navigate('/anda/home');
     } catch (err: any) {

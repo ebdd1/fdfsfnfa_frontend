@@ -1,4 +1,5 @@
 import { io, type Socket } from 'socket.io-client';
+import { useAuthStore } from '../stores/authStore';
 
 /** API URL — Railway provides HTTPS, so WSS is used automatically */
 const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
@@ -9,19 +10,33 @@ let joinHandler: (() => void) | null = null;
 /** Get (or lazily create) the shared socket connection [F-014]. */
 export const getSocket = (): Socket => {
   if (!socket) {
+    const token = useAuthStore.getState().token;
     socket = io(SOCKET_URL, {
       autoConnect: true,
-      // Websocket first; polling as fallback; secure: true enforces TLS/WSS [F-014]
+      // Websocket first; polling as fallback [F-014]
       transports: ['websocket', 'polling'],
-      withCredentials: true, // Send httpOnly cookie so server verifies JWT at handshake [F-002]
+      // Pass Bearer token via auth handshake — backend verifies JWT at socket connection [F-014]
+      auth: { token: token ?? '' },
     });
   }
   return socket;
 };
 
 /**
+ * Reconnect with fresh token from auth store.
+ * Call this after login to update the socket auth.
+ */
+export const reconnectSocket = () => {
+  if (socket) {
+    socket.disconnect();
+    socket = null;
+  }
+  getSocket();
+};
+
+/**
  * Join personal rooms after connection.
- * JWT verification already happened at handshake — we only emit identity for room subscription.
+ * JWT is verified at handshake — we emit join for room subscription only.
  */
 export const joinRealtime = (_userId: string, _role: string) => {
   const s = getSocket();

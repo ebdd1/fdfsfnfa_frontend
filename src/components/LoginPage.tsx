@@ -16,7 +16,7 @@ export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   
   const navigate = useNavigate();
-  const setUser = useAuthStore((state) => state.setUser);
+  const setAuth = useAuthStore((state) => state.setAuth);
 
   // Account lockout after 5 failed attempts in 1 min, locked for 5 min [F-005, F-017]
   const loginRateLimit = useRateLimit({
@@ -39,8 +39,8 @@ export const LoginPage = () => {
     setIsLoading(true);
     try {
       const response = await authService.login({ email, password });
-      // Store user info in memory (token is in httpOnly cookie, not accessible to JS) [F-002]
-      setUser(response.user);
+      // Store token in localStorage + user in memory for subsequent requests [Bearer auth cross-origin]
+      setAuth(response.access_token, response.user);
       securityLogger.loginSuccess(email);
 
       // Redirect based on role
