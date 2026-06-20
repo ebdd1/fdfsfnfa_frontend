@@ -800,11 +800,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
             <div className="space-y-3 text-left">
               <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
-                Pilihan Populer
+                Kost Tersedia
               </span>
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
                 Rekomendasi Kost Terverifikasi
               </h2>
+              <p className="text-slate-500 text-sm font-medium">Koordinat GPS diverifikasi, kamar tersedia langsung dari pemilik.</p>
             </div>
             
             <button 
@@ -873,7 +874,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                       
                       <p className="text-slate-500 text-xs flex items-center gap-1 font-semibold">
                         <MapPin className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-                        <span className="line-clamp-1 text-slate-400">{p.location.address}</span>
+                        <span className="text-slate-400" title={p.location.address}>{p.location.address}</span>
                       </p>
                     </div>
 
