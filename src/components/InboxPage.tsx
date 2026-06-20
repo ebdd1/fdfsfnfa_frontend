@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { Conversation, Message } from '../types';
 import { useAuthStore } from '../stores/authStore';
-import { Send, CheckCheck, ArrowLeft, MessageSquare, Search, Image, MapPin, Clock } from 'lucide-react';
+import { Send, CheckCheck, Check, ArrowLeft, MessageSquare, Search, Image, MapPin, Clock, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import type { QueuedMessage } from '../services/offlineQueue';
 
@@ -15,6 +15,7 @@ interface InboxPageProps {
   onTyping?: (convId: string, toUserId: string, isTyping: boolean) => void;
   onlineUsers?: Set<string>;
   queuedMessages?: QueuedMessage[];
+  onRetryMessage?: (tempId: string) => void;
 }
 
 const fmtTime = (d: string) =>
@@ -60,6 +61,7 @@ export const InboxPage: React.FC<InboxPageProps> = ({
   onTyping,
   onlineUsers,
   queuedMessages = [],
+  onRetryMessage,
 }) => {
   const { user } = useAuthStore();
   const currentUserId = user?.id;
@@ -369,7 +371,22 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                         )}
                         <div className={`flex items-center justify-end gap-1 mt-1 ${isMe ? 'text-emerald-100/80' : 'text-slate-400'}`}>
                           <span className="text-[9px] font-medium">{fmtTime(m.created_at)}</span>
-                          {isMe && <CheckCheck className="w-3 h-3" />}
+                          {isMe && (
+                            <>
+                              {(m as any).status === 'sending' && <Clock className="w-3 h-3 animate-spin" />}
+                              {(m as any).status === 'failed' && onRetryMessage && (
+                                <div
+                                  className="cursor-pointer"
+                                  onClick={() => onRetryMessage((m as any).id)}
+                                  title="Klik untuk kirim ulang"
+                                >
+                                  <AlertCircle className="w-3 h-3 text-red-300 hover:text-red-200" />
+                                </div>
+                              )}
+                              {(m as any).status === 'sent' && <Check className="w-3 h-3" />}
+                              {!(m as any).status && <CheckCheck className="w-3 h-3" />}
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>

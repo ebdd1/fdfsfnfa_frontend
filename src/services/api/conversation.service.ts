@@ -20,6 +20,12 @@ export interface MessageRecord {
   content_type?: string;
   createdAt: string;
   sender?: any;
+  status?: 'sending' | 'sent' | 'failed';
+}
+
+export interface OptimisticMessage extends MessageRecord {
+  tempId?: string;
+  isOptimistic: boolean;
 }
 
 export const conversationService = {

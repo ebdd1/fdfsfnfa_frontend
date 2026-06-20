@@ -66,6 +66,7 @@ export const UserDashboardPage: React.FC = () => {
     onlineUsers,
     notifyTyping,
     queuedMessages,
+    retryFailedMessage,
   } = useConversations();
   const { properties } = useProperties();
   const rooms = properties.flatMap((p) => p.rooms || []);
@@ -783,6 +784,7 @@ export const UserDashboardPage: React.FC = () => {
               onTyping={notifyTyping}
               onlineUsers={onlineUsers}
               queuedMessages={queuedMessages}
+              onRetryMessage={retryFailedMessage}
             />
           </div>
         ) : activeSection === 'watchlist' ? (

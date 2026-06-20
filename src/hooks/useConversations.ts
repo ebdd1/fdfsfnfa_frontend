@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { conversationService } from '../services/api/conversation.service';
+import { conversationService, type OptimisticMessage } from '../services/api/conversation.service';
 import { useAuthStore } from '../stores/authStore';
 import { getSocket, emitTyping } from '../services/socket';
 import { useConnectionStore } from '../stores/connectionStore';
@@ -16,6 +16,7 @@ export const useConversations = () => {
   const [typingUsers, setTypingUsers] = useState<Record<string, { name: string }>>({});
   const [typingTimers] = useState<{ [key: string]: ReturnType<typeof setTimeout> }>({});
   const [onlineUsers, setOnlineUsers] = useState<Set<string>>(new Set());
+  const [optimisticMessages, setOptimisticMessages] = useState<OptimisticMessage[]>([]);
 
   const conversationsQuery = useQuery({
     queryKey: ['conversations', userId],
@@ -43,7 +44,8 @@ export const useConversations = () => {
     updated_at: (c as any).updatedAt ?? '',
   }));
 
-  const messages = rawMsgs.map(m => ({
+  // Merge real messages with optimistic messages
+  const realMessages = rawMsgs.map(m => ({
     id: m.id,
     conversation_id: m.conversationId,
     sender_id: m.senderId,
@@ -51,7 +53,23 @@ export const useConversations = () => {
     content: m.content,
     is_read: true,
     created_at: m.createdAt,
+    status: m.status,
   }));
+
+  const optimisticForConversation = optimisticMessages
+    .filter((m) => m.conversationId === selectedConversationId)
+    .map((m) => ({
+      id: m.tempId || m.id,
+      conversation_id: m.conversationId,
+      sender_id: m.senderId,
+      content_type: m.content_type ?? 'text',
+      content: m.content,
+      is_read: false,
+      created_at: m.createdAt,
+      status: m.status,
+    }));
+
+  const messages = [...realMessages, ...optimisticForConversation];
 
   // Typing listener: server → chat:typing
   useEffect(() => {
@@ -147,20 +165,78 @@ export const useConversations = () => {
       return;
     }
 
-    // Online — send normally
+    // Create optimistic message
+    const tempId = crypto.randomUUID();
+    const optimisticMsg: OptimisticMessage = {
+      id: tempId,
+      tempId,
+      conversationId: convId,
+      senderId: userId,
+      content,
+      content_type: contentType,
+      createdAt: new Date().toISOString(),
+      status: 'sending',
+      isOptimistic: true,
+    };
+
+    // Add to optimistic state immediately
+    setOptimisticMessages((prev) => [...prev, optimisticMsg]);
+
+    // Send to server
     try {
       await conversationService.sendMessage(convId, { content, contentType });
+
+      // Remove optimistic, server message will come from refetch
+      setOptimisticMessages((prev) => prev.filter((m) => m.tempId !== tempId));
+
+      // Invalidate to fetch real message from server
       queryClient.invalidateQueries({ queryKey: ['messages', convId] });
       queryClient.invalidateQueries({ queryKey: ['conversations', userId] });
     } catch (err) {
-      console.error('[Chat] Send failed, queueing:', err);
-      // If send fails, queue it
+      console.error('[Chat] Send failed:', err);
+
+      // Update optimistic to 'failed'
+      setOptimisticMessages((prev) =>
+        prev.map((m) =>
+          m.tempId === tempId ? { ...m, status: 'failed' as const } : m
+        )
+      );
+
+      // Queue for retry
       await enqueue(convId, content, contentType);
     }
   };
 
   const notifyTyping = (convId: string, toUserId: string, isTyping: boolean) => {
     emitTyping({ conversationId: convId, toUserId, isTyping });
+  };
+
+  const retryFailedMessage = async (tempId: string) => {
+    const failedMsg = optimisticMessages.find((m) => m.tempId === tempId);
+    if (!failedMsg || !userId) return;
+
+    // Update to 'sending'
+    setOptimisticMessages((prev) =>
+      prev.map((m) => (m.tempId === tempId ? { ...m, status: 'sending' as const } : m))
+    );
+
+    try {
+      await conversationService.sendMessage(failedMsg.conversationId, {
+        content: failedMsg.content,
+        contentType: failedMsg.content_type,
+      });
+
+      // Success — remove optimistic
+      setOptimisticMessages((prev) => prev.filter((m) => m.tempId !== tempId));
+      queryClient.invalidateQueries({ queryKey: ['messages', failedMsg.conversationId] });
+      queryClient.invalidateQueries({ queryKey: ['conversations', userId] });
+    } catch (err) {
+      console.error('[Chat] Retry failed:', err);
+      // Back to 'failed'
+      setOptimisticMessages((prev) =>
+        prev.map((m) => (m.tempId === tempId ? { ...m, status: 'failed' as const } : m))
+      );
+    }
   };
 
   const selectConversation = (convId: string | null) => {
@@ -182,6 +258,7 @@ export const useConversations = () => {
     typingUsers,
     onlineUsers,
     notifyTyping,
+    retryFailedMessage,
     queuedMessages,
     isLoading: conversationsQuery.isLoading,
   };
