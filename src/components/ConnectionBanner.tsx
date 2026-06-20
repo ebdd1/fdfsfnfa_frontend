@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { WifiOff, Wifi } from 'lucide-react';
 import { useConnectionStore } from '../stores/connectionStore';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const ConnectionBanner: React.FC = () => {
   const state = useConnectionStore((s) => s.state);
+  const [hasConnected, setHasConnected] = useState(false);
 
+  // Track if user has ever connected (hide initial connecting state)
+  useEffect(() => {
+    if (state === 'connected') {
+      setHasConnected(true);
+    }
+  }, [state]);
+
+  // Don't show banner during initial connecting phase
+  if (!hasConnected && state === 'connecting') return null;
+
+  // Don't show banner when connected
   if (state === 'connected') return null;
 
   const config = {
