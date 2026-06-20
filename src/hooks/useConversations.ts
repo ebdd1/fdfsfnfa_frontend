@@ -151,6 +151,26 @@ export const useConversations = () => {
     return () => { socket.off('reconnect', handleReconnect); };
   }, [userId, selectedConversationId, queryClient]);
 
+  // Listen for read receipts from other users
+  useEffect(() => {
+    const socket = getSocket();
+
+    const handleReadReceipt = (payload: { messageId: string; readBy: string; readAt: string }) => {
+      // Update messages query cache to reflect read status
+      queryClient.setQueryData(['messages', selectedConversationId], (old: any) => {
+        if (!old) return old;
+        return old.map((m: any) =>
+          m.id === payload.messageId
+            ? { ...m, readAt: payload.readAt }
+            : m
+        );
+      });
+    };
+
+    socket.on('message:read:ack', handleReadReceipt);
+    return () => { socket.off('message:read:ack', handleReadReceipt); };
+  }, [selectedConversationId, queryClient]);
+
   const sendMessage = async (
     convId: string,
     content: string,
@@ -246,6 +266,18 @@ export const useConversations = () => {
       queryClient.invalidateQueries({ queryKey: ['conversations', userId] });
       // Load queued messages for this conversation
       loadQueuedMessages(convId);
+
+      // Mark unread messages as read after a short delay (user has actually viewed them)
+      setTimeout(() => {
+        const messages = queryClient.getQueryData(['messages', convId]) as any[];
+        if (messages && userId) {
+          messages
+            .filter((m) => m.senderId !== userId && !m.readAt)
+            .forEach((m) => {
+              conversationService.markMessageAsRead(convId, m.id).catch(() => {});
+            });
+        }
+      }, 1000); // 1s delay untuk memastikan user benar-benar lihat pesan
     }
   };
 

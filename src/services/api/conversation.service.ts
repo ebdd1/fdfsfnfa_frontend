@@ -19,6 +19,8 @@ export interface MessageRecord {
   content: string;
   content_type?: string;
   createdAt: string;
+  readAt?: string | null;
+  deliveredAt?: string | null;
   sender?: any;
   status?: 'sending' | 'sent' | 'failed';
 }
@@ -54,5 +56,9 @@ export const conversationService = {
 
   markRead: async (conversationId: string): Promise<void> => {
     await api.patch(`/conversations/${conversationId}/read`);
+  },
+
+  markMessageAsRead: async (conversationId: string, messageId: string): Promise<void> => {
+    await api.patch(`/conversations/${conversationId}/messages/${messageId}/read`);
   },
 };

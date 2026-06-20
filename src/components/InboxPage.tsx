@@ -383,8 +383,10 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                                   <AlertCircle className="w-3 h-3 text-red-300 hover:text-red-200" />
                                 </div>
                               )}
-                              {(m as any).status === 'sent' && <Check className="w-3 h-3" />}
-                              {!(m as any).status && <CheckCheck className="w-3 h-3" />}
+                              {(m as any).status === 'sent' && !m.is_read && <Check className="w-3 h-3" />}
+                              {(m as any).readAt && <CheckCheck className="w-3 h-3 text-blue-300" />}
+                              {!(m as any).status && !m.is_read && !(m as any).readAt && <Check className="w-3 h-3" />}
+                              {!(m as any).status && m.is_read && <CheckCheck className="w-3 h-3" />}
                             </>
                           )}
                         </div>
