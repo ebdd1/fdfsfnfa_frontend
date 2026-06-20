@@ -104,6 +104,31 @@ export const useConversations = () => {
     return () => { socket.off('presence:update', presenceHandler); };
   }, []);
 
+  // Sync missed messages after reconnect
+  useEffect(() => {
+    const socket = getSocket();
+
+    const handleReconnect = () => {
+      console.log('[Chat] Reconnected — syncing missed data');
+
+      // Invalidate all conversations to fetch unread count updates
+      queryClient.invalidateQueries({ queryKey: ['conversations', userId] });
+
+      // If user is viewing a conversation, refetch messages
+      if (selectedConversationId) {
+        queryClient.invalidateQueries({ queryKey: ['messages', selectedConversationId] });
+      }
+
+      // Re-fetch presence state (some users might have gone offline during disconnect)
+      socket.emit('presence:check', (response: { onlineUserIds: string[] }) => {
+        setOnlineUsers(new Set(response.onlineUserIds));
+      });
+    };
+
+    socket.on('reconnect', handleReconnect);
+    return () => { socket.off('reconnect', handleReconnect); };
+  }, [userId, selectedConversationId, queryClient]);
+
   const sendMessage = async (
     convId: string,
     content: string,
