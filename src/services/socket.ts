@@ -1,5 +1,6 @@
 import { io, type Socket } from 'socket.io-client';
 import { useAuthStore } from '../stores/authStore';
+import { useConnectionStore } from '../stores/connectionStore';
 
 /** API URL — Railway provides HTTPS, so WSS is used automatically */
 const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
@@ -18,6 +19,39 @@ export const getSocket = (): Socket => {
       // Pass Bearer token via auth handshake — backend verifies JWT at socket connection [F-014]
       auth: { token: token ?? '' },
     });
+
+    // Track connection state for UI indicator
+    socket.on('connect', () => {
+      useConnectionStore.getState().setState('connected');
+      console.log('[Socket] Connected');
+    });
+
+    socket.on('disconnect', (reason) => {
+      useConnectionStore.getState().setState('disconnected');
+      console.log('[Socket] Disconnected:', reason);
+    });
+
+    socket.on('reconnect_attempt', () => {
+      useConnectionStore.getState().setState('reconnecting');
+      console.log('[Socket] Reconnecting...');
+    });
+
+    socket.on('reconnect', (attemptNumber) => {
+      useConnectionStore.getState().setState('connected');
+      console.log('[Socket] Reconnected after', attemptNumber, 'attempts');
+    });
+
+    socket.on('reconnect_error', (error) => {
+      console.error('[Socket] Reconnect error:', error);
+    });
+
+    socket.on('reconnect_failed', () => {
+      useConnectionStore.getState().setState('disconnected');
+      console.error('[Socket] Reconnect failed');
+    });
+
+    // Set initial state
+    useConnectionStore.getState().setState(socket.connected ? 'connected' : 'connecting');
   }
   return socket;
 };
