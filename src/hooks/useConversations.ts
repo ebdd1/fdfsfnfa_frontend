@@ -79,12 +79,17 @@ export const useConversations = () => {
       if (payload.fromUserId === userId) return;
       clearTimeout(typingTimers[payload.conversationId]);
       if (payload.isTyping) {
-        setTypingUsers(prev => ({ ...prev, [payload.conversationId]: { name: payload.fromName } }));
+        setTypingUsers(prev => {
+          const updated = { ...prev, [payload.conversationId]: { name: payload.fromName } };
+          console.log('[Typing] State updated:', updated);
+          return updated;
+        });
         // Auto-clear after 4s
         typingTimers[payload.conversationId] = setTimeout(() => {
           setTypingUsers(prev => {
             const n = { ...prev };
             delete n[payload.conversationId];
+            console.log('[Typing] Auto-cleared:', n);
             return n;
           });
         }, 4000);
@@ -92,6 +97,7 @@ export const useConversations = () => {
         setTypingUsers(prev => {
           const n = { ...prev };
           delete n[payload.conversationId];
+          console.log('[Typing] Manually stopped:', n);
           return n;
         });
       }
