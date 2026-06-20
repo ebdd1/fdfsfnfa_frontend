@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { Conversation, Message } from '../types';
 import { useAuthStore } from '../stores/authStore';
-import { Send, CheckCheck, ArrowLeft, MessageSquare, Search, Image, MapPin } from 'lucide-react';
+import { Send, CheckCheck, ArrowLeft, MessageSquare, Search, Image, MapPin, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
+import type { QueuedMessage } from '../services/offlineQueue';
 
 interface InboxPageProps {
   conversations: Conversation[];
@@ -13,6 +14,7 @@ interface InboxPageProps {
   typingUsers?: Record<string, { name: string }>;
   onTyping?: (convId: string, toUserId: string, isTyping: boolean) => void;
   onlineUsers?: Set<string>;
+  queuedMessages?: QueuedMessage[];
 }
 
 const fmtTime = (d: string) =>
@@ -57,6 +59,7 @@ export const InboxPage: React.FC<InboxPageProps> = ({
   typingUsers,
   onTyping,
   onlineUsers,
+  queuedMessages = [],
 }) => {
   const { user } = useAuthStore();
   const currentUserId = user?.id;
@@ -373,6 +376,26 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                   </React.Fragment>
                 );
               })}
+
+              {/* Queued messages (pending/failed) */}
+              {queuedMessages
+                .filter((q) => q.conversationId === selectedConversationId)
+                .map((q) => (
+                  <div key={q.id} className="flex items-end gap-2 justify-end mt-0.5">
+                    <div className="group max-w-[78%] sm:max-w-[65%] px-3.5 py-2.5 shadow-sm bg-emerald-600/70 text-white rounded-2xl rounded-tr-md rounded-br-md border-2 border-dashed border-emerald-400">
+                      <p className="text-[13.5px] leading-relaxed whitespace-pre-wrap break-words">{q.content}</p>
+                      <div className="flex items-center justify-end gap-1 mt-1 text-emerald-100/80">
+                        <Clock className="w-3 h-3" />
+                        <span className="text-[9px] font-medium">
+                          {q.status === 'pending' && 'Tertunda'}
+                          {q.status === 'sending' && 'Mengirim...'}
+                          {q.status === 'failed' && `Gagal (${q.retryCount}/${3})`}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
               <div ref={chatBottomRef} />
             </div>
 

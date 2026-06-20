@@ -3,11 +3,15 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { conversationService } from '../services/api/conversation.service';
 import { useAuthStore } from '../stores/authStore';
 import { getSocket, emitTyping } from '../services/socket';
+import { useConnectionStore } from '../stores/connectionStore';
+import { useOfflineQueue } from './useOfflineQueue';
 
 export const useConversations = () => {
   const { user } = useAuthStore();
   const userId = user?.id;
   const queryClient = useQueryClient();
+  const connectionState = useConnectionStore((s) => s.state);
+  const { enqueue, queuedMessages, loadQueuedMessages } = useOfflineQueue();
   const [selectedConversationId, setSelectedId] = useState<string | null>(null);
   const [typingUsers, setTypingUsers] = useState<Record<string, { name: string }>>({});
   const [typingTimers] = useState<{ [key: string]: ReturnType<typeof setTimeout> }>({});
@@ -135,10 +139,24 @@ export const useConversations = () => {
     contentType?: string,
   ) => {
     if (!userId || !content.trim()) return;
-    // senderId determined server-side from JWT cookie [F-010]
-    await conversationService.sendMessage(convId, { content, contentType });
-    queryClient.invalidateQueries({ queryKey: ['messages', convId] });
-    queryClient.invalidateQueries({ queryKey: ['conversations', userId] });
+
+    // If offline, queue message instead of sending
+    if (connectionState === 'disconnected' || connectionState === 'reconnecting') {
+      console.log('[Chat] Offline — queueing message');
+      await enqueue(convId, content, contentType);
+      return;
+    }
+
+    // Online — send normally
+    try {
+      await conversationService.sendMessage(convId, { content, contentType });
+      queryClient.invalidateQueries({ queryKey: ['messages', convId] });
+      queryClient.invalidateQueries({ queryKey: ['conversations', userId] });
+    } catch (err) {
+      console.error('[Chat] Send failed, queueing:', err);
+      // If send fails, queue it
+      await enqueue(convId, content, contentType);
+    }
   };
 
   const notifyTyping = (convId: string, toUserId: string, isTyping: boolean) => {
@@ -150,6 +168,8 @@ export const useConversations = () => {
     if (convId) {
       conversationService.markRead(convId).catch(() => {});
       queryClient.invalidateQueries({ queryKey: ['conversations', userId] });
+      // Load queued messages for this conversation
+      loadQueuedMessages(convId);
     }
   };
 
@@ -162,6 +182,7 @@ export const useConversations = () => {
     typingUsers,
     onlineUsers,
     notifyTyping,
+    queuedMessages,
     isLoading: conversationsQuery.isLoading,
   };
 };
