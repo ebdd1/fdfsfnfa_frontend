@@ -20,12 +20,19 @@ import { MaintenancePage } from './components/MaintenancePage';
 /**
  * ProtectedRoute validated by server session [F-003].
  * Reads user from server (not localStorage) to prevent privilege escalation.
+ *
+ * SECURITY NOTES:
+ * - isAuthenticated is derived from !!token (not stored) — prevents stale state on reload.
+ * - Waits for Zustand _hasHydrated before checking auth — prevents premature redirect
+ *   when token is still loading from localStorage (Zustand v5 async persist).
+ * - Role check is client-side only for UX; backend enforces on every request.
  */
 const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode; allowedRoles?: string[] }) => {
-  const { isAuthenticated } = useAuthStore();
+  const { token, _hasHydrated } = useAuthStore();
   const { isLoading, data: sessionUser } = useSession();
 
-  if (isLoading) {
+  // Wait for store to rehydrate from localStorage before making any auth decision
+  if (!_hasHydrated || isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600" />
@@ -33,6 +40,8 @@ const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode;
     );
   }
 
+  // Derive auth from token — not stored, always reflects current localStorage state
+  const isAuthenticated = !!token;
   if (!isAuthenticated || !sessionUser) {
     return <Navigate to="/login" replace />;
   }

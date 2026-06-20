@@ -17,6 +17,8 @@ interface AuthState {
   token: string | null;
   user: User | null;
   isAuthenticated: boolean;
+  /** Set by persist middleware after rehydration completes */
+  _hasHydrated: boolean;
   setAuth: (token: string, user: User) => void;
   setUser: (user: User) => void;
   clearUser: () => void;
@@ -32,6 +34,9 @@ interface AuthState {
  * is accessible to JavaScript (XSS risk), but is the standard approach for this
  * cross-origin setup. httpOnly cookie is still set for same-origin Railway→Railway
  * requests and works for dev environments.
+ *
+ * SECURITY NOTE: isAuthenticated is NOT persisted — always recomputed from !!token
+ * after rehydration. This prevents stale auth state on page reload (Zustand v5 async persist).
  */
 export const useAuthStore = create<AuthState>()(
   persist(
@@ -39,10 +44,12 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       user: null,
       isAuthenticated: false,
+      _hasHydrated: false,
 
       setAuth: (token, user) => set({ token, user, isAuthenticated: true }),
-      setUser: (user) => set({ user, isAuthenticated: true }),
-      clearUser: () => set({ user: null, isAuthenticated: false }),
+      setUser: (user) => set({ user }),
+
+      clearUser: () => set({ token: null, user: null, isAuthenticated: false }),
 
       logout: async () => {
         try {
@@ -54,6 +61,21 @@ export const useAuthStore = create<AuthState>()(
         }
       },
     }),
-    { name: 'auth-storage' }
+    {
+      name: 'auth-storage',
+      // Only persist token + user. isAuthenticated is recomputed on login
+      // and NOT persisted — prevents stale state on reload.
+      partialize: (state) => ({
+        token: state.token,
+        user: state.user,
+      }),
+      onRehydrateStorage: () => (state) => {
+        // Mark rehydration complete; isAuthenticated will be set correctly
+        // by setAuth after login or remains false after logout/clearUser.
+        if (state) {
+          state._hasHydrated = true;
+        }
+      },
+    }
   )
 );
