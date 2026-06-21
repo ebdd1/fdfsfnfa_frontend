@@ -81,13 +81,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   const estimation = getEstimationResult();
 
   return (
-    <div className="bg-slate-50 min-h-screen font-sans text-slate-900 antialiased selection:bg-primary/20">
+    <div className="bg-slate-50/50 min-h-screen font-sans text-slate-900 antialiased selection:bg-emerald-100">
       
       {/* 1. HERO SECTION WITH RADIAL GLOW BLOBS */}
       <section className="relative py-12 sm:py-20 lg:py-32 px-6 sm:px-8 overflow-hidden bg-white border-b border-slate-100">
         
         {/* Glow Blobs */}
-        <div className="absolute top-1/4 left-1/10 w-96 h-96 bg-primary/10/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute top-1/4 left-1/10 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-1/4 right-1/10 w-[500px] h-[500px] bg-indigo-300/10 rounded-full blur-3xl pointer-events-none"></div>
         
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center relative z-10">
@@ -98,9 +98,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/10 text-primary text-xs font-bold"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-bold"
             >
-              <Sparkles className="w-3.5 h-3.5 text-primary animate-spin-slow" />
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-spin-slow" />
               <span>{settings.tagline || 'Platform Kos Digital'}</span>
             </motion.div>
 
@@ -128,7 +128,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
               onSubmit={handleSearchSubmit} 
-              className="bg-white p-2 rounded-2xl border border-slate-200 shadow-md shadow-slate-100/50 flex flex-col sm:flex-row gap-2 max-w-2xl focus-within:border-primary focus-within:ring-4 focus-within:ring-primary500/5 transition-all"
+              className="bg-white p-2 rounded-2xl border border-slate-200 shadow-md shadow-slate-100/50 flex flex-col sm:flex-row gap-2 max-w-2xl focus-within:border-emerald-500 focus-within:ring-4 focus-within:ring-emerald-500/5 transition-all"
             >
               <div className="flex-1 flex items-center gap-2.5 px-3 py-2 sm:py-0">
                 <Search className="w-4.5 h-4.5 text-slate-400 flex-shrink-0" />
@@ -159,7 +159,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
               <button 
                 type="submit" 
-                className="bg-primary hover:bg-[#003a9e] active:scale-95 transition-all text-white font-extrabold text-xs px-6 py-3.5 rounded-xl flex items-center justify-center gap-2 shadow-sm"
+                className="bg-slate-900 hover:bg-slate-800 active:scale-95 transition-all text-white font-extrabold text-xs px-6 py-3.5 rounded-xl flex items-center justify-center gap-2 shadow-sm"
               >
                 Cari Kost
                 <ArrowRight className="w-4 h-4" />
@@ -179,7 +179,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   key={city}
                   type="button"
                   onClick={() => handleQuickSearch(city)}
-                  className="text-xs text-slate-600 hover:text-primary hover:bg-primary/10 px-3.5 py-1.5 rounded-xl border border-slate-200 bg-white transition-all hover:border-primary font-bold"
+                  className="text-xs text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 px-3.5 py-1.5 rounded-xl border border-slate-200 bg-white transition-all hover:border-emerald-300 font-bold"
                 >
                   {city}
                 </button>
@@ -195,7 +195,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             className="lg:col-span-5 relative hidden lg:block"
           >
             {/* Background dashed circle rotation decoration */}
-            <div className="absolute inset-0 border border border-slate-200 rounded-full scale-110 border-dashed animate-spin-slow opacity-60"></div>
+            <div className="absolute inset-0 border border-slate-200/80 rounded-full scale-110 border-dashed animate-spin-slow opacity-60"></div>
             
             {/* Card stack layout */}
             <div className="relative z-10 space-y-4 max-w-sm mx-auto">
@@ -204,7 +204,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <motion.div 
                 animate={{ y: [0, -4, 0] }}
                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                className="absolute -left-12 top-1/4 bg-white rounded-xl shadow-lg p-3 border border-slate-200 flex items-center gap-2.5 z-30 pointer-events-none"
+                className="absolute -left-12 top-1/4 bg-white/95 backdrop-blur-md rounded-xl shadow-[0_12px_30px_rgba(15,23,42,0.06)] p-3 border border-slate-200/80 flex items-center gap-2.5 z-30 pointer-events-none"
               >
                 <div className="p-1.5 bg-indigo-50/85 border border-indigo-100/50 text-indigo-600 rounded-lg">
                   <TrendingUp className="w-4 h-4" />
@@ -219,9 +219,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <motion.div 
                 animate={{ y: [0, 4, 0] }}
                 transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }}
-                className="absolute -right-10 bottom-1/4 bg-white rounded-xl shadow-lg p-3 border border-slate-200 flex items-center gap-2.5 z-30 pointer-events-none"
+                className="absolute -right-10 bottom-1/4 bg-white/95 backdrop-blur-md rounded-xl shadow-[0_12px_30px_rgba(15,23,42,0.06)] p-3 border border-slate-200/80 flex items-center gap-2.5 z-30 pointer-events-none"
               >
-                <div className="p-1.5 bg-primary/10 border border-primary/20 text-primary rounded-lg">
+                <div className="p-1.5 bg-emerald-50/85 border border-emerald-100/50 text-emerald-600 rounded-lg">
                   <CircleCheck className="w-4 h-4" />
                 </div>
                 <div className="text-left">
@@ -231,17 +231,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </motion.div>
 
               {/* Main Card */}
-              <div className="bg-white rounded-2xl border border border-slate-200 shadow-[0_24px_50px_rgba(15,23,42,0.06)] p-5 space-y-4 relative overflow-hidden group">
+              <div className="bg-white rounded-2xl border border-slate-200/80 shadow-[0_24px_50px_rgba(15,23,42,0.06)] p-5 space-y-4 relative overflow-hidden group">
                 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary/10/80 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-primary/10"></span>
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
                     <span className="text-xs font-bold text-slate-900">Kost Leari Ana</span>
                   </div>
-                  <span className="text-[9px] font-black tracking-wider uppercase border border-primary bg-primary/10 text-primary px-2 py-0.5 rounded-full">GPS OK</span>
+                  <span className="text-[9px] font-black tracking-wider uppercase border border-emerald-200 bg-emerald-50/80 text-emerald-700 px-2 py-0.5 rounded-full">GPS OK</span>
                 </div>
                 
                 <div className="relative aspect-[4/3] rounded-xl bg-slate-100 overflow-hidden">
@@ -250,8 +250,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     alt="Kost Premium" 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute top-3 right-3 bg-slate-900 text-white text-[9px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
-                    <Shield className="w-3.5 h-3.5 text-secondary" />
+                  <div className="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-white text-[9px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                    <Shield className="w-3.5 h-3.5 text-emerald-400" />
                     Verified Media
                   </div>
                 </div>
@@ -262,14 +262,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                       <h3 className="text-[10px] font-black uppercase text-slate-400 tracking-wider">Wara, Kota Palopo</h3>
                       <p className="text-[11px] font-semibold text-slate-500 mt-0.5">200m dari Universitas Cokroaminoto</p>
                     </div>
-                    <span className="text-[10px] font-bold text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">2 Kamar Kosong</span>
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100/50 px-2.5 py-0.5 rounded-full">2 Kamar Kosong</span>
                   </div>
 
                   <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
                     <span className="text-xs font-black text-slate-900">Rp 2.100.000 <span className="text-[10px] text-slate-400 font-normal">/bln</span></span>
                     <button 
                       onClick={() => onStartSearching('Palopo')}
-                      className="text-xs font-extrabold text-primary hover:text-primary flex items-center gap-0.5 transition-colors"
+                      className="text-xs font-extrabold text-emerald-600 hover:text-emerald-700 flex items-center gap-0.5 transition-colors"
                     >
                       Hubungi Pemilik <ArrowRight className="w-3.5 h-3.5" />
                     </button>
@@ -285,7 +285,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
       {/* 2. DYNAMIC BUDGET ESTIMATOR WIDGET (SaaS Interactive Simulator) */}
       {settings.feature_estimator && (
-      <section className="py-24 px-6 sm:px-8 border-b border-slate-100 bg-slate-50 relative overflow-hidden">
+      <section className="py-24 px-6 sm:px-8 border-b border-slate-100 bg-slate-50/50 relative overflow-hidden">
         
         {/* Abstract pattern grid background */}
         <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
@@ -296,8 +296,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             {/* Left Description */}
             <div className="lg:col-span-5 space-y-8 text-left">
               <div className="space-y-4">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-wider">
-                  <Compass className="w-3.5 h-3.5 text-primary" />
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-105 text-emerald-750 text-xs font-black uppercase tracking-wider">
+                  <Compass className="w-3.5 h-3.5 text-emerald-600" />
                   Simulasi Akurat
                 </span>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.12]">
@@ -310,9 +310,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
               {/* Upgraded Features List - Tech Badges */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md hover:shadow-slate-100/50 space-y-2">
+                <div className="p-5 rounded-2xl bg-white/70 backdrop-blur-sm border border-slate-200/50 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md hover:shadow-slate-100/50 space-y-2">
                   <div className="flex items-center gap-2">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
                       <CircleCheck className="w-4 h-4" />
                     </div>
                     <span className="text-xs font-bold text-slate-800">Database Akurat</span>
@@ -320,9 +320,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <p className="text-[11px] text-slate-400 font-semibold leading-relaxed">Kamar diupdate langsung oleh pengelola setiap hari.</p>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md hover:shadow-slate-100/50 space-y-2">
+                <div className="p-5 rounded-2xl bg-white/70 backdrop-blur-sm border border-slate-200/50 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md hover:shadow-slate-100/50 space-y-2">
                   <div className="flex items-center gap-2">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
                       <CircleCheck className="w-4 h-4" />
                     </div>
                     <span className="text-xs font-bold text-slate-800">Validasi Geotagging</span>
@@ -334,16 +334,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
             {/* Right Estimator Widget Card - Pristine Premium White/Light Glassmorphism */}
             <div className="lg:col-span-7">
-              <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-lg space-y-8 shadow-[0_20px_50px_rgba(0,0,0,0.03)] relative overflow-hidden text-slate-800">
+              <div className="bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-3xl p-6 sm:p-8 space-y-8 shadow-[0_20px_50px_rgba(0,0,0,0.03)] relative overflow-hidden text-slate-800">
                 {/* Subtle emerald glowing circle */}
-                <div className="bg-primary/10 blur-3xl absolute -top-12 -right-12 w-48 h-48 rounded-full pointer-events-none"></div>
+                <div className="bg-emerald-500/5 blur-3xl absolute -top-12 -right-12 w-48 h-48 rounded-full pointer-events-none"></div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   
                   {/* Select Campus (Pill Segmented Control) */}
                   <div className="space-y-3 text-left">
                     <label className="text-[10px] font-black text-slate-450 uppercase tracking-wider">Universitas Terdekat</label>
-                    <div className="bg-slate-100 p-1 rounded-xl flex gap-1 border border-slate-200">
+                    <div className="bg-slate-100/80 p-1 rounded-xl flex gap-1 border border-slate-200/30">
                       {['UNCP', 'IAIN Palopo', 'UM Palopo'].map((camp) => (
                         <button
                           key={camp}
@@ -364,8 +364,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   {/* Budget Slider */}
                   <div className="space-y-3 text-left">
                     <div className="flex justify-between items-center">
-                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-wider">Maksimum Budget</label>
-                      <span className="text-xs font-black text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-md">
+                      <label className="text-[10px] font-black text-slate-455 uppercase tracking-wider">Maksimum Budget</label>
+                      <span className="text-xs font-black text-emerald-600 bg-emerald-50 border border-emerald-100/50 px-2 py-0.5 rounded-md">
                         {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(estimatorBudget)}
                       </span>
                     </div>
@@ -377,7 +377,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                         step="100000"
                         value={estimatorBudget}
                         onChange={(e) => setEstimatorBudget(Number(e.target.value))}
-                        className="w-full accent-primary cursor-pointer h-1.5 bg-slate-200 rounded-lg appearance-none"
+                        className="w-full accent-emerald-500 cursor-pointer h-1.5 bg-slate-200 rounded-lg appearance-none"
                       />
                       <div className="flex justify-between text-[9px] text-slate-400 font-bold pt-1">
                         <span>Rp 800rb</span>
@@ -394,18 +394,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25 }}
-                  className="bg-slate-50 border border-slate-200/50 rounded-2xl p-5 grid grid-cols-3 gap-2 text-center shadow-sm"
+                  className="bg-slate-50/60 border border-slate-200/50 rounded-2xl p-5 grid grid-cols-3 gap-2 text-center shadow-sm"
                 >
                   <div className="flex flex-col items-center justify-center py-2">
-                    <div className="p-2.5 bg-primary/10 text-primary border border-primary/20 rounded-xl mb-2">
+                    <div className="p-2.5 bg-emerald-50 text-emerald-600 border border-emerald-100/30 rounded-xl mb-2">
                       <House className="w-4.5 h-4.5 animate-pulse" />
                     </div>
                     <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Ketersediaan</span>
                     <span className="text-base sm:text-lg font-black text-slate-900 mt-1">{estimation.count} Kos</span>
                   </div>
                   
-                  <div className="border-x border border-slate-200 flex flex-col items-center justify-center py-2">
-                    <div className="p-2.5 bg-primary/10 text-primary border border-primary/20 rounded-xl mb-2">
+                  <div className="border-x border-slate-200/80 flex flex-col items-center justify-center py-2">
+                    <div className="p-2.5 bg-emerald-50 text-emerald-600 border border-emerald-100/30 rounded-xl mb-2">
                       <MapPin className="w-4.5 h-4.5" />
                     </div>
                     <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Rata Jarak</span>
@@ -413,18 +413,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   </div>
                   
                   <div className="flex flex-col items-center justify-center py-2">
-                    <div className="p-2.5 bg-primary/10 text-primary border border-primary/20 rounded-xl mb-2">
+                    <div className="p-2.5 bg-emerald-50 text-emerald-600 border border-emerald-100/30 rounded-xl mb-2">
                       <ShieldCheck className="w-4.5 h-4.5" />
                     </div>
                     <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Status GPS</span>
-                    <span className="text-[10px] font-black text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full mt-2">100% MATCH</span>
+                    <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 border border-emerald-100/50 px-2.5 py-0.5 rounded-full mt-2">100% MATCH</span>
                   </div>
                 </motion.div>
 
                 <div className="pt-2">
                   <button
                     onClick={() => onStartSearching(undefined, estimatorCampus)}
-                    className="w-full bg-primary/10 hover:bg-[#005a3c] active:scale-[0.98] text-white font-extrabold text-xs py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-secondary/20"
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-extrabold text-xs py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-600/10"
                   >
                     Lihat Hasil Pencarian Kost
                     <ArrowRight className="w-4 h-4" />
@@ -442,7 +442,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       <section className="py-24 px-6 sm:px-8 bg-white border-b border-slate-100">
         <div className="max-w-5xl mx-auto space-y-12">
           <div className="text-center space-y-3">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-100/80 text-emerald-700 text-xs font-black uppercase tracking-wider">
               Mengapa Memilih Kami
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-none">
@@ -454,7 +454,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           {/* Premium Comparison Matrix Card */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-lg shadow-[0_15px_40px_rgba(0,0,0,0.02)] space-y-6">
+          <div className="bg-white/70 backdrop-blur-md border border-slate-200/60 rounded-3xl p-6 sm:p-8 shadow-[0_15px_40px_rgba(0,0,0,0.02)] space-y-6">
             
             {/* Header - Desktop Only */}
             <div className="hidden md:grid grid-cols-12 gap-4 pb-4 border-b border-slate-150 text-[10px] font-black text-slate-400 uppercase tracking-widest">
@@ -502,7 +502,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   {/* Old Way Row */}
                   <div className="col-span-1 md:col-span-3">
                     <div className="flex items-center md:justify-center gap-2 p-3 md:p-0 rounded-xl bg-slate-50 md:bg-transparent border border-slate-100 md:border-0 text-slate-400">
-                      <span className="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center flex-shrink-0 border border-slate-200">
+                      <span className="w-5 h-5 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center flex-shrink-0 border border-slate-200/30">
                         <X className="w-3.5 h-3.5 stroke-[2.5]" />
                       </span>
                       <span className="text-xs font-bold text-slate-500">{row.old}</span>
@@ -511,11 +511,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
                   {/* New Way Row (KostFind Highlighted) */}
                   <div className="col-span-1 md:col-span-4">
-                    <div className="flex items-center md:justify-center gap-2 p-3 md:py-2.5 md:px-4 rounded-xl bg-primary/10 border border-primary/10 text-primary">
-                      <span className="w-5 h-5 rounded-full bg-primary/10 text-white flex items-center justify-center flex-shrink-0">
+                    <div className="flex items-center md:justify-center gap-2 p-3 md:py-2.5 md:px-4 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-950">
+                      <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center flex-shrink-0">
                         <CircleCheck className="w-3.5 h-3.5 text-white" />
                       </span>
-                      <span className="text-xs font-black text-primary">{row.current}</span>
+                      <span className="text-xs font-black text-emerald-800">{row.current}</span>
                     </div>
                   </div>
 
@@ -530,7 +530,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* 4. WORKFLOW / HOW IT WORKS */}
       <section className="py-24 px-6 sm:px-8 max-w-7xl mx-auto border-b border-slate-100">
         <div className="max-w-2xl mx-auto text-center mb-16 space-y-3">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full">
+          <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
             Alur Penggunaan
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
@@ -546,10 +546,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {/* Left Column: Interactive Timeline List */}
           <div className="lg:col-span-5 relative space-y-8 pl-8 text-left">
             {/* Background connecting line */}
-            <div className="absolute left-14 top-6 bottom-6 w-[2px] bg-slate-200 z-0"></div>
+            <div className="absolute left-14 top-6 bottom-6 w-[2px] bg-slate-150/70 z-0"></div>
             {/* Dynamic indicator line */}
             <div 
-              className="absolute left-14 top-6 w-[2px] bg-primary/10 transition-all duration-500 z-0"
+              className="absolute left-14 top-6 w-[2px] bg-emerald-500 transition-all duration-500 z-0"
               style={{ height: `${(activeStep / 3) * 82}%`, maxHeight: 'calc(100% - 48px)' }}
             ></div>
 
@@ -587,7 +587,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <div className="relative z-10 flex-shrink-0">
                     <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-sm transition-all duration-300 ${
                       active 
-                        ? 'border border-secondary bg-primary/10 text-white shadow-lg shadow-primary500/20 scale-105' 
+                        ? 'border-emerald-500 bg-emerald-500 text-white shadow-lg shadow-emerald-500/20 scale-105' 
                         : 'border-slate-200 bg-white text-slate-400 group-hover:border-slate-350 group-hover:text-slate-650'
                     }`}>
                       {item.step}
@@ -610,7 +610,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           {/* Right Column: High Fidelity Interactive Simulator Screen */}
           <div className="lg:col-span-7 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-[0_24px_50px_rgba(15,23,42,0.04)] min-h-[350px] relative overflow-hidden flex flex-col justify-center">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
             
             <AnimatePresence mode="wait">
               {activeStep === 0 && (
@@ -623,26 +623,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   className="space-y-5"
                 >
                   <div className="flex items-center gap-2">
-                    <Search className="w-4 h-4 text-primary" />
+                    <Search className="w-4 h-4 text-emerald-600" />
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-left">Simulasi Pencarian & Filter</span>
                   </div>
                   <div className="bg-slate-50 border border-slate-150 p-4 rounded-2xl space-y-4">
                     <div className="flex gap-2">
                       <div className="bg-white border border-slate-200 px-3.5 py-2 rounded-xl flex items-center gap-2 text-xs font-bold text-slate-700 flex-1">
-                        <MapPin className="w-4 h-4 text-secondary" />
+                        <MapPin className="w-4 h-4 text-emerald-500" />
                         <span>Wara, Kota Palopo</span>
                       </div>
-                      <div className="bg-primary text-white font-extrabold text-xs px-4 py-2 rounded-xl flex items-center justify-center">
+                      <div className="bg-slate-900 text-white font-extrabold text-xs px-4 py-2 rounded-xl flex items-center justify-center">
                         Cari
                       </div>
                     </div>
                     <div className="space-y-2 text-left">
                       <div className="flex justify-between items-center text-xs font-bold text-slate-650">
                         <span>Batas Harga</span>
-                        <span className="text-primary bg-primary/10 px-2 py-0.5 rounded-md text-[10px]">Max: Rp 1.500.000 / bln</span>
+                        <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md text-[10px]">Max: Rp 1.500.000 / bln</span>
                       </div>
                       <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
-                        <div className="h-full bg-primary/10 rounded-full w-2/3"></div>
+                        <div className="h-full bg-emerald-500 rounded-full w-2/3"></div>
                       </div>
                     </div>
                   </div>
@@ -654,7 +654,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                         <p className="text-[11px] text-slate-400 font-semibold mt-0.5">200m dari Universitas Cokroaminoto</p>
                       </div>
                     </div>
-                    <span className="text-[10px] font-bold text-primary bg-primary/10 border border-primary/10 px-2.5 py-0.5 rounded-full">Sesuai Kriteria</span>
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 rounded-full">Sesuai Kriteria</span>
                   </div>
                 </motion.div>
               )}
@@ -670,10 +670,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Shield className="w-4 h-4 text-primary" />
+                      <Shield className="w-4 h-4 text-emerald-600" />
                       <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-left">Metadata Survei Terverifikasi</span>
                     </div>
-                    <span className="text-[10px] font-black uppercase tracking-wider text-primary bg-primary/10 border border-primary/10 px-2.5 py-0.5 rounded-full">Lolos Geotag</span>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 rounded-full">Lolos Geotag</span>
                   </div>
                   <div className="relative aspect-video rounded-2xl bg-slate-950 overflow-hidden border border-slate-200">
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent z-10"></div>
@@ -684,7 +684,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     />
                     <div className="absolute bottom-4 left-4 right-4 z-20 text-white space-y-1 text-left">
                       <div className="flex items-center gap-1.5">
-                        <span className="h-2 w-2 bg-primary/10 rounded-full animate-ping"></span>
+                        <span className="h-2 w-2 bg-emerald-500 rounded-full animate-ping"></span>
                         <span className="text-[10px] font-black tracking-widest uppercase">GPS LOCK MATCHED</span>
                       </div>
                       <p className="text-[10px] text-slate-300 font-semibold">Latitude: -2.9904 | Longitude: 120.1983</p>
@@ -714,10 +714,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <MessageSquare className="w-4 h-4 text-primary" />
+                      <MessageSquare className="w-4 h-4 text-emerald-600" />
                       <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-left">Simulasi Obrolan Chat</span>
                     </div>
-                    <span className="text-[10px] font-black text-primary bg-primary/10 px-2 py-0.5 rounded-full">Respon Cepat</span>
+                    <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Respon Cepat</span>
                   </div>
                   <div className="border border-slate-150 rounded-2xl bg-slate-50 p-4 space-y-3.5 text-left max-h-[190px] overflow-y-auto">
                     <div className="flex items-start gap-2.5">
@@ -727,17 +727,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                       </div>
                     </div>
                     <div className="flex items-start gap-2.5 justify-end">
-                      <div className="bg-primary/10 text-white rounded-xl rounded-tr-none p-3 shadow-sm max-w-[85%] text-xs font-semibold leading-relaxed">
+                      <div className="bg-emerald-600 text-white rounded-xl rounded-tr-none p-3 shadow-sm max-w-[85%] text-xs font-semibold leading-relaxed">
                         Masih ada 2 kamar kosong dek, silahkan kalau mau lihat atau survey lokasi.
                       </div>
-                      <div className="w-7 h-7 rounded-full bg-primary/10/10 flex-shrink-0 flex items-center justify-center font-bold text-[10px] text-primary">O</div>
+                      <div className="w-7 h-7 rounded-full bg-emerald-100 flex-shrink-0 flex items-center justify-center font-bold text-[10px] text-emerald-700">O</div>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2 justify-start">
-                    <span className="text-[10px] font-bold text-primary bg-primary/10 border border-secondary/20 px-3 py-1.5 rounded-full rounded-full cursor-pointer hover:bg-primary/10/10 transition-colors">
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50/80 border border-emerald-100/60 px-3 py-1.5 rounded-full cursor-pointer hover:bg-emerald-100 transition-colors">
                       "Saya tertarik survey besok pak"
                     </span>
-                    <span className="text-[10px] font-bold text-primary bg-primary/10 border border-secondary/20 px-3 py-1.5 rounded-full rounded-full cursor-pointer hover:bg-primary/10/10 transition-colors">
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50/80 border border-emerald-100/60 px-3 py-1.5 rounded-full cursor-pointer hover:bg-emerald-100 transition-colors">
                       "Apakah harga sudah termasuk listrik?"
                     </span>
                   </div>
@@ -754,16 +754,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   className="space-y-4"
                 >
                   <div className="flex items-center gap-2">
-                    <ClipboardCheck className="w-4 h-4 text-primary" />
+                    <ClipboardCheck className="w-4 h-4 text-emerald-600" />
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-left">Rincian Komitmen Pemesanan</span>
                   </div>
-                  <div className="bg-primary/10/10 border border-secondary/20 rounded-2xl p-5 space-y-4 text-left">
-                    <div className="flex justify-between items-center pb-2.5 border-b border-primary/10">
+                  <div className="bg-emerald-50/45 border border-emerald-100 rounded-2xl p-5 space-y-4 text-left">
+                    <div className="flex justify-between items-center pb-2.5 border-b border-emerald-100">
                       <div>
                         <h5 className="text-xs font-black text-slate-850">Kost Leari Ana</h5>
                         <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider mt-0.5">Sewa Bulanan</p>
                       </div>
-                      <span className="text-sm font-black text-primary">Rp 2.100.000 <span className="text-[9px] text-slate-400 font-normal">/ bln</span></span>
+                      <span className="text-sm font-black text-emerald-800">Rp 2.100.000 <span className="text-[9px] text-slate-400 font-normal">/ bln</span></span>
                     </div>
                     <div className="space-y-2 text-xs text-slate-650 font-semibold">
                       <div className="flex justify-between">
@@ -781,7 +781,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     </div>
                   </div>
                   <div className="bg-white border border-slate-150 rounded-xl p-3 flex items-center gap-2.5">
-                    <div className="p-1.5 bg-primary/10 text-primary rounded-lg">
+                    <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg">
                       <Shield className="w-4 h-4" />
                     </div>
                     <p className="text-[10px] font-bold text-slate-500 text-left">Rekap kesepakatan tersimpan secara aman dalam log sistem untuk mencegah perubahan sepihak.</p>
@@ -799,7 +799,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <div className="space-y-12">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
             <div className="space-y-3 text-left">
-              <span className="text-xs font-extrabold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
                 Kost Tersedia
               </span>
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
@@ -810,7 +810,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             
             <button 
               onClick={() => onStartSearching()}
-              className="text-xs font-extrabold text-slate-900 hover:text-primary flex items-center gap-1.5 transition-colors border border-slate-200 px-5 py-3 rounded-full bg-white shadow-sm hover:border-slate-300 hover:shadow active:scale-95 transition-all duration-200"
+              className="text-xs font-extrabold text-slate-900 hover:text-emerald-600 flex items-center gap-1.5 transition-colors border border-slate-200 px-5 py-3 rounded-full bg-white shadow-sm hover:border-slate-300 hover:shadow active:scale-95 transition-all duration-200"
             >
               Lihat Semua Kost 
               <ArrowRight className="w-3.5 h-3.5" />
@@ -830,7 +830,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <div 
                   key={p.id}
                   onClick={() => onSelectProperty(p.id)}
-                  className="bg-white rounded-3xl overflow-hidden border border border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-2xl hover:shadow-slate-200/40 transition-all duration-300 cursor-pointer group flex flex-col relative"
+                  className="bg-white rounded-3xl overflow-hidden border border-slate-200/80 hover:border-slate-300 shadow-sm hover:shadow-2xl hover:shadow-slate-200/40 transition-all duration-300 cursor-pointer group flex flex-col relative"
                 >
                   {/* Photo area */}
                   <div className="relative aspect-[4/3] bg-slate-50 overflow-hidden">
@@ -842,17 +842,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     
                     {/* Floating GPS Badge with blinking pulse */}
                     <div className="absolute top-4 left-4">
-                      <span className="flex items-center gap-1.5 bg-white text-slate-800 text-[10px] font-extrabold py-1.5 px-3.5 rounded-full border border-slate-200 shadow-sm">
+                      <span className="flex items-center gap-1.5 bg-white/95 text-slate-800 text-[10px] font-extrabold py-1.5 px-3.5 rounded-full border border-slate-200 shadow-sm">
                         <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary/10/80 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-primary/10"></span>
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </span>
                         GPS Terverifikasi
                       </span>
                     </div>
 
                     {/* Price tag overlay */}
-                    <div className="absolute bottom-4 right-4 bg-slate-900 text-white font-extrabold text-[11px] px-3.5 py-1.5 rounded-full backdrop-blur-sm">
+                    <div className="absolute bottom-4 right-4 bg-slate-900/90 text-white font-extrabold text-[11px] px-3.5 py-1.5 rounded-full backdrop-blur-sm">
                       {formatPrice(lowestPrice)}<span className="text-[10px] text-slate-400 font-normal">/bln</span>
                     </div>
                   </div>
@@ -861,16 +861,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <div className="p-6 flex-1 flex flex-col justify-between text-left space-y-4">
                     <div className="space-y-2">
                       <span className={`inline-block text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md ${
-                        p.type === 'kost_campur'
-                          ? 'bg-secondary/10 text-secondary'
-                          : p.type === 'kost_putra'
-                            ? 'bg-blue-50 text-blue-800'
+                        p.type === 'kost_campur' 
+                          ? 'bg-emerald-50 text-emerald-800' 
+                          : p.type === 'kost_putra' 
+                            ? 'bg-blue-50 text-blue-800' 
                             : 'bg-pink-50 text-pink-800'
                       }`}>
                         {p.type === 'kost_campur' ? 'Campur' : p.type === 'kost_putra' ? 'Putra' : 'Putri'}
                       </span>
                       
-                      <h4 className="text-base font-black text-slate-900 group-hover:text-primary transition-colors line-clamp-1">{p.name}</h4>
+                      <h4 className="text-base font-black text-slate-900 group-hover:text-emerald-600 transition-colors line-clamp-1">{p.name}</h4>
                       
                       <p className="text-slate-500 text-xs flex items-center gap-1 font-semibold">
                         <MapPin className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
@@ -886,7 +886,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                       </div>
 
                       <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full ${
-                        availableRoomsCount > 0 ? 'bg-primary/10 text-primary' : 'bg-red-50 text-red-700'
+                        availableRoomsCount > 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
                       }`}>
                         {availableRoomsCount > 0 ? `${availableRoomsCount} Kamar Tersedia` : 'Penuh'}
                       </span>
@@ -900,14 +900,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* 6. FAQ ACCORDION SECTION */}
-      <section className="py-24 px-6 sm:px-8 border-t border-slate-100 bg-slate-50">
+      <section className="py-24 px-6 sm:px-8 border-t border-slate-100 bg-slate-50/50">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             
             {/* Left Column Description */}
             <div className="lg:col-span-5 text-left space-y-6">
               <div className="space-y-4">
-                <span className="text-xs font-extrabold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
                   Tanya Jawab
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-none">
@@ -921,7 +921,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <div className="p-5 rounded-3xl bg-white border border-slate-200 shadow-sm text-xs space-y-3 text-left">
                 <span className="font-bold text-slate-900 block">Butuh Bantuan Lain?</span>
                 <p className="text-slate-500 leading-relaxed font-medium">Tim customer support {settings.site_name} aktif 24/7 untuk memvalidasi kendala pembayaran atau verifikasi koordinat lokasi.</p>
-                <a href={`mailto:${settings.support_email}`} className="inline-flex items-center gap-1 text-primary font-extrabold hover:underline">
+                <a href={`mailto:${settings.support_email}`} className="inline-flex items-center gap-1 text-emerald-600 font-extrabold hover:underline">
                   Hubungi Email Support 
                   <ArrowRight className="w-3.5 h-3.5" />
                 </a>
@@ -953,7 +953,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <div 
                     key={idx} 
                     className={`bg-white border rounded-2xl overflow-hidden transition-all duration-200 shadow-sm ${
-                      isOpen ? 'border-primary ring-2 ring-primary/20' : 'border border-slate-200 hover:border-slate-300'
+                      isOpen ? 'border-emerald-500 ring-2 ring-emerald-500/5' : 'border-slate-200/80 hover:border-slate-300'
                     }`}
                   >
                     <button
@@ -963,7 +963,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     >
                       <span>{faq.q}</span>
                       <span className={`p-1 rounded-full bg-slate-50 text-slate-400 group-hover:text-slate-600 transition-colors ${
-                        isOpen ? 'bg-primary/10 text-primary' : ''
+                        isOpen ? 'bg-emerald-50 text-emerald-600' : ''
                       }`}>
                         {isOpen ? (
                           <ChevronUp className="w-4 h-4" />
