@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Shield, ArrowLeft, Send, ChevronRight, Star, KeyRound, Building, Eye } from 'lucide-react';
+import { MapPin, Shield, ArrowLeft, Send, ChevronRight, KeyRound, Building } from 'lucide-react';
 import type { Property, Room } from '../types';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '../stores/authStore';
@@ -45,17 +45,18 @@ export const DetailPage: React.FC<DetailPageProps> = ({
   return (
     <div className="bg-slate-50 min-h-screen pb-16">
       {/* 1. Header Bar */}
-      <div className="bg-white border-b border-slate-100 py-4 px-8 sticky top-0 z-30 flex items-center gap-4 shadow-sm text-left">
-        <motion.button 
+      <div className="bg-white border-b border-slate-100 py-3.5 px-4 sm:px-8 sticky top-0 z-30 flex items-center gap-3 sm:gap-4 shadow-sm text-left">
+        <motion.button
           whileTap={{ scale: 0.95 }}
           onClick={onBack}
-          className="p-2.5 bg-slate-50 hover:bg-slate-100 rounded-full transition-all text-slate-600"
+          aria-label="Kembali"
+          className="p-2.5 bg-slate-50 hover:bg-slate-100 rounded-full transition-all text-slate-600 shrink-0 cursor-pointer"
         >
           <ArrowLeft className="w-5 h-5" />
         </motion.button>
-        <div>
-          <h2 className="text-base font-extrabold text-slate-800">{property.name}</h2>
-          <p className="text-xs text-slate-400">{property.location.address}</p>
+        <div className="min-w-0">
+          <h2 className="text-base font-extrabold text-slate-800 truncate">{property.name}</h2>
+          <p className="text-xs text-slate-400 truncate">{property.location.address}</p>
         </div>
       </div>
 
@@ -79,15 +80,17 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                   <Building className="w-16 h-16 text-emerald-300" />
                 </div>
               )}
-              {/* GPS badge */}
+              {/* GPS badge — clickable, opens Google Maps */}
               {(heroPhoto?.latitude || heroPhoto?.longitude) && (
-                <div className="absolute bottom-6 left-6 bg-slate-900/85 backdrop-blur-md px-4 py-2.5 rounded-2xl text-white text-xs font-bold flex items-center gap-2 shadow-lg">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                  </span>
-                  Koordinat: {heroPhoto.latitude?.toFixed(4)}, {heroPhoto.longitude?.toFixed(4)}
-                </div>
+                <a
+                  href={`https://maps.google.com/?q=${heroPhoto.latitude},${heroPhoto.longitude}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-slate-900/85 hover:bg-slate-900 backdrop-blur-md px-4 py-2.5 rounded-2xl text-white text-xs font-bold flex items-center gap-2 shadow-lg transition-colors cursor-pointer"
+                >
+                  <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  Lihat Lokasi di Peta
+                </a>
               )}
             </div>
 
@@ -130,10 +133,10 @@ export const DetailPage: React.FC<DetailPageProps> = ({
             <div className="space-y-2">
               <span className={`inline-block text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded ${
                 property.type === 'kost_campur' 
-                  ? 'bg-emerald-50 text-emerald-800' 
-                  : property.type === 'kost_putra' 
-                    ? 'bg-blue-50 text-blue-800' 
-                    : 'bg-pink-50 text-pink-850'
+                  ? 'bg-emerald-50 text-emerald-800'
+                  : property.type === 'kost_putra'
+                    ? 'bg-blue-50 text-blue-800'
+                    : 'bg-pink-50 text-pink-800'
               }`}>
                 {property.type === 'kost_campur' ? 'Campur' : property.type === 'kost_putra' ? 'Putra' : 'Putri'}
               </span>
@@ -148,7 +151,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
               <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Fasilitas Kost</h3>
               <div className="flex flex-wrap gap-2">
                 {property.facilities.map((fac) => (
-                  <span key={fac} className="text-xs font-bold text-slate-600 bg-slate-50 border border-slate-200/50 py-2.5 px-4.5 rounded-xl">
+                  <span key={fac} className="text-xs font-bold text-slate-600 bg-slate-50 border border-slate-200/50 py-2.5 px-4 rounded-xl">
                     {fac}
                   </span>
                 ))}
@@ -271,38 +274,26 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                   className="bg-white rounded-[28px] overflow-hidden border border-slate-200/80 hover:border-slate-300 shadow-sm hover:shadow-xl hover:shadow-slate-200/40 transition-all duration-300 cursor-pointer group flex flex-col relative"
                 >
                   {/* Photo area */}
-                  <div className="relative aspect-[4/3] bg-slate-55 overflow-hidden">
-                    <img 
-                      src={p.media[0]?.url_medium || p.media[0]?.url_original} 
-                      alt={p.name} 
+                  <div className="relative aspect-[4/3] bg-slate-100 overflow-hidden">
+                    <img
+                      src={p.media[0]?.url_medium || p.media[0]?.url_original}
+                      alt={p.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    
-                    {/* Floating GPS Badge with blinking pulse */}
-                    <div className="absolute top-4 left-4">
-                      <span className="flex items-center gap-1.5 bg-white/95 text-slate-805 text-[10px] font-extrabold py-1.5 px-3 rounded-full border border-slate-200/80 shadow-sm">
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                        </span>
-                        GPS Terverifikasi
-                      </span>
-                    </div>
 
-                    {/* Floating Popularity / Trusted Badge */}
-                    <div className="absolute top-4 right-4 flex flex-col items-end gap-1.5">
-                      <span className="flex items-center gap-1 bg-amber-500 text-white text-[9px] font-black uppercase tracking-wider py-1 px-2.5 rounded-full shadow-md">
-                        <Star className="w-2.5 h-2.5 fill-white shrink-0 animate-pulse" />
-                        4.9 (Trusted)
-                      </span>
-                      <span className="flex items-center gap-1 bg-slate-900/80 text-white text-[8px] font-extrabold py-0.5 px-2 rounded-full backdrop-blur-sm shadow-sm">
-                        <Eye className="w-3 h-3 shrink-0" /> {Math.floor(Math.random() * 500) + 700}+ Dilihat
-                      </span>
-                    </div>
+                    {/* Verified badge — only when owner is actually verified */}
+                    {p.owner?.is_verified && (
+                      <div className="absolute top-4 left-4">
+                        <span className="flex items-center gap-1.5 bg-white/95 text-emerald-700 text-[10px] font-bold py-1.5 px-3 rounded-full border border-emerald-100 shadow-sm">
+                          <Shield className="w-3 h-3 fill-emerald-600 text-emerald-600 shrink-0" />
+                          Terverifikasi
+                        </span>
+                      </div>
+                    )}
 
                     {/* Price tag overlay */}
                     <div className="absolute bottom-4 right-4 bg-slate-900/90 text-white font-extrabold text-[11px] px-3 py-1.5 rounded-full backdrop-blur-sm">
-                      {formatPrice(lowestPrice)}<span className="text-[10px] text-slate-400 font-normal">/bln</span>
+                      {formatPrice(lowestPrice)}<span className="text-[10px] text-slate-300 font-normal">/bln</span>
                     </div>
                   </div>
                   
@@ -311,10 +302,10 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                     <div className="space-y-2">
                       <span className={`inline-block text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded ${
                         p.type === 'kost_campur' 
-                          ? 'bg-emerald-50 text-emerald-800' 
-                          : p.type === 'kost_putra' 
-                            ? 'bg-blue-50 text-blue-800' 
-                            : 'bg-pink-50 text-pink-805'
+                          ? 'bg-emerald-50 text-emerald-800'
+                          : p.type === 'kost_putra'
+                            ? 'bg-blue-50 text-blue-800'
+                            : 'bg-pink-50 text-pink-800'
                       }`}>
                         {p.type === 'kost_campur' ? 'Campur' : p.type === 'kost_putra' ? 'Putra' : 'Putri'}
                       </span>
@@ -328,8 +319,8 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                     </div>
 
                     {/* Footer Row */}
-                    <div className="flex items-center justify-between pt-4 border-t border-slate-150">
-                      <div className="flex items-center gap-1 text-[11px] text-slate-450 font-bold">
+                    <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                      <div className="flex items-center gap-1 text-[11px] text-slate-400 font-bold">
                         <span className="text-slate-600">{p.location.city || 'Palopo'}</span>
                         <span>&bull; Rekomendasi</span>
                       </div>
