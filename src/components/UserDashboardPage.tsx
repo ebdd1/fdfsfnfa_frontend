@@ -200,33 +200,59 @@ export const UserDashboardPage: React.FC = () => {
     <div className="bg-slate-50 h-screen flex flex-col md:flex-row overflow-hidden font-sans relative">
 
       {/* MOBILE TOP BAR */}
-      <header className="flex md:hidden items-center justify-between px-4 h-14 bg-white shrink-0 z-30 border-b border-slate-100">
-        <button
-          onClick={() => setIsMobileMenuOpen(true)}
-          aria-label="Buka menu"
-          className="p-2 -ml-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors active:scale-90 cursor-pointer"
-        >
-          <Menu className="w-6 h-6" />
-        </button>
-
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-          {settings.logo_url ? (
-            <img src={settings.logo_url} alt={settings.site_name} className="h-8 w-auto object-contain rounded-lg" />
-          ) : (
-            <LogoText />
-          )}
+      <header className="flex md:hidden items-center justify-between px-3 h-14 bg-white shrink-0 z-30 border-b border-slate-100">
+        {/* Left: Menu + Logo */}
+        <div className="flex items-center gap-1.5 min-w-0">
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Buka menu"
+            className="p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors active:scale-90 cursor-pointer shrink-0"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+          <div className="flex items-center cursor-pointer min-w-0" onClick={() => navigate('/')}>
+            {settings.logo_url ? (
+              <img src={settings.logo_url} alt={settings.site_name} className="h-7 w-auto object-contain rounded-lg" />
+            ) : (
+              <LogoText />
+            )}
+          </div>
         </div>
 
-        <button
-          onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-          aria-label="Notifikasi"
-          className="relative p-2 -mr-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors active:scale-90 cursor-pointer"
-        >
-          <Bell className="w-5 h-5" />
-          {notifUnread > 0 && (
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white" />
-          )}
-        </button>
+        {/* Right: Search + Chat + Notification */}
+        <div className="flex items-center gap-0.5 shrink-0">
+          <button
+            onClick={() => navigate('/search')}
+            aria-label="Cari Kost"
+            className="p-2.5 text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl transition-colors active:scale-90 cursor-pointer"
+          >
+            <Search className="w-[22px] h-[22px]" />
+          </button>
+
+          <button
+            onClick={() => setActiveSection('chat')}
+            aria-label="Pesan Masuk"
+            className="relative p-2.5 text-slate-600 hover:bg-sky-50 hover:text-sky-600 rounded-xl transition-colors active:scale-90 cursor-pointer"
+          >
+            <MessageSquare className="w-[22px] h-[22px]" />
+            {unreadCount > 0 && (
+              <span className="absolute top-1 right-1 min-w-[16px] h-[16px] px-0.5 rounded-full bg-rose-500 text-white text-[9px] font-black flex items-center justify-center ring-2 ring-white">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
+          </button>
+
+          <button
+            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+            aria-label="Notifikasi"
+            className="relative p-2.5 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors active:scale-90 cursor-pointer"
+          >
+            <Bell className="w-[22px] h-[22px]" />
+            {notifUnread > 0 && (
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white" />
+            )}
+          </button>
+        </div>
       </header>
 
       {/* MOBILE NOTIFICATIONS SHEET */}
@@ -992,8 +1018,8 @@ export const UserDashboardPage: React.FC = () => {
                   </div>
                 )}
 
-                {/* ── Quick shortcuts ── */}
-                <div className="space-y-3">
+                {/* ── Quick shortcuts (desktop only — mobile uses header icons) ── */}
+                <div className="hidden md:block space-y-3">
                   <h2 className="text-sm font-bold text-slate-700 px-1">Akses Cepat</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     {/* Primary action — Cari Kost (marketplace core action) */}
