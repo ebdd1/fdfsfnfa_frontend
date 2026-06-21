@@ -76,7 +76,14 @@ export const useConversations = () => {
     const socket = getSocket();
     const handler = (payload: { conversationId: string; fromUserId: string; fromName: string; isTyping: boolean }) => {
       console.log('[Typing] Event received:', payload);
-      if (payload.fromUserId === userId) return;
+      console.log('[Typing] Current userId:', userId);
+      console.log('[Typing] Blocked?', payload.fromUserId === userId);
+
+      if (payload.fromUserId === userId) {
+        console.log('[Typing] BLOCKED - ignoring own typing event');
+        return;
+      }
+
       clearTimeout(typingTimers[payload.conversationId]);
       if (payload.isTyping) {
         setTypingUsers(prev => {
