@@ -7,7 +7,6 @@ import { useRealtime } from './hooks/useRealtime';
 
 import { Navbar } from './components/Navbar';
 import { ToastProvider } from './components/ToastProvider';
-import { ConnectionBanner } from './components/ConnectionBanner';
 import { LoginPage } from './components/LoginPage';
 import { RegisterPage } from './components/RegisterPage';
 import { DashboardPage } from './components/DashboardPage';
@@ -148,7 +147,6 @@ function App() {
       style={{ '--primary-color': settings.primary_color || '#10b981' } as React.CSSProperties}
     >
       <ToastProvider />
-      <ConnectionBanner />
       <Navbar />
       <Routes>
         {/* Public Routes */}

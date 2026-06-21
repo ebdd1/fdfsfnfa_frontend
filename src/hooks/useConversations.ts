@@ -75,28 +75,14 @@ export const useConversations = () => {
   useEffect(() => {
     const socket = getSocket();
     const handler = (payload: { conversationId: string; fromUserId: string; fromName: string; isTyping: boolean }) => {
-      console.log('[Typing] Event received:', payload);
-      console.log('[Typing] Current userId:', userId);
-      console.log('[Typing] Blocked?', payload.fromUserId === userId);
-
-      if (payload.fromUserId === userId) {
-        console.log('[Typing] BLOCKED - ignoring own typing event');
-        return;
-      }
-
+      if (payload.fromUserId === userId) return;
       clearTimeout(typingTimers[payload.conversationId]);
       if (payload.isTyping) {
-        setTypingUsers(prev => {
-          const updated = { ...prev, [payload.conversationId]: { name: payload.fromName } };
-          console.log('[Typing] State updated:', updated);
-          return updated;
-        });
-        // Auto-clear after 4s
+        setTypingUsers(prev => ({ ...prev, [payload.conversationId]: { name: payload.fromName } }));
         typingTimers[payload.conversationId] = setTimeout(() => {
           setTypingUsers(prev => {
             const n = { ...prev };
             delete n[payload.conversationId];
-            console.log('[Typing] Auto-cleared:', n);
             return n;
           });
         }, 4000);
@@ -104,7 +90,6 @@ export const useConversations = () => {
         setTypingUsers(prev => {
           const n = { ...prev };
           delete n[payload.conversationId];
-          console.log('[Typing] Manually stopped:', n);
           return n;
         });
       }
@@ -119,24 +104,19 @@ export const useConversations = () => {
     const socket = getSocket();
 
     const setupPresence = () => {
-      // Initial presence check on connect
       socket.emit('presence:check', (response: { onlineUserIds: string[] }) => {
         if (response?.onlineUserIds) {
           setOnlineUsers(new Set(response.onlineUserIds));
-          console.log('[Presence] Initial state:', response.onlineUserIds);
         }
       });
     };
 
-    // Setup presence on connect/reconnect
     if (socket.connected) {
       setupPresence();
     }
     socket.on('connect', setupPresence);
 
-    // Listen for presence updates
     const presenceHandler = (payload: { userId: string; online: boolean }) => {
-      console.log('[Presence] Update:', payload);
       setOnlineUsers(prev => {
         const next = new Set(prev);
         if (payload.online) {

@@ -86,15 +86,6 @@ export const InboxPage: React.FC<InboxPageProps> = ({
       : activeConversation.owner_id
     : undefined;
 
-  // Debug: log typing state
-  useEffect(() => {
-    if (selectedConversationId && typingUsers) {
-      console.log('[InboxPage] typingUsers:', typingUsers);
-      console.log('[InboxPage] selectedConversationId:', selectedConversationId);
-      console.log('[InboxPage] typingUsers[selectedConversationId]:', typingUsers[selectedConversationId]);
-    }
-  }, [typingUsers, selectedConversationId]);
-
   useEffect(() => {
     chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [activeMessages.length, selectedConversationId]);
