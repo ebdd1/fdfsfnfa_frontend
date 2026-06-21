@@ -841,22 +841,25 @@ export const UserDashboardPage: React.FC = () => {
                 </div>
 
                 {/* ── Real metric tiles ── */}
-                <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
                   {[
-                    { key: 'leases' as const, label: 'Sewa Aktif', value: activeLeases.length, icon: Home, tint: 'bg-emerald-50 text-emerald-600', onClick: () => setActiveSection('leases') },
-                    { key: 'watchlist' as const, label: 'Tersimpan', value: watchlistIds.length, icon: Heart, tint: 'bg-rose-50 text-rose-500', onClick: () => setActiveSection('watchlist') },
-                    { key: 'chat' as const, label: 'Pesan Baru', value: unreadCount, icon: MessageSquare, tint: 'bg-sky-50 text-sky-600', onClick: () => setActiveSection('chat') },
-                  ].map(({ key, label, value, icon: Icon, tint, onClick }) => (
+                    { key: 'leases' as const, label: 'Sewa Aktif', value: activeLeases.length, icon: Home, tint: 'bg-emerald-50 text-emerald-600', accent: 'group-hover:border-emerald-200', onClick: () => setActiveSection('leases') },
+                    { key: 'watchlist' as const, label: 'Tersimpan', value: watchlistIds.length, icon: Heart, tint: 'bg-rose-50 text-rose-500', accent: 'group-hover:border-rose-200', onClick: () => setActiveSection('watchlist') },
+                    { key: 'chat' as const, label: 'Pesan Baru', value: unreadCount, icon: MessageSquare, tint: 'bg-sky-50 text-sky-600', accent: 'group-hover:border-sky-200', onClick: () => setActiveSection('chat') },
+                  ].map(({ key, label, value, icon: Icon, tint, accent, onClick }) => (
                     <button
                       key={key}
                       onClick={onClick}
-                      className="group bg-white rounded-2xl p-4 border border-slate-200/70 shadow-sm hover:shadow-md hover:border-slate-300 active:scale-[0.98] transition-all text-left cursor-pointer"
+                      className={`group flex flex-col bg-white rounded-2xl p-3.5 sm:p-4 border border-slate-200 shadow-sm hover:shadow-md ${accent} active:scale-[0.98] transition-all text-left cursor-pointer`}
                     >
-                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${tint} group-hover:scale-105 transition-transform`}>
-                        <Icon className="w-[18px] h-[18px]" />
+                      <div className="flex items-center justify-between mb-2.5">
+                        <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center ${tint} group-hover:scale-110 transition-transform`}>
+                          <Icon className="w-[18px] h-[18px] sm:w-5 sm:h-5" />
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-400 group-hover:translate-x-0.5 transition-all" />
                       </div>
-                      <p className="text-2xl font-black text-slate-900 mt-3 leading-none">{value}</p>
-                      <p className="text-[11px] sm:text-xs font-semibold text-slate-500 mt-1">{label}</p>
+                      <p className="text-2xl sm:text-3xl font-black text-slate-900 leading-none tabular-nums">{value}</p>
+                      <p className="text-[11px] sm:text-xs font-semibold text-slate-500 mt-1.5">{label}</p>
                     </button>
                   ))}
                 </div>
