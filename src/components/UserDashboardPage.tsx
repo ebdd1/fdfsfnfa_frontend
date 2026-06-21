@@ -1039,7 +1039,10 @@ export const UserDashboardPage: React.FC = () => {
                   <span className="absolute -top-1 -right-1.5 w-2 h-2 bg-emerald-500 rounded-full ring-2 ring-white" />
                 )}
               </span>
-              <span className={`text-[10px] font-bold transition-colors ${active ? 'text-emerald-600' : 'text-slate-400'}`}>
+              <span className={`text-[11px] font-semibold transition-colors ${active ? 'text-emerald-600' : 'text-slate-500'}`}>
+                {label}
+              </span>
+              <span className={`text-[10px] font-medium transition-colors ${active ? 'text-emerald-600' : 'text-slate-400'}`}>
                 {label}
               </span>
             </button>
