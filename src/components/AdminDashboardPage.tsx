@@ -149,7 +149,7 @@ export const AdminDashboardPage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-100 text-slate-400 hover:bg-slate-50 hover:text-slate-600"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-100 text-slate-400 hover:bg-slate-50 hover:text-slate-600 cursor-pointer"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -169,7 +169,7 @@ export const AdminDashboardPage: React.FC = () => {
                             setActiveSection(item.key);
                             setMobileMenuOpen(false);
                           }}
-                          className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition-all duration-200 ${active
+                          className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition-all duration-200 cursor-pointer ${active
                               ? 'bg-emerald-50 text-emerald-700 shadow-sm border border-emerald-100/30'
                               : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
                             }`}
@@ -191,7 +191,7 @@ export const AdminDashboardPage: React.FC = () => {
                   setMobileMenuOpen(false);
                   navigate('/');
                 }}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 cursor-pointer"
               >
                 <ArrowLeft className="h-4 w-4 flex-shrink-0" />
                 <span>Kembali ke Beranda</span>
@@ -201,7 +201,7 @@ export const AdminDashboardPage: React.FC = () => {
                   setMobileMenuOpen(false);
                   handleLogout();
                 }}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-rose-500 transition-colors hover:bg-rose-50"
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-rose-500 transition-colors hover:bg-rose-50 cursor-pointer"
               >
                 <LogOut className="h-4 w-4 flex-shrink-0" />
                 <span>Keluar / Logout</span>
@@ -233,7 +233,7 @@ export const AdminDashboardPage: React.FC = () => {
             </div>
             <button
               onClick={() => setCollapsed(!collapsed)}
-              className="rounded-lg border border-slate-200/60 p-1.5 text-slate-400 hover:bg-slate-50 hover:text-slate-700 transition-colors"
+              className="rounded-lg border border-slate-200/60 p-1.5 text-slate-400 hover:bg-slate-50 hover:text-slate-700 transition-colors cursor-pointer"
               title={collapsed ? "Tampilkan Sidebar" : "Sembunyikan Sidebar"}
             >
               {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -255,7 +255,7 @@ export const AdminDashboardPage: React.FC = () => {
                         if (collapsed) setCollapsed(false);
                       }}
                       title={item.label}
-                      className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition-all duration-200 ${
+                      className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition-all duration-200 cursor-pointer ${
                         collapsed ? 'justify-center px-0' : ''
                       } ${active
                         ? 'bg-emerald-50 text-emerald-700 shadow-sm border border-emerald-100/30'
@@ -280,7 +280,7 @@ export const AdminDashboardPage: React.FC = () => {
               if (collapsed) setCollapsed(false);
             }}
             title="Kembali ke Beranda"
-            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 ${
+            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 cursor-pointer ${
               collapsed ? 'justify-center px-0' : ''
             }`}
           >
@@ -293,7 +293,7 @@ export const AdminDashboardPage: React.FC = () => {
               if (collapsed) setCollapsed(false);
             }}
             title="Keluar"
-            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-rose-500 transition-colors hover:bg-rose-50 ${
+            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-rose-500 transition-colors hover:bg-rose-50 cursor-pointer ${
               collapsed ? 'justify-center px-0' : ''
             }`}
           >
@@ -311,7 +311,7 @@ export const AdminDashboardPage: React.FC = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-50 md:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-50 md:hidden cursor-pointer"
               aria-label="Open menu"
             >
               <Menu className="h-5 w-5" />
@@ -465,7 +465,7 @@ export const AdminDashboardPage: React.FC = () => {
                   setActiveSection(secKey);
                   setMobileMenuOpen(false);
                 }}
-                className="flex flex-col items-center justify-center flex-1 h-full py-1 transition-all duration-200 active:scale-95"
+                className="flex flex-col items-center justify-center flex-1 h-full py-1 transition-all duration-200 active:scale-95 cursor-pointer"
               >
                 <div className={`flex flex-col items-center justify-center w-[58px] h-[48px] rounded-xl transition-all duration-300 ${active ? 'bg-emerald-50/90 text-emerald-600' : 'text-slate-400 hover:text-slate-600'
                   }`}>
@@ -551,7 +551,7 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
                 title="Kost Menunggu Verifikasi"
                 subtitle="Tinjau dan setujui listing terbaru"
                 right={
-                  <button onClick={() => onGo('verify')} className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 transition-colors hover:text-emerald-700">
+                  <button onClick={() => onGo('verify')} className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 transition-colors hover:text-emerald-700 cursor-pointer">
                     Lihat semua <ArrowRight className="h-3.5 w-3.5" />
                   </button>
                 }
@@ -576,7 +576,7 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
                       <button
                         disabled={isUpdating}
                         onClick={() => updateListing({ id: p.id, data: { isVerified: true } })}
-                        className="inline-flex flex-shrink-0 items-center gap-1 rounded-lg border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-[10px] font-black text-emerald-600 transition-colors hover:bg-emerald-100 disabled:opacity-50"
+                        className="inline-flex flex-shrink-0 items-center gap-1 rounded-lg border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-[10px] font-black text-emerald-600 transition-colors hover:bg-emerald-100 disabled:opacity-50 cursor-pointer"
                       >
                         <CheckCircle className="h-3.5 w-3.5" /> Setujui
                       </button>
