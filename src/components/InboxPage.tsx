@@ -116,7 +116,7 @@ export const InboxPage: React.FC<InboxPageProps> = ({
       // Auto-stop after 2s idle
       typingTimeoutRef.current = setTimeout(() => {
         onTyping(selectedConversationId, partnerId, false);
-      }, 2000);
+      }, 3000);
     }
   };
 

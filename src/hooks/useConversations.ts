@@ -85,7 +85,7 @@ export const useConversations = () => {
             delete n[payload.conversationId];
             return n;
           });
-        }, 4000);
+        }, 5000);
       } else {
         setTypingUsers(prev => {
           const n = { ...prev };
