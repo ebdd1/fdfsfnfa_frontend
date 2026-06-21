@@ -990,28 +990,40 @@ export const UserDashboardPage: React.FC = () => {
                 )}
 
                 {/* ── Quick shortcuts ── */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                  <button onClick={() => navigate('/search')} className="group flex items-center gap-4 bg-white rounded-2xl p-4 border border-slate-200/70 shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-left cursor-pointer">
-                    <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                      <Search className="w-5 h-5" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-slate-800">Cari Kost Baru</p>
-                      <p className="text-xs text-slate-500 mt-0.5 truncate">Temukan kost terdekat terverifikasi</p>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition-colors shrink-0" />
-                  </button>
-                  <button onClick={() => setActiveSection('chat')} className="group flex items-center gap-4 bg-white rounded-2xl p-4 border border-slate-200/70 shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-left cursor-pointer">
-                    <div className="relative w-11 h-11 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                      <Mail className="w-5 h-5" />
-                      {unreadCount > 0 && <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-black flex items-center justify-center ring-2 ring-white">{unreadCount}</span>}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-slate-800">Pesan Masuk</p>
-                      <p className="text-xs text-slate-500 mt-0.5 truncate">Tanya jawab dengan pemilik kost</p>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition-colors shrink-0" />
-                  </button>
+                <div className="space-y-3">
+                  <h2 className="text-sm font-bold text-slate-700 px-1">Akses Cepat</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    {/* Primary action — Cari Kost (marketplace core action) */}
+                    <button
+                      onClick={() => navigate('/search')}
+                      className="group relative flex items-center gap-4 overflow-hidden bg-gradient-to-br from-emerald-600 to-teal-600 rounded-2xl p-5 shadow-md shadow-emerald-600/20 hover:shadow-lg hover:shadow-emerald-600/30 transition-all text-left cursor-pointer active:scale-[0.98]"
+                    >
+                      <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur text-white flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                        <Search className="w-6 h-6" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[15px] font-bold text-white">Cari Kost Baru</p>
+                        <p className="text-xs text-emerald-50/90 mt-0.5">Temukan kost terdekat terverifikasi</p>
+                      </div>
+                      <ChevronRight className="w-5 h-5 text-white/70 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
+                    </button>
+
+                    {/* Secondary action — Pesan Masuk */}
+                    <button
+                      onClick={() => setActiveSection('chat')}
+                      className="group flex items-center gap-4 bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all text-left cursor-pointer active:scale-[0.98]"
+                    >
+                      <div className="relative w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                        <Mail className="w-6 h-6" />
+                        {unreadCount > 0 && <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-[20px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-black flex items-center justify-center ring-2 ring-white">{unreadCount}</span>}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[15px] font-bold text-slate-800">Pesan Masuk</p>
+                        <p className="text-xs text-slate-500 mt-0.5">Tanya jawab dengan pemilik kost</p>
+                      </div>
+                      <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-slate-600 group-hover:translate-x-1 transition-all shrink-0" />
+                    </button>
+                  </div>
                 </div>
 
               </div>
