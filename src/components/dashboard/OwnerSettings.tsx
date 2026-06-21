@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { User, Mail, Shield, LogOut, Settings, Save, Loader2, CheckCircle, AlertCircle, Camera, Phone, BadgeCheck, ShieldAlert, Building2, CreditCard, UserCircle } from 'lucide-react';
+import { User, Mail, Shield, LogOut, Settings, Save, Loader2, CheckCircle, AlertCircle, Camera, Phone, BadgeCheck, ShieldAlert, Building2, CreditCard, UserCircle, Lock } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { authService } from '../../services/api/auth.service';
 import { uploadService } from '../../services/api/upload.service';
@@ -128,11 +128,12 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
         <div className="md:w-2/3 border-b md:border-b-0 md:border-r border-slate-100/50 flex flex-col">
           {/* Header with soft glow accent (no flat green block) */}
           <div className="relative px-8 pt-8 pb-6 overflow-hidden">
-            <div className="pointer-events-none absolute -top-20 -left-10 w-56 h-56 bg-emerald-400/10 blur-3xl rounded-full" />
+            <div className="pointer-events-none absolute -top-20 -left-10 w-56 h-56 bg-secondary/10 blur-3xl rounded-full" />
             <div className="relative flex flex-col sm:flex-row items-start sm:items-center gap-6">
               <button
                 type="button"
                 onClick={handlePickFile}
+                aria-label="Ubah foto profil"
                 className="group relative w-20 h-20 rounded-[20px] bg-slate-50 flex items-center justify-center border border-slate-100 overflow-hidden shrink-0 cursor-pointer"
               >
                 {avatarUrl ? (
@@ -153,17 +154,17 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
               <div>
                 <h3 className="text-[18px] font-semibold text-slate-800 mb-1.5">{name || 'Pemilik Kost'}</h3>
                 {isVerified ? (
-                  <p className="text-[12px] font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md inline-flex items-center gap-1.5">
+                  <p className="text-xs font-medium text-secondary bg-secondary/10 px-2.5 py-1 rounded-md inline-flex items-center gap-1.5">
                     <BadgeCheck className="w-3.5 h-3.5" />
                     Mitra Terverifikasi
                   </p>
                 ) : (
-                  <p className="text-[12px] font-medium text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md inline-flex items-center gap-1.5">
+                  <p className="text-xs font-medium text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md inline-flex items-center gap-1.5">
                     <ShieldAlert className="w-3.5 h-3.5" />
                     Belum Terverifikasi
                   </p>
                 )}
-                <p className="text-[11px] text-slate-400 mt-1.5">Klik foto untuk mengganti.</p>
+                <p className="text-xs text-slate-500 mt-1.5">Klik foto untuk mengganti.</p>
               </div>
             </div>
           </div>
@@ -171,27 +172,29 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
           <div className="px-8 pb-8 space-y-5 flex-1">
             {/* Editable: name */}
             <div>
-              <label className="text-[12px] font-medium text-slate-400 mb-2 block">Nama Lengkap</label>
+              <label htmlFor="owner-name" className="text-sm font-medium text-slate-600 mb-2 block">Nama Lengkap</label>
               <input
+                id="owner-name"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Nama Anda"
-                className="w-full bg-slate-50 px-3.5 py-3 rounded-xl border border-slate-100/50 text-[13px] font-medium text-slate-700 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                className="w-full bg-slate-50 px-3.5 py-3 rounded-xl border border-slate-100/50 text-base font-medium text-slate-700 outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"
               />
             </div>
 
             {/* Editable: phone */}
             <div>
-              <label className="text-[12px] font-medium text-slate-400 mb-2 block">Nomor Telepon</label>
-              <div className="flex items-center gap-3 bg-slate-50 px-3.5 rounded-xl border border-slate-100/50 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all">
+              <label htmlFor="owner-phone" className="text-sm font-medium text-slate-600 mb-2 block">Nomor Telepon</label>
+              <div className="flex items-center gap-3 bg-slate-50 px-3.5 rounded-xl border border-slate-100/50 focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary transition-all">
                 <Phone className="w-4 h-4 text-slate-400 shrink-0" />
                 <input
+                  id="owner-phone"
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="08xxxxxxxxxx"
-                  className="w-full bg-transparent py-3 text-[13px] font-medium text-slate-700 outline-none"
+                  className="w-full bg-transparent py-3 text-base font-medium text-slate-700 outline-none"
                 />
               </div>
             </div>
@@ -199,79 +202,87 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
             {/* Read-only: email & role */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <p className="text-[12px] font-medium text-slate-400 mb-2">Email Terdaftar</p>
-                <div className="flex items-center gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-100/50">
+                <p className="text-sm font-medium text-slate-600 mb-2">Email Terdaftar</p>
+                <div className="flex items-center gap-3 bg-slate-100/70 p-3.5 rounded-xl border border-slate-200/60">
                   <Mail className="w-4 h-4 text-slate-400" />
-                  <span className="text-[13px] font-medium text-slate-700 truncate">{user?.email || 'email@example.com'}</span>
+                  <span className="text-sm font-medium text-slate-700 truncate">{user?.email || 'email@example.com'}</span>
+                  <Lock className="w-3.5 h-3.5 text-slate-400 ml-auto shrink-0" aria-label="Terkunci" />
                 </div>
               </div>
 
               <div>
-                <p className="text-[12px] font-medium text-slate-400 mb-2">Hak Akses Sistem</p>
-                <div className="flex items-center gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-100/50">
+                <p className="text-sm font-medium text-slate-600 mb-2">Hak Akses Sistem</p>
+                <div className="flex items-center gap-3 bg-slate-100/70 p-3.5 rounded-xl border border-slate-200/60">
                   <Settings className="w-4 h-4 text-slate-400" />
-                  <span className="text-[13px] font-medium text-slate-700 capitalize">{user?.role || 'owner'}</span>
+                  <span className="text-sm font-medium text-slate-700 capitalize">{user?.role || 'owner'}</span>
+                  <Lock className="w-3.5 h-3.5 text-slate-400 ml-auto shrink-0" aria-label="Terkunci" />
                 </div>
               </div>
             </div>
 
-            {error && (
-              <p className="flex items-center gap-1.5 text-[12px] font-medium text-rose-600">
-                <AlertCircle className="w-4 h-4" /> {error}
-              </p>
-            )}
+            <div aria-live="polite">
+              {error && (
+                <p className="flex items-center gap-1.5 text-sm font-medium text-rose-600">
+                  <AlertCircle className="w-4 h-4" /> {error}
+                </p>
+              )}
+            </div>
 
             {/* Rekening bank */}
             <div className="border-t border-slate-100 pt-5">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
-                  <Building2 className="w-3.5 h-3.5 text-blue-600" />
+                <div className="w-7 h-7 rounded-lg bg-secondary/10 border border-secondary/20 flex items-center justify-center shrink-0">
+                  <Building2 className="w-3.5 h-3.5 text-secondary" />
                 </div>
                 <div>
-                  <h4 className="text-[13px] font-semibold text-slate-800">Rekening Bank</h4>
-                  <p className="text-[11px] text-slate-400">Untuk menerima pembayaran sewa via transfer</p>
+                  <h4 className="text-sm font-semibold text-slate-800">Rekening Bank</h4>
+                  <p className="text-xs text-slate-500">Untuk menerima pembayaran sewa via transfer</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="text-[12px] font-medium text-slate-400 mb-2 block">Nama Bank</label>
-                  <div className="flex items-center gap-2 bg-slate-50 px-3.5 rounded-xl border border-slate-100/50 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all">
+                  <label htmlFor="owner-bank-name" className="text-sm font-medium text-slate-600 mb-2 block">Nama Bank</label>
+                  <div className="flex items-center gap-2 bg-slate-50 px-3.5 rounded-xl border border-slate-100/50 focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary transition-all">
                     <Building2 className="w-4 h-4 text-slate-400 shrink-0" />
                     <input
+                      id="owner-bank-name"
                       type="text"
                       value={bankName}
                       onChange={(e) => setBankName(e.target.value)}
                       placeholder="BCA, Mandiri, BRI..."
-                      className="w-full bg-transparent py-3 text-[13px] font-medium text-slate-700 outline-none"
+                      className="w-full bg-transparent py-3 text-base font-medium text-slate-700 outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-[12px] font-medium text-slate-400 mb-2 block">No. Rekening</label>
-                  <div className="flex items-center gap-2 bg-slate-50 px-3.5 rounded-xl border border-slate-100/50 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all">
+                  <label htmlFor="owner-bank-number" className="text-sm font-medium text-slate-600 mb-2 block">No. Rekening</label>
+                  <div className="flex items-center gap-2 bg-slate-50 px-3.5 rounded-xl border border-slate-100/50 focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary transition-all">
                     <CreditCard className="w-4 h-4 text-slate-400 shrink-0" />
                     <input
+                      id="owner-bank-number"
                       type="text"
+                      inputMode="numeric"
                       value={bankAccountNumber}
                       onChange={(e) => setBankAccountNumber(e.target.value)}
                       placeholder="1234567890"
-                      className="w-full bg-transparent py-3 text-[13px] font-medium text-slate-700 outline-none"
+                      className="w-full bg-transparent py-3 text-base font-medium text-slate-700 outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-[12px] font-medium text-slate-400 mb-2 block">Atas Nama</label>
-                  <div className="flex items-center gap-2 bg-slate-50 px-3.5 rounded-xl border border-slate-100/50 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all">
+                  <label htmlFor="owner-bank-holder" className="text-sm font-medium text-slate-600 mb-2 block">Atas Nama</label>
+                  <div className="flex items-center gap-2 bg-slate-50 px-3.5 rounded-xl border border-slate-100/50 focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary transition-all">
                     <UserCircle className="w-4 h-4 text-slate-400 shrink-0" />
                     <input
+                      id="owner-bank-holder"
                       type="text"
                       value={bankAccountHolder}
                       onChange={(e) => setBankAccountHolder(e.target.value)}
                       placeholder="Nama di rekening"
-                      className="w-full bg-transparent py-3 text-[13px] font-medium text-slate-700 outline-none"
+                      className="w-full bg-transparent py-3 text-base font-medium text-slate-700 outline-none"
                     />
                   </div>
                 </div>
@@ -282,16 +293,18 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
               <button
                 onClick={handleSave}
                 disabled={isSaving || isUploading || !(dirty || dirtyBank)}
-                className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold text-[13px] px-5 py-2.5 rounded-xl transition-colors shadow-sm"
+                className="flex items-center gap-2 bg-secondary hover:bg-[#005538] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm px-5 py-3 rounded-xl transition-colors shadow-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2"
               >
                 {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Simpan Profil
               </button>
-              {savedOk && (
-                <span className="flex items-center gap-1.5 text-[12px] font-medium text-emerald-600 animate-in fade-in">
-                  <CheckCircle className="w-4 h-4" /> Profil tersimpan!
-                </span>
-              )}
+              <span aria-live="polite">
+                {savedOk && (
+                  <span className="flex items-center gap-1.5 text-sm font-medium text-secondary animate-in fade-in">
+                    <CheckCircle className="w-4 h-4" /> Profil tersimpan!
+                  </span>
+                )}
+              </span>
             </div>
           </div>
         </div>
@@ -303,14 +316,14 @@ export const OwnerSettings: React.FC<OwnerSettingsProps> = ({ user, onLogout }) 
               <Shield className="w-4 h-4 text-slate-500" />
               <h4 className="text-[14px] font-semibold text-slate-800">Manajemen Sesi</h4>
             </div>
-            <p className="text-[13px] text-slate-500 leading-relaxed mb-6">
+            <p className="text-sm text-slate-500 leading-relaxed mb-6">
               Keluar dari akun Anda di perangkat ini. Anda perlu masuk kembali menggunakan email dan kata sandi untuk mengakses dasbor.
             </p>
           </div>
 
           <button
             onClick={onLogout}
-            className="w-full flex items-center justify-center gap-2 bg-white border border-rose-100 text-rose-600 hover:bg-rose-50 hover:border-rose-200 font-medium text-[13px] px-4 py-3 rounded-xl transition-colors cursor-pointer shadow-sm"
+            className="w-full flex items-center justify-center gap-2 bg-white border border-rose-100 text-rose-600 hover:bg-rose-50 hover:border-rose-200 font-medium text-sm px-4 py-3 rounded-xl transition-colors cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-300 focus:ring-offset-2"
           >
             <LogOut className="w-4 h-4" />
             <span>Keluar (Log Out)</span>
