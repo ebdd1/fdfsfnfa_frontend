@@ -128,7 +128,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
               onSubmit={handleSearchSubmit} 
-              className="bg-white p-2 rounded-2xl border border-slate-200 shadow-md shadow-slate-100/50 flex flex-col sm:flex-row gap-2 max-w-2xl focus-within:border-emerald-500 focus-within:ring-4 focus-within:ring-emerald-500/5 transition-all"
+              className="bg-white p-2 rounded-full border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-2 max-w-2xl focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/5 transition-all"
             >
               <div className="flex-1 flex items-center gap-2.5 px-3 py-2 sm:py-0">
                 <Search className="w-4.5 h-4.5 text-slate-400 flex-shrink-0" />
@@ -159,7 +159,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
               <button 
                 type="submit" 
-                className="bg-slate-900 hover:bg-slate-800 active:scale-95 transition-all text-white font-extrabold text-xs px-6 py-3.5 rounded-xl flex items-center justify-center gap-2 shadow-sm"
+                className="bg-primary hover:bg-[#003a9e] active:scale-95 transition-all text-white font-semibold text-sm px-5 py-3 rounded-full flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               >
                 Cari Kost
                 <ArrowRight className="w-4 h-4" />
@@ -179,7 +179,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   key={city}
                   type="button"
                   onClick={() => handleQuickSearch(city)}
-                  className="text-xs text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 px-3.5 py-1.5 rounded-xl border border-slate-200 bg-white transition-all hover:border-emerald-300 font-bold"
+                  className="text-xs text-slate-600 hover:text-primary hover:bg-primary/5 px-3.5 py-1.5 rounded-full border border-slate-200 bg-white transition-all hover:border-primary font-semibold"
                 >
                   {city}
                 </button>
@@ -231,7 +231,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </motion.div>
 
               {/* Main Card */}
-              <div className="bg-white rounded-2xl border border-slate-200/80 shadow-[0_24px_50px_rgba(15,23,42,0.06)] p-5 space-y-4 relative overflow-hidden group">
+              <div className="bg-white rounded-lg border border-slate-200/80 shadow-[0_24px_50px_rgba(15,23,42,0.06)] p-5 space-y-4 relative overflow-hidden group">
                 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -285,7 +285,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
       {/* 2. DYNAMIC BUDGET ESTIMATOR WIDGET (SaaS Interactive Simulator) */}
       {settings.feature_estimator && (
-      <section className="py-24 px-6 sm:px-8 border-b border-slate-100 bg-slate-50/50 relative overflow-hidden">
+      <section className="py-16 px-6 sm:px-8 border-b border-slate-100 bg-slate-50/50 relative overflow-hidden">
         
         {/* Abstract pattern grid background */}
         <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
@@ -310,9 +310,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
               {/* Upgraded Features List - Tech Badges */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-5 rounded-2xl bg-white/70 backdrop-blur-sm border border-slate-200/50 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md hover:shadow-slate-100/50 space-y-2">
+                <div className="p-5 rounded-lg bg-white/70 border border-slate-200/50 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md hover:shadow-slate-100/50 space-y-2">
                   <div className="flex items-center gap-2">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-secondary/10 text-secondary">
                       <CircleCheck className="w-4 h-4" />
                     </div>
                     <span className="text-xs font-bold text-slate-800">Database Akurat</span>
@@ -320,9 +320,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <p className="text-[11px] text-slate-400 font-semibold leading-relaxed">Kamar diupdate langsung oleh pengelola setiap hari.</p>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-white/70 backdrop-blur-sm border border-slate-200/50 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md hover:shadow-slate-100/50 space-y-2">
+                <div className="p-5 rounded-lg bg-white/70 border border-slate-200/50 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md hover:shadow-slate-100/50 space-y-2">
                   <div className="flex items-center gap-2">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-secondary/10 text-secondary">
                       <CircleCheck className="w-4 h-4" />
                     </div>
                     <span className="text-xs font-bold text-slate-800">Validasi Geotagging</span>
@@ -334,7 +334,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
             {/* Right Estimator Widget Card - Pristine Premium White/Light Glassmorphism */}
             <div className="lg:col-span-7">
-              <div className="bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-3xl p-6 sm:p-8 space-y-8 shadow-[0_20px_50px_rgba(0,0,0,0.03)] relative overflow-hidden text-slate-800">
+              <div className="bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-lg p-6 sm:p-8 space-y-8 shadow-[0_20px_50px_rgba(0,0,0,0.03)] relative overflow-hidden text-slate-800">
                 {/* Subtle emerald glowing circle */}
                 <div className="bg-emerald-500/5 blur-3xl absolute -top-12 -right-12 w-48 h-48 rounded-full pointer-events-none"></div>
 
@@ -394,7 +394,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.25 }}
-                  className="bg-slate-50/60 border border-slate-200/50 rounded-2xl p-5 grid grid-cols-3 gap-2 text-center shadow-sm"
+                  className="bg-slate-50/60 border border-slate-200/50 rounded-lg p-5 grid grid-cols-3 gap-2 text-center shadow-sm"
                 >
                   <div className="flex flex-col items-center justify-center py-2">
                     <div className="p-2.5 bg-emerald-50 text-emerald-600 border border-emerald-100/30 rounded-xl mb-2">
@@ -424,7 +424,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <div className="pt-2">
                   <button
                     onClick={() => onStartSearching(undefined, estimatorCampus)}
-                    className="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-extrabold text-xs py-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-600/10"
+                    className="w-full bg-primary hover:bg-[#003a9e] active:scale-[0.98] text-white font-semibold text-sm py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                   >
                     Lihat Hasil Pencarian Kost
                     <ArrowRight className="w-4 h-4" />
@@ -439,7 +439,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       )}
 
       {/* 3. COMPARISON CHECKLIST TABLE (Premium Matrix Section) */}
-      <section className="py-24 px-6 sm:px-8 bg-white border-b border-slate-100">
+      <section className="py-16 px-6 sm:px-8 bg-white border-b border-slate-100">
         <div className="max-w-5xl mx-auto space-y-12">
           <div className="text-center space-y-3">
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-100/80 text-emerald-700 text-xs font-black uppercase tracking-wider">
@@ -454,7 +454,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           {/* Premium Comparison Matrix Card */}
-          <div className="bg-white/70 backdrop-blur-md border border-slate-200/60 rounded-3xl p-6 sm:p-8 shadow-[0_15px_40px_rgba(0,0,0,0.02)] space-y-6">
+          <div className="bg-white/70 backdrop-blur-md border border-slate-200/60 rounded-lg p-6 sm:p-8 shadow-[0_15px_40px_rgba(0,0,0,0.02)] space-y-6">
             
             {/* Header - Desktop Only */}
             <div className="hidden md:grid grid-cols-12 gap-4 pb-4 border-b border-slate-150 text-[10px] font-black text-slate-400 uppercase tracking-widest">
@@ -528,7 +528,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* 4. WORKFLOW / HOW IT WORKS */}
-      <section className="py-24 px-6 sm:px-8 max-w-7xl mx-auto border-b border-slate-100">
+      <section className="py-16 px-6 sm:px-8 max-w-7xl mx-auto border-b border-slate-100">
         <div className="max-w-2xl mx-auto text-center mb-16 space-y-3">
           <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
             Alur Penggunaan
@@ -609,7 +609,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           {/* Right Column: High Fidelity Interactive Simulator Screen */}
-          <div className="lg:col-span-7 bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-[0_24px_50px_rgba(15,23,42,0.04)] min-h-[350px] relative overflow-hidden flex flex-col justify-center">
+          <div className="lg:col-span-7 bg-white border border-slate-200 rounded-lg p-6 md:p-8 shadow-[0_24px_50px_rgba(15,23,42,0.04)] min-h-[350px] relative overflow-hidden flex flex-col justify-center">
             <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
             
             <AnimatePresence mode="wait">
@@ -795,7 +795,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* 5. RECOMMENDED PROPERTIES */}
-      <section className="py-24 px-6 sm:px-8 max-w-7xl mx-auto">
+      <section className="py-16 px-6 sm:px-8 max-w-7xl mx-auto">
         <div className="space-y-12">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
             <div className="space-y-3 text-left">
@@ -830,7 +830,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <div 
                   key={p.id}
                   onClick={() => onSelectProperty(p.id)}
-                  className="bg-white rounded-3xl overflow-hidden border border-slate-200/80 hover:border-slate-300 shadow-sm hover:shadow-2xl hover:shadow-slate-200/40 transition-all duration-300 cursor-pointer group flex flex-col relative"
+                  className="bg-white rounded-lg overflow-hidden border border-slate-200/80 hover:border-slate-300 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group flex flex-col relative"
                 >
                   {/* Photo area */}
                   <div className="relative aspect-[4/3] bg-slate-50 overflow-hidden">
@@ -900,7 +900,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* 6. FAQ ACCORDION SECTION */}
-      <section className="py-24 px-6 sm:px-8 border-t border-slate-100 bg-slate-50/50">
+      <section className="py-16 px-6 sm:px-8 border-t border-slate-100 bg-slate-50/50">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             
@@ -918,7 +918,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </p>
               </div>
 
-              <div className="p-5 rounded-3xl bg-white border border-slate-200 shadow-sm text-xs space-y-3 text-left">
+              <div className="p-5 rounded-lg bg-white border border-slate-200 shadow-sm text-xs space-y-3 text-left">
                 <span className="font-bold text-slate-900 block">Butuh Bantuan Lain?</span>
                 <p className="text-slate-500 leading-relaxed font-medium">Tim customer support {settings.site_name} aktif 24/7 untuk memvalidasi kendala pembayaran atau verifikasi koordinat lokasi.</p>
                 <a href={`mailto:${settings.support_email}`} className="inline-flex items-center gap-1 text-emerald-600 font-extrabold hover:underline">
