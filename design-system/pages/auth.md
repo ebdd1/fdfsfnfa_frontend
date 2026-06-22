@@ -14,6 +14,21 @@ Halaman auth adalah first impression untuk user security. Dari audit OWASP sebel
 
 ## 🎨 Design Overrides
 
+### Logo Component
+
+**WAJIB pakai `SiteLogo` component** — bukan `LogoText` langsung.
+
+```tsx
+import { SiteLogo } from '../components/SiteLogo';
+
+// SiteLogo otomatis render:
+// - logo_url image jika admin upload logo
+// - LogoText (styled site_name) jika tidak ada logo
+<SiteLogo className="text-xl" />
+```
+
+**Lokasi:** `src/components/SiteLogo.tsx`
+
 ### Layout Pattern
 
 **Single-column centered** (bukan split-screen):
