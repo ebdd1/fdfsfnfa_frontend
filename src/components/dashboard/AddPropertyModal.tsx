@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
-import { X, Building2, MapPin, CheckCircle, Camera, Loader2 } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { X, Building2, MapPin, CheckCircle, Camera, Loader2, Navigation, AlertCircle } from 'lucide-react';
 import { propertyService } from '../../services/api/property.service';
 import { uploadService } from '../../services/api/upload.service';
+import { getCurrentPosition, isWithinPalopo, type GeoLocation } from '../../services/geolocation.service';
 
 interface AddPropertyModalProps {
   isOpen: boolean;
@@ -25,6 +26,9 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
   const [photoFiles, setPhotoFiles] = useState<File[]>([]);
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
   const [uploadingPhotos, setUploadingPhotos] = useState(false);
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
+  const [locationSuccess, setLocationSuccess] = useState(false);
   const photoInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
@@ -38,6 +42,52 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
     lng: '',
     facilities: [] as string[]
   });
+
+  // Reset location state when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setIsGettingLocation(false);
+      setLocationError(null);
+      setLocationSuccess(false);
+    }
+  }, [isOpen]);
+
+  // Handle successful geolocation
+  const handleLocationSuccess = (location: GeoLocation) => {
+    setFormData(prev => ({
+      ...prev,
+      lat: location.latitude.toFixed(6),
+      lng: location.longitude.toFixed(6)
+    }));
+    setIsGettingLocation(false);
+    setLocationError(null);
+    setLocationSuccess(true);
+
+    // Check if within Palopo
+    if (!isWithinPalopo(location.latitude, location.longitude)) {
+      setLocationError('Lokasi di luar area Palopo. Kost tetap bisa ditambahkan.');
+    }
+  };
+
+  // Handle geolocation error
+  const handleLocationError = (error: { code: number; message: string }) => {
+    setIsGettingLocation(false);
+    setLocationError(error.message);
+    setLocationSuccess(false);
+  };
+
+  // Share location handler
+  const handleShareLocation = () => {
+    setIsGettingLocation(true);
+    setLocationError(null);
+    setLocationSuccess(false);
+
+    getCurrentPosition(
+      handleLocationSuccess,
+      handleLocationError,
+      { enableHighAccuracy: true, timeout: 15000 }
+    );
+  };
 
   if (!isOpen) return null;
 
@@ -277,29 +327,79 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
                 </div>
               </div>
 
+              {/* Share Location - GPS */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">Koordinat GPS (Opsional)</label>
-                <div className="grid grid-cols-2 gap-3">
-                  <input
-                    type="number"
-                    step="any"
-                    name="lat"
-                    value={formData.lat}
-                    onChange={handleChange}
-                    placeholder="Latitude"
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
-                  />
-                  <input
-                    type="number"
-                    step="any"
-                    name="lng"
-                    value={formData.lng}
-                    onChange={handleChange}
-                    placeholder="Longitude"
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
-                  />
+                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">Lokasi GPS</label>
+
+                {/* Location status display */}
+                <div className="mb-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <MapPin className={`w-4 h-4 ${locationSuccess ? 'text-emerald-500' : 'text-slate-400'}`} />
+                      <div>
+                        <p className="text-xs font-bold text-slate-700">
+                          {formData.lat && formData.lng ? (
+                            <span className="text-emerald-600">Lokasi Tersimpan</span>
+                          ) : (
+                            <span className="text-slate-500">Belum Ada Lokasi</span>
+                          )}
+                        </p>
+                        {formData.lat && formData.lng && (
+                          <p className="text-[10px] text-slate-400 font-mono">
+                            {formData.lat}, {formData.lng}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Share Location Button */}
+                    <button
+                      type="button"
+                      onClick={handleShareLocation}
+                      disabled={isGettingLocation}
+                      className={`
+                        flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all
+                        ${locationSuccess
+                          ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
+                          : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                        }
+                        disabled:opacity-50 disabled:cursor-not-allowed
+                      `}
+                    >
+                      {isGettingLocation ? (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          Mendapatkan Lokasi...
+                        </>
+                      ) : (
+                        <>
+                          <Navigation className="w-3.5 h-3.5" />
+                          {locationSuccess ? 'Update Lokasi' : 'Share Lokasi'}
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Accuracy indicator */}
+                  {locationSuccess && (
+                    <div className="mt-2 flex items-center gap-1.5 text-[10px] text-emerald-600">
+                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                      GPS aktif - Lokasi akurat
+                    </div>
+                  )}
                 </div>
-                <p className="text-[11px] text-slate-400 mt-1.5">Kosongkan untuk memakai titik tengah kota yang dipilih.</p>
+
+                {/* Error message */}
+                {locationError && (
+                  <div className="flex items-start gap-2 p-3 bg-amber-50 border border-amber-200 rounded-xl">
+                    <AlertCircle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                    <p className="text-xs text-amber-700">{locationError}</p>
+                  </div>
+                )}
+
+                <p className="text-[11px] text-slate-400 mt-1">
+                  Tekan "Share Lokasi" untuk otomatis mengisi koordinat GPS dari HP Anda.
+                </p>
               </div>
 
               <div>

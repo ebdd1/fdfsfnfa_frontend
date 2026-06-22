@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type { Property, Room } from '../types';
 import { Search, MapPin, Heart, SlidersHorizontal, X } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
-import { MapView } from './MapView';
+import { MapboxMapView } from './MapboxMapView';
 
 interface SearchPageProps {
   properties: Property[];
@@ -334,9 +334,9 @@ export const SearchPage: React.FC<SearchPageProps> = ({
         )}
       </main>
 
-      {/* 3. Right Panel - Real Map with Leaflet */}
+      {/* 3. Right Panel - Mapbox Map */}
       <section className="w-96 border-l border-slate-200/80 overflow-hidden flex-shrink-0 relative hidden lg:flex flex-col">
-        <MapView
+        <MapboxMapView
           properties={filteredProperties.map((p) => ({
             property: p,
             rooms: getPropertyRooms(p.id),
@@ -345,6 +345,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
           onSelectProperty={onSelectProperty}
           onHoverProperty={setHoveredPropertyId}
           selectedCity={selectedCity}
+          accessToken={import.meta.env.VITE_MAPBOX_TOKEN}
         />
       </section>
 

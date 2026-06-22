@@ -123,17 +123,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </motion.p>
 
             {/* Premium Search Form */}
-            <motion.form 
+            <motion.form
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              onSubmit={handleSearchSubmit} 
-              className="bg-white p-2 rounded-full border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-2 max-w-2xl focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/5 transition-all"
+              onSubmit={handleSearchSubmit}
+              className="bg-white p-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-0 max-w-2xl focus-within:border-[#ff385c] focus-within:ring-4 focus-within:ring-[#ff385c]/10 transition-all"
             >
-              <div className="flex-1 flex items-center gap-2.5 px-3 py-2 sm:py-0">
-                <Search className="w-4.5 h-4.5 text-slate-400 flex-shrink-0" />
-                <input 
-                  type="text" 
+              {/* Input: left pill, right square */}
+              <div className="flex-1 flex items-center gap-2 pl-4 pr-3 py-2 rounded-l-full">
+                <Search className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                <input
+                  type="text"
                   placeholder="Cari daerah, nama kampus, atau nama jalan..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -141,14 +142,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 />
               </div>
 
-              <div className="hidden sm:block w-px h-8 bg-slate-200 self-center"></div>
-
-              <div className="flex items-center gap-2 px-3 py-2 sm:py-0">
-                <MapPin className="w-4.5 h-4.5 text-slate-400 flex-shrink-0" />
-                <select 
-                  value={selectedCity} 
+              {/* Dropdown: all square */}
+              <div className="flex items-center gap-2 px-3 py-2 border-l border-slate-100">
+                <MapPin className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                <select
+                  value={selectedCity}
                   onChange={(e) => setSelectedCity(e.target.value)}
-                  className="bg-transparent border-0 outline-none w-full text-sm text-slate-700 focus:ring-0 pr-8 cursor-pointer font-bold"
+                  className="bg-transparent border-0 outline-none text-sm text-slate-700 focus:ring-0 pr-6 cursor-pointer font-semibold"
                 >
                   <option value="">Semua Kota</option>
                   {settings.cities.map((city) => (
@@ -157,9 +157,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </select>
               </div>
 
-              <button 
-                type="submit" 
-                className="bg-primary hover:bg-[#003a9e] active:scale-95 transition-all text-white font-semibold text-sm px-5 py-3 rounded-full flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              {/* CTA: right pill */}
+              <button
+                type="submit"
+                className="bg-[#ff385c] hover:bg-[#e00b41] active:scale-95 transition-all text-white font-semibold text-sm px-5 py-2.5 rounded-full flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#ff385c] focus:ring-offset-2 mr-1"
               >
                 Cari Kost
                 <ArrowRight className="w-4 h-4" />
@@ -167,7 +168,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </motion.form>
 
             {/* Popular Searches */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.4 }}
@@ -179,7 +180,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   key={city}
                   type="button"
                   onClick={() => handleQuickSearch(city)}
-                  className="text-xs text-slate-600 hover:text-primary hover:bg-primary/5 px-3.5 py-1.5 rounded-full border border-slate-200 bg-white transition-all hover:border-primary font-semibold"
+                  className="text-xs text-slate-600 hover:text-[#ff385c] hover:bg-[#ff385c]/5 px-3.5 py-1.5 rounded-full border border-slate-200 bg-white transition-all hover:border-[#ff385c]/30 font-semibold"
                 >
                   {city}
                 </button>
@@ -424,7 +425,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <div className="pt-2">
                   <button
                     onClick={() => onStartSearching(undefined, estimatorCampus)}
-                    className="w-full bg-primary hover:bg-[#003a9e] active:scale-[0.98] text-white font-semibold text-sm py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    className="w-full bg-[#ff385c] hover:bg-[#e00b41] active:scale-[0.98] text-white font-semibold text-sm py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#ff385c]/10 focus:outline-none focus:ring-2 focus:ring-[#ff385c] focus:ring-offset-2"
                   >
                     Lihat Hasil Pencarian Kost
                     <ArrowRight className="w-4 h-4" />
