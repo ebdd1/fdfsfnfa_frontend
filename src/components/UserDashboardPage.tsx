@@ -724,7 +724,9 @@ export const UserDashboardPage: React.FC = () => {
                 className="flex items-center gap-2 p-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition-all duration-200 cursor-pointer group"
               >
                 {user?.avatar_url ? (
-                  <img src={user.avatar_url} alt={user.name || "Pencari Kost"} className="w-full h-full object-cover rounded-lg" />
+                  <div className="w-7 h-7 rounded-lg overflow-hidden shrink-0">
+                    <img src={user.avatar_url} alt={user.name || "Pencari Kost"} className="w-full h-full object-cover" />
+                  </div>
                 ) : (
                   <div className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-black text-sm shrink-0">
                     {(user?.name || 'P')[0].toUpperCase()}
