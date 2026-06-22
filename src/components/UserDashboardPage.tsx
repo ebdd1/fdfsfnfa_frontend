@@ -5,7 +5,7 @@ import { useSettingsStore } from '../stores/settingsStore';
 import { InboxPage } from './InboxPage';
 import { WatchlistPage } from './WatchlistPage';
 import { SeekerOrdersSection } from '../pages/SeekerOrdersSection';
-import { ProfileEditor } from './ProfileEditor';
+import { SeekerSettings } from './dashboard/SeekerSettings';
 import { LogoText } from './LogoText';
 import { SearchPageContainer } from '../pages/SearchPageContainer';
 import { useWatchlist } from '../hooks/useWatchlist';
@@ -33,11 +33,12 @@ import {
   Shield,
   MapPin,
   Building2,
-  MessageSquare
+  MessageSquare,
+  Settings
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
-type SeekerSection = 'overview' | 'leases' | 'watchlist' | 'chat' | 'search';
+type SeekerSection = 'overview' | 'leases' | 'watchlist' | 'chat' | 'search' | 'settings';
 
 // Bottom nav: 4 thumb-reachable items. Pesan Masuk diakses via sidebar/bottom-sheet.
 // Keep it minimal — only the 4 most essential daily actions.
@@ -90,8 +91,8 @@ export const UserDashboardPage: React.FC = () => {
 
   const sectionParam = searchParams.get('section');
   const defaultSection =
-    sectionParam === 'watchlist' || sectionParam === 'chat' || sectionParam === 'leases' || sectionParam === 'search'
-      ? (sectionParam as 'overview' | 'leases' | 'watchlist' | 'chat' | 'search')
+    sectionParam === 'watchlist' || sectionParam === 'chat' || sectionParam === 'leases' || sectionParam === 'search' || sectionParam === 'settings'
+      ? (sectionParam as SeekerSection)
       : 'overview';
 
   // Sidebar state
@@ -99,7 +100,6 @@ export const UserDashboardPage: React.FC = () => {
 
   // Section state
   const [activeSection, setActiveSection] = useState<SeekerSection>(defaultSection);
-  const [showProfileEditor, setShowProfileEditor] = useState(false);
 
   // Mobile menu drawer state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -122,7 +122,7 @@ export const UserDashboardPage: React.FC = () => {
 
   // Sync sectionParam with activeSection state
   React.useEffect(() => {
-    if (sectionParam === 'watchlist' || sectionParam === 'chat' || sectionParam === 'leases' || sectionParam === 'search') {
+    if (sectionParam === 'watchlist' || sectionParam === 'chat' || sectionParam === 'leases' || sectionParam === 'search' || sectionParam === 'settings') {
       setActiveSection(sectionParam as any);
     } else if (!sectionParam) {
       setActiveSection('overview');
@@ -386,6 +386,17 @@ export const UserDashboardPage: React.FC = () => {
                   )}
                 </button>
               ))}
+
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-1.5 mt-4">Akun</p>
+              <button
+                onClick={() => goToSection('settings')}
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
+                  activeSection === 'settings' ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                <Settings className="w-[18px] h-[18px] shrink-0" />
+                <span className="text-left">Pengaturan</span>
+              </button>
             </nav>
 
             {/* Footer */}
@@ -763,12 +774,12 @@ export const UserDashboardPage: React.FC = () => {
                       <button
                         onClick={() => {
                           setIsProfileOpen(false);
-                          setShowProfileEditor(true);
+                          goToSection('settings');
                         }}
                         className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-slate-800 flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
-                        <User className="w-4 h-4 text-slate-400" />
-                        <span>Edit Profil Saya</span>
+                        <Settings className="w-4 h-4 text-slate-400" />
+                        <span>Pengaturan Akun</span>
                       </button>
                     </div>
 
@@ -826,12 +837,12 @@ export const UserDashboardPage: React.FC = () => {
               onSelectProperty={onSelectProperty}
             />
           </div>
+        ) : activeSection === 'settings' ? (
+          <main className="flex-1 min-h-0 overflow-y-auto px-4 pt-4 pb-20 sm:px-6 md:p-8">
+            <SeekerSettings user={user} onLogout={() => { logout(); navigate('/'); }} />
+          </main>
         ) : (
           <main className="flex-1 min-h-0 overflow-y-auto space-y-6 px-4 pt-4 pb-20 sm:px-6 md:p-8 md:space-y-8">
-
-            {showProfileEditor && (
-              <ProfileEditor onClose={() => setShowProfileEditor(false)} />
-            )}
 
             {activeSection === 'overview' && (
               <div className="space-y-5 md:space-y-6 animate-in fade-in duration-300">
