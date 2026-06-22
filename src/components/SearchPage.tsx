@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { Property, Room } from '../types';
 import { Search, MapPin, Heart, SlidersHorizontal, X } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
+import { MapView } from './MapView';
 
 interface SearchPageProps {
   properties: Property[];
@@ -39,14 +40,6 @@ export const SearchPage: React.FC<SearchPageProps> = ({
 
   const getPropertyRooms = (propId: string) => {
     return rooms.filter((r) => r.property_id === propId);
-  };
-
-  // Map pin position offsets to mock geolocation on the street-view image
-  const pinPositions: Record<string, { top: string; left: string }> = {
-    'p1': { top: '30%', left: '40%' },
-    'p2': { top: '52%', left: '65%' },
-    'p3': { top: '22%', left: '68%' },
-    'p4': { top: '68%', left: '35%' },
   };
 
   // Filter listings based on selections
@@ -341,76 +334,18 @@ export const SearchPage: React.FC<SearchPageProps> = ({
         )}
       </main>
 
-      {/* 3. Right Panel - Map View Simulation */}
-      <section className="w-96 border-l border-slate-200/80 bg-slate-100 overflow-hidden flex-shrink-0 relative hidden lg:flex flex-col">
-        {/* Fake Map Frame with top-down road visualization */}
-        <div className="absolute inset-0 bg-cover bg-center flex flex-col justify-between p-6 bg-[url('https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?auto=format&fit=crop&w=800&q=80')]">
-          
-          {/* Header Map box */}
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-slate-100 text-left">
-            <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Simulasi Peta</h4>
-            <p className="text-sm font-extrabold text-slate-800">Koordinat terfokus: <span className="text-emerald-600">{selectedCity || settings.cities[0] || 'Palopo'}</span></p>
-          </div>
-
-          {/* Airbnb-style Map Price Pins */}
-          {filteredProperties.map((p) => {
-            const pos = pinPositions[p.id] || { top: '50%', left: '50%' };
-            const isHovered = hoveredPropertyId === p.id;
-            const lowestPrice = getPropertyRooms(p.id).length > 0 ? Math.min(...getPropertyRooms(p.id).map((r) => r.price_monthly)) : 1500000;
-            const priceText = `${(lowestPrice / 1000000).toFixed(1)}jt`;
-            
-            return (
-              <button
-                key={p.id}
-                onClick={() => onSelectProperty(p.id)}
-                style={{ top: pos.top, left: pos.left }}
-                className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center transition-all duration-300 z-20 ${
-                  isHovered ? 'scale-110 z-30' : 'scale-100 hover:scale-105 cursor-pointer'
-                }`}
-              >
-                <div className={`px-3 py-1.5 rounded-full text-[10px] font-black shadow-lg transition-all ${
-                  isHovered 
-                    ? 'bg-emerald-600 text-white ring-4 ring-emerald-500/20' 
-                    : 'bg-white text-slate-800 border border-slate-200/80 hover:border-emerald-500'
-                }`}>
-                  {priceText}
-                </div>
-                <div className={`w-2.5 h-2.5 rotate-45 -mt-1.5 shadow transition-all ${
-                  isHovered ? 'bg-emerald-600' : 'bg-white border-r border-b border-slate-200'
-                }`} />
-              </button>
-            );
-          })}
-
-          {/* Properties overlay list */}
-          <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
-            {filteredProperties.map((p) => {
-              const isHovered = hoveredPropertyId === p.id;
-              return (
-                <div 
-                  key={p.id} 
-                  className={`bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-lg border transition-all flex items-center justify-between cursor-pointer text-left ${
-                    isHovered ? 'border-emerald-500 ring-2 ring-emerald-500/5' : 'border-slate-200/80 hover:border-emerald-300'
-                  }`}
-                  onClick={() => onSelectProperty(p.id)}
-                  onMouseEnter={() => setHoveredPropertyId(p.id)}
-                  onMouseLeave={() => setHoveredPropertyId(null)}
-                >
-                  <div className="space-y-0.5">
-                    <h5 className="text-xs font-extrabold text-slate-800 line-clamp-1">{p.name}</h5>
-                    <p className="text-[10px] text-slate-400 truncate max-w-[200px]">{p.location.address}</p>
-                  </div>
-                  <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-lg transition-colors ${
-                    isHovered ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700'
-                  }`}>
-                    Pilih
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-
-        </div>
+      {/* 3. Right Panel - Real Map with Leaflet */}
+      <section className="w-96 border-l border-slate-200/80 overflow-hidden flex-shrink-0 relative hidden lg:flex flex-col">
+        <MapView
+          properties={filteredProperties.map((p) => ({
+            property: p,
+            rooms: getPropertyRooms(p.id),
+          }))}
+          hoveredPropertyId={hoveredPropertyId}
+          onSelectProperty={onSelectProperty}
+          onHoverProperty={setHoveredPropertyId}
+          selectedCity={selectedCity}
+        />
       </section>
 
     </div>
