@@ -352,8 +352,9 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                         {m.content_type === 'image' ? (
                           <img
                             src={m.content}
-                            alt="Attachment"
-                            className="max-w-full rounded-lg cursor-pointer"
+                            alt="Gambar terlampir"
+                            loading="lazy"
+                            className="w-auto max-w-[220px] sm:max-w-[260px] max-h-72 object-cover rounded-lg cursor-pointer"
                             onClick={() => window.open(m.content, '_blank')}
                           />
                         ) : m.content_type === 'location' ? (
