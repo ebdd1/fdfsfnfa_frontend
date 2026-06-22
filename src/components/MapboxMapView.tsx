@@ -4,10 +4,10 @@ import type { Property, Room } from '../types';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Palopo city center coordinates
-const PALOPO_CENTER: [number, number] = [-2.99, 120.19];
+const PALOPO_CENTER: [number, number] = [120.19, -2.99]; // [lng, lat]
 const PALOPO_BOUNDS: [[number, number], [number, number]] = [
-  [-3.05, 120.10], // Southwest
-  [-2.90, 120.30],  // Northeast
+  [120.10, -3.05], // Southwest [lng, lat]
+  [120.30, -2.90],  // Northeast [lng, lat]
 ];
 
 // Mapbox style - using a clean, modern style
@@ -160,8 +160,8 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
     <div className="h-full w-full relative">
       <Map
         initialViewState={{
-          longitude: PALOPO_CENTER[1],
-          latitude: PALOPO_CENTER[0],
+          longitude: PALOPO_CENTER[0],
+          latitude: PALOPO_CENTER[1],
           zoom: 13,
         }}
         style={{ width: '100%', height: '100%' }}
