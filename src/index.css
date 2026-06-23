@@ -6,3 +6,62 @@ body {
   font-family: 'Plus Jakarta Sans', sans-serif;
   background-color: #ffffff;
 }
+
+/* Mapbox popup customization — Google Maps-style card */
+.mapbox-popup-kostfind .mapboxgl-popup-content {
+  padding: 0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15),
+              0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid rgb(226, 232, 240) !important;
+}
+
+.mapbox-popup-kostfind .mapboxgl-popup-close-button {
+  font-size: 20px !important;
+  padding: 4px 8px !important;
+  color: white !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  border-radius: 50% !important;
+  right: 8px !important;
+  top: 8px !important;
+  width: 24px !important;
+  height: 24px !important;
+  line-height: 1 !important;
+  font-weight: bold !important;
+  border: none !important;
+}
+
+.mapbox-popup-kostfind .mapboxgl-popup-close-button:hover {
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+
+.mapbox-popup-kostfind .mapboxgl-popup-tip {
+  border-top-color: white !important;
+}
+
+/* Mapbox controls — Google Maps style */
+.mapboxgl-ctrl-group {
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.mapboxgl-ctrl-scale {
+  background-color: white !important;
+  border: 1px solid rgb(226, 232, 240) !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-weight: 600 !important;
+  color: rgb(71, 85, 105) !important;
+}
+
+/* Hide scrollbar on filter chips */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
