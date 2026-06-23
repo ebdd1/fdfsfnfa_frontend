@@ -17,10 +17,19 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Palopo city center coordinates [longitude, latitude]
 const PALOPO_CENTER: [number, number] = [120.19, -2.99];
-// PALOPO_BOUNDS format: [[lng, lat], [lng, lat]]
-const PALOPO_BOUNDS: [[number, number], [number, number]] = [
-  [120.10, -3.05], // SouthWest [lng, lat]
-  [120.30, -2.90], // NorthEast [lng, lat]
+
+// Filter bounds for validating property GPS coords (lebih luas, mencakup Palopo + sekitar)
+// Format: [[lng, lat], [lng, lat]] - SW corner, NE corner
+const PALOPO_VALID_BOUNDS: [[number, number], [number, number]] = [
+  [119.50, -3.50], // SouthWest — lebih luas
+  [120.80, -2.30], // NorthEast — mencakup Luwu, Toraja
+];
+
+// Map navigation bounds (Sulawesi Selatan + Tengah region)
+// User bisa pan/zoom untuk eksplorasi seperti Google Maps
+const SULAWESI_BOUNDS: [[number, number], [number, number]] = [
+  [118.00, -6.50], // SW: Sulawesi Selatan bawah
+  [124.00, 2.00],  // NE: Sulawesi Utara atas
 ];
 
 // Available map styles (Google Maps-like options)
@@ -152,13 +161,12 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
   const mapRef = useRef<MapRef | null>(null);
 
   // Filter properties with valid coordinates in Palopo area
-  // CRITICAL FIX: Bounds check was backwards. PALOPO_BOUNDS = [[lng, lat], [lng, lat]]
   const validProperties = useMemo(() => {
     return properties.filter((p) => {
       const { latitude, longitude } = p.property.location;
       if (!latitude || !longitude) return false;
 
-      const [sw, ne] = PALOPO_BOUNDS;
+      const [sw, ne] = PALOPO_VALID_BOUNDS;
       return (
         longitude >= sw[0] &&
         longitude <= ne[0] &&
@@ -264,8 +272,8 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
         style={{ width: '100%', height: '100%' }}
         mapStyle={MAP_STYLES[mapStyle].url}
         mapboxAccessToken={accessToken}
-        maxBounds={PALOPO_BOUNDS}
-        minZoom={11}
+        maxBounds={SULAWESI_BOUNDS}
+        minZoom={7}
         maxZoom={18}
         onLoad={handleMapLoad}
         dragRotate={true}
