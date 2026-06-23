@@ -1,16 +1,20 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import Map, { Marker, Popup, GeolocateControl, NavigationControl } from 'react-map-gl/mapbox';
+import React, { useState, useCallback, useMemo, useRef } from 'react';
+import Map, { Marker, Popup, GeolocateControl, NavigationControl, ScaleControl } from 'react-map-gl/mapbox';
+import type { MapRef } from 'react-map-gl/mapbox';
+import { Map as MapIcon, MapPin } from 'lucide-react';
 import type { Property, Room } from '../types';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-// Palopo city center coordinates
-const PALOPO_CENTER: [number, number] = [120.19, -2.99]; // [lng, lat]
+// Palopo city center coordinates [longitude, latitude]
+const PALOPO_CENTER: [number, number] = [120.19, -2.99];
+// PALOPO_BOUNDS format: [[lng, lat], [lng, lat]]
 const PALOPO_BOUNDS: [[number, number], [number, number]] = [
-  [120.10, -3.05], // Southwest [lng, lat]
-  [120.30, -2.90],  // Northeast [lng, lat]
+  [120.10, -3.05], // SouthWest [lng, lat]
+  [120.30, -2.90], // NorthEast [lng, lat]
 ];
 
-// Mapbox style - using a clean, modern style
+// Google Maps-like style — Mapbox Streets v12
+// Features: clear roads, street names, POIs, similar to Google Maps Default
 const MAPBOX_STYLE = 'mapbox://styles/mapbox/streets-v12';
 
 interface PropertyMarker {
@@ -73,8 +77,8 @@ const PriceMarker: React.FC<{
             px-3 py-1.5 rounded-full text-xs font-black shadow-lg whitespace-nowrap
             transition-all duration-200
             ${isHovered
-              ? 'bg-emerald-600 text-white ring-4 ring-emerald-400/30'
-              : 'bg-white text-slate-800 border-2 border-slate-200 hover:border-emerald-500'
+              ? 'bg-[#004ac6] text-white ring-4 ring-[#004ac6]/30'
+              : 'bg-white text-slate-800 border-2 border-slate-200 hover:border-[#004ac6]'
             }
           `}
         >
@@ -86,7 +90,7 @@ const PriceMarker: React.FC<{
             absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-0 h-0
             border-l-[6px] border-r-[6px] border-t-[8px]
             border-l-transparent border-r-transparent
-            ${isHovered ? 'border-t-emerald-600' : 'border-t-white'}
+            ${isHovered ? 'border-t-[#004ac6]' : 'border-t-white'}
           `}
         />
       </div>
@@ -103,47 +107,108 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
   accessToken,
 }) => {
   const [popupInfo, setPopupInfo] = useState<PropertyMarker | null>(null);
+  const mapRef = useRef<MapRef | null>(null);
 
   // Filter properties with valid coordinates in Palopo area
+  // CRITICAL FIX: Bounds check was backwards (latitude compared with longitude bounds)
+  // PALOPO_BOUNDS format: [[lng, lat], [lng, lat]]
   const validProperties = useMemo(() => {
     return properties.filter((p) => {
       const { latitude, longitude } = p.property.location;
       if (!latitude || !longitude) return false;
 
-      // Check if within Palopo bounds
       const [sw, ne] = PALOPO_BOUNDS;
+      // sw = [lng_sw, lat_sw], ne = [lng_ne, lat_ne]
       return (
-        latitude >= sw[0] &&
-        latitude <= ne[0] &&
-        longitude >= sw[1] &&
-        longitude <= ne[1]
+        longitude >= sw[0] && // lng compared with lng bounds
+        longitude <= ne[0] &&
+        latitude >= sw[1] && // lat compared with lat bounds
+        latitude <= ne[1]
       );
     });
   }, [properties]);
 
-  const handleMarkerClick = useCallback((prop: PropertyMarker) => {
-    setPopupInfo(prop);
-    onSelectProperty(prop.property.id);
-  }, [onSelectProperty]);
+  const handleMarkerClick = useCallback(
+    (prop: PropertyMarker) => {
+      setPopupInfo(prop);
+      onSelectProperty(prop.property.id);
+    },
+    [onSelectProperty],
+  );
+
+  // Add 3D buildings & enhance roads for Google Maps-like appearance
+  const handleMapLoad = useCallback(() => {
+    const map = mapRef.current?.getMap();
+    if (!map) return;
+
+    // Add 3D buildings layer (Google Maps-like building visualization)
+    const layers = map.getStyle()?.layers;
+    if (!layers) return;
+    const labelLayerId = layers.find(
+      (layer) => layer.type === 'symbol' && layer.layout?.['text-field'],
+    )?.id;
+
+    // Only add if not already present
+    if (!map.getLayer('3d-buildings') && map.getSource('composite')) {
+      try {
+        map.addLayer(
+          {
+            id: '3d-buildings',
+            source: 'composite',
+            'source-layer': 'building',
+            filter: ['==', 'extrude', 'true'],
+            type: 'fill-extrusion',
+            minzoom: 15,
+            paint: {
+              'fill-extrusion-color': '#e5e7eb',
+              'fill-extrusion-height': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                15,
+                0,
+                15.05,
+                ['get', 'height'],
+              ],
+              'fill-extrusion-base': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                15,
+                0,
+                15.05,
+                ['get', 'min_height'],
+              ],
+              'fill-extrusion-opacity': 0.6,
+            },
+          },
+          labelLayerId,
+        );
+      } catch (e) {
+        // Style might not have 'composite' source, skip silently
+        console.warn('[Map] Could not add 3D buildings layer');
+      }
+    }
+  }, []);
 
   // If no access token, show placeholder
   if (!accessToken) {
     return (
       <div className="h-full w-full bg-slate-100 flex items-center justify-center relative">
         <div className="absolute top-4 left-4 right-4 z-10">
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-slate-100 text-left">
-            <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+          <div className="bg-white rounded-2xl p-4 shadow-lg border border-slate-100 text-left">
+            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-0.5">
               Peta Kost
             </h4>
             <p className="text-sm font-extrabold text-slate-800">
               {validProperties.length} kost di{' '}
-              <span className="text-emerald-600">Palopo</span>
+              <span className="text-[#004ac6]">Palopo</span>
             </p>
           </div>
         </div>
         <div className="text-center p-6 max-w-xs">
           <div className="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-3xl">🗺️</span>
+            <MapIcon className="w-8 h-8 text-slate-500" aria-hidden="true" />
           </div>
           <p className="text-sm font-bold text-slate-600 mb-1">
             Konfigurasi Mapbox Diperlukan
@@ -159,10 +224,13 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
   return (
     <div className="h-full w-full relative">
       <Map
+        ref={mapRef}
         initialViewState={{
           longitude: PALOPO_CENTER[0],
           latitude: PALOPO_CENTER[1],
-          zoom: 13,
+          zoom: 14,
+          pitch: 0, // Set to 45 for 3D angle by default
+          bearing: 0,
         }}
         style={{ width: '100%', height: '100%' }}
         mapStyle={MAPBOX_STYLE}
@@ -170,21 +238,30 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
         maxBounds={PALOPO_BOUNDS}
         minZoom={11}
         maxZoom={18}
+        onLoad={handleMapLoad}
+        // Google Maps-like interactions
+        dragRotate={true}
+        touchPitch={true}
+        attributionControl={false}
       >
-        {/* Navigation controls */}
-        <NavigationControl position="bottom-right" />
+        {/* Navigation controls (zoom + compass + 3D pitch) */}
+        <NavigationControl position="bottom-right" visualizePitch={true} />
 
-        {/* Geolocate control - for "use my location" feature */}
+        {/* Geolocate control — "use my location" like Google Maps */}
         <GeolocateControl
           position="bottom-right"
           trackUserLocation={true}
           showUserHeading={true}
+          showAccuracyCircle={true}
           positionOptions={{
             enableHighAccuracy: true,
             timeout: 10000,
             maximumAge: 60000,
           }}
         />
+
+        {/* Scale bar (distance reference like Google Maps) */}
+        <ScaleControl position="bottom-left" unit="metric" />
 
         {/* Price markers */}
         {validProperties.map(({ property, rooms }) => {
@@ -219,6 +296,7 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
                 src={popupInfo.property.media[0]?.url_thumbnail || popupInfo.property.media[0]?.url_medium}
                 alt={popupInfo.property.name}
                 className="w-full h-24 object-cover rounded-t-xl"
+                loading="lazy"
               />
               <div className="p-3">
                 <h4 className="font-bold text-sm text-slate-800 line-clamp-1">
@@ -227,13 +305,13 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
                 <p className="text-xs text-slate-500 line-clamp-1 mb-1">
                   {popupInfo.property.location.address}
                 </p>
-                <p className="text-emerald-600 font-extrabold">
+                <p className="text-[#004ac6] font-extrabold">
                   {formatPriceShort(getLowestPrice(popupInfo.rooms))}
-                  <span className="text-slate-400 font-normal text-[10px]"> /bln</span>
+                  <span className="text-slate-400 font-normal text-xs"> /bln</span>
                 </p>
                 <button
                   onClick={() => onSelectProperty(popupInfo.property.id)}
-                  className="mt-2 w-full bg-emerald-600 text-white text-xs font-bold py-1.5 px-3 rounded-lg hover:bg-emerald-700 transition-colors cursor-pointer"
+                  className="mt-2 w-full bg-[#004ac6] text-white text-xs font-bold py-1.5 px-3 rounded-lg hover:bg-[#003a9e] transition-colors cursor-pointer"
                 >
                   Lihat Detail
                 </button>
@@ -243,25 +321,25 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
         )}
       </Map>
 
-      {/* Header overlay */}
+      {/* Header overlay — Google Maps-style search bar look */}
       <div className="absolute top-4 left-4 right-4 z-[1000] pointer-events-none">
-        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-slate-100 text-left pointer-events-auto">
-          <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+        <div className="bg-white rounded-2xl p-4 shadow-lg border border-slate-100 text-left pointer-events-auto">
+          <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-0.5">
             Peta Kost
           </h4>
           <p className="text-sm font-extrabold text-slate-800">
             {validProperties.length} kost di{' '}
-            <span className="text-emerald-600">{selectedCity || 'Palopo'}</span>
+            <span className="text-[#004ac6]">{selectedCity || 'Palopo'}</span>
           </p>
         </div>
       </div>
 
-      {/* Legend overlay */}
+      {/* Empty state overlay */}
       {validProperties.length === 0 && (
         <div className="absolute inset-0 flex items-center justify-center z-[1000] bg-slate-100/90">
           <div className="text-center p-6 bg-white rounded-2xl shadow-lg mx-4">
-            <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <span className="text-2xl">📍</span>
+            <div className="w-12 h-12 bg-[#004ac6]/10 rounded-full flex items-center justify-center mx-auto mb-3">
+              <MapPin className="w-6 h-6 text-[#004ac6]" aria-hidden="true" />
             </div>
             <p className="text-sm font-bold text-slate-600 mb-1">
               Belum Ada Kost di Palopo

@@ -195,15 +195,15 @@ export const MapView: React.FC<MapViewProps> = ({
         })}
       </MapContainer>
 
-      {/* Overlay header */}
+      {/* Overlay header — removed backdrop-blur for performance */}
       <div className="absolute top-4 left-4 right-4 z-[1000]">
-        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-slate-100 text-left">
-          <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">
+        <div className="bg-white rounded-2xl p-4 shadow-lg border border-slate-100 text-left">
+          <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-0.5">
             Peta Kost
           </h4>
           <p className="text-sm font-extrabold text-slate-800">
             {validProperties.length} kost di{' '}
-            <span className="text-emerald-600">{selectedCity || 'semua kota'}</span>
+            <span className="text-[#004ac6]">{selectedCity || 'semua kota'}</span>
           </p>
         </div>
       </div>
