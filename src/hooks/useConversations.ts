@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState, useEffect, useCallback } from 'react';
+import { useQuery, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
 import { conversationService, type OptimisticMessage } from '../services/api/conversation.service';
 import { useAuthStore } from '../stores/authStore';
 import { getSocket, emitTyping } from '../services/socket';
@@ -24,14 +24,34 @@ export const useConversations = () => {
     enabled: !!userId,
   });
 
-  const messagesQuery = useQuery({
+  // CRITICAL FIX: Use infinite query for paginated messages
+  const messagesInfiniteQuery = useInfiniteQuery({
     queryKey: ['messages', selectedConversationId],
-    queryFn: () => conversationService.getMessages(selectedConversationId as string),
+    queryFn: async ({ pageParam }) => {
+      const result = await conversationService.getMessages(selectedConversationId as string, {
+        cursor: pageParam,
+        limit: 50,
+        direction: 'after',
+      });
+      return result;
+    },
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     enabled: !!selectedConversationId,
   });
 
+  // Flatten all pages into single messages array
+  const rawPaginatedData = messagesInfiniteQuery.data?.pages || [];
+  const rawMsgs = rawPaginatedData.flatMap((page) => page.messages);
+  const hasMoreMessages = rawPaginatedData[rawPaginatedData.length - 1]?.hasMore ?? false;
+
+  const loadMoreMessages = useCallback(() => {
+    if (hasMoreMessages && !messagesInfiniteQuery.isFetchingNextPage) {
+      messagesInfiniteQuery.fetchNextPage();
+    }
+  }, [hasMoreMessages, messagesInfiniteQuery]);
+
   const rawConvs = conversationsQuery.data || [];
-  const rawMsgs = messagesQuery.data || [];
 
   const conversations = rawConvs.map(c => ({
     id: c.id,
@@ -278,12 +298,20 @@ export const useConversations = () => {
       loadQueuedMessages(convId);
 
       // Mark unread messages as read after a short delay (user has actually viewed them)
+      // CRITICAL FIX: Updated to handle paginated data structure
       setTimeout(() => {
-        const messages = queryClient.getQueryData(['messages', convId]) as any[];
-        if (messages && userId) {
+        const queryData = queryClient.getQueryData(['messages', convId]) as any;
+        if (!queryData) return;
+
+        // Handle both paginated (pages array) and simple array
+        const messages = Array.isArray(queryData)
+          ? queryData
+          : queryData?.pages?.flatMap((page: any) => page.messages) || [];
+
+        if (messages.length && userId) {
           messages
-            .filter((m) => m.senderId !== userId && !m.readAt)
-            .forEach((m) => {
+            .filter((m: any) => m.senderId !== userId && !m.readAt)
+            .forEach((m: any) => {
               conversationService.markMessageAsRead(convId, m.id).catch(() => {});
             });
         }
@@ -303,5 +331,9 @@ export const useConversations = () => {
     retryFailedMessage,
     queuedMessages,
     isLoading: conversationsQuery.isLoading,
+    // CRITICAL FIX: Pagination helpers
+    loadMoreMessages,
+    hasMoreMessages,
+    isLoadingMore: messagesInfiniteQuery.isFetchingNextPage,
   };
 };

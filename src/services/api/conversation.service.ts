@@ -25,9 +25,26 @@ export interface MessageRecord {
   status?: 'sending' | 'sent' | 'failed';
 }
 
+/**
+ * Paginated messages response from backend.
+ * CRITICAL FIX: Added pagination to prevent unbounded queries on large conversations.
+ */
+export interface PaginatedMessages {
+  messages: MessageRecord[];
+  nextCursor: string | null;
+  hasMore: boolean;
+  total: number;
+}
+
 export interface OptimisticMessage extends MessageRecord {
   tempId?: string;
   isOptimistic: boolean;
+}
+
+export interface GetMessagesParams {
+  cursor?: string;
+  limit?: number;
+  direction?: 'before' | 'after';
 }
 
 export const conversationService = {
@@ -43,8 +60,19 @@ export const conversationService = {
     return response.data;
   },
 
-  getMessages: async (conversationId: string): Promise<MessageRecord[]> => {
-    const response = await api.get(`/conversations/${conversationId}/messages`);
+  /**
+   * Get messages with cursor-based pagination.
+   * CRITICAL FIX: Added limit, cursor, and direction params to prevent unbounded queries.
+   * Default: 50 messages, returns nextCursor for loading more.
+   */
+  getMessages: async (conversationId: string, params?: GetMessagesParams): Promise<PaginatedMessages> => {
+    const response = await api.get(`/conversations/${conversationId}/messages`, {
+      params: {
+        limit: params?.limit ?? 50,
+        cursor: params?.cursor,
+        direction: params?.direction ?? 'after',
+      },
+    });
     return response.data;
   },
 

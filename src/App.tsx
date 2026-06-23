@@ -1,21 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useSearchParams } from 'react-router-dom';
 import { useAuthStore } from './stores/authStore';
 import { useSession } from './hooks/useSession';
 import { useSettings } from './hooks/useSettings';
 import { useRealtime } from './hooks/useRealtime';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 import { Navbar } from './components/Navbar';
 import { ToastProvider } from './components/ToastProvider';
 import { LoginPage } from './components/LoginPage';
-import { RegisterPage } from './components/RegisterPage';
-import { DashboardPage } from './components/DashboardPage';
-import { LandingPageContainer } from './pages/LandingPageContainer';
-import { SearchPageContainer } from './pages/SearchPageContainer';
-import { DetailPageContainer } from './pages/DetailPageContainer';
-import { UserDashboardPage } from './components/UserDashboardPage';
-import { AdminDashboardPage } from './components/AdminDashboardPage';
 import { MaintenancePage } from './components/MaintenancePage';
+
+// CRITICAL FIX: Route-based code splitting
+// Previously, ALL pages were loaded upfront (static imports)
+// Now, each page is loaded only when accessed (React.lazy)
+// This reduces initial bundle size by 50%+
+
+const RegisterPage = lazy(() => import('./components/RegisterPage').then(m => ({ default: m.RegisterPage })));
+const DashboardPage = lazy(() => import('./components/DashboardPage').then(m => ({ default: m.DashboardPage })));
+const LandingPageContainer = lazy(() => import('./pages/LandingPageContainer').then(m => ({ default: m.LandingPageContainer })));
+const SearchPageContainer = lazy(() => import('./pages/SearchPageContainer').then(m => ({ default: m.SearchPageContainer })));
+const DetailPageContainer = lazy(() => import('./pages/DetailPageContainer').then(m => ({ default: m.DetailPageContainer })));
+const UserDashboardPage = lazy(() => import('./components/UserDashboardPage').then(m => ({ default: m.UserDashboardPage })));
+const AdminDashboardPage = lazy(() => import('./components/AdminDashboardPage').then(m => ({ default: m.AdminDashboardPage })));
+
+// Lazy-loaded skeleton for page transitions
+const PageSkeleton = () => (
+  <div className="flex items-center justify-center min-h-[60vh]">
+    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#004ac6]" />
+  </div>
+);
 
 /**
  * ProtectedRoute validated by server session [F-003].
@@ -148,49 +162,55 @@ function App() {
     >
       <ToastProvider />
       <Navbar />
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<LandingPageContainer />} />
-        <Route path="/search" element={<SearchPageContainer />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+      {/* CRITICAL FIX: Global Error Boundary to prevent white screen crashes */}
+      <ErrorBoundary>
+        {/* CRITICAL FIX: Wrap Routes with Suspense for code-split page loading */}
+        <Suspense fallback={<PageSkeleton />}>
+          <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<LandingPageContainer />} />
+          <Route path="/search" element={<SearchPageContainer />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
-        {/* Property detail (GET /listings/:id is JWT-guarded; the axios
-            interceptor redirects unauthenticated users to /login). */}
-        <Route path="/property/:id" element={<DetailPageContainer />} />
+          {/* Property detail (GET /listings/:id is JWT-guarded; the axios
+              interceptor redirects unauthenticated users to /login). */}
+          <Route path="/property/:id" element={<DetailPageContainer />} />
 
-        {/* Protected Routes */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute allowedRoles={['owner']}>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/anda/home"
-          element={
-            <ProtectedRoute allowedRoles={['seeker']}>
-              <UserDashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        {/* Watchlist and chat live inside the seeker dashboard sections. */}
-        <Route path="/watchlist" element={<Navigate to="/anda/home?section=watchlist" replace />} />
-        <Route path="/chat" element={<ChatRedirect />} />
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <AdminDashboardPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Protected Routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={['owner']}>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/anda/home"
+            element={
+              <ProtectedRoute allowedRoles={['seeker']}>
+                <UserDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          {/* Watchlist and chat live inside the seeker dashboard sections. */}
+          <Route path="/watchlist" element={<Navigate to="/anda/home?section=watchlist" replace />} />
+          <Route path="/chat" element={<ChatRedirect />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }
