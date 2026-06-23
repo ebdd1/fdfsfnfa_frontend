@@ -66,7 +66,7 @@ function StepDot({ state }: { state: StepState }) {
   if (state === 'done') {
     return (
       <CheckCircle
-        className="w-4 h-4 text-emerald-500 shrink-0"
+        className="w-4 h-4 text-[var(--primary-500)] shrink-0"
         strokeWidth={2.5}
         aria-label="selesai"
       />
@@ -97,7 +97,7 @@ function Connector({ state }: { state: StepState }) {
   return (
     <div
       className={`flex-1 h-0.5 rounded-full mx-1 ${
-        state === 'done' ? 'bg-emerald-400' : 'bg-slate-200'
+        state === 'done' ? 'bg-[var(--primary-400)]' : 'bg-slate-200'
       }`}
     />
   );
@@ -134,7 +134,7 @@ export const OrderTimeline: React.FC<{
               <span
                 className={`text-[10px] font-bold whitespace-nowrap ${
                   state === 'done'
-                    ? 'text-emerald-600'
+                    ? 'text-[var(--primary-600)]'
                     : state === 'active'
                     ? 'text-blue-600'
                     : 'text-slate-400'

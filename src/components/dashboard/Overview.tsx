@@ -38,7 +38,7 @@ export const Overview: React.FC<OverviewProps> = ({
       {/* Hero: banner cover + greeting in one clean block */}
       <div className="rounded-[24px] overflow-hidden border border-slate-100/50 shadow-[0_4px_20px_rgba(0,0,0,0.03)] bg-white">
         {/* Banner strip */}
-        <div className="h-24 w-full bg-gradient-to-r from-emerald-500 to-teal-500">
+        <div className="h-24 w-full bg-gradient-to-r from-[var(--primary-500)] to-teal-500">
           {user?.banner_url && <img src={user.banner_url} alt="Banner" className="h-full w-full object-cover" />}
         </div>
 
@@ -46,11 +46,11 @@ export const Overview: React.FC<OverviewProps> = ({
         <div className="relative px-6 pb-5">
           {/* Avatar overlapping the banner */}
           <div className="absolute -top-8 left-6">
-            <div className="w-16 h-16 rounded-2xl border-4 border-white bg-emerald-100 overflow-hidden shadow-lg">
+            <div className="w-16 h-16 rounded-2xl border-4 border-white bg-[var(--primary-100)] overflow-hidden shadow-lg">
               {user?.avatar_url ? (
                 <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-emerald-600 font-black text-xl">
+                <div className="w-full h-full flex items-center justify-center text-[var(--primary-600)] font-black text-xl">
                   {(user?.name || 'P')[0].toUpperCase()}
                 </div>
               )}
@@ -77,8 +77,8 @@ export const Overview: React.FC<OverviewProps> = ({
         <div className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100/50">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2 text-slate-600 font-medium text-[13px]">
-              <div className="bg-emerald-50 p-1.5 rounded-lg">
-                <Wallet className="w-4 h-4 text-emerald-600" />
+              <div className="bg-[var(--primary-50)] p-1.5 rounded-lg">
+                <Wallet className="w-4 h-4 text-[var(--primary-600)]" />
               </div>
               <span>Total Pendapatan</span>
             </div>
@@ -90,7 +90,7 @@ export const Overview: React.FC<OverviewProps> = ({
             <h2 className="text-3xl font-bold text-slate-800 tracking-tight">{formatPrice(totalRevenue)}</h2>
           </div>
           <div className="flex items-center gap-2 text-[12px]">
-            <span className="flex items-center gap-0.5 bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded-md font-medium">
+            <span className="flex items-center gap-0.5 bg-[var(--primary-50)] text-[var(--primary-600)] px-1.5 py-0.5 rounded-md font-medium">
               {occupiedCount} kamar terisi
             </span>
             <span className="text-slate-400">menghasilkan pendapatan</span>
@@ -101,8 +101,8 @@ export const Overview: React.FC<OverviewProps> = ({
         <div className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100/50">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2 text-slate-600 font-medium text-[13px]">
-              <div className="bg-emerald-50 p-1.5 rounded-lg">
-                <Building2 className="w-4 h-4 text-emerald-600" />
+              <div className="bg-[var(--primary-50)] p-1.5 rounded-lg">
+                <Building2 className="w-4 h-4 text-[var(--primary-600)]" />
               </div>
               <span>Okupansi Kost</span>
             </div>
@@ -125,8 +125,8 @@ export const Overview: React.FC<OverviewProps> = ({
         <div className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100/50">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2 text-slate-600 font-medium text-[13px]">
-              <div className="bg-emerald-50 p-1.5 rounded-lg">
-                <Percent className="w-4 h-4 text-emerald-600" />
+              <div className="bg-[var(--primary-50)] p-1.5 rounded-lg">
+                <Percent className="w-4 h-4 text-[var(--primary-600)]" />
               </div>
               <span>Kamar Aktif</span>
             </div>
@@ -143,7 +143,7 @@ export const Overview: React.FC<OverviewProps> = ({
                 {renovationCount} kamar renovasi
               </span>
             ) : (
-              <span className="flex items-center gap-0.5 bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded-md font-medium">
+              <span className="flex items-center gap-0.5 bg-[var(--primary-50)] text-[var(--primary-600)] px-1.5 py-0.5 rounded-md font-medium">
                 Tidak ada renovasi
               </span>
             )}
@@ -160,12 +160,12 @@ export const Overview: React.FC<OverviewProps> = ({
         <div className="lg:col-span-2 bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100/50">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <div className="w-1.5 h-4 bg-emerald-500 rounded-full"></div>
+              <div className="w-1.5 h-4 bg-[var(--primary-500)] rounded-full"></div>
               <h3 className="text-[15px] font-semibold text-slate-800">Kost Anda</h3>
             </div>
             <button 
               onClick={onOpenAddProperty}
-              className="text-[13px] font-medium text-emerald-600 flex items-center gap-1 hover:bg-emerald-50 px-2 py-1 rounded-lg transition-colors cursor-pointer"
+              className="text-[13px] font-medium text-[var(--primary-600)] flex items-center gap-1 hover:bg-[var(--primary-50)] px-2 py-1 rounded-lg transition-colors cursor-pointer"
             >
               <Plus className="w-4 h-4" /> Tambah
             </button>
@@ -201,7 +201,7 @@ export const Overview: React.FC<OverviewProps> = ({
                         <h4 className="text-[14px] font-semibold text-slate-800 mb-0.5">{p.name}</h4>
                         <div className="flex items-center gap-3 text-[12px] text-slate-500">
                           <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {p.location?.city || '-'}</span>
-                          <span className="text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded text-[10px] font-semibold">{occupiedPropCount} Terisi</span>
+                          <span className="text-[var(--primary-600)] bg-[var(--primary-50)] px-1.5 py-0.5 rounded text-[10px] font-semibold">{occupiedPropCount} Terisi</span>
                         </div>
                       </div>
                     </div>
@@ -223,24 +223,24 @@ export const Overview: React.FC<OverviewProps> = ({
         <div className="bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100/50 flex flex-col">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <div className="w-1.5 h-4 bg-emerald-500 rounded-full"></div>
+              <div className="w-1.5 h-4 bg-[var(--primary-500)] rounded-full"></div>
               <h3 className="text-[15px] font-semibold text-slate-800">Aksi Cepat</h3>
             </div>
             <MoreHorizontal className="w-4 h-4 text-slate-400 cursor-pointer" />
           </div>
 
-          <div className="flex-1 flex flex-col justify-center items-center text-center p-6 bg-emerald-700 rounded-2xl relative overflow-hidden shadow-lg shadow-emerald-700/20 mt-2">
+          <div className="flex-1 flex flex-col justify-center items-center text-center p-6 bg-[var(--primary-700)] rounded-2xl relative overflow-hidden shadow-lg shadow-[var(--primary-700)]/20 mt-2">
             <div className="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl pointer-events-none"></div>
             <div className="bg-white/20 p-3 rounded-xl mb-4 backdrop-blur-sm">
               <Building className="w-6 h-6 text-white" />
             </div>
             <h4 className="text-white font-semibold text-sm mb-2 relative z-10">Kembangkan Bisnis</h4>
-            <p className="text-emerald-100 text-[11px] leading-relaxed mb-6 relative z-10 max-w-[180px] mx-auto">
+            <p className="text-[var(--primary-100)] text-[11px] leading-relaxed mb-6 relative z-10 max-w-[180px] mx-auto">
               Tambah kost baru ke portofolio Anda untuk meningkatkan aliran pendapatan.
             </p>
             <button 
               onClick={onOpenAddProperty}
-              className="w-full bg-white text-emerald-800 text-[13px] font-semibold py-2.5 rounded-xl hover:bg-emerald-50 transition-colors relative z-10 shadow-sm cursor-pointer"
+              className="w-full bg-white text-[var(--primary-800)] text-[13px] font-semibold py-2.5 rounded-xl hover:bg-[var(--primary-50)] transition-colors relative z-10 shadow-sm cursor-pointer"
             >
               Tambah Kost
             </button>

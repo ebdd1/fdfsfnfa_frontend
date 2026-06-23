@@ -43,7 +43,7 @@ const Avatar: React.FC<{ name?: string; url?: string; size?: string; tone?: 'see
   size = 'w-9 h-9',
   tone = 'seeker',
 }) => {
-  const toneCls = tone === 'owner' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-sky-50 text-sky-700 border-sky-100';
+  const toneCls = tone === 'owner' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border-[var(--primary-100)]' : 'bg-sky-50 text-sky-700 border-sky-100';
   return (
     <div className={`${size} rounded-full overflow-hidden border flex items-center justify-center font-bold shrink-0 ${toneCls}`}>
       {url ? <img src={url} alt={name || '?'} className="w-full h-full object-cover" /> : <span className="text-[0.7em]">{initial(name)}</span>}
@@ -77,7 +77,7 @@ export const AdminConversationsTab: React.FC = () => {
           <h2 className="text-xl font-bold text-slate-800 tracking-tight">Percakapan</h2>
           <p className="text-[12px] text-slate-400 mt-0.5">Pantau seluruh percakapan antara pemilik & pencari kost</p>
         </div>
-        <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-full shrink-0">
+        <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-[var(--primary-700)] bg-[var(--primary-50)] border border-[var(--primary-100)] px-3 py-1.5 rounded-full shrink-0">
           <MessagesSquare className="w-3.5 h-3.5" />
           {conversations.length} Percakapan
         </span>
@@ -97,7 +97,7 @@ export const AdminConversationsTab: React.FC = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Cari pemilik, pencari, kost..."
-                className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-transparent rounded-xl text-[13px] font-medium text-slate-700 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-emerald-500 transition-all"
+                className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-transparent rounded-xl text-[13px] font-medium text-slate-700 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-[var(--primary-500)] transition-all"
               />
             </div>
           </div>
@@ -105,12 +105,12 @@ export const AdminConversationsTab: React.FC = () => {
           <div className="flex-1 overflow-y-auto min-h-0">
             {isLoading ? (
               <div className="flex items-center justify-center py-16">
-                <Loader2 className="w-5 h-5 animate-spin text-emerald-500" />
+                <Loader2 className="w-5 h-5 animate-spin text-[var(--primary-500)]" />
               </div>
             ) : isError ? (
               <div className="py-16 text-center">
                 <p className="text-sm font-semibold text-rose-500 mb-2">Gagal memuat percakapan</p>
-                <button onClick={() => refetch()} className="text-xs font-bold text-emerald-600 underline cursor-pointer">
+                <button onClick={() => refetch()} className="text-xs font-bold text-[var(--primary-600)] underline cursor-pointer">
                   Coba lagi
                 </button>
               </div>
@@ -130,10 +130,10 @@ export const AdminConversationsTab: React.FC = () => {
                     key={c.id}
                     onClick={() => setSelectedId(c.id)}
                     className={`relative w-full text-left px-4 py-3.5 border-b border-slate-50 transition-colors cursor-pointer ${
-                      active ? 'bg-emerald-50/60' : 'hover:bg-slate-50'
+                      active ? 'bg-[var(--primary-50)]/60' : 'hover:bg-slate-50'
                     }`}
                   >
-                    {active && <span className="absolute left-0 top-2 bottom-2 w-[3px] bg-emerald-500 rounded-r-full" />}
+                    {active && <span className="absolute left-0 top-2 bottom-2 w-[3px] bg-[var(--primary-500)] rounded-r-full" />}
 
                     {/* Participants */}
                     <div className="flex items-center gap-2 mb-2">
@@ -177,7 +177,7 @@ export const AdminConversationsTab: React.FC = () => {
         >
           {!selected ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center px-6">
-              <div className="w-16 h-16 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-400 mb-4">
+              <div className="w-16 h-16 rounded-2xl bg-[var(--primary-50)] flex items-center justify-center text-[var(--primary-400)] mb-4">
                 <MessagesSquare className="w-7 h-7" />
               </div>
               <p className="text-[15px] font-bold text-slate-700 mb-1">Pilih sebuah percakapan</p>
@@ -220,7 +220,7 @@ export const AdminConversationsTab: React.FC = () => {
               <div className="flex-1 overflow-y-auto min-h-0 px-4 sm:px-6 py-5 bg-slate-50/50 space-y-1">
                 {msgLoading ? (
                   <div className="flex items-center justify-center py-10">
-                    <Loader2 className="w-5 h-5 animate-spin text-emerald-500" />
+                    <Loader2 className="w-5 h-5 animate-spin text-[var(--primary-500)]" />
                   </div>
                 ) : messages.length === 0 ? (
                   <div className="h-full flex flex-col items-center justify-center text-center text-slate-400">
@@ -259,7 +259,7 @@ export const AdminConversationsTab: React.FC = () => {
                             <div
                               className={`px-3.5 py-2.5 text-[13.5px] leading-relaxed shadow-sm whitespace-pre-wrap break-words ${
                                 fromOwner
-                                  ? 'bg-emerald-600 text-white rounded-2xl rounded-tr-md'
+                                  ? 'bg-[var(--primary-600)] text-white rounded-2xl rounded-tr-md'
                                   : 'bg-white text-slate-800 border border-slate-100 rounded-2xl rounded-tl-md'
                               }`}
                             >

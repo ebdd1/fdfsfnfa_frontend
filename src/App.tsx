@@ -5,6 +5,7 @@ import { useSession } from './hooks/useSession';
 import { useSettings } from './hooks/useSettings';
 import { useRealtime } from './hooks/useRealtime';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { BRAND_COLORS, type BrandColorKey } from './config/brandColors';
 
 import { Navbar } from './components/Navbar';
 import { ToastProvider } from './components/ToastProvider';
@@ -49,7 +50,7 @@ const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode;
   if (!_hasHydrated || isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary-600)]" />
       </div>
     );
   }
@@ -81,10 +82,19 @@ function App() {
   const { settings } = useSettings();
   const { user } = useAuthStore();
 
-  // Apply primary color CSS variable site-wide
+  // Apply primary color CSS variables site-wide for all shades
   useEffect(() => {
     if (settings.primary_color) {
-      document.documentElement.style.setProperty('--primary-color', settings.primary_color);
+      const colorKey = settings.primary_color as BrandColorKey;
+      const shades = BRAND_COLORS[colorKey];
+      if (shades) {
+        // Set each shade as a CSS variable
+        (['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'] as const).forEach(shade => {
+          document.documentElement.style.setProperty(`--primary-${shade}`, shades[shade]);
+        });
+        // Set primary color default
+        document.documentElement.style.setProperty('--primary-color', shades.DEFAULT);
+      }
     }
   }, [settings.primary_color]);
 

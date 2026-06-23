@@ -20,7 +20,7 @@ const STATUS_STYLE: Record<OrderStatus, { chip: string; dot: string }> = {
   pending: { chip: 'bg-amber-50 text-amber-700 border-amber-100', dot: 'bg-amber-500' },
   awaiting_payment: { chip: 'bg-blue-50 text-blue-700 border-blue-100', dot: 'bg-blue-500' },
   awaiting_confirmation: { chip: 'bg-violet-50 text-violet-700 border-violet-100', dot: 'bg-violet-500' },
-  active: { chip: 'bg-emerald-50 text-emerald-700 border-emerald-100', dot: 'bg-emerald-500' },
+  active: { chip: 'bg-[var(--primary-50)] text-[var(--primary-700)] border-[var(--primary-100)]', dot: 'bg-[var(--primary-500)]' },
   rejected: { chip: 'bg-rose-50 text-rose-700 border-rose-100', dot: 'bg-rose-500' },
   cancelled: { chip: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400' },
   completed: { chip: 'bg-slate-50 text-slate-500 border-slate-200', dot: 'bg-slate-400' },
@@ -119,7 +119,7 @@ const TransferModal: React.FC<TransferModalProps> = ({ order, onClose, onSubmit,
             )}
             <div className="border-t border-blue-200 pt-2 mt-2 flex justify-between text-sm">
               <span className="text-slate-500 font-bold">Total Transfer</span>
-              <span className="font-black text-emerald-600">{fmtIDR(order.totalAmount)}</span>
+              <span className="font-black text-[var(--primary-600)]">{fmtIDR(order.totalAmount)}</span>
             </div>
           </div>
 
@@ -128,7 +128,7 @@ const TransferModal: React.FC<TransferModalProps> = ({ order, onClose, onSubmit,
             <p className="text-xs font-bold text-slate-700 mb-2">Foto Bukti Transfer</p>
             <div
               onClick={() => fileRef.current?.click()}
-              className="cursor-pointer border-2 border-dashed border-slate-200 hover:border-emerald-400 rounded-2xl transition-colors overflow-hidden"
+              className="cursor-pointer border-2 border-dashed border-slate-200 hover:border-[var(--primary-400)] rounded-2xl transition-colors overflow-hidden"
             >
               {preview ? (
                 <img src={preview} alt="preview" className="w-full h-40 object-cover" />
@@ -155,7 +155,7 @@ const TransferModal: React.FC<TransferModalProps> = ({ order, onClose, onSubmit,
             <button
               onClick={handleSubmit}
               disabled={uploading || isSubmitting || !file}
-              className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-extrabold text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+              className="flex-1 py-2.5 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] disabled:opacity-50 text-white font-extrabold text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
             >
               {uploading || isSubmitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
               Kirim Bukti
@@ -193,7 +193,7 @@ const OrderRow: React.FC<{
 
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3 min-w-0 flex-1">
-          <div className="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 font-black text-sm shrink-0 overflow-hidden">
+          <div className="w-11 h-11 rounded-xl bg-[var(--primary-50)] border border-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] font-black text-sm shrink-0 overflow-hidden">
             {owner?.avatar_url ? (
               <img src={owner.avatar_url} alt={owner.name} className="w-full h-full object-cover" />
             ) : (
@@ -222,7 +222,7 @@ const OrderRow: React.FC<{
           <span className="text-[10px] font-semibold text-slate-400">per bulan</span>
           <StatusBadge status={order.status} />
           {order.status === 'active' && order.paidAt && (
-            <span className="text-[10px] text-emerald-600 font-semibold">Lunas: {fmtDate(order.paidAt)}</span>
+            <span className="text-[10px] text-[var(--primary-600)] font-semibold">Lunas: {fmtDate(order.paidAt)}</span>
           )}
         </div>
       </div>
@@ -297,7 +297,7 @@ const OrderRow: React.FC<{
             </button>
           )}
           {order.status === 'active' && (
-            <span className="flex items-center gap-1 text-[11px] text-emerald-600 font-bold">
+            <span className="flex items-center gap-1 text-[11px] text-[var(--primary-600)] font-bold">
               <CheckCircle className="w-3.5 h-3.5" /> Sewa Aktif
             </span>
           )}
@@ -344,8 +344,8 @@ export const SeekerOrdersSection: React.FC = () => {
           <p className="text-[12px] text-slate-400 mt-0.5">Pantau status pengajuan dan sewa aktif Anda</p>
         </div>
         {activeOrders.length > 0 && (
-          <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full border border-emerald-100">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="inline-flex items-center gap-1.5 bg-[var(--primary-50)] text-[var(--primary-700)] text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full border border-[var(--primary-100)]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--primary-500)] animate-pulse" />
             {activeOrders.length} Aktif
           </span>
         )}
@@ -360,13 +360,13 @@ export const SeekerOrdersSection: React.FC = () => {
               key={key}
               onClick={() => setTab(key)}
               className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${
-                tab === key ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+                tab === key ? 'bg-white text-[var(--primary-700)] shadow-sm' : 'text-slate-500 hover:text-slate-700'
               }`}
             >
               {label}
               {count > 0 && (
                 <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-black ${
-                  tab === key ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-500'
+                  tab === key ? 'bg-[var(--primary-100)] text-[var(--primary-700)]' : 'bg-slate-200 text-slate-500'
                 }`}>
                   {count}
                 </span>
@@ -378,12 +378,12 @@ export const SeekerOrdersSection: React.FC = () => {
 
       {isLoading ? (
         <div className="flex items-center justify-center py-16">
-          <Loader2 className="w-6 h-6 animate-spin text-emerald-500" />
+          <Loader2 className="w-6 h-6 animate-spin text-[var(--primary-500)]" />
         </div>
       ) : isError ? (
         <div className="bg-white rounded-2xl border border-slate-200/60 p-8 text-center">
           <p className="text-sm font-semibold text-rose-500 mb-3">Gagal memuat riwayat sewa</p>
-          <button onClick={() => refetch()} className="text-xs font-bold text-emerald-600 hover:text-emerald-700 underline">
+          <button onClick={() => refetch()} className="text-xs font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)] underline">
             Coba lagi
           </button>
         </div>

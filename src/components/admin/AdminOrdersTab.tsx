@@ -14,7 +14,7 @@ const STATUS_STYLE: Record<OrderStatus, { chip: string; dot: string }> = {
   pending: { chip: 'bg-amber-50 text-amber-700 border-amber-100', dot: 'bg-amber-500' },
   awaiting_payment: { chip: 'bg-blue-50 text-blue-700 border-blue-100', dot: 'bg-blue-500' },
   awaiting_confirmation: { chip: 'bg-violet-50 text-violet-700 border-violet-100', dot: 'bg-violet-500' },
-  active: { chip: 'bg-emerald-50 text-emerald-700 border-emerald-100', dot: 'bg-emerald-500' },
+  active: { chip: 'bg-[var(--primary-50)] text-[var(--primary-700)] border-[var(--primary-100)]', dot: 'bg-[var(--primary-500)]' },
   rejected: { chip: 'bg-rose-50 text-rose-700 border-rose-100', dot: 'bg-rose-500' },
   cancelled: { chip: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400' },
   completed: { chip: 'bg-slate-50 text-slate-500 border-slate-200', dot: 'bg-slate-400' },
@@ -80,8 +80,8 @@ export const AdminOrdersTab: React.FC = () => {
           <p className="text-2xl font-black text-amber-600 mt-1">{pendingOrders.length}</p>
         </div>
         <div className="bg-white rounded-2xl border border-slate-200/60 p-5 shadow-sm">
-          <p className="text-[10px] font-black uppercase tracking-widest text-emerald-500">Aktif</p>
-          <p className="text-2xl font-black text-emerald-600 mt-1">{activeOrders.length}</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-[var(--primary-500)]">Aktif</p>
+          <p className="text-2xl font-black text-[var(--primary-600)] mt-1">{activeOrders.length}</p>
         </div>
         <div className="bg-white rounded-2xl border border-slate-200/60 p-5 shadow-sm">
           <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Pendapatan Aktif</p>
@@ -97,7 +97,7 @@ export const AdminOrdersTab: React.FC = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Cari kost, pencari, pemilik..."
-            className="w-full pl-9 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-emerald-500 transition-all"
+            className="w-full pl-9 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-[var(--primary-500)] transition-all"
           />
         </div>
         <div className="flex items-center gap-1.5 flex-wrap">
@@ -107,7 +107,7 @@ export const AdminOrdersTab: React.FC = () => {
               onClick={() => setStatusFilter(key)}
               className={`px-3.5 py-2 rounded-xl text-[11px] font-bold transition-all border ${
                 statusFilter === key
-                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
+                  ? 'bg-[var(--primary-600)] text-white border-[var(--primary-600)] shadow-sm'
                   : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:text-slate-700'
               }`}
             >
@@ -121,12 +121,12 @@ export const AdminOrdersTab: React.FC = () => {
       <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
         {isLoading ? (
           <div className="flex items-center justify-center py-16">
-            <Loader2 className="w-6 h-6 animate-spin text-emerald-500" />
+            <Loader2 className="w-6 h-6 animate-spin text-[var(--primary-500)]" />
           </div>
         ) : isError ? (
           <div className="flex flex-col items-center justify-center py-16 gap-3">
             <p className="text-sm font-semibold text-rose-500">Gagal memuat data order</p>
-            <button onClick={() => refetch()} className="text-xs font-bold text-emerald-600 hover:text-emerald-700 underline">
+            <button onClick={() => refetch()} className="text-xs font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)] underline">
               Coba lagi
             </button>
           </div>
@@ -159,7 +159,7 @@ export const AdminOrdersTab: React.FC = () => {
                   <tr key={order.id} className="hover:bg-slate-50/50 transition-colors">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-500 shrink-0">
+                        <div className="w-8 h-8 rounded-lg bg-[var(--primary-50)] border border-[var(--primary-100)] flex items-center justify-center text-[var(--primary-500)] shrink-0">
                           <Building2 className="w-4 h-4" />
                         </div>
                         <div>

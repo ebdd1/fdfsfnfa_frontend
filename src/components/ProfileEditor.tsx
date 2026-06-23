@@ -85,21 +85,21 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onClose }) => {
           <div className="p-6 space-y-5">
 
             {/* Banner Strip */}
-            <div className="relative rounded-2xl overflow-hidden h-36 bg-gradient-to-r from-emerald-500 to-teal-500 shadow-sm">
+            <div className="relative rounded-2xl overflow-hidden h-36 bg-gradient-to-r from-[var(--primary-500)]] to-teal-500 shadow-sm">
               {bannerPreview ? (
                 <img src={bannerPreview} alt="Banner" className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full bg-gradient-to-r from-emerald-500 to-teal-500" />
+                <div className="w-full h-full bg-gradient-to-r from-[var(--primary-500)]] to-teal-500" />
               )}
 
               {/* Avatar overlap */}
               <div className="absolute -bottom-8 left-6">
                 <div className="relative">
-                  <div className="w-16 h-16 rounded-2xl border-4 border-white bg-emerald-100 overflow-hidden shadow-lg">
+                  <div className="w-16 h-16 rounded-2xl border-4 border-white bg-[var(--primary-100)]] overflow-hidden shadow-lg">
                     {avatarPreview ? (
                       <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-emerald-600 font-black text-xl">
+                      <div className="w-full h-full flex items-center justify-center text-[var(--primary-600)]] font-black text-xl">
                         {(name || user?.name || '?')[0].toUpperCase()}
                       </div>
                     )}
@@ -133,7 +133,7 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onClose }) => {
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500 transition-all"
+                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-[var(--primary-500)]] transition-all"
                 placeholder="Nama lengkap"
               />
             </div>
@@ -164,7 +164,7 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ onClose }) => {
             <button
               onClick={handleSave}
               disabled={saving || !name.trim()}
-              className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-extrabold text-sm py-3 rounded-xl transition-all shadow-sm cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 bg-[var(--primary-600)]] hover:bg-[var(--primary-700)]] disabled:opacity-50 text-white font-extrabold text-sm py-3 rounded-xl transition-all shadow-sm cursor-pointer"
             >
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               Simpan Perubahan

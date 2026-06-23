@@ -51,11 +51,11 @@ export const FinanceOverview: React.FC<FinanceOverviewProps> = ({ properties, fo
         {/* Active monthly income — derived from active rental orders */}
         <div className="relative overflow-hidden bg-white rounded-[24px] p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100/50">
           {/* soft emerald glow accent (no flat green block) */}
-          <div className="pointer-events-none absolute -top-16 -right-16 w-48 h-48 bg-emerald-400/10 blur-3xl rounded-full" />
+          <div className="pointer-events-none absolute -top-16 -right-16 w-48 h-48 bg-[var(--primary-400)]/10 blur-3xl rounded-full" />
           <div className="relative flex items-center justify-between mb-6">
             <div className="flex items-center gap-2 text-slate-600 font-medium text-[13px]">
-              <div className="bg-emerald-50 p-1.5 rounded-lg">
-                <Wallet className="w-4 h-4 text-emerald-600" />
+              <div className="bg-[var(--primary-50)] p-1.5 rounded-lg">
+                <Wallet className="w-4 h-4 text-[var(--primary-600)]" />
               </div>
               <span>Pendapatan Aktif</span>
             </div>
@@ -70,7 +70,7 @@ export const FinanceOverview: React.FC<FinanceOverviewProps> = ({ properties, fo
           </div>
 
           <div className="relative flex items-center gap-2 text-[12px]">
-            <span className="flex items-center gap-0.5 bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded-md font-medium">
+            <span className="flex items-center gap-0.5 bg-[var(--primary-50)] text-[var(--primary-600)] px-1.5 py-0.5 rounded-md font-medium">
               <ArrowUpRight className="w-3 h-3" /> Real-time
             </span>
             <span className="text-slate-400">diperbarui otomatis saat sewa berubah</span>
@@ -90,8 +90,8 @@ export const FinanceOverview: React.FC<FinanceOverviewProps> = ({ properties, fo
             <div className="space-y-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="bg-emerald-50 p-2 rounded-lg">
-                    <Users className="w-4 h-4 text-emerald-600" />
+                  <div className="bg-[var(--primary-50)] p-2 rounded-lg">
+                    <Users className="w-4 h-4 text-[var(--primary-600)]" />
                   </div>
                   <div>
                     <p className="text-[13px] font-semibold text-slate-700">Penyewa Aktif</p>

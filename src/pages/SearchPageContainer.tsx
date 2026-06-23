@@ -48,7 +48,7 @@ export const SearchPageContainer = () => {
         <p className="text-sm font-semibold mb-4">Gagal memuat daftar kost.</p>
         <button
           onClick={() => refetch()}
-          className="text-xs font-bold bg-emerald-600 text-white px-5 py-2.5 rounded-full hover:bg-emerald-700 transition-colors"
+          className="text-xs font-bold bg-[var(--primary-600)] text-white px-5 py-2.5 rounded-full hover:bg-[var(--primary-700)] transition-colors"
         >
           Coba Lagi
         </button>

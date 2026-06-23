@@ -170,7 +170,7 @@ export const AdminDashboardPage: React.FC = () => {
                             setMobileMenuOpen(false);
                           }}
                           className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition-all duration-200 cursor-pointer ${active
-                              ? 'bg-emerald-50 text-emerald-700 shadow-sm border border-emerald-100/30'
+                              ? 'bg-[var(--primary-50)] text-[var(--primary-700)] shadow-sm border border-[var(--primary-100)]/30'
                               : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
                             }`}
                         >
@@ -258,7 +258,7 @@ export const AdminDashboardPage: React.FC = () => {
                       className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition-all duration-200 cursor-pointer ${
                         collapsed ? 'justify-center px-0' : ''
                       } ${active
-                        ? 'bg-emerald-50 text-emerald-700 shadow-sm border border-emerald-100/30'
+                        ? 'bg-[var(--primary-50)] text-[var(--primary-700)] shadow-sm border border-[var(--primary-100)]/30'
                         : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
                       }`}
                     >
@@ -401,7 +401,7 @@ export const AdminDashboardPage: React.FC = () => {
                           setIsProfileOpen(false);
                           setShowProfileEditor(true);
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-emerald-600 flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
                         <User className="w-4 h-4 text-slate-400" />
                         <span>Edit Profil Saya</span>
@@ -411,7 +411,7 @@ export const AdminDashboardPage: React.FC = () => {
                           setIsProfileOpen(false);
                           navigate('/');
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-emerald-600 flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
                         <Home className="w-4 h-4 text-slate-400" />
                         <span>Kembali ke Beranda</span>
@@ -467,7 +467,7 @@ export const AdminDashboardPage: React.FC = () => {
                 }}
                 className="flex flex-col items-center justify-center flex-1 h-full py-1 transition-all duration-200 active:scale-95 cursor-pointer"
               >
-                <div className={`flex flex-col items-center justify-center w-[58px] h-[48px] rounded-xl transition-all duration-300 ${active ? 'bg-emerald-50/90 text-emerald-600' : 'text-slate-400 hover:text-slate-600'
+                <div className={`flex flex-col items-center justify-center w-[58px] h-[48px] rounded-xl transition-all duration-300 ${active ? 'bg-[var(--primary-50)]/90 text-[var(--primary-600)]' : 'text-slate-400 hover:text-slate-600'
                   }`}>
                   <IconComponent className={`h-5 w-5 stroke-[2.2] transition-transform duration-300 ${active ? 'scale-105' : ''}`} />
                   <span className={`mt-0.5 text-[9px] tracking-tight transition-colors duration-300 ${active ? 'font-black' : 'font-semibold'}`}>
@@ -498,17 +498,17 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
       {/* Greeting banner with profile cover */}
       <div className="relative overflow-hidden rounded-2xl border border-slate-200/50 shadow-sm">
         {/* Banner background */}
-        <div className="h-28 w-full bg-gradient-to-r from-emerald-500 to-teal-500">
+        <div className="h-28 w-full bg-gradient-to-r from-[var(--primary-500)] to-teal-500">
           {user?.banner_url && <img src={user.banner_url} alt="Banner" className="h-full w-full object-cover" />}
         </div>
         {/* Content over white */}
         <div className="relative bg-white/80 backdrop-blur-md px-6 pb-6 pt-10 sm:px-8">
           {/* Avatar overlapping banner */}
-          <div className="absolute -top-8 left-6 h-16 w-16 overflow-hidden rounded-2xl border-4 border-white bg-emerald-100 shadow-lg sm:left-8">
+          <div className="absolute -top-8 left-6 h-16 w-16 overflow-hidden rounded-2xl border-4 border-white bg-[var(--primary-100)] shadow-lg sm:left-8">
             {user?.avatar_url ? (
               <img src={user.avatar_url} alt={adminName || 'Admin'} className="h-full w-full object-cover" />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-xl font-black text-emerald-600">
+              <div className="flex h-full w-full items-center justify-center text-xl font-black text-[var(--primary-600)]">
                 {(adminName || 'A')[0].toUpperCase()}
               </div>
             )}
@@ -551,7 +551,7 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
                 title="Kost Menunggu Verifikasi"
                 subtitle="Tinjau dan setujui listing terbaru"
                 right={
-                  <button onClick={() => onGo('verify')} className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 transition-colors hover:text-emerald-700 cursor-pointer">
+                  <button onClick={() => onGo('verify')} className="inline-flex items-center gap-1 text-[11px] font-bold text-[var(--primary-600)] transition-colors hover:text-[var(--primary-700)] cursor-pointer">
                     Lihat semua <ArrowRight className="h-3.5 w-3.5" />
                   </button>
                 }
@@ -576,7 +576,7 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
                       <button
                         disabled={isUpdating}
                         onClick={() => updateListing({ id: p.id, data: { isVerified: true } })}
-                        className="inline-flex flex-shrink-0 items-center gap-1 rounded-lg border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-[10px] font-black text-emerald-600 transition-colors hover:bg-emerald-100 disabled:opacity-50 cursor-pointer"
+                        className="inline-flex flex-shrink-0 items-center gap-1 rounded-lg border border-[var(--primary-100)] bg-[var(--primary-50)] px-3 py-1.5 text-[10px] font-black text-[var(--primary-600)] transition-colors hover:bg-[var(--primary-100)] disabled:opacity-50 cursor-pointer"
                       >
                         <CheckCircle className="h-3.5 w-3.5" /> Setujui
                       </button>
@@ -631,7 +631,7 @@ const QuickAction: React.FC<{ icon: React.ReactNode; label: string; onClick: () 
     className="group flex w-full items-center justify-between rounded-xl border border-slate-100 px-4 py-3 text-left transition-all hover:border-slate-200 hover:bg-slate-50"
   >
     <span className="flex items-center gap-3 text-sm font-bold text-slate-700">
-      <span className="text-slate-400 transition-colors group-hover:text-emerald-600">{icon}</span>
+      <span className="text-slate-400 transition-colors group-hover:text-[var(--primary-600)]">{icon}</span>
       {label}
     </span>
     <ChevronRight className="h-4 w-4 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-slate-500" />
@@ -673,13 +673,13 @@ const VerifySection: React.FC = () => {
                 placeholder="Cari kost atau kota..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-4 text-xs font-semibold outline-none transition-colors focus:border-emerald-500 sm:w-64"
+                className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-4 text-xs font-semibold outline-none transition-colors focus:border-[var(--primary-500)] sm:w-64"
               />
             </div>
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value as typeof filter)}
-              className="cursor-pointer rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 outline-none focus:border-emerald-500"
+              className="cursor-pointer rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 outline-none focus:border-[var(--primary-500)]"
             >
               <option value="all">Semua Status</option>
               <option value="unverified">Menunggu Verifikasi</option>
@@ -738,7 +738,7 @@ const VerifySection: React.FC = () => {
                         <button
                           disabled={isUpdating}
                           onClick={() => updateListing({ id: p.id, data: { isVerified: true } })}
-                          className="ml-auto inline-flex items-center gap-1 rounded-lg border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-[10px] font-black text-emerald-600 transition-colors hover:bg-emerald-100 disabled:opacity-50"
+                          className="ml-auto inline-flex items-center gap-1 rounded-lg border border-[var(--primary-100)] bg-[var(--primary-50)] px-3 py-1.5 text-[10px] font-black text-[var(--primary-600)] transition-colors hover:bg-[var(--primary-100)] disabled:opacity-50"
                         >
                           <CheckCircle className="h-3.5 w-3.5" /> Setujui
                         </button>
@@ -854,10 +854,10 @@ const UsersSection: React.FC = () => {
                     </td>
                     <td className="px-6 py-3.5 text-center">
                       <span
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-wider ${u.isActive ? 'border-emerald-100 bg-emerald-50 text-emerald-700' : 'border-rose-100 bg-rose-50 text-rose-700'
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-wider ${u.isActive ? 'border-[var(--primary-100)] bg-[var(--primary-50)] text-[var(--primary-700)]' : 'border-rose-100 bg-rose-50 text-rose-700'
                           }`}
                       >
-                        <span className={`h-1.5 w-1.5 rounded-full ${u.isActive ? 'bg-emerald-500' : 'bg-rose-500'}`} />
+                        <span className={`h-1.5 w-1.5 rounded-full ${u.isActive ? 'bg-[var(--primary-500)]' : 'bg-rose-500'}`} />
                         {u.isActive ? 'Aktif' : 'Nonaktif'}
                       </span>
                     </td>
@@ -875,7 +875,7 @@ const UsersSection: React.FC = () => {
                         <button
                           disabled={isUpdating || u.role === 'admin'}
                           onClick={() => setPending({ user: u, field: 'isVerified', next: !u.isVerified })}
-                          className={`${actionBtn} ${u.isVerified ? 'border-amber-100 bg-amber-50 text-amber-600 hover:bg-amber-100' : 'border-emerald-100 bg-emerald-50 text-emerald-600 hover:bg-emerald-100'}`}
+                          className={`${actionBtn} ${u.isVerified ? 'border-amber-100 bg-amber-50 text-amber-600 hover:bg-amber-100' : 'border-[var(--primary-100)] bg-[var(--primary-50)] text-[var(--primary-600)] hover:bg-[var(--primary-100)]'}`}
                         >
                           {u.isVerified ? <X className="h-3.5 w-3.5" /> : <Check className="h-3.5 w-3.5" />}
                           {u.isVerified ? 'Cabut' : 'Verifikasi'}
@@ -904,7 +904,7 @@ const UsersSection: React.FC = () => {
             <ModalClose onClick={() => setViewUser(null)} />
             {/* Header with soft glow accent */}
             <div className="relative overflow-hidden px-6 pb-5 pt-7">
-              <div className="pointer-events-none absolute -top-16 -right-10 h-44 w-44 rounded-full bg-emerald-400/10 blur-3xl" />
+              <div className="pointer-events-none absolute -top-16 -right-10 h-44 w-44 rounded-full bg-[var(--primary-400)]/10 blur-3xl" />
               <div className="relative flex items-center gap-4">
                 <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 text-slate-400">
                   {viewUser.avatar_url ? <img src={viewUser.avatar_url} alt={viewUser.name} className="h-full w-full object-cover" /> : <User className="h-7 w-7" />}
@@ -916,7 +916,7 @@ const UsersSection: React.FC = () => {
                       {ROLE_LABEL[viewUser.role] ?? viewUser.role}
                     </span>
                     {viewUser.isVerified ? (
-                      <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-emerald-600">
+                      <span className="inline-flex items-center gap-1 rounded-md bg-[var(--primary-50)] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[var(--primary-600)]">
                         <BadgeCheck className="h-3 w-3" /> Terverifikasi
                       </span>
                     ) : (
@@ -934,7 +934,7 @@ const UsersSection: React.FC = () => {
               <DetailRow icon={<Mail className="h-4 w-4" />} label="Email" value={viewUser.email} />
               <DetailRow icon={<Phone className="h-4 w-4" />} label="Telepon" value={viewUser.phone || '-'} />
               <DetailRow
-                icon={<span className={`h-2 w-2 rounded-full ${viewUser.isActive ? 'bg-emerald-500' : 'bg-rose-500'}`} />}
+                icon={<span className={`h-2 w-2 rounded-full ${viewUser.isActive ? 'bg-[var(--primary-500)]' : 'bg-rose-500'}`} />}
                 label="Status Akun"
                 value={viewUser.isActive ? 'Aktif' : 'Nonaktif'}
               />
@@ -947,7 +947,7 @@ const UsersSection: React.FC = () => {
                 <button
                   disabled={isUpdating}
                   onClick={() => setPending({ user: viewUser, field: 'isVerified', next: !viewUser.isVerified })}
-                  className={`flex cursor-pointer items-center gap-1.5 rounded-xl border px-3.5 py-2 text-[12px] font-bold transition-all active:scale-95 disabled:opacity-40 ${viewUser.isVerified ? 'border-amber-100 bg-amber-50 text-amber-600 hover:bg-amber-100' : 'border-emerald-100 bg-emerald-50 text-emerald-600 hover:bg-emerald-100'}`}
+                  className={`flex cursor-pointer items-center gap-1.5 rounded-xl border px-3.5 py-2 text-[12px] font-bold transition-all active:scale-95 disabled:opacity-40 ${viewUser.isVerified ? 'border-amber-100 bg-amber-50 text-amber-600 hover:bg-amber-100' : 'border-[var(--primary-100)] bg-[var(--primary-50)] text-[var(--primary-600)] hover:bg-[var(--primary-100)]'}`}
                 >
                   {viewUser.isVerified ? <X className="h-4 w-4" /> : <Check className="h-4 w-4" />}
                   {viewUser.isVerified ? 'Cabut Verifikasi' : 'Verifikasi'}
@@ -1034,10 +1034,10 @@ const StatsSection: React.FC = () => {
                   <div key={city} className="space-y-1.5">
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                       <span className="flex items-center gap-1.5">
-                        <Building2 className={`h-3.5 w-3.5 ${i === 0 ? 'text-emerald-500' : 'text-slate-300'}`} />
+                        <Building2 className={`h-3.5 w-3.5 ${i === 0 ? 'text-[var(--primary-500)]' : 'text-slate-300'}`} />
                         {city}
                         {i === 0 && (
-                          <span className="rounded-md bg-emerald-50 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wide text-emerald-600">
+                          <span className="rounded-md bg-[var(--primary-50)] px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wide text-[var(--primary-600)]">
                             Terbanyak
                           </span>
                         )}
@@ -1046,7 +1046,7 @@ const StatsSection: React.FC = () => {
                     </div>
                     <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
                       <div
-                        className={`h-full rounded-full ${i === 0 ? 'bg-emerald-500' : 'bg-emerald-400/70'}`}
+                        className={`h-full rounded-full ${i === 0 ? 'bg-[var(--primary-500)]' : 'bg-[var(--primary-400)]/70'}`}
                         style={{ width: `${(count / maxCity) * 100}%` }}
                       />
                     </div>

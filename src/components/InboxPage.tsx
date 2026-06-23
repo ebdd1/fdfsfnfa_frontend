@@ -41,7 +41,7 @@ const Avatar: React.FC<{ src?: string; name?: string; size?: string; className?:
   className = '',
 }) => (
   <div
-    className={`${size} rounded-full overflow-hidden bg-emerald-50 border border-emerald-100/60 flex items-center justify-center text-emerald-700 font-bold shrink-0 ${className}`}
+    className={`${size} rounded-full overflow-hidden bg-[var(--primary-50)]] border border-[var(--primary-100)]]/60 flex items-center justify-center text-[var(--primary-700)]] font-bold shrink-0 ${className}`}
   >
     {src ? (
       <img src={src} alt={name} className="w-full h-full object-cover" />
@@ -208,7 +208,7 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                 key={f}
                 onClick={() => setFilter(f)}
                 className={`flex-1 py-1.5 rounded-lg text-[11px] font-bold transition-colors cursor-pointer ${
-                  filter === f ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                  filter === f ? 'bg-[var(--primary-600)]] text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
                 }`}
               >
                 {f === 'all' ? 'Semua' : 'Belum Dibaca'}
@@ -234,15 +234,15 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                   key={c.id}
                   onClick={() => onSelectConversation(c.id)}
                   className={`w-full flex items-center gap-3 px-4 py-3.5 cursor-pointer transition-colors relative text-left ${
-                    isSelected ? 'bg-emerald-50/60' : 'hover:bg-slate-50'
+                    isSelected ? 'bg-[var(--primary-50)]]/60' : 'hover:bg-slate-50'
                   }`}
                 >
-                  {isSelected && <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-emerald-600 rounded-r-full" />}
+                  {isSelected && <div className="absolute left-0 top-2 bottom-2 w-[3px] bg-[var(--primary-600)]] rounded-r-full" />}
 
                   <div className="relative shrink-0">
                     <Avatar src={threadUser?.avatar_url} name={threadUser?.name} size="w-12 h-12" />
                     {threadUser?.is_verified && (
-                      <span className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white flex items-center justify-center">
+                      <span className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-[var(--primary-500)]] rounded-full border-2 border-white flex items-center justify-center">
                         <CheckCheck className="w-2 h-2 text-white" />
                       </span>
                     )}
@@ -266,7 +266,7 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                           : 'Belum ada pesan'}
                       </p>
                       {c.unread_count > 0 && (
-                        <span className="shrink-0 min-w-[18px] h-[18px] px-1 rounded-full bg-emerald-600 text-white text-[10px] font-bold flex items-center justify-center">
+                        <span className="shrink-0 min-w-[18px] h-[18px] px-1 rounded-full bg-[var(--primary-600)]] text-white text-[10px] font-bold flex items-center justify-center">
                           {c.unread_count}
                         </span>
                       )}
@@ -300,10 +300,10 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                 <h3 className="text-[14px] font-bold text-slate-800 truncate">{partner?.name || 'Pengguna'}</h3>
                 {partnerId && (
                   <span className={`text-[11px] font-semibold flex items-center gap-1.5 ${
-                    onlineUsers?.has(partnerId) ? 'text-emerald-600' : 'text-slate-400'
+                    onlineUsers?.has(partnerId) ? 'text-[var(--primary-600)]]' : 'text-slate-400'
                   }`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${
-                      onlineUsers?.has(partnerId) ? 'bg-emerald-500' : 'bg-slate-400'
+                      onlineUsers?.has(partnerId) ? 'bg-[var(--primary-500)]]' : 'bg-slate-400'
                     }`} />
                     {onlineUsers?.has(partnerId) ? 'Online' : 'Offline'}
                   </span>
@@ -345,7 +345,7 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                       <div
                         className={`group max-w-[78%] sm:max-w-[65%] px-3.5 py-2.5 shadow-sm ${
                           isMe
-                            ? `bg-emerald-600 text-white rounded-2xl ${grouped ? 'rounded-tr-md' : 'rounded-tr-md'} rounded-br-md`
+                            ? `bg-[var(--primary-600)]] text-white rounded-2xl ${grouped ? 'rounded-tr-md' : 'rounded-tr-md'} rounded-br-md`
                             : `bg-white text-slate-800 border border-slate-100 rounded-2xl ${grouped ? 'rounded-tl-md' : 'rounded-tl-md'} rounded-bl-md`
                         }`}
                       >
@@ -370,7 +370,7 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                         ) : (
                           <p className="text-[13.5px] leading-relaxed whitespace-pre-wrap break-words">{m.content}</p>
                         )}
-                        <div className={`flex items-center justify-end gap-1 mt-1 ${isMe ? 'text-emerald-100/80' : 'text-slate-400'}`}>
+                        <div className={`flex items-center justify-end gap-1 mt-1 ${isMe ? 'text-[var(--primary-100)]]/80' : 'text-slate-400'}`}>
                           <span className="text-[9px] font-medium">{fmtTime(m.created_at)}</span>
                           {isMe && (
                             <>
@@ -402,9 +402,9 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                 .filter((q) => q.conversationId === selectedConversationId)
                 .map((q) => (
                   <div key={q.id} className="flex items-end gap-2 justify-end mt-0.5">
-                    <div className="group max-w-[78%] sm:max-w-[65%] px-3.5 py-2.5 shadow-sm bg-emerald-600/70 text-white rounded-2xl rounded-tr-md rounded-br-md border-2 border-dashed border-emerald-400">
+                    <div className="group max-w-[78%] sm:max-w-[65%] px-3.5 py-2.5 shadow-sm bg-[var(--primary-600)]]/70 text-white rounded-2xl rounded-tr-md rounded-br-md border-2 border-dashed border-[var(--primary-400)]]">
                       <p className="text-[13.5px] leading-relaxed whitespace-pre-wrap break-words">{q.content}</p>
-                      <div className="flex items-center justify-end gap-1 mt-1 text-emerald-100/80">
+                      <div className="flex items-center justify-end gap-1 mt-1 text-[var(--primary-100)]]/80">
                         <Clock className="w-3 h-3" />
                         <span className="text-[9px] font-medium">
                           {q.status === 'pending' && 'Tertunda'}
@@ -442,7 +442,7 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                   <button
                     key={qr}
                     onClick={() => onSendMessage(activeConversation.id, qr, 'text')}
-                    className="whitespace-nowrap shrink-0 px-3.5 py-1.5 bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 text-[11.5px] font-semibold text-slate-500 rounded-full border border-slate-150 hover:border-emerald-200 transition-all active:scale-95 cursor-pointer"
+                    className="whitespace-nowrap shrink-0 px-3.5 py-1.5 bg-slate-50 hover:bg-[var(--primary-50)]] hover:text-[var(--primary-700)]] text-[11.5px] font-semibold text-slate-500 rounded-full border border-slate-150 hover:border-[var(--primary-200)]] transition-all active:scale-95 cursor-pointer"
                   >
                     {qr}
                   </button>
@@ -481,13 +481,13 @@ export const InboxPage: React.FC<InboxPageProps> = ({
                 onChange={handleInputChange}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 disabled={uploadingImage}
-                className="flex-1 min-w-0 px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 text-[13.5px] text-slate-700 placeholder-slate-400 focus:bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 outline-none transition-all disabled:opacity-50"
+                className="flex-1 min-w-0 px-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 text-[13.5px] text-slate-700 placeholder-slate-400 focus:bg-white focus:border-[var(--primary-500)]] focus:ring-2 focus:ring-[var(--primary-500)]]/10 outline-none transition-all disabled:opacity-50"
               />
               <motion.button
                 whileTap={{ scale: 0.92 }}
                 onClick={handleSend}
                 disabled={!inputText.trim() || uploadingImage}
-                className="shrink-0 w-11 h-11 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-200 disabled:cursor-not-allowed text-white rounded-2xl shadow-sm transition-colors flex items-center justify-center cursor-pointer"
+                className="shrink-0 w-11 h-11 bg-[var(--primary-600)]] hover:bg-[var(--primary-700)]] disabled:bg-slate-200 disabled:cursor-not-allowed text-white rounded-2xl shadow-sm transition-colors flex items-center justify-center cursor-pointer"
               >
                 <Send className="w-[18px] h-[18px]" />
               </motion.button>
@@ -495,8 +495,8 @@ export const InboxPage: React.FC<InboxPageProps> = ({
           </>
         ) : (
           <div className="flex-1 flex flex-col justify-center items-center text-center px-6">
-            <div className="w-16 h-16 rounded-2xl bg-emerald-50 flex items-center justify-center mb-4">
-              <MessageSquare className="w-7 h-7 text-emerald-500" />
+            <div className="w-16 h-16 rounded-2xl bg-[var(--primary-50)]] flex items-center justify-center mb-4">
+              <MessageSquare className="w-7 h-7 text-[var(--primary-500)]]" />
             </div>
             <h3 className="text-[15px] font-bold text-slate-700 mb-1">Pilih sebuah percakapan</h3>
             <p className="text-[12.5px] text-slate-400 max-w-xs">

@@ -15,7 +15,7 @@ interface BrandNameProps {
  * change in the admin panel reflects everywhere instantly.
  */
 export const BrandName: React.FC<BrandNameProps> = ({
-  accentClassName = 'text-emerald-500',
+  accentClassName = 'text-[var(--primary-500)]',
   className,
 }) => {
   const siteName = useSettingsStore((s) => s.settings.site_name) || 'KostFind';

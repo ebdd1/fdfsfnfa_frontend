@@ -19,7 +19,7 @@ const STATUS_BADGE: Record<OrderStatus, string> = {
   pending: 'bg-amber-50 text-amber-700 border-amber-100',
   awaiting_payment: 'bg-blue-50 text-blue-700 border-blue-100',
   awaiting_confirmation: 'bg-violet-50 text-violet-700 border-violet-100',
-  active: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+  active: 'bg-[var(--primary-50)] text-[var(--primary-700)] border-[var(--primary-100)]',
   rejected: 'bg-rose-50 text-rose-700 border-rose-100',
   cancelled: 'bg-slate-100 text-slate-600 border-slate-200',
   completed: 'bg-slate-50 text-slate-500 border-slate-200',
@@ -73,7 +73,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
 
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3 min-w-0 flex-1">
-          <div className="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 font-black text-sm shrink-0 overflow-hidden">
+          <div className="w-11 h-11 rounded-xl bg-[var(--primary-50)] border border-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] font-black text-sm shrink-0 overflow-hidden">
             {seeker?.avatar_url ? (
               <img src={seeker.avatar_url} alt={seeker.name} className="w-full h-full object-cover" />
             ) : (
@@ -133,7 +133,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
             <button
               onClick={() => onAccept?.(order.id)}
               disabled={isMutating}
-              className="flex-1 flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-extrabold text-xs py-2.5 rounded-xl transition-all cursor-pointer"
+              className="flex-1 flex items-center justify-center gap-1.5 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] disabled:opacity-50 text-white font-extrabold text-xs py-2.5 rounded-xl transition-all cursor-pointer"
             >
               {isMutating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle className="w-3.5 h-3.5" />}
               Terima
@@ -170,7 +170,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
                   <button
                     onClick={() => onConfirmPayment?.(order.id)}
                     disabled={isMutating}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-extrabold text-xs py-2.5 rounded-xl transition-all cursor-pointer"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] disabled:opacity-50 text-white font-extrabold text-xs py-2.5 rounded-xl transition-all cursor-pointer"
                   >
                     {isMutating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle className="w-3.5 h-3.5" />}
                     Konfirmasi Transfer
@@ -269,7 +269,7 @@ export const OwnerOrdersSection: React.FC = () => {
             key={key}
             onClick={() => setTab(key)}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-              tab === key ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+              tab === key ? 'bg-white text-[var(--primary-700)] shadow-sm' : 'text-slate-500 hover:text-slate-700'
             }`}
           >
             {icon}
@@ -278,7 +278,7 @@ export const OwnerOrdersSection: React.FC = () => {
               <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-black ${
                 key === 'pending' ? 'bg-amber-500 text-white' :
                 key === 'payment' ? 'bg-blue-500 text-white' :
-                'bg-emerald-500 text-white'
+                'bg-[var(--primary-500)] text-white'
               }`}>
                 {count}
               </span>
@@ -289,12 +289,12 @@ export const OwnerOrdersSection: React.FC = () => {
 
       {isLoading ? (
         <div className="flex items-center justify-center py-16">
-          <Loader2 className="w-6 h-6 animate-spin text-emerald-500" />
+          <Loader2 className="w-6 h-6 animate-spin text-[var(--primary-500)]" />
         </div>
       ) : isError ? (
         <div className="bg-white rounded-2xl border border-slate-200/60 p-8 text-center">
           <p className="text-sm font-semibold text-rose-500 mb-3">Gagal memuat data permintaan sewa</p>
-          <button onClick={() => refetch()} className="text-xs font-bold text-emerald-600 hover:text-emerald-700 underline">
+          <button onClick={() => refetch()} className="text-xs font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)] underline">
             Coba lagi
           </button>
         </div>

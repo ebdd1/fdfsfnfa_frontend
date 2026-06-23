@@ -197,7 +197,7 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Contoh: Kost Menteng Suite"
-                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-[var(--primary-500)] focus:ring-1 focus:ring-[var(--primary-500)] transition-all"
                   />
                 </div>
               </div>
@@ -209,7 +209,7 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
                     name="type"
                     value={formData.type}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-[var(--primary-500)] focus:ring-1 focus:ring-[var(--primary-500)] transition-all cursor-pointer"
                   >
                     <option value="kost_campur">Campur</option>
                     <option value="kost_putra">Putra</option>
@@ -225,7 +225,7 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
                     value={formData.city}
                     onChange={handleChange}
                     placeholder="Contoh: Jakarta"
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-[var(--primary-500)] focus:ring-1 focus:ring-[var(--primary-500)] transition-all"
                   />
                 </div>
               </div>
@@ -240,7 +240,7 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
                     onChange={handleChange}
                     placeholder="Masukkan alamat lengkap kost..."
                     rows={3}
-                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all resize-none"
+                    className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-[var(--primary-500)] focus:ring-1 focus:ring-[var(--primary-500)] transition-all resize-none"
                   />
                 </div>
               </div>
@@ -267,7 +267,7 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
                     <button
                       type="button"
                       onClick={() => photoInputRef.current?.click()}
-                      className="shrink-0 w-20 h-20 rounded-xl border-2 border-dashed border-slate-200 hover:border-emerald-400 flex flex-col items-center justify-center gap-1 text-slate-400 hover:text-emerald-600 transition-colors cursor-pointer"
+                      className="shrink-0 w-20 h-20 rounded-xl border-2 border-dashed border-slate-200 hover:border-[var(--primary-400)] flex flex-col items-center justify-center gap-1 text-slate-400 hover:text-[var(--primary-600)] transition-colors cursor-pointer"
                     >
                       <Camera className="w-5 h-5" />
                       <span className="text-[9px] font-bold">{photoFiles.length}/5</span>
@@ -307,7 +307,7 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
                     onChange={handleChange}
                     min="1"
                     placeholder="10"
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-black text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-black text-slate-800 focus:outline-none focus:border-[var(--primary-500)] focus:ring-1 focus:ring-[var(--primary-500)] transition-all"
                   />
                   <p className="text-[10px] text-slate-400 mt-1">Kamar 1–N otomatis dibuat</p>
                 </div>
@@ -321,7 +321,7 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
                       value={formData.price}
                       onChange={handleChange}
                       placeholder="1500000"
-                      className="w-full pl-12 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-black text-slate-800 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                      className="w-full pl-12 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-black text-slate-800 focus:outline-none focus:border-[var(--primary-500)] focus:ring-1 focus:ring-[var(--primary-500)] transition-all"
                     />
                   </div>
                 </div>
@@ -335,11 +335,11 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
                 <div className="mb-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <MapPin className={`w-4 h-4 ${locationSuccess ? 'text-emerald-500' : 'text-slate-400'}`} />
+                      <MapPin className={`w-4 h-4 ${locationSuccess ? 'text-[var(--primary-500)]' : 'text-slate-400'}`} />
                       <div>
                         <p className="text-xs font-bold text-slate-700">
                           {formData.lat && formData.lng ? (
-                            <span className="text-emerald-600">Lokasi Tersimpan</span>
+                            <span className="text-[var(--primary-600)]">Lokasi Tersimpan</span>
                           ) : (
                             <span className="text-slate-500">Belum Ada Lokasi</span>
                           )}
@@ -360,8 +360,8 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
                       className={`
                         flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all
                         ${locationSuccess
-                          ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
-                          : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                          ? 'bg-[var(--primary-100)] text-[var(--primary-700)] hover:bg-[var(--primary-200)]'
+                          : 'bg-[var(--primary-600)] text-white hover:bg-[var(--primary-700)]'
                         }
                         disabled:opacity-50 disabled:cursor-not-allowed
                       `}
@@ -382,8 +382,8 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
 
                   {/* Accuracy indicator */}
                   {locationSuccess && (
-                    <div className="mt-2 flex items-center gap-1.5 text-[10px] text-emerald-600">
-                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                    <div className="mt-2 flex items-center gap-1.5 text-[10px] text-[var(--primary-600)]">
+                      <span className="w-1.5 h-1.5 bg-[var(--primary-500)] rounded-full"></span>
                       GPS aktif - Lokasi akurat
                     </div>
                   )}
@@ -412,7 +412,7 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
                       onClick={() => handleFacilityToggle(facility)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
                         formData.facilities.includes(facility)
-                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border-[var(--primary-200)]'
                           : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                       }`}
                     >
@@ -433,7 +433,7 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
                 <button
                   type="submit"
                   disabled={isSubmitting || uploadingPhotos || !formData.price}
-                  className="flex-[2] bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-200 text-white font-extrabold text-sm py-3 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2"
+                  className="flex-[2] bg-[var(--primary-600)] hover:bg-[var(--primary-700)] disabled:bg-[var(--primary-200)] text-white font-extrabold text-sm py-3 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2"
                 >
                   {isSubmitting || uploadingPhotos ? (
                     <span className="flex items-center gap-2 justify-center">
@@ -448,7 +448,7 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
 
           {step === 3 && (
             <div className="py-8 text-center animate-in zoom-in-95">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-600">
+              <div className="w-16 h-16 bg-[var(--primary-100)] rounded-full flex items-center justify-center mx-auto mb-4 text-[var(--primary-600)]">
                 <CheckCircle className="w-8 h-8" />
               </div>
               <h3 className="text-xl font-black text-slate-800 mb-2">Kost Berhasil Diunggah!</h3>

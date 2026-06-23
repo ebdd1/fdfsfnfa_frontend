@@ -27,7 +27,7 @@ import { DEFAULT_SETTINGS, type SiteSettings } from '../../services/api/settings
 type SubTab = 'identity' | 'contact' | 'location' | 'appearance' | 'content' | 'system';
 
 const COLOR_OPTIONS = [
-  { key: 'emerald', label: 'Emerald', dot: 'bg-emerald-500' },
+  { key: 'emerald', label: 'Emerald', dot: 'bg-[var(--primary-500)]' },
   { key: 'blue', label: 'Biru', dot: 'bg-blue-500' },
   { key: 'indigo', label: 'Indigo', dot: 'bg-indigo-500' },
   { key: 'rose', label: 'Rose', dot: 'bg-rose-500' },
@@ -35,7 +35,7 @@ const COLOR_OPTIONS = [
 ];
 
 const PREVIEW_ACCENT: Record<string, string> = {
-  emerald: 'text-emerald-500',
+  emerald: 'text-[var(--primary-500)]',
   blue: 'text-blue-500',
   indigo: 'text-indigo-500',
   rose: 'text-rose-500',
@@ -102,7 +102,7 @@ export const AdminSettingsPanel: React.FC = () => {
   ];
 
   const inputClass =
-    'w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-2.5 text-sm font-semibold text-slate-800 outline-none transition-all focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/10';
+    'w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-2.5 text-sm font-semibold text-slate-800 outline-none transition-all focus:border-[var(--primary-500)] focus:bg-white focus:ring-2 focus:ring-[var(--primary-500)]/10';
   const labelClass = 'mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-700';
 
   // Render brand name two-tone for the live preview
@@ -127,7 +127,7 @@ export const AdminSettingsPanel: React.FC = () => {
                 key={t.key}
                 onClick={() => setSubTab(t.key)}
                 className={`inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all duration-200 ${
-                  subTab === t.key ? 'bg-emerald-600 text-white shadow-sm shadow-emerald-600/15' : 'border border-slate-200 bg-white text-slate-500 hover:bg-slate-50'
+                  subTab === t.key ? 'bg-[var(--primary-600)] text-white shadow-sm shadow-[var(--primary-600)]/15' : 'border border-slate-200 bg-white text-slate-500 hover:bg-slate-50'
                 }`}
               >
                 {t.icon}
@@ -212,9 +212,9 @@ export const AdminSettingsPanel: React.FC = () => {
                   <p className="mb-3 text-[11px] text-slate-400">Kota ini muncul di semua dropdown pencarian & filter di seluruh website.</p>
                   <div className="mb-3 flex flex-wrap gap-2">
                     {form.cities.map((city) => (
-                      <span key={city} className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700">
+                      <span key={city} className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--primary-200)] bg-[var(--primary-50)] px-3 py-1.5 text-xs font-bold text-[var(--primary-700)]">
                         {city}
-                        <button onClick={() => removeCity(city)} className="text-emerald-500 transition-colors hover:text-rose-500">
+                        <button onClick={() => removeCity(city)} className="text-[var(--primary-500)] transition-colors hover:text-rose-500">
                           <X className="h-3.5 w-3.5" />
                         </button>
                       </span>
@@ -234,7 +234,7 @@ export const AdminSettingsPanel: React.FC = () => {
                       }}
                       placeholder="Tambah kota baru..."
                     />
-                    <button onClick={addCity} className="inline-flex flex-shrink-0 items-center gap-1.5 rounded-xl bg-emerald-600 px-4 text-xs font-bold text-white transition-all hover:bg-emerald-750 hover:shadow-lg hover:shadow-emerald-600/10 active:scale-95 duration-150">
+                    <button onClick={addCity} className="inline-flex flex-shrink-0 items-center gap-1.5 rounded-xl bg-[var(--primary-600)] px-4 text-xs font-bold text-white transition-all hover:bg-[var(--primary--750 hover:shadow-lg hover:shadow-[var(--primary-600)]/10 active:scale-95 duration-150">
                       <Plus className="h-4 w-4" /> Tambah
                     </button>
                   </div>
@@ -370,7 +370,7 @@ export const AdminSettingsPanel: React.FC = () => {
                       <select
                         value={form.logo_font_family || 'Inter'}
                         onChange={(e) => set('logo_font_family', e.target.value)}
-                        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:outline-none focus:border-emerald-500"
+                        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:outline-none focus:border-[var(--primary-500)]"
                       >
                         {['Inter', 'Poppins', 'Nunito', 'Montserrat', 'Raleway', 'Quicksand', 'Josefin Sans', 'Playfair Display'].map((f) => (
                           <option key={f} value={f}>{f}</option>
@@ -386,7 +386,7 @@ export const AdminSettingsPanel: React.FC = () => {
                           max={48}
                           value={form.logo_font_size || 16}
                           onChange={(e) => set('logo_font_size', Number(e.target.value))}
-                          className="w-20 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:outline-none focus:border-emerald-500"
+                          className="w-20 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 focus:outline-none focus:border-[var(--primary-500)]"
                         />
                         <span className="text-xs text-slate-400 font-medium">px</span>
                       </div>
@@ -421,13 +421,13 @@ export const AdminSettingsPanel: React.FC = () => {
               <button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-emerald-700 disabled:opacity-60"
+                className="inline-flex items-center gap-2 rounded-xl bg-[var(--primary-600)] px-6 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-[var(--primary-700)] disabled:opacity-60"
               >
                 {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                 Simpan Perubahan
               </button>
               {savedAt && (
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 animate-in fade-in">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--primary-600)] animate-in fade-in">
                   <CheckCircle className="h-4 w-4" /> Tersimpan & berlaku di seluruh website!
                 </span>
               )}
@@ -448,12 +448,12 @@ export const AdminSettingsPanel: React.FC = () => {
               <div className="space-y-4 p-5">
                 <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-white px-3 py-2.5">
                   <div className="flex items-center gap-2">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10">
-                      <Sparkles className={`h-3.5 w-3.5 ${PREVIEW_ACCENT[form.primary_color] ?? 'text-emerald-500'}`} />
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--primary-500)]/10">
+                      <Sparkles className={`h-3.5 w-3.5 ${PREVIEW_ACCENT[form.primary_color] ?? 'text-[var(--primary-500)]'}`} />
                     </span>
                     <span className="text-sm font-black tracking-tight text-slate-900">
                       {brandHead}
-                      <span className={PREVIEW_ACCENT[form.primary_color] ?? 'text-emerald-500'}>{brandTail}</span>
+                      <span className={PREVIEW_ACCENT[form.primary_color] ?? 'text-[var(--primary-500)]'}>{brandTail}</span>
                     </span>
                   </div>
                   <span className="rounded-full bg-slate-900 px-2.5 py-1 text-[8px] font-bold text-white">Masuk</span>
@@ -509,14 +509,14 @@ const FeatureToggle: React.FC<{ label: string; desc: string; value: boolean; onC
       <p className="text-[11px] text-slate-400">{desc}</p>
     </div>
     <button onClick={() => onChange(!value)} className="flex-shrink-0">
-      {value ? <ToggleRight className="h-9 w-9 text-emerald-600" /> : <ToggleLeft className="h-9 w-9 text-slate-300" />}
+      {value ? <ToggleRight className="h-9 w-9 text-[var(--primary-600)]" /> : <ToggleLeft className="h-9 w-9 text-slate-300" />}
     </button>
   </div>
 );
 
 const FeatureChip: React.FC<{ on: boolean; label: string }> = ({ on, label }) => (
-  <span className={`inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px] font-bold ${on ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-400 line-through'}`}>
-    <span className={`h-1.5 w-1.5 rounded-full ${on ? 'bg-emerald-500' : 'bg-slate-300'}`} />
+  <span className={`inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px] font-bold ${on ? 'bg-[var(--primary-50)] text-[var(--primary-600)]' : 'bg-slate-100 text-slate-400 line-through'}`}>
+    <span className={`h-1.5 w-1.5 rounded-full ${on ? 'bg-[var(--primary-500)]' : 'bg-slate-300'}`} />
     {label}
   </span>
 );

@@ -76,8 +76,8 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-emerald-100 to-teal-100 flex items-center justify-center">
-                  <Building className="w-16 h-16 text-emerald-300" />
+                <div className="w-full h-full bg-gradient-to-br from-[var(--primary-100)]] to-teal-100 flex items-center justify-center">
+                  <Building className="w-16 h-16 text-[var(--primary--300" />
                 </div>
               )}
               {/* GPS badge — clickable, opens Google Maps */}
@@ -88,7 +88,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                   rel="noopener noreferrer"
                   className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-slate-900/85 hover:bg-slate-900 backdrop-blur-md px-4 py-2.5 rounded-2xl text-white text-xs font-bold flex items-center gap-2 shadow-lg transition-colors cursor-pointer"
                 >
-                  <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                  <MapPin className="w-3.5 h-3.5 text-[var(--primary-400)]] shrink-0" />
                   Lihat Lokasi di Peta
                 </a>
               )}
@@ -102,7 +102,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                     key={photo.id}
                     onClick={() => setActivePhotoIdx(i)}
                     className={`shrink-0 w-16 h-12 rounded-xl overflow-hidden border-2 transition-all ${
-                      i === activePhotoIdx ? 'border-emerald-500 shadow-md' : 'border-slate-200 opacity-70 hover:opacity-100'
+                      i === activePhotoIdx ? 'border-[var(--primary-500)]] shadow-md' : 'border-slate-200 opacity-70 hover:opacity-100'
                     }`}
                   >
                     <img src={photo.url_thumbnail} alt={`Foto ${i + 1}`} className="w-full h-full object-cover" />
@@ -116,7 +116,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
           <div className="bg-white rounded-[32px] p-8 border border-slate-200/80 shadow-sm space-y-6 text-left">
             <div className="flex flex-wrap gap-2.5">
               {property.owner?.is_verified && (
-                <span className="flex items-center gap-1.5 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-wider py-2 px-4 rounded-xl shadow-sm">
+                <span className="flex items-center gap-1.5 bg-[var(--primary-600)]] text-white text-[10px] font-black uppercase tracking-wider py-2 px-4 rounded-xl shadow-sm">
                   <Shield className="w-3.5 h-3.5 fill-white" />
                   Listing Terverifikasi
                 </span>
@@ -124,7 +124,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
               <span className={`text-[10px] font-black uppercase tracking-wider px-4 py-2 rounded-xl border ${
                 availableCount === 0 
                   ? 'bg-red-50 text-red-700 border-red-100' 
-                  : 'bg-emerald-50 text-emerald-700 border-emerald-100'
+                  : 'bg-[var(--primary-50)]] text-[var(--primary-700)]] border-[var(--primary-100)]]'
               }`}>
                 {availableCount === 0 ? 'Penuh' : `Sisa ${availableCount} Kamar Kosong`}
               </span>
@@ -133,7 +133,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
             <div className="space-y-2">
               <span className={`inline-block text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded ${
                 property.type === 'kost_campur' 
-                  ? 'bg-emerald-50 text-emerald-800'
+                  ? 'bg-[var(--primary-50)]] text-[var(--primary-800)]]'
                   : property.type === 'kost_putra'
                     ? 'bg-blue-50 text-blue-800'
                     : 'bg-pink-50 text-pink-800'
@@ -142,7 +142,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
               </span>
               <h1 className="text-3xl font-black text-slate-800 tracking-tight">{property.name}</h1>
               <p className="text-slate-500 flex items-center gap-1 text-sm font-semibold">
-                <MapPin className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                <MapPin className="w-4 h-4 text-[var(--primary-600)]] flex-shrink-0" />
                 {property.location.address}
               </p>
             </div>
@@ -174,7 +174,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
             <div>
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Mulai Dari</span>
               <div className="flex items-baseline">
-                <span className="text-3xl font-black text-emerald-600">{formatPrice(lowestPrice)}</span>
+                <span className="text-3xl font-black text-[var(--primary-600)]]">{formatPrice(lowestPrice)}</span>
                 <span className="text-slate-400 text-xs ml-1 font-semibold">/bulan</span>
               </div>
             </div>
@@ -194,7 +194,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                         ))}
                       </div>
                     </div>
-                    <span className={`text-[10px] font-black px-2.5 py-1 rounded-full ${room.status === 'available' ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
+                    <span className={`text-[10px] font-black px-2.5 py-1 rounded-full ${room.status === 'available' ? 'bg-[var(--primary-50)]] text-[var(--primary-700)]]' : 'bg-red-50 text-red-700'}`}>
                       {room.status === 'available' ? 'Tersedia' : 'Penuh'}
                     </span>
                   </div>
@@ -213,7 +213,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                 </div>
                 <div>
                   <h4 className="text-sm font-extrabold text-slate-800">{property.owner?.name || 'Pemilik Kost'}</h4>
-                  <p className="text-[10px] text-emerald-600 font-bold">Hubungi via Chat</p>
+                  <p className="text-[10px] text-[var(--primary-600)]] font-bold">Hubungi via Chat</p>
                 </div>
               </div>
 
@@ -224,7 +224,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                   setIsRentOpen(true);
                 }}
                 disabled={availableCount === 0}
-                className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-2xl font-extrabold text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald-600/10 hover:shadow-lg hover:shadow-emerald-600/20 transition-all duration-200 active:scale-95"
+                className="w-full py-3.5 bg-[var(--primary-600)]] hover:bg-[var(--primary-700)]] disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-2xl font-extrabold text-xs flex items-center justify-center gap-2 shadow-md shadow-[var(--primary-600)]]/10 hover:shadow-lg hover:shadow-[var(--primary-600)]]/20 transition-all duration-200 active:scale-95"
               >
                 <KeyRound className="w-4 h-4" />
                 {availableCount === 0 ? 'Kamar Penuh' : 'Ajukan Sewa'}
@@ -248,13 +248,13 @@ export const DetailPage: React.FC<DetailPageProps> = ({
         <div className="max-w-6xl mx-auto px-4 sm:px-8 mt-10 sm:mt-16 pt-10 sm:pt-12 border-t border-slate-200/60 animate-in fade-in slide-in-from-bottom-6 duration-300">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div className="text-left space-y-1">
-              <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest block font-mono">PILIHAN LAINNYA</span>
+              <span className="text-[10px] font-bold text-[var(--primary-600)]] uppercase tracking-widest block font-mono">PILIHAN LAINNYA</span>
               <h3 className="text-2xl font-black text-slate-800 tracking-tight">Kost Serupa yang Direkomendasikan</h3>
               <p className="text-sm text-slate-500">Hunian alternatif terdekat dengan fasilitas terbaik dan terverifikasi.</p>
             </div>
             <button 
               onClick={() => navigate('/search')}
-              className="flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-700 hover:translate-x-0.5 transition-all self-start sm:self-auto cursor-pointer font-extrabold"
+              className="flex items-center gap-1 text-xs font-bold text-[var(--primary-600)]] hover:text-[var(--primary-700)]] hover:translate-x-0.5 transition-all self-start sm:self-auto cursor-pointer font-extrabold"
             >
               Lihat Semua Kost
               <ChevronRight className="w-4 h-4" />
@@ -284,8 +284,8 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                     {/* Verified badge — only when owner is actually verified */}
                     {p.owner?.is_verified && (
                       <div className="absolute top-4 left-4">
-                        <span className="flex items-center gap-1.5 bg-white/95 text-emerald-700 text-[10px] font-bold py-1.5 px-3 rounded-full border border-emerald-100 shadow-sm">
-                          <Shield className="w-3 h-3 fill-emerald-600 text-emerald-600 shrink-0" />
+                        <span className="flex items-center gap-1.5 bg-white/95 text-[var(--primary-700)]] text-[10px] font-bold py-1.5 px-3 rounded-full border border-[var(--primary-100)]] shadow-sm">
+                          <Shield className="w-3 h-3 fill-[var(--primary-600)]] text-[var(--primary-600)]] shrink-0" />
                           Terverifikasi
                         </span>
                       </div>
@@ -302,7 +302,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                     <div className="space-y-2">
                       <span className={`inline-block text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded ${
                         p.type === 'kost_campur' 
-                          ? 'bg-emerald-50 text-emerald-800'
+                          ? 'bg-[var(--primary-50)]] text-[var(--primary-800)]]'
                           : p.type === 'kost_putra'
                             ? 'bg-blue-50 text-blue-800'
                             : 'bg-pink-50 text-pink-800'
@@ -310,7 +310,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                         {p.type === 'kost_campur' ? 'Campur' : p.type === 'kost_putra' ? 'Putra' : 'Putri'}
                       </span>
                       
-                      <h4 className="text-base font-black text-slate-800 group-hover:text-emerald-600 transition-colors line-clamp-1">{p.name}</h4>
+                      <h4 className="text-base font-black text-slate-800 group-hover:text-[var(--primary-600)]] transition-colors line-clamp-1">{p.name}</h4>
                       
                       <p className="text-slate-500 text-xs flex items-center gap-1 font-semibold">
                         <MapPin className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
@@ -326,7 +326,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                       </div>
 
                       <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full ${
-                        availableRoomsCount > 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+                        availableRoomsCount > 0 ? 'bg-[var(--primary-50)]] text-[var(--primary-700)]]' : 'bg-red-50 text-red-700'
                       }`}>
                         {availableRoomsCount > 0 ? `${availableRoomsCount} Kamar Tersedia` : 'Penuh'}
                       </span>

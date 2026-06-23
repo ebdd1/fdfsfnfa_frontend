@@ -16,7 +16,7 @@ export const MaintenancePage: React.FC = () => {
       {settings.support_email && (
         <p className="mt-6 text-xs text-slate-400">
           Butuh bantuan? Hubungi{' '}
-          <a href={`mailto:${settings.support_email}`} className="font-bold text-emerald-600 hover:text-emerald-700">
+          <a href={`mailto:${settings.support_email}`} className="font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)]">
             {settings.support_email}
           </a>
         </p>

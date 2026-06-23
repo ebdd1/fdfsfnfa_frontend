@@ -178,13 +178,13 @@ export const MapView: React.FC<MapViewProps> = ({
                   <p className="text-xs text-slate-500 line-clamp-1 mb-1">
                     {property.location.address}
                   </p>
-                  <p className="text-emerald-600 font-extrabold">
+                  <p className="text-[var(--primary-600)]] font-extrabold">
                     {formatPrice(lowestPrice)}
                     <span className="text-slate-400 font-normal text-[10px]"> /bln</span>
                   </p>
                   <button
                     onClick={() => onSelectProperty(property.id)}
-                    className="mt-2 w-full bg-emerald-600 text-white text-xs font-bold py-1.5 px-3 rounded-lg hover:bg-emerald-700 transition-colors"
+                    className="mt-2 w-full bg-[var(--primary-600)]] text-white text-xs font-bold py-1.5 px-3 rounded-lg hover:bg-[var(--primary-700)]] transition-colors"
                   >
                     Lihat Detail
                   </button>

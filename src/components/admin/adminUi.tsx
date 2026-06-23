@@ -3,7 +3,7 @@ import { Loader2, X, AlertTriangle } from 'lucide-react';
 
 /** Shared accent palette (static classes so Tailwind JIT keeps them). */
 export const ACCENTS: Record<string, { chip: string; bar: string; soft: string; text: string }> = {
-  emerald: { chip: 'bg-emerald-500/10 text-emerald-600', bar: 'bg-emerald-500', soft: 'bg-emerald-50', text: 'text-emerald-600' },
+  emerald: { chip: 'bg-[var(--primary-500)]/10 text-[var(--primary-600)]', bar: 'bg-[var(--primary-500)]', soft: 'bg-[var(--primary-50)]', text: 'text-[var(--primary-600)]' },
   indigo: { chip: 'bg-indigo-500/10 text-indigo-600', bar: 'bg-indigo-500', soft: 'bg-indigo-50', text: 'text-indigo-600' },
   amber: { chip: 'bg-amber-500/10 text-amber-600', bar: 'bg-amber-500', soft: 'bg-amber-50', text: 'text-amber-600' },
   blue: { chip: 'bg-blue-500/10 text-blue-600', bar: 'bg-blue-500', soft: 'bg-blue-50', text: 'text-blue-600' },
@@ -26,14 +26,14 @@ export const KpiCard: React.FC<{
           <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</p>
           <p className="mt-2 text-3.5xl font-black tracking-tight text-slate-900">{value}</p>
         </div>
-        <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-slate-150 bg-white/60 text-slate-650 shadow-sm transition-all duration-300 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600">
+        <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-slate-150 bg-white/60 text-slate-650 shadow-sm transition-all duration-300 group-hover:bg-[var(--primary-600)] group-hover:text-white group-hover:border-[var(--primary-600)]">
           {icon}
         </div>
       </div>
       {progress !== undefined && (
         <div className="mt-4">
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100/80">
-            <div className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500" style={{ width: `${Math.min(100, Math.max(0, progress))}%` }} />
+            <div className="h-full rounded-full bg-gradient-to-r from-[var(--primary-500)] to-teal-500 transition-all duration-500" style={{ width: `${Math.min(100, Math.max(0, progress))}%` }} />
           </div>
         </div>
       )}
@@ -50,7 +50,7 @@ export const Panel: React.FC<{ children: React.ReactNode; className?: string }> 
 export const PanelHeader: React.FC<{ title: string; subtitle?: string; right?: React.ReactNode }> = ({ title, subtitle, right }) => (
   <div className="flex items-center justify-between gap-4 border-b border-slate-100 px-6 py-4">
     <div className="flex items-center gap-2.5">
-      <span className="h-4 w-1.5 rounded-full bg-emerald-500" />
+      <span className="h-4 w-1.5 rounded-full bg-[var(--primary-500)]" />
       <div>
         <h3 className="text-sm font-bold text-slate-800">{title}</h3>
         {subtitle && <p className="text-[11px] font-medium text-slate-400">{subtitle}</p>}
@@ -62,10 +62,10 @@ export const PanelHeader: React.FC<{ title: string; subtitle?: string; right?: R
 
 export const StatusBadge: React.FC<{ ok: boolean; okLabel: string; noLabel: string }> = ({ ok, okLabel, noLabel }) => (
   <span
-    className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-wider ${ok ? 'border-emerald-100 bg-emerald-50 text-emerald-700' : 'border-amber-100 bg-amber-50 text-amber-700'
+    className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-wider ${ok ? 'border-[var(--primary-100)] bg-[var(--primary-50)] text-[var(--primary-700)]' : 'border-amber-100 bg-amber-50 text-amber-700'
       }`}
   >
-    <span className={`h-1.5 w-1.5 rounded-full ${ok ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+    <span className={`h-1.5 w-1.5 rounded-full ${ok ? 'bg-[var(--primary-500)]' : 'bg-amber-500'}`} />
     {ok ? okLabel : noLabel}
   </span>
 );
@@ -80,7 +80,7 @@ export const ErrorState: React.FC<{ message: string; onRetry?: () => void }> = (
   <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
     <p className="text-sm font-semibold text-slate-500">{message}</p>
     {onRetry && (
-      <button onClick={onRetry} className="rounded-full bg-emerald-600 px-5 py-2 text-xs font-bold text-white transition-colors hover:bg-emerald-700 active:scale-95 shadow-sm">
+      <button onClick={onRetry} className="rounded-full bg-[var(--primary-600)] px-5 py-2 text-xs font-bold text-white transition-colors hover:bg-[var(--primary-700)] active:scale-95 shadow-sm">
         Coba Lagi
       </button>
     )}
@@ -155,12 +155,12 @@ export const ConfirmDialog: React.FC<{
   onClose: () => void;
 }> = ({ open, title, message, confirmLabel = 'Ya, lanjutkan', cancelLabel = 'Batal', tone = 'emerald', loading, onConfirm, onClose }) => {
   const toneRing: Record<string, string> = {
-    emerald: 'bg-emerald-50 text-emerald-600',
+    emerald: 'bg-[var(--primary-50)] text-[var(--primary-600)]',
     rose: 'bg-rose-50 text-rose-600',
     amber: 'bg-amber-50 text-amber-600',
   };
   const toneBtn: Record<string, string> = {
-    emerald: 'bg-emerald-600 hover:bg-emerald-700',
+    emerald: 'bg-[var(--primary-600)] hover:bg-[var(--primary-700)]',
     rose: 'bg-rose-600 hover:bg-rose-700',
     amber: 'bg-amber-500 hover:bg-amber-600',
   };

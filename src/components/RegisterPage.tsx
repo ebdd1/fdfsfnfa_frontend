@@ -88,7 +88,7 @@ export const RegisterPage = () => {
             <p className="mt-3 text-sm text-slate-500 leading-relaxed">
               Maaf, registrasi akun baru untuk sementara tidak tersedia. Silakan coba lagi nanti atau hubungi {settings.support_email || 'admin'}.
             </p>
-            <Link to="/login" className="mt-6 inline-flex items-center justify-center gap-2 bg-[#004ac6] hover:bg-[#003a9e] text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors shadow-lg shadow-[#004ac6]/20">
+            <Link to="/login" className="mt-6 inline-flex items-center justify-center gap-2 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors shadow-lg shadow-[var(--primary-600)]/20">
               Sudah punya akun? Masuk
             </Link>
           </div>
@@ -111,7 +111,7 @@ export const RegisterPage = () => {
           {/* Logo */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center gap-3 mb-2">
-              <div className="bg-[#004ac6] text-white p-2 rounded-xl shadow-lg shadow-[#004ac6]/20">
+              <div className="bg-[var(--primary-600)] text-white p-2 rounded-xl shadow-lg shadow-[var(--primary-600)]/20">
                 <Shield className="w-5 h-5" />
               </div>
               <SiteLogo className="text-xl text-slate-900" />
@@ -125,7 +125,7 @@ export const RegisterPage = () => {
               <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Buat Akun Baru</h1>
               <p className="text-sm text-slate-500 mt-2">
                 Sudah punya akun?{' '}
-                <Link to="/login" className="font-semibold text-[#004ac6] hover:text-[#003a9e] transition-colors">
+                <Link to="/login" className="font-semibold text-[var(--primary-600)] hover:text-[var(--primary-700)] transition-colors">
                   Masuk di sini
                 </Link>
               </p>
@@ -180,7 +180,7 @@ export const RegisterPage = () => {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="block w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#004ac6] focus:ring-2 focus:ring-[#004ac6]/10 transition-all cursor-text"
+                    className="block w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[var(--primary-600)] focus:ring-2 focus:ring-[var(--primary-600)]/10 transition-all cursor-text"
                     placeholder="Masukkan nama lengkap"
                   />
                 </div>
@@ -199,7 +199,7 @@ export const RegisterPage = () => {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#004ac6] focus:ring-2 focus:ring-[#004ac6]/10 transition-all cursor-text"
+                    className="block w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[var(--primary-600)] focus:ring-2 focus:ring-[var(--primary-600)]/10 transition-all cursor-text"
                     placeholder="nama@email.com"
                   />
                 </div>
@@ -218,7 +218,7 @@ export const RegisterPage = () => {
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="block w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#004ac6] focus:ring-2 focus:ring-[#004ac6]/10 transition-all cursor-text"
+                    className="block w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[var(--primary-600)] focus:ring-2 focus:ring-[var(--primary-600)]/10 transition-all cursor-text"
                     placeholder="08xxxxxxxxxx"
                   />
                 </div>
@@ -238,7 +238,7 @@ export const RegisterPage = () => {
                     minLength={8}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full pl-11 pr-11 py-3.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[#004ac6] focus:ring-2 focus:ring-[#004ac6]/10 transition-all cursor-text"
+                    className="block w-full pl-11 pr-11 py-3.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:border-[var(--primary-600)] focus:ring-2 focus:ring-[var(--primary-600)]/10 transition-all cursor-text"
                     placeholder="Min. 8 karakter"
                   />
                   <button
@@ -257,7 +257,7 @@ export const RegisterPage = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex items-center justify-center gap-2 bg-[#004ac6] hover:bg-[#003a9e] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed text-white py-3.5 rounded-xl font-semibold text-sm transition-all mt-6 shadow-lg shadow-[#004ac6]/20 hover:shadow-[#004ac6]/30 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#004ac6] focus:ring-offset-2"
+                className="w-full flex items-center justify-center gap-2 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed text-white py-3.5 rounded-xl font-semibold text-sm transition-all mt-6 shadow-lg shadow-[var(--primary-600)]/20 hover:shadow-[var(--primary-600)]/30 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[var(--primary-600)] focus:ring-offset-2"
               >
                 {isLoading ? (
                   <Loader2 className="w-5 h-5 animate-spin" />

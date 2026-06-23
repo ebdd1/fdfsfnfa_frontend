@@ -88,7 +88,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
             <div className="animate-in fade-in zoom-in-95 duration-200 space-y-4">
               {/* Success header */}
               <div className="text-center pt-1">
-                <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3 text-emerald-600">
+                <div className="w-14 h-14 bg-[var(--primary-100)]] rounded-full flex items-center justify-center mx-auto mb-3 text-[var(--primary-600)]]">
                   <CheckCircle className="w-7 h-7" />
                 </div>
                 <h3 className="text-lg font-black text-slate-800">Pengajuan Terkirim!</h3>
@@ -111,7 +111,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
                 </div>
                 <div className="flex justify-between items-center pt-2.5 border-t border-slate-200">
                   <span className="text-sm font-bold text-slate-700">Total</span>
-                  <span className="text-base font-black text-emerald-700">{formatIDR(createdOrder.totalAmount || total)}</span>
+                  <span className="text-base font-black text-[var(--primary-700)]]">{formatIDR(createdOrder.totalAmount || total)}</span>
                 </div>
               </div>
 
@@ -135,7 +135,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
                           onClick={() => copyAccount(createdOrder.owner!.bankAccountNumber!)}
                           className="shrink-0 flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-[11px] font-bold transition-colors cursor-pointer"
                         >
-                          {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                          {copied ? <Check className="w-3.5 h-3.5 text-[var(--primary-600)]]" /> : <Copy className="w-3.5 h-3.5" />}
                           {copied ? 'Tersalin' : 'Salin'}
                         </button>
                       </div>
@@ -165,7 +165,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
               <div className="space-y-2.5 pt-1">
                 <button
                   onClick={goToRiwayat}
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer active:scale-[0.98]"
+                  className="w-full bg-[var(--primary-600)]] hover:bg-[var(--primary-700)]] text-white font-extrabold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer active:scale-[0.98]"
                 >
                   Lihat & Pantau di Riwayat Sewa
                   <ArrowRight className="w-4 h-4" />
@@ -188,7 +188,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
                 <select
                   value={roomId}
                   onChange={(e) => setRoomId(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500 transition-all cursor-pointer"
+                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-[var(--primary-500)]] transition-all cursor-pointer"
                 >
                   <option value="">— Pilih kamar tersedia —</option>
                   {availableRooms.map((r) => (
@@ -209,7 +209,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500 transition-all"
+                      className="w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-[var(--primary-500)]] transition-all"
                     />
                   </div>
                 </div>
@@ -220,7 +220,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
                     min={1}
                     value={durationMonths}
                     onChange={(e) => setDurationMonths(Math.max(1, Number(e.target.value)))}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-black text-slate-800 focus:outline-none focus:border-emerald-500 transition-all"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-black text-slate-800 focus:outline-none focus:border-[var(--primary-500)]] transition-all"
                   />
                 </div>
               </div>
@@ -234,7 +234,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
                     onClick={() => setPaymentMethod('transfer')}
                     className={`flex flex-col items-center gap-2 p-3.5 rounded-xl border-2 transition-all cursor-pointer ${
                       paymentMethod === 'transfer'
-                        ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+                        ? 'border-[var(--primary-500)]] bg-[var(--primary-50)]] text-[var(--primary-700)]]'
                         : 'border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300'
                     }`}
                   >
@@ -247,7 +247,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
                     onClick={() => setPaymentMethod('cod')}
                     className={`flex flex-col items-center gap-2 p-3.5 rounded-xl border-2 transition-all cursor-pointer ${
                       paymentMethod === 'cod'
-                        ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+                        ? 'border-[var(--primary-500)]] bg-[var(--primary-50)]] text-[var(--primary-700)]]'
                         : 'border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300'
                     }`}
                   >
@@ -259,12 +259,12 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
               </div>
 
               {/* Total estimasi */}
-              <div className="bg-emerald-50/60 border border-emerald-100 rounded-2xl p-4 flex items-center justify-between">
+              <div className="bg-[var(--primary-50)]]/60 border border-[var(--primary-100)]] rounded-2xl p-4 flex items-center justify-between">
                 <div>
-                  <p className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider">Total Estimasi</p>
+                  <p className="text-[11px] font-bold text-[var(--primary-700)]] uppercase tracking-wider">Total Estimasi</p>
                   <p className="text-[11px] text-slate-500">{selectedRoom ? `${formatIDR(selectedRoom.price_monthly)} × ${durationMonths} bulan` : 'Pilih kamar dulu'}</p>
                 </div>
-                <span className="text-xl font-black text-emerald-700">{formatIDR(total)}</span>
+                <span className="text-xl font-black text-[var(--primary-700)]]">{formatIDR(total)}</span>
               </div>
 
               {error && (
@@ -276,7 +276,7 @@ export const RentOrderModal: React.FC<RentOrderModalProps> = ({ isOpen, onClose,
               <button
                 onClick={handleSubmit}
                 disabled={isCreating}
-                className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white font-extrabold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm"
+                className="w-full bg-[var(--primary-600)]] hover:bg-[var(--primary-700)]] disabled:opacity-60 text-white font-extrabold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-sm"
               >
                 {isCreating ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                 Kirim Pengajuan Sewa

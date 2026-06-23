@@ -97,7 +97,7 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
         </p>
         <button 
           onClick={onAddProperty}
-          className="bg-emerald-600 text-white font-semibold text-[13px] px-6 py-2.5 rounded-xl hover:bg-emerald-700 transition-colors shadow-sm flex items-center gap-2 cursor-pointer"
+          className="bg-[var(--primary-600)] text-white font-semibold text-[13px] px-6 py-2.5 rounded-xl hover:bg-[var(--primary-700)] transition-colors shadow-sm flex items-center gap-2 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Tambah Kost Pertama</span>
@@ -135,7 +135,7 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
 
           <button
             onClick={onAddProperty}
-            className="bg-emerald-600 text-white font-semibold text-[13px] px-4 py-2.5 rounded-xl hover:bg-emerald-700 transition-colors shadow-sm flex items-center gap-1.5 cursor-pointer"
+            className="bg-[var(--primary-600)] text-white font-semibold text-[13px] px-4 py-2.5 rounded-xl hover:bg-[var(--primary-700)] transition-colors shadow-sm flex items-center gap-1.5 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>Tambah Kost</span>
@@ -177,8 +177,8 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
                   onClick={(e) => { e.stopPropagation(); handleToggleSelect(property.id); }}
                   className={`absolute top-3 left-3 w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all cursor-pointer z-10
                     ${selectedIds.has(property.id)
-                      ? 'bg-emerald-600 border-emerald-600'
-                      : 'bg-white/80 border-slate-300 hover:border-emerald-400'}`}
+                      ? 'bg-[var(--primary-600)] border-[var(--primary-600)]'
+                      : 'bg-white/80 border-slate-300 hover:border-[var(--primary-400)]'}`}
                 >
                   {selectedIds.has(property.id) && <Check className="w-3.5 h-3.5 text-white" />}
                 </button>
@@ -199,9 +199,9 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
 
                 {/* Status Badge */}
                 <div className={`absolute bottom-3 left-3 px-2.5 py-1 backdrop-blur-md bg-white/90 rounded-lg text-[10px] font-bold uppercase tracking-wider shadow-sm flex items-center gap-1.5
-                  ${property.is_verified ? 'text-emerald-700' : 'text-amber-700'}
+                  ${property.is_verified ? 'text-[var(--primary-700)]' : 'text-amber-700'}
                 `}>
-                  <div className={`w-1.5 h-1.5 rounded-full ${property.is_verified ? 'bg-emerald-500' : 'bg-amber-500'}`}></div>
+                  <div className={`w-1.5 h-1.5 rounded-full ${property.is_verified ? 'bg-[var(--primary-500)]' : 'bg-amber-500'}`}></div>
                   {property.is_verified ? 'Terverifikasi' : 'Menunggu'}
                 </div>
               </div>
@@ -243,7 +243,7 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
                           addRoomPropertyId === property.id ? null : property.id
                         );
                       }}
-                      className="flex items-center gap-1 text-[11px] font-bold text-emerald-600 hover:text-emerald-700 transition-colors cursor-pointer"
+                      className="flex items-center gap-1 text-[11px] font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)] transition-colors cursor-pointer"
                     >
                       <Plus className="w-3 h-3" />
                       Tambah Kamar
@@ -260,7 +260,7 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
                           value={addRoomCount}
                           onChange={e => setAddRoomCount(e.target.value)}
                           placeholder="Jumlah"
-                          className="w-20 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-[12px] font-semibold text-slate-700 outline-none focus:border-emerald-400"
+                          className="w-20 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-[12px] font-semibold text-slate-700 outline-none focus:border-[var(--primary-400)]"
                         />
                         <span className="text-[11px] text-slate-400 font-medium">kamar</span>
                         <span className="text-slate-300">|</span>
@@ -270,7 +270,7 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
                           value={addRoomPrice}
                           onChange={e => setAddRoomPrice(e.target.value)}
                           placeholder="per bulan"
-                          className="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-[12px] font-semibold text-slate-700 outline-none focus:border-emerald-400"
+                          className="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-[12px] font-semibold text-slate-700 outline-none focus:border-[var(--primary-400)]"
                         />
                       </div>
                       <div className="flex gap-2">
@@ -283,7 +283,7 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
                         <button
                           disabled={isAdding && pendingPropertyId === property.id}
                           onClick={() => handleAddRoom(property.id)}
-                          className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg text-[11px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-300 transition-colors cursor-pointer"
+                          className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg text-[11px] font-bold text-white bg-[var(--primary-600)] hover:bg-[var(--primary-700)] disabled:bg-[var(--primary--300 transition-colors cursor-pointer"
                         >
                           {isAdding && pendingPropertyId === property.id ? (
                             <Loader2 className="w-3 h-3 animate-spin" />
@@ -309,7 +309,7 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
                           onChange={(e) => updateRoomStatus({ roomId: room.id, status: e.target.value as RoomStatus })}
                           className={`text-[11px] font-bold rounded-lg border px-2 py-1 outline-none cursor-pointer transition-colors disabled:opacity-50 ${
                             room.status === 'available'
-                              ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                              ? 'border-[var(--primary-200)] bg-[var(--primary-50)] text-[var(--primary-700)]'
                               : room.status === 'occupied'
                                 ? 'border-blue-200 bg-blue-50 text-blue-700'
                                 : 'border-amber-200 bg-amber-50 text-amber-700'

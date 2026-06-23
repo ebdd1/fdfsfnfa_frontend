@@ -6,8 +6,8 @@ import { useToastStore, type Toast, type ToastVariant } from '../stores/toastSto
 const VARIANT: Record<ToastVariant, { icon: React.ReactNode; ring: string; iconWrap: string }> = {
   success: {
     icon: <CheckCircle2 className="w-5 h-5" />,
-    ring: 'border-emerald-100',
-    iconWrap: 'bg-emerald-50 text-emerald-600',
+    ring: 'border-[var(--primary-100)]',
+    iconWrap: 'bg-[var(--primary-50)] text-[var(--primary-600)]',
   },
   info: {
     icon: <Info className="w-5 h-5" />,

@@ -78,7 +78,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
         {/* Header Title */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2 text-left">
-            <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-2xl">
+            <div className="p-2.5 bg-[var(--primary-50)]] text-[var(--primary-600)]] rounded-2xl">
               <SlidersHorizontal className="w-5 h-5" />
             </div>
             <div>
@@ -100,7 +100,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
           <select 
             value={selectedCity} 
             onChange={(e) => setSelectedCity(e.target.value)}
-            className="w-full rounded-xl border-slate-200 text-xs font-semibold text-slate-700 bg-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all py-2.5 px-3"
+            className="w-full rounded-xl border-slate-200 text-xs font-semibold text-slate-700 bg-white focus:ring-4 focus:ring-[var(--primary-500)]]/10 focus:border-[var(--primary-500)]] outline-none transition-all py-2.5 px-3"
           >
             <option value="">Semua Kota</option>
             {settings.cities.map((city) => (
@@ -115,7 +115,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
           <select 
             value={selectedType} 
             onChange={(e) => setSelectedType(e.target.value)}
-            className="w-full rounded-xl border-slate-200 text-xs font-semibold text-slate-700 bg-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all py-2.5 px-3"
+            className="w-full rounded-xl border-slate-200 text-xs font-semibold text-slate-700 bg-white focus:ring-4 focus:ring-[var(--primary-500)]]/10 focus:border-[var(--primary-500)]] outline-none transition-all py-2.5 px-3"
           >
             <option value="">Semua Tipe</option>
             <option value="kost_campur">Campur</option>
@@ -135,11 +135,11 @@ export const SearchPage: React.FC<SearchPageProps> = ({
               step={250000}
               value={maxPrice} 
               onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-emerald-600 focus:outline-none"
+              className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[var(--primary-600)]] focus:outline-none"
             />
             <div className="flex justify-between items-center text-[10px] font-bold text-slate-600">
               <span>Rp 500rb</span>
-              <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Maks: Rp {(maxPrice / 1000000).toFixed(1)}jt</span>
+              <span className="text-[var(--primary-700)]] bg-[var(--primary-50)]] px-2 py-0.5 rounded">Maks: Rp {(maxPrice / 1000000).toFixed(1)}jt</span>
             </div>
           </div>
         </div>
@@ -156,7 +156,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                   onClick={() => toggleFacility(fac)}
                   className={`py-2 px-3 rounded-xl border text-[11px] font-semibold text-center transition-all cursor-pointer ${
                     isChecked 
-                      ? 'border-emerald-500 bg-emerald-50/50 text-emerald-800 ring-2 ring-emerald-500/5' 
+                      ? 'border-[var(--primary-500)]] bg-[var(--primary-50)]]/50 text-[var(--primary-800)]] ring-2 ring-[var(--primary-500)]]/5' 
                       : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
                   }`}
                 >
@@ -191,7 +191,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
               placeholder="Mau ngekost di mana? Cari jalan, kota, atau nama kost..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-slate-200/80 bg-white text-xs font-medium focus:ring-4 focus:ring-emerald-500/5 focus:border-emerald-500 shadow-sm transition-all outline-none"
+              className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-slate-200/80 bg-white text-xs font-medium focus:ring-4 focus:ring-[var(--primary-500)]]/5 focus:border-[var(--primary-500)]] shadow-sm transition-all outline-none"
             />
           </div>
           <button
@@ -240,7 +240,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                 onMouseEnter={() => setHoveredPropertyId(p.id)}
                 onMouseLeave={() => setHoveredPropertyId(null)}
                 className={`bg-white rounded-[28px] overflow-hidden border transition-all duration-300 cursor-pointer group flex flex-col relative ${
-                  isHovered ? 'border-emerald-500 shadow-xl shadow-slate-100/60 y-[-4px]' : 'border-slate-200/80 shadow-sm'
+                  isHovered ? 'border-[var(--primary-500)]] shadow-xl shadow-slate-100/60 y-[-4px]' : 'border-slate-200/80 shadow-sm'
                 }`}
               >
                 {/* Image & badging */}
@@ -255,8 +255,8 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                   <div className="absolute top-4 left-4">
                     <span className="flex items-center gap-1.5 bg-white/95 text-slate-800 text-[10px] font-bold py-1.5 px-3 rounded-full border border-slate-200 shadow-sm">
                       <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--primary-400)]] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--primary-500)]]"></span>
                       </span>
                       GPS Terverifikasi
                     </span>
@@ -276,7 +276,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                   {/* Available count label */}
                   <div className="absolute bottom-4 right-4">
                     <span className={`text-[10px] font-extrabold px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm ${
-                      available > 0 ? 'bg-white/90 text-emerald-800' : 'bg-red-50 text-red-700'
+                      available > 0 ? 'bg-white/90 text-[var(--primary-800)]]' : 'bg-red-50 text-red-700'
                     }`}>
                       {available === 0 ? 'Penuh' : `Sisa ${available} Kamar`}
                     </span>
@@ -288,7 +288,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                   <div className="space-y-2">
                     <span className={`inline-block text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded ${
                       p.type === 'kost_campur' 
-                        ? 'bg-emerald-50 text-emerald-800' 
+                        ? 'bg-[var(--primary-50)]] text-[var(--primary-800)]]' 
                         : p.type === 'kost_putra' 
                           ? 'bg-blue-50 text-blue-800' 
                           : 'bg-pink-50 text-pink-800'
@@ -296,7 +296,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                       {p.type === 'kost_campur' ? 'Campur' : p.type === 'kost_putra' ? 'Putra' : 'Putri'}
                     </span>
 
-                    <h3 className="text-base font-extrabold text-slate-800 group-hover:text-emerald-600 transition-colors line-clamp-1">{p.name}</h3>
+                    <h3 className="text-base font-extrabold text-slate-800 group-hover:text-[var(--primary-600)]] transition-colors line-clamp-1">{p.name}</h3>
                     
                     <div className="flex items-center gap-1 text-slate-400 text-xs">
                       <MapPin className="w-3.5 h-3.5 text-slate-300 flex-shrink-0" />
@@ -311,7 +311,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                       </span>
                     ))}
                     {p.facilities.length > 3 && (
-                      <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 py-1 px-2.5 rounded-lg">
+                      <span className="text-[10px] font-bold text-[var(--primary-600)]] bg-[var(--primary-50)]] py-1 px-2.5 rounded-lg">
                         +{p.facilities.length - 3} Lainnya
                       </span>
                     )}
@@ -322,7 +322,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                       <span className="text-lg font-black text-slate-900">{formatPrice(lowestPrice)}</span>
                       <span className="text-slate-400 text-xs ml-0.5">/bln</span>
                     </div>
-                    <span className="text-xs font-extrabold text-emerald-600 group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
+                    <span className="text-xs font-extrabold text-[var(--primary-600)]] group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
                       Detail Kost &rarr;
                     </span>
                   </div>

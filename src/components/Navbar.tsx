@@ -110,7 +110,7 @@ export const Navbar: React.FC = () => {
                       {user.avatar_url ? (
                         <img src={user.avatar_url} alt={user.name} className="w-8 h-8 rounded-lg object-cover shrink-0" />
                       ) : (
-                        <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm shrink-0">
+                        <div className="w-8 h-8 rounded-lg bg-[var(--primary-50)] text-[var(--primary-600)] flex items-center justify-center font-bold text-sm shrink-0">
                           {user.name?.charAt(0).toUpperCase()}
                       </div>
                       )}
@@ -127,9 +127,9 @@ export const Navbar: React.FC = () => {
                         <Link
                           to="/anda/home"
                           onClick={() => setDropdownOpen(false)}
-                          className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-emerald-600 transition-colors"
+                          className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] transition-colors"
                         >
-                          <LayoutDashboard className="h-4 w-4 text-slate-400 group-hover:text-emerald-600 transition-colors" />
+                          <LayoutDashboard className="h-4 w-4 text-slate-400 group-hover:text-[var(--primary-600)] transition-colors" />
                           <span>Dasbor Saya</span>
                         </Link>
                       )}
@@ -138,9 +138,9 @@ export const Navbar: React.FC = () => {
                         <Link
                           to="/dashboard"
                           onClick={() => setDropdownOpen(false)}
-                          className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-emerald-600 transition-colors"
+                          className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] transition-colors"
                         >
-                          <LayoutDashboard className="h-4 w-4 text-slate-400 group-hover:text-emerald-600 transition-colors" />
+                          <LayoutDashboard className="h-4 w-4 text-slate-400 group-hover:text-[var(--primary-600)] transition-colors" />
                           <span>Dasbor Pemilik</span>
                         </Link>
                       )}
