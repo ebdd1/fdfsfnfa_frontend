@@ -81,6 +81,9 @@ Sebelum consider komponen "done":
 
 ## 🔧 Development Workflow
 
+### MGRCAO Framework (WAJIB DIIKUTI)
+Setiap tugas pengembangan WAJIB mengikuti alur **MGRCAO** (7-Phase: Architecture Analysis, Dependency Mapping, Risk Assessment, Implementation Plan, Code Generation, Review, Optimization). Setiap output wajib menyertakan Output Contract (Analisis Arsitektur, Analisis Dependensi, Review Keamanan, Rencana Implementasi, Kode Hasil, Self Review, QA Checklist).
+
 ### Saat Build UI Baru
 
 ```
