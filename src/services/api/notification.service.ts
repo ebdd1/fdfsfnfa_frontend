@@ -12,7 +12,11 @@ export interface NotificationRecord {
 }
 
 export const notificationService = {
-  mine: async (): Promise<NotificationRecord[]> => (await api.get('/notifications')).data,
+  mine: async (): Promise<NotificationRecord[]> => {
+    const response = await api.get('/notifications');
+    // Backend returns { data: [...] } structure
+    return response.data?.data ?? response.data ?? [];
+  },
   markRead: async (id: string): Promise<void> => {
     await api.patch(`/notifications/${id}/read`);
   },

@@ -688,7 +688,7 @@ export const UserDashboardPage: React.FC = () => {
                           <p className="text-xs text-slate-400 mt-0.5">Update proses sewa kost akan muncul di sini.</p>
                         </div>
                       ) : (
-                        notifications.map((n) => (
+                        notifications.filter(Boolean).map((n) => (
                           <button
                             key={n.id}
                             onClick={() => openNotification(n)}

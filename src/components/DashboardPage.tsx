@@ -251,7 +251,7 @@ export const DashboardPage = () => {
               </div>
             ) : (
               <div className="max-h-[60vh] overflow-y-auto py-1">
-                {notifications.map((n) => (
+                {notifications.filter(Boolean).map((n) => (
                   <button
                     key={n.id}
                     onClick={() => openNotification(n)}
@@ -612,7 +612,7 @@ export const DashboardPage = () => {
                           <p className="text-[11px] text-slate-400 mt-0.5">Update permintaan & pembayaran sewa akan muncul di sini.</p>
                         </div>
                       ) : (
-                        notifications.map((n) => (
+                        notifications.filter(Boolean).map((n) => (
                           <button
                             key={n.id}
                             onClick={() => openNotification(n)}

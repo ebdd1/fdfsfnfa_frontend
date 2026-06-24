@@ -22,8 +22,8 @@ export const useNotifications = () => {
     onSuccess: () => qc.invalidateQueries({ queryKey: ['notifications'] }),
   });
 
-  const notifications = query.data || [];
-  const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const notifications = (query.data || []).filter(Boolean);
+  const unreadCount = notifications.filter((n) => n && !n.isRead).length;
 
   return {
     notifications,
