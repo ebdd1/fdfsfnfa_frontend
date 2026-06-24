@@ -3,7 +3,7 @@ import { useAuthStore } from '../stores/authStore';
 import { useConnectionStore } from '../stores/connectionStore';
 
 /** API URL — Railway provides HTTPS, so WSS is used automatically */
-const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const SOCKET_URL = import.meta.env.VITE_API_URL || 'https://api-production-fafbf.up.railway.app';
 
 let socket: Socket | null = null;
 let joinHandler: (() => void) | null = null;

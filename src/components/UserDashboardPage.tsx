@@ -282,7 +282,7 @@ export const UserDashboardPage: React.FC = () => {
               </div>
             ) : (
               <div className="max-h-[60vh] overflow-y-auto py-1">
-                {notifications.map((n) => (
+                {notifications.filter(Boolean).map((n) => (
                   <button
                     key={n.id}
                     onClick={() => openNotification(n)}

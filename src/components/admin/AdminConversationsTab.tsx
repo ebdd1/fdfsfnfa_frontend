@@ -230,6 +230,7 @@ export const AdminConversationsTab: React.FC = () => {
                   </div>
                 ) : (
                   messages.map((m, i) => {
+                    if (!selected) return null;
                     const fromOwner = m.senderId === selected.ownerId;
                     const prev = messages[i - 1];
                     const showDay = !prev || dayLabel(prev.createdAt) !== dayLabel(m.createdAt);
