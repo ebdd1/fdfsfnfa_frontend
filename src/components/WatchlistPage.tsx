@@ -74,7 +74,7 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({
             </div>
             <button
               onClick={() => navigate('/search')}
-              className="px-5 py-2.5 bg-[var(--primary-600)]] hover:bg-[var(--primary-700)]] text-white text-xs font-bold rounded-xl shadow-sm transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer mt-2"
+              className="px-5 py-2.5 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] text-white text-xs font-bold rounded-xl shadow-sm transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer mt-2"
             >
               <Sparkles className="w-3.5 h-3.5" />
               Cari Kost Sekarang
@@ -90,27 +90,27 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({
                 <div
                   key={p.id}
                   onClick={() => onSelectProperty(p.id)}
-                  className="bg-white rounded-3xl overflow-hidden border border-slate-200/60 shadow-sm hover:shadow-md hover:border-[var(--primary-500)]]/30 transition-all duration-300 cursor-pointer group flex flex-col relative"
+                  className="bg-white rounded-3xl overflow-hidden border border-slate-200/60 shadow-sm hover:shadow-md hover:border-[var(--primary-500)]/30 transition-all duration-300 cursor-pointer group flex flex-col relative"
                 >
                   <div className="relative aspect-[4/3] bg-slate-100 overflow-hidden">
-                    <img 
-                      src={p.media[0]?.url_medium} 
-                      alt={p.name} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    <img
+                      src={p.media[0]?.url_medium}
+                      alt={p.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    
+
                     {/* Available Rooms Status Badge */}
                     <div className="absolute top-4 left-4">
                       {availableRooms > 0 ? (
-                        <span className="flex items-center gap-1 bg-white/95 text-slate-800 text-[10px] font-bold py-1.5 px-3 rounded-full border border-slate-200 shadow-sm">
+                        <span className="flex items-center gap-1 bg-white text-slate-800 text-xs font-bold py-1.5 px-3 rounded-full border border-slate-200 shadow-sm">
                           <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--primary-400)]] opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--primary-500)]]"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--primary-400)] opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--primary-500)]"></span>
                           </span>
                           Sisa {availableRooms} Kamar
                         </span>
                       ) : (
-                        <span className="flex items-center bg-red-50 text-red-700 text-[10px] font-bold py-1.5 px-3 rounded-full border border-red-100 shadow-sm">
+                        <span className="flex items-center bg-red-50 text-red-700 text-xs font-bold py-1.5 px-3 rounded-full border border-red-100 shadow-sm">
                           Penuh
                         </span>
                       )}
@@ -121,25 +121,25 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({
                         e.stopPropagation();
                         onToggleWatchlist(p.id);
                       }}
-                      className="absolute top-4 right-4 p-2.5 rounded-full bg-white/90 backdrop-blur-sm text-slate-400 hover:text-red-500 border border-slate-200/50 shadow-md active:scale-95 transition-all z-20 cursor-pointer"
+                      className="absolute top-4 right-4 p-2.5 rounded-full bg-white text-slate-400 hover:text-red-500 border border-slate-200/50 shadow-md active:scale-95 transition-all z-20 cursor-pointer"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
-                  
+
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                     <div className="space-y-2 text-left">
-                      <span className={`inline-block text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded ${
-                        p.type === 'kost_campur' 
-                          ? 'bg-[var(--primary-50)]] text-[var(--primary-800)]]' 
-                          : p.type === 'kost_putra' 
-                            ? 'bg-blue-50 text-blue-800' 
+                      <span className={`inline-block text-xs font-extrabold uppercase tracking-wider px-2 py-0.5 rounded ${
+                        p.type === 'kost_campur'
+                          ? 'bg-[var(--primary-50)] text-[var(--primary-800)]'
+                          : p.type === 'kost_putra'
+                            ? 'bg-blue-50 text-blue-800'
                             : 'bg-pink-50 text-pink-800'
                       }`}>
                         {p.type === 'kost_campur' ? 'Campur' : p.type === 'kost_putra' ? 'Putra' : 'Putri'}
                       </span>
 
-                      <h3 className="text-base font-extrabold text-slate-800 group-hover:text-[var(--primary-600)]] transition-colors line-clamp-1">
+                      <h3 className="text-base font-extrabold text-slate-800 group-hover:text-[var(--primary-600)] transition-colors line-clamp-1">
                         {p.name}
                       </h3>
                       
@@ -154,7 +154,7 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({
                         <span className="text-lg font-black text-slate-900">{formatPrice(lowestPrice)}</span>
                         <span className="text-slate-400 text-xs ml-0.5">/bln</span>
                       </div>
-                      <span className="text-xs font-extrabold text-[var(--primary-600)]] group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
+                      <span className="text-xs font-extrabold text-[var(--primary-600)] group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
                         Detail Kost &rarr;
                       </span>
                     </div>
@@ -177,12 +177,12 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({
         {/* Create Alert Box */}
         <form onSubmit={handleCreateAlert} className="bg-white rounded-3xl p-6 border border-slate-200/85 shadow-sm space-y-5">
           <h3 className="text-sm font-extrabold text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-3 text-left">
-            <div className="p-2 bg-[var(--primary-50)]] text-[var(--primary-600)]] rounded-xl">
+            <div className="p-2 bg-[var(--primary-50)] text-[var(--primary-600)] rounded-xl">
               <Bell className="w-4 h-4" />
             </div>
             <span>Buat Notifikasi Baru</span>
           </h3>
-          
+
           <div className="text-left space-y-1.5">
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">Nama Notifikasi</label>
             <input
@@ -190,7 +190,7 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({
               placeholder="Contoh: Kost Dekat ITB"
               value={alertName}
               onChange={(e) => setAlertName(e.target.value)}
-              className="w-full text-xs rounded-xl border-slate-200 bg-slate-50/50 focus:bg-white focus:ring-4 focus:ring-[var(--primary-500)]]/10 focus:border-[var(--primary-500)]] outline-none transition-all py-2.5 px-3"
+              className="w-full text-xs rounded-xl border-slate-200 bg-slate-50/50 focus:bg-white focus:ring-4 focus:ring-[var(--primary-500)]/10 focus:border-[var(--primary-500)] outline-none transition-all py-2.5 px-3"
             />
           </div>
 
@@ -199,7 +199,7 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({
             <select
               value={alertCity}
               onChange={(e) => setAlertCity(e.target.value)}
-              className="w-full text-xs rounded-xl border-slate-200 bg-white focus:ring-4 focus:ring-[var(--primary-500)]]/10 focus:border-[var(--primary-500)]] outline-none transition-all py-2.5 px-3"
+              className="w-full text-xs rounded-xl border-slate-200 bg-white focus:ring-4 focus:ring-[var(--primary-500)]/10 focus:border-[var(--primary-500)] outline-none transition-all py-2.5 px-3"
             >
               {settings.cities.map((city) => (
                 <option key={city} value={city}>{city}</option>
@@ -209,7 +209,7 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({
 
           <button
             type="submit"
-            className="w-full py-3 bg-[var(--primary-600)]] hover:bg-[var(--primary-700)]] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-sm cursor-pointer"
+            className="w-full py-3 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95 shadow-sm cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             Aktifkan Alert
@@ -222,14 +222,14 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({
             <p className="text-xs font-bold text-slate-400 uppercase tracking-wider text-left">Alert Aktif ({alerts.length})</p>
           )}
           {alerts.map((a) => (
-            <div key={a.id} className="bg-white rounded-2xl p-4 border border-slate-200/60 shadow-sm flex items-center justify-between hover:border-[var(--primary-500)]]/30 transition-all duration-300">
+            <div key={a.id} className="bg-white rounded-2xl p-4 border border-slate-200/60 shadow-sm flex items-center justify-between hover:border-[var(--primary-500)]/30 transition-all duration-300">
               <div className="flex items-center gap-3 text-left">
-                <div className="p-2.5 rounded-xl bg-[var(--primary-50)]] text-[var(--primary-600)]]">
+                <div className="p-2.5 rounded-xl bg-[var(--primary-50)] text-[var(--primary-600)]">
                   <Bell className="w-4 h-4" />
                 </div>
                 <div>
                   <h4 className="text-xs font-extrabold text-slate-800 leading-snug">{a.name}</h4>
-                  <p className="text-[10px] text-slate-400 font-semibold mt-0.5">Kota: {a.search_params.city}</p>
+                  <p className="text-xs text-slate-400 font-semibold mt-0.5">Kota: {a.search_params.city}</p>
                 </div>
               </div>
               <button

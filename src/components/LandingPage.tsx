@@ -238,7 +238,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <div className="flex items-center gap-2">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--primary-400)] opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--primary-50)]0"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--primary-600)]"></span>
                     </span>
                     <span className="text-xs font-bold text-slate-900">Kost Leari Ana</span>
                   </div>
@@ -512,7 +512,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
                   {/* New Way Row (KostFind Highlighted) */}
                   <div className="col-span-1 md:col-span-4">
-                    <div className="flex items-center md:justify-center gap-2 p-3 md:py-2.5 md:px-4 rounded-xl bg-[var(--primary-50)] border border-[var(--primary-100)] text-[var(--primary-950)]">
+                    <div className="flex items-center md:justify-center gap-2 p-3 md:py-2.5 md:px-4 rounded-xl bg-[var(--primary-50)] border border-[var(--primary-200)] text-[var(--primary-900)]">
                       <span className="w-5 h-5 rounded-full bg-[var(--primary-600)] text-white flex items-center justify-center flex-shrink-0">
                         <CircleCheck className="w-3.5 h-3.5 text-white" />
                       </span>
@@ -549,36 +549,36 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             {/* Background connecting line */}
             <div className="absolute left-14 top-6 bottom-6 w-[2px] bg-slate-150/70 z-0"></div>
             {/* Dynamic indicator line */}
-            <div 
-              className="absolute left-14 top-6 w-[2px] bg-[var(--primary-50)]0 transition-all duration-500 z-0"
+            <div
+              className="absolute left-14 top-6 w-[2px] bg-[var(--primary-600)] transition-all duration-500 z-0"
               style={{ height: `${(activeStep / 3) * 82}%`, maxHeight: 'calc(100% - 48px)' }}
             ></div>
 
             {[
-              { 
-                step: "01", 
-                title: "Cari & Saring", 
+              {
+                step: "01",
+                title: "Cari & Saring",
                 desc: "Temukan opsi kost terdekat dari kampus menggunakan peta GPS dan saring harga.",
               },
-              { 
-                step: "02", 
-                title: "Verifikasi Visual", 
+              {
+                step: "02",
+                title: "Verifikasi Visual",
                 desc: "Periksa foto dan video terverifikasi GPS yang diambil langsung di lapangan.",
               },
-              { 
-                step: "03", 
-                title: "Chat Pemilik", 
+              {
+                step: "03",
+                title: "Chat Pemilik",
                 desc: "Hubungi langsung pemilik kost melalui obrolan pesan dengan template instan.",
               },
-              { 
-                step: "04", 
-                title: "Kesepakatan Aman", 
+              {
+                step: "04",
+                title: "Kesepakatan Aman",
                 desc: "Simpan rekap biaya tertulis dan lakukan survei koordinat dengan peta akurat.",
               }
             ].map((item, i) => {
               const active = activeStep === i;
               return (
-                <div 
+                <div
                   key={i}
                   onMouseEnter={() => setActiveStep(i)}
                   onClick={() => setActiveStep(i)}
@@ -587,14 +587,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   {/* Circle Indicator */}
                   <div className="relative z-10 flex-shrink-0">
                     <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-sm transition-all duration-300 ${
-                      active 
-                        ? 'border-[var(--primary-500)] bg-[var(--primary-50)]0 text-white shadow-lg shadow-[var(--primary-500)]/20 scale-105' 
+                      active
+                        ? 'border-[var(--primary-500)] bg-[var(--primary-600)] text-white shadow-lg shadow-[var(--primary-500)]/20 scale-105'
                         : 'border-slate-200 bg-white text-slate-400 group-hover:border-slate-350 group-hover:text-slate-650'
                     }`}>
                       {item.step}
                     </div>
                   </div>
-                  
+
                   {/* Text Details */}
                   <div className="space-y-1 pt-1.5 flex-1">
                     <h4 className={`text-base font-black transition-colors duration-200 ${active ? 'text-slate-900' : 'text-slate-500 group-hover:text-slate-700'}`}>
@@ -611,11 +611,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
           {/* Right Column: High Fidelity Interactive Simulator Screen */}
           <div className="lg:col-span-7 bg-white border border-slate-200 rounded-lg p-6 md:p-8 shadow-[0_24px_50px_rgba(15,23,42,0.04)] min-h-[350px] relative overflow-hidden flex flex-col justify-center">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-[var(--primary-50)]0/5 rounded-full blur-3xl pointer-events-none"></div>
-            
+            <div className="absolute top-0 right-0 w-48 h-48 bg-[var(--primary-500)]/5 rounded-full blur-3xl pointer-events-none"></div>
+
             <AnimatePresence mode="wait">
               {activeStep === 0 && (
-                <motion.div 
+                <motion.div
                   key="step-0"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -643,7 +643,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                         <span className="text-[var(--primary-700)] bg-[var(--primary-50)] px-2 py-0.5 rounded-md text-[10px]">Max: Rp 1.500.000 / bln</span>
                       </div>
                       <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
-                        <div className="h-full bg-[var(--primary-50)]0 rounded-full w-2/3"></div>
+                        <div className="h-full bg-[var(--primary-600)] rounded-full w-2/3"></div>
                       </div>
                     </div>
                   </div>
@@ -661,7 +661,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               )}
 
               {activeStep === 1 && (
-                <motion.div 
+                <motion.div
                   key="step-1"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -678,14 +678,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   </div>
                   <div className="relative aspect-video rounded-2xl bg-slate-950 overflow-hidden border border-slate-200">
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent z-10"></div>
-                    <img 
-                      src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80" 
-                      alt="Verifikasi Visual" 
+                    <img
+                      src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80"
+                      alt="Verifikasi Visual"
                       className="w-full h-full object-cover opacity-75"
                     />
                     <div className="absolute bottom-4 left-4 right-4 z-20 text-white space-y-1 text-left">
                       <div className="flex items-center gap-1.5">
-                        <span className="h-2 w-2 bg-[var(--primary-50)]0 rounded-full animate-ping"></span>
+                        <span className="h-2 w-2 bg-[var(--primary-600)] rounded-full animate-ping"></span>
                         <span className="text-[10px] font-black tracking-widest uppercase">GPS LOCK MATCHED</span>
                       </div>
                       <p className="text-[10px] text-slate-300 font-semibold">Latitude: -2.9904 | Longitude: 120.1983</p>
@@ -846,7 +846,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                       <span className="flex items-center gap-1.5 bg-white/95 text-slate-800 text-[10px] font-extrabold py-1.5 px-3.5 rounded-full border border-slate-200 shadow-sm">
                         <span className="relative flex h-2 w-2">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--primary-400)] opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--primary-50)]0"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--primary-600)]"></span>
                         </span>
                         GPS Terverifikasi
                       </span>
