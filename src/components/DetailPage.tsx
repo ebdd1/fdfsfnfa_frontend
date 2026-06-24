@@ -224,7 +224,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                   setIsRentOpen(true);
                 }}
                 disabled={availableCount === 0}
-                className="w-full py-3.5 bg-[var(--primary-600)]] hover:bg-[var(--primary-700)]] disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-2xl font-extrabold text-xs flex items-center justify-center gap-2 shadow-md shadow-[var(--primary-600)]]/10 hover:shadow-lg hover:shadow-[var(--primary-600)]]/20 transition-all duration-200 active:scale-95"
+                className="w-full py-3.5 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-2xl font-extrabold text-xs flex items-center justify-center gap-2 shadow-md shadow-[var(--primary-600)]/10 hover:shadow-lg hover:shadow-[var(--primary-600)]/20 transition-all duration-200 active:scale-95"
               >
                 <KeyRound className="w-4 h-4" />
                 {availableCount === 0 ? 'Kamar Penuh' : 'Ajukan Sewa'}
