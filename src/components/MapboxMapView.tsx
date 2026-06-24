@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useRef } from 'react';
-import Map, { Marker, Popup, GeolocateControl, NavigationControl, ScaleControl } from 'react-map-gl/mapbox';
+import Map, { Marker, Popup, GeolocateControl, NavigationControl, ScaleControl, Source, Layer } from 'react-map-gl/mapbox';
 import type { MapRef, ViewStateChangeEvent } from 'react-map-gl/mapbox';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -19,6 +19,7 @@ import {
   ZoomIn,
   ZoomOut,
   Compass,
+  Navigation2,
 } from 'lucide-react';
 import type { Property, Room } from '../types';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -300,10 +301,16 @@ const PropertyCard: React.FC<{
   rooms: Room[];
   onClose: () => void;
   onViewDetails: () => void;
-}> = ({ property, rooms, onClose, onViewDetails }) => {
+  isLoadingRoute: boolean;
+}> = ({ property, rooms, onClose, onViewDetails, isLoadingRoute }) => {
   const lowestPrice = getLowestPrice(rooms);
   const [currentImage, setCurrentImage] = useState(0);
   const images = property.media.length > 0 ? property.media : [{ url_thumbnail: '/placeholder.jpg', url_medium: '/placeholder.jpg' }];
+
+  const handleExternalNavigation = () => {
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${property.location.latitude},${property.location.longitude}`;
+    window.open(url, '_blank');
+  };
 
   return (
     <motion.div
@@ -396,6 +403,24 @@ const PropertyCard: React.FC<{
         >
           Lihat Detail & Booking
         </button>
+
+        <button
+          onClick={handleExternalNavigation}
+          disabled={isLoadingRoute}
+          className="w-full mt-2 bg-white border-2 border-[#004ac6] text-[#004ac6] font-bold py-3 px-4 rounded-xl hover:bg-[#004ac6] hover:text-white active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isLoadingRoute ? (
+            <>
+              <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+              Menghitung Rute...
+            </>
+          ) : (
+            <>
+              <Navigation2 className="w-4 h-4" />
+              Navigasi ke Lokasi
+            </>
+          )}
+        </button>
       </div>
     </motion.div>
   );
@@ -417,6 +442,12 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
   const [showTraffic, setShowTraffic] = useState(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [zoom, setZoom] = useState(14);
+  const [routeGeometry, setRouteGeometry] = useState<{
+    type: 'Feature';
+    geometry: { type: 'LineString'; coordinates: number[][] };
+    properties: Record<string, unknown>;
+  } | null>(null);
+  const [isLoadingRoute, setIsLoadingRoute] = useState(false);
 
   const mapRef = useRef<MapRef | null>(null);
 
@@ -444,11 +475,34 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
     return validProperties.filter((p) => p.property.type === activeFilter);
   }, [validProperties, activeFilter]);
 
-  // Fly to marker with smooth animation
+  // Fetch driving route from Directions API
+  const fetchRoute = useCallback(async (start: [number, number], end: [number, number]) => {
+    if (!accessToken) return;
+
+    setIsLoadingRoute(true);
+    try {
+      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${accessToken}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.routes?.[0]) {
+        setRouteGeometry(data.routes[0]);
+      }
+    } catch (err) {
+      console.warn('[Map] Failed to fetch route:', err);
+    } finally {
+      setIsLoadingRoute(false);
+    }
+  }, [accessToken]);
+
+  // Fly to marker with smooth animation and calculate route
   const handleMarkerClick = useCallback((prop: PropertyMarker) => {
     setPopupInfo(prop);
     setIsBottomSheetOpen(true);
     onSelectProperty(prop.property.id);
+
+    // Calculate route from city center to property
+    fetchRoute(PALOPO_CENTER, [prop.property.location.longitude, prop.property.location.latitude]);
 
     mapRef.current?.flyTo({
       center: [prop.property.location.longitude, prop.property.location.latitude],
@@ -457,7 +511,7 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
       bearing: 0,
       ...FLY_TO_PRESETS.smooth,
     });
-  }, [onSelectProperty]);
+  }, [onSelectProperty, fetchRoute]);
 
   // Handle map load with 3D buildings
   const handleMapLoad = useCallback(() => {
@@ -523,10 +577,11 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
     setZoom(Math.round(evt.viewState.zoom));
   }, []);
 
-  // Close bottom sheet
+  // Close bottom sheet and clear route
   const handleCloseBottomSheet = useCallback(() => {
     setIsBottomSheetOpen(false);
     setPopupInfo(null);
+    setRouteGeometry(null);
     mapRef.current?.flyTo({
       center: PALOPO_CENTER,
       zoom: 14,
@@ -592,6 +647,30 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
           }}
         />
         <ScaleControl position="bottom-left" unit="metric" />
+
+        {/* Route line layer */}
+        {routeGeometry && (
+          <Source id="route" type="geojson" data={routeGeometry}>
+            <Layer
+              id="route-line"
+              type="line"
+              paint={{
+                'line-color': '#004ac6',
+                'line-width': 4,
+                'line-opacity': 0.8,
+              }}
+            />
+            <Layer
+              id="route-line-outline"
+              type="line"
+              paint={{
+                'line-color': '#ffffff',
+                'line-width': 6,
+                'line-opacity': 0.5,
+              }}
+            />
+          </Source>
+        )}
 
         {/* Property markers */}
         {filteredProperties.map(({ property, rooms }) => (
@@ -812,6 +891,7 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
                 rooms={popupInfo.rooms}
                 onClose={handleCloseBottomSheet}
                 onViewDetails={() => onSelectProperty(popupInfo.property.id)}
+                isLoadingRoute={isLoadingRoute}
               />
             </motion.div>
           </>
