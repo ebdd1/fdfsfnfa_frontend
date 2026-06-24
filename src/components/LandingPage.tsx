@@ -1,3 +1,6 @@
+// Reading this as: P2P Booking Marketplace landing page for students and owners, with a warm-trust minimalist language, leaning toward Tailwind utilities + Geist + restrained motion.
+// DESIGN_VARIANCE: 6, MOTION_INTENSITY: 4, VISUAL_DENSITY: 4
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Property } from '../types';
@@ -202,31 +205,31 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="relative z-10 space-y-4 max-w-sm mx-auto">
               
               {/* Floating Badge Left */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -4, 0] }}
                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                className="absolute -left-12 top-1/4 bg-white/95 backdrop-blur-md rounded-xl shadow-[0_12px_30px_rgba(15,23,42,0.06)] p-3 border border-slate-200/80 flex items-center gap-2.5 z-30 pointer-events-none"
+                className="absolute -left-12 top-1/4 bg-white rounded-xl shadow-[0_12px_30px_rgba(15,23,42,0.06)] p-3 border border-slate-200/80 flex items-center gap-2.5 z-30 pointer-events-none"
               >
                 <div className="p-1.5 bg-indigo-50/85 border border-indigo-100/50 text-indigo-600 rounded-lg">
                   <TrendingUp className="w-4 h-4" />
                 </div>
                 <div className="text-left">
-                  <span className="text-[9px] font-black text-slate-400 block uppercase tracking-wider">Akurasi Geotag</span>
+                  <span className="text-xs font-black text-slate-400 block uppercase tracking-wider">Akurasi Geotag</span>
                   <span className="text-xs font-black text-slate-800">100% Cocok</span>
                 </div>
               </motion.div>
 
               {/* Floating Badge Right */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, 4, 0] }}
                 transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut" }}
-                className="absolute -right-10 bottom-1/4 bg-white/95 backdrop-blur-md rounded-xl shadow-[0_12px_30px_rgba(15,23,42,0.06)] p-3 border border-slate-200/80 flex items-center gap-2.5 z-30 pointer-events-none"
+                className="absolute -right-10 bottom-1/4 bg-white rounded-xl shadow-[0_12px_30px_rgba(15,23,42,0.06)] p-3 border border-slate-200/80 flex items-center gap-2.5 z-30 pointer-events-none"
               >
                 <div className="p-1.5 bg-[var(--primary-50)]/85 border border-[var(--primary-100)]/50 text-[var(--primary-600)] rounded-lg">
                   <CircleCheck className="w-4 h-4" />
                 </div>
                 <div className="text-left">
-                  <span className="text-[9px] font-black text-slate-400 block uppercase tracking-wider">Status Listing</span>
+                  <span className="text-xs font-black text-slate-400 block uppercase tracking-wider">Status Listing</span>
                   <span className="text-xs font-black text-slate-800">Terverifikasi</span>
                 </div>
               </motion.div>
@@ -318,7 +321,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     </div>
                     <span className="text-xs font-bold text-slate-800">Database Akurat</span>
                   </div>
-                  <p className="text-[11px] text-slate-400 font-semibold leading-relaxed">Kamar diupdate langsung oleh pengelola setiap hari.</p>
+                  <p className="text-xs text-slate-400 font-semibold leading-relaxed">Kamar diupdate langsung oleh pengelola setiap hari.</p>
                 </div>
 
                 <div className="p-5 rounded-lg bg-white/70 border border-slate-200/50 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md hover:shadow-slate-100/50 space-y-2">
@@ -328,22 +331,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     </div>
                     <span className="text-xs font-bold text-slate-800">Validasi Geotagging</span>
                   </div>
-                  <p className="text-[11px] text-slate-400 font-semibold leading-relaxed">Koordinat kamera wajib cocok dengan lokasi peta.</p>
+                  <p className="text-xs text-slate-400 font-semibold leading-relaxed">Koordinat kamera wajib cocok dengan lokasi peta.</p>
                 </div>
               </div>
             </div>
 
             {/* Right Estimator Widget Card - Pristine Premium White/Light Glassmorphism */}
             <div className="lg:col-span-7">
-              <div className="bg-white/80 backdrop-blur-md border border-slate-200/60 rounded-lg p-6 sm:p-8 space-y-8 shadow-[0_20px_50px_rgba(0,0,0,0.03)] relative overflow-hidden text-slate-800">
+              <div className="bg-white border border-slate-200/60 rounded-lg p-6 sm:p-8 space-y-8 shadow-[0_20px_50px_rgba(0,0,0,0.03)] relative overflow-hidden text-slate-800">
                 {/* Subtle emerald glowing circle */}
-                <div className="bg-[var(--primary-50)]0/5 blur-3xl absolute -top-12 -right-12 w-48 h-48 rounded-full pointer-events-none"></div>
+                <div className="bg-[var(--primary-50)]/5 blur-3xl absolute -top-12 -right-12 w-48 h-48 rounded-full pointer-events-none"></div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  
+
                   {/* Select Campus (Pill Segmented Control) */}
                   <div className="space-y-3 text-left">
-                    <label className="text-[10px] font-black text-slate-450 uppercase tracking-wider">Universitas Terdekat</label>
+                    <label className="text-xs font-black text-slate-450 uppercase tracking-wider">Universitas Terdekat</label>
                     <div className="bg-slate-100/80 p-1 rounded-xl flex gap-1 border border-slate-200/30">
                       {['UNCP', 'IAIN Palopo', 'UM Palopo'].map((camp) => (
                         <button
@@ -455,10 +458,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           {/* Premium Comparison Matrix Card */}
-          <div className="bg-white/70 backdrop-blur-md border border-slate-200/60 rounded-lg p-6 sm:p-8 shadow-[0_15px_40px_rgba(0,0,0,0.02)] space-y-6">
-            
+          <div className="bg-white border border-slate-200/60 rounded-lg p-6 sm:p-8 shadow-[0_15px_40px_rgba(0,0,0,0.02)] space-y-6">
+
             {/* Header - Desktop Only */}
-            <div className="hidden md:grid grid-cols-12 gap-4 pb-4 border-b border-slate-150 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            <div className="hidden md:grid grid-cols-12 gap-4 pb-4 border-b border-slate-150 text-xs font-black text-slate-400 uppercase tracking-widest">
               <div className="col-span-5">Fitur Utama</div>
               <div className="col-span-3 text-center">Kost Umum / WA</div>
               <div className="col-span-4 text-center">{settings.site_name} Platform</div>
@@ -819,31 +822,32 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredProperties.map((p) => {
+            {featuredProperties.map((p, i) => {
               const lowestPrice = p.rooms.length > 0 ? Math.min(...p.rooms.map((r) => r.price_monthly)) : 2200000;
               const formatPrice = (price: number) => {
                 return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
               };
 
               const availableRoomsCount = p.rooms.filter(r => r.status === 'available').length;
+              const isFirst = i === 0;
 
               return (
-                <div 
+                <div
                   key={p.id}
                   onClick={() => onSelectProperty(p.id)}
-                  className="bg-white rounded-lg overflow-hidden border border-slate-200/80 hover:border-slate-300 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group flex flex-col relative"
+                  className={`bg-white rounded-lg overflow-hidden border border-slate-200/80 hover:border-slate-300 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group flex relative ${isFirst ? 'md:col-span-2 md:flex-row flex-col' : 'flex-col'}`}
                 >
                   {/* Photo area */}
-                  <div className="relative aspect-[4/3] bg-slate-50 overflow-hidden">
-                    <img 
-                      src={p.media[0]?.url_medium} 
-                      alt={p.name} 
+                  <div className={`relative bg-slate-50 overflow-hidden shrink-0 ${isFirst ? 'md:w-1/2 w-full aspect-video md:aspect-auto' : 'aspect-[4/3] w-full'}`}>
+                    <img
+                      src={p.media[0]?.url_medium}
+                      alt={p.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    
+
                     {/* Floating GPS Badge with blinking pulse */}
                     <div className="absolute top-4 left-4">
-                      <span className="flex items-center gap-1.5 bg-white/95 text-slate-800 text-[10px] font-extrabold py-1.5 px-3.5 rounded-full border border-slate-200 shadow-sm">
+                      <span className="flex items-center gap-1.5 bg-white text-slate-800 text-xs font-extrabold py-1.5 px-3.5 rounded-full border border-slate-200 shadow-sm">
                         <span className="relative flex h-2 w-2">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--primary-400)] opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--primary-600)]"></span>
@@ -853,26 +857,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     </div>
 
                     {/* Price tag overlay */}
-                    <div className="absolute bottom-4 right-4 bg-slate-900/90 text-white font-extrabold text-[11px] px-3.5 py-1.5 rounded-full backdrop-blur-sm">
-                      {formatPrice(lowestPrice)}<span className="text-[10px] text-slate-400 font-normal">/bln</span>
+                    <div className="absolute bottom-4 right-4 bg-slate-900/90 text-white font-extrabold text-xs px-3.5 py-1.5 rounded-full">
+                      {formatPrice(lowestPrice)}<span className="text-xs text-slate-400 font-normal ml-0.5">/bln</span>
                     </div>
                   </div>
-                  
+
                   {/* Content Area */}
                   <div className="p-6 flex-1 flex flex-col justify-between text-left space-y-4">
                     <div className="space-y-2">
-                      <span className={`inline-block text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md ${
-                        p.type === 'kost_campur' 
-                          ? 'bg-[var(--primary-50)] text-[var(--primary-800)]' 
-                          : p.type === 'kost_putra' 
-                            ? 'bg-blue-50 text-blue-800' 
+                      <span className={`inline-block text-xs font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md ${
+                        p.type === 'kost_campur'
+                          ? 'bg-[var(--primary-50)] text-[var(--primary-800)]'
+                          : p.type === 'kost_putra'
+                            ? 'bg-blue-50 text-blue-800'
                             : 'bg-pink-50 text-pink-800'
                       }`}>
                         {p.type === 'kost_campur' ? 'Campur' : p.type === 'kost_putra' ? 'Putra' : 'Putri'}
                       </span>
-                      
+
                       <h4 className="text-base font-black text-slate-900 group-hover:text-[var(--primary-600)] transition-colors line-clamp-1">{p.name}</h4>
-                      
+
                       <p className="text-slate-500 text-xs flex items-center gap-1 font-semibold">
                         <MapPin className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
                         <span className="text-slate-400" title={p.location.address}>{p.location.address}</span>
@@ -881,12 +885,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
                     {/* Footer Row */}
                     <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                      <div className="flex items-center gap-1 text-[11px] text-slate-400 font-bold">
+                      <div className="flex items-center gap-1 text-xs text-slate-400 font-bold">
                         <span className="text-slate-600">Palopo</span>
                         <span>&bull; Terdekat</span>
                       </div>
 
-                      <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full ${
+                      <span className={`text-xs font-extrabold px-2.5 py-1 rounded-full ${
                         availableRoomsCount > 0 ? 'bg-[var(--primary-50)] text-[var(--primary-700)]' : 'bg-red-50 text-red-700'
                       }`}>
                         {availableRoomsCount > 0 ? `${availableRoomsCount} Kamar Tersedia` : 'Penuh'}
