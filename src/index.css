@@ -1,10 +1,95 @@
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
+/* ============================================
+   AWESOMIC DESIGN TOKENS — KostFind Landing
+   Light theme: "Rounded midnight marketplace"
+   ============================================ */
+
+:root {
+  /* Surface Scale */
+  --surface-canvas: #f4f4f5;      /* Page background (Mist) */
+  --surface-card: #ffffff;         /* White card surfaces (Snow) */
+  --surface-card-muted: #ececee;   /* Secondary cards (Fog) */
+  --surface-dark: #09090b;         /* Filled buttons, dark panels (Obsidian) */
+  --surface-dark-soft: #222222;    /* Softer dark for announcements */
+
+  /* Text Scale */
+  --text-primary: #18181b;         /* Ink - body text */
+  --text-secondary: #52525b;       /* Slate - secondary text */
+  --text-muted: #71717a;           /* Steel - muted labels */
+  --text-subtle: #a1a1aa;          /* Ash - placeholder, decorative */
+  --text-inverse: #ffffff;         /* White text on dark */
+
+  /* Borders */
+  --border-default: #d4d4d8;       /* Pebble - hairline dividers */
+  --border-subtle: #ececee;        /* Fog - card borders */
+  --border-dark: rgba(255, 255, 255, 0.2);
+
+  /* Accent (restrained - only on badges, one decorative card) */
+  --accent-ember: #ff5a00;         /* YC-style badge only */
+  --accent-orchid: #fe45e2;        /* One decorative card wash only */
+
+  /* CTA (primary action - Obsidian) */
+  --cta-bg: #09090b;
+  --cta-text: #ffffff;
+  --cta-border: rgb(44, 46, 52);
+  --cta-shadow: rgba(255, 255, 255, 0.5) 0px 0.5px 0px 0px inset,
+                rgba(117, 123, 133, 0.4) 0px 9px 14px -5px inset,
+                rgb(44, 46, 52) 0px 0px 0px 1.5px,
+                rgba(0, 0, 0, 0.14) 0px 4px 6px 0px;
+
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Border Radius */
+  --radius-hero: 48px;
+  --radius-cards: 36px;
+  --radius-cards-compact: 28px;
+  --radius-badges: 12px;
+  --radius-buttons: 36px;
+  --radius-buttons-sm: 14px;
+  --radius-inputs: 14px;
+
+  /* Shadows */
+  --shadow-card: rgb(228, 228, 231) 0px 1px 0px 0px inset;
+  --shadow-card-elevated: rgba(0, 0, 0, 0.04) 0px 4px 12px 0px;
+}
+
+/* Tailwind v4 Theme Extension */
+@theme {
+  /* Colors */
+  --color-canvas: var(--surface-canvas);
+  --color-card: var(--surface-card);
+  --color-card-muted: var(--surface-card-muted);
+  --color-dark: var(--surface-dark);
+  --color-dark-soft: var(--surface-dark-soft);
+  --color-ink: var(--text-primary);
+  --color-slate-light: var(--text-secondary);
+  --color-steel: var(--text-muted);
+  --color-ash: var(--text-subtle);
+  --color-pebble: var(--border-default);
+  --color-fog: var(--border-subtle);
+  --color-ember: var(--accent-ember);
+  --color-orchid: var(--accent-orchid);
+
+  /* Font Family */
+  --font-sans: var(--font-sans);
+
+  /* Border Radius */
+  --radius-hero: 48px;
+  --radius-cards: 36px;
+  --radius-cards-compact: 28px;
+  --radius-badges: 12px;
+  --radius-pill: 9999px;
+  --radius-xl: 14px;
+}
+
 body {
   margin: 0;
   font-family: 'Plus Jakarta Sans', sans-serif;
   background-color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* Mapbox popup customization — Google Maps-style card */
