@@ -175,17 +175,20 @@ export const Navbar: React.FC = () => {
             </>
           ) : (
             <>
-              <Link 
+              <Link
                 to="/login"
-                className="text-xs font-bold text-slate-500 hover:text-slate-950 px-2 py-2 transition-colors cursor-pointer"
+                className="hidden sm:block text-xs font-bold text-slate-500 hover:text-slate-950 px-2 py-2 transition-colors cursor-pointer"
               >
                 Masuk
               </Link>
-              <Link 
-                to="/register"
-                className="border border-slate-950 text-slate-950 font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-950 hover:text-white transition-all duration-200 active:scale-95 shadow-sm cursor-pointer"
+              <Link
+                to="/register?role=owner"
+                className="border border-[var(--color-primary)] text-[var(--color-primary)] font-bold text-xs px-4 py-2.5 rounded-full hover:bg-[var(--color-primary)] hover:text-white transition-all duration-200 active:scale-95 cursor-pointer flex items-center gap-1.5"
               >
-                Daftar
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Pasang Iklan
               </Link>
             </>
           )}

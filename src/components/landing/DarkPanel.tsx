@@ -26,7 +26,7 @@ export function DarkPanel({
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6 }}
-      className={`bg-[text-ink] rounded-[36px] ${paddingStyles[padding]} ${className}`}
+      className={`bg-ink rounded-[36px] ${paddingStyles[padding]} ${className}`}
     >
       {children}
     </motion.div>
