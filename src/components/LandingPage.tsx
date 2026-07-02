@@ -97,11 +97,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
   return (
     <div className="bg-canvas min-h-screen font-sans text-body antialiased">
-      {/* Gradient Orbs Background */}
+      {/* Warm Gradient Background - Mamikos Orange */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#3859f9]/5 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#047e4a]/5 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-[#3859f9]/3 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#FF6B35]/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#FF6B35]/5 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-[#F59E0B]/5 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6">
@@ -134,7 +134,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 className="text-[40px] md:text-[56px] lg:text-[64px] font-bold tracking-tight leading-[1.05] text-ink"
               >
                 Cari kost tanpa{' '}
-                <span className="text-[#a1a1aa] font-light">takut</span>{' '}
+                <span className="text-primary">takut</span>{' '}
                 foto menipu
               </motion.h1>
 

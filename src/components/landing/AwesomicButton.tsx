@@ -34,11 +34,11 @@ export function AwesomicButton({
 
   const variantStyles = {
     primary:
-      "bg-primary text-white shadow-md hover:bg-[#2d47d9] active:translate-y-px focus-visible:ring-primary",
+      "bg-primary text-white shadow-md hover:bg-primary-hover active:scale-[0.98] focus-visible:ring-primary",
     secondary:
-      "bg-card text-primary border-2 border-primary hover:bg-primary-light active:translate-y-px focus-visible:ring-primary",
+      "bg-white text-primary border-2 border-primary hover:bg-primary-light active:scale-[0.98] focus-visible:ring-primary",
     ghost:
-      "bg-transparent text-primary hover:bg-primary-light active:translate-y-px focus-visible:ring-primary",
+      "bg-transparent text-primary hover:bg-primary-light active:scale-[0.98] focus-visible:ring-primary",
   };
 
   const radiusStyles = {
