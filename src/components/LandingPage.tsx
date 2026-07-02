@@ -1,6 +1,6 @@
 // Reading this as: Property/kost landing page for Indonesian students, with Midnight Marketplace theme
 // DESIGN_VARIANCE: 8, MOTION_INTENSITY: 6, VISUAL_DENSITY: 4
-// Theme: Midnight Marketplace - light theme with gradient orbs, dark accents, modern trustworthy feel
+// Theme: Midnight Marketplace - authentic, contextual, trustworthy
 
 "use client";
 
@@ -28,9 +28,6 @@ import {
   Star,
   Users,
   Building2,
-  Play,
-  Quote,
-  ChevronRight,
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -39,38 +36,35 @@ interface LandingPageProps {
   onSelectProperty: (id: string) => void;
 }
 
-// City data for discovery grid
+// City data with contextually appropriate imagery
 const CITIES = [
-  { name: 'Palopo', count: 342, image: 'https://images.unsplash.com/photo-1580422825099-5a0fa3e6e26c?w=400&q=80' },
-  { name: 'Makassar', count: 891, image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80' },
-  { name: 'Jakarta', count: 2341, image: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=400&q=80' },
-  { name: 'Bandung', count: 756, image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&q=80' },
-  { name: 'Yogyakarta', count: 534, image: 'https://images.unsplash.com/photo-1555992828-ca4dbe41d294?w=400&q=80' },
-  { name: 'Surabaya', count: 678, image: 'https://images.unsplash.com/photo-1580508174046-170816f65662?w=400&q=80' },
+  { name: 'Palopo', count: 342 },
+  { name: 'Makassar', count: 891 },
+  { name: 'Jakarta', count: 2341 },
+  { name: 'Bandung', count: 756 },
+  { name: 'Yogyakarta', count: 534 },
+  { name: 'Surabaya', count: 678 },
 ];
 
-// Testimonial data
+// Testimonial data - using initials for authenticity
 const TESTIMONIALS = [
   {
     name: 'Rina Andriani',
+    initials: 'RA',
     role: 'Mahasiswi S2 UGM',
-    quote: 'Akhirnya nemu kost yang fotonya sesuai realita. GPS verificationnya beneran akurat, tidak mengecewakan.',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80',
-    rating: 5,
+    quote: 'Akhirnya nemu kost yang fotonya sesuai realita. GPS verificationnya beneran akurat.',
   },
   {
     name: 'Budi Santoso',
+    initials: 'BS',
     role: 'Pemilik Kost, Palopo',
-    quote: 'Listingan saya langsung naik rank karena badge verified. Penyewa percaya karena ada GPS verification.',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80',
-    rating: 5,
+    quote: 'Listingan saya langsung naik rank karena badge verified. Penyewa percaya karena ada GPS.',
   },
   {
     name: 'Siti Nurhaliza',
+    initials: 'SN',
     role: 'Mahasiswi Semester 4 UNHAS',
-    quote: 'Features real-time availability sangat membantu. Tidak perlu tanya-tanya lagi apakah masih kosong.',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80',
-    rating: 5,
+    quote: 'Features real-time availability sangat membantu. Tidak perlu tanya-tanya lagi.',
   },
 ];
 
@@ -105,6 +99,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const reduce = useReducedMotion();
 
+  // Get first property for hero preview (or null if empty)
+  const heroProperty = featuredProperties.length > 0 ? featuredProperties[0] : null;
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onStartSearching(undefined, searchQuery || undefined);
@@ -125,7 +122,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
   return (
     <div className="bg-canvas min-h-screen font-sans text-body antialiased">
-      {/* Gradient Orbs Background - Midnight Marketplace Effect */}
+      {/* Gradient Orbs Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#3859f9]/5 rounded-full blur-[120px] animate-pulse" />
         <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#047e4a]/5 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
@@ -134,7 +131,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
       <div className="max-w-[1200px] mx-auto px-6">
 
-        {/* 1. HERO - Asymmetric Split with Bento Preview */}
+        {/* 1. HERO */}
         <section className="py-16 md:py-24 lg:py-28 overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
 
@@ -153,7 +150,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </span>
               </motion.div>
 
-              {/* Headline - Weight Contrast Typography */}
+              {/* Headline */}
               <motion.h1
                 initial={reduce ? undefined : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -220,7 +217,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </motion.div>
             </div>
 
-            {/* Hero Right - Bento Preview Card */}
+            {/* Hero Right - Real Property Preview */}
             <motion.div
               initial={reduce ? undefined : { opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -228,60 +225,97 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               transition={{ duration: 0.6, delay: 0.2 }}
               className="lg:col-span-5 relative hidden lg:block"
             >
-              {/* Main Bento Card */}
-              <div className="bg-white rounded-[36px] border border-border-subtle shadow-[0_24px_50px_rgba(15,23,42,0.06)] p-6 space-y-5 relative overflow-hidden group">
-                {/* Header */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ink opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-ink"></span>
-                    </span>
-                    <span className="text-sm font-semibold text-body">Kost Leari Ana</span>
-                  </div>
-                  <AwesomicBadge variant="filled-dark">GPS OK</AwesomicBadge>
-                </div>
-
-                {/* Image */}
-                <div className="relative aspect-[4/3] rounded-[28px] bg-canvas overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80"
-                    alt="Kost Premium di Wara"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute top-4 right-4 bg-ink/80 backdrop-blur-sm text-white text-[10px] font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                    <Shield className="w-3.5 h-3.5" />
-                    Verified Media
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="space-y-3">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="text-xs font-semibold text-muted">Wara, Kota Palopo</h3>
-                      <p className="text-sm font-medium text-muted mt-0.5">200m dari Universitas Cokroaminoto</p>
+              {heroProperty ? (
+                /* Real Property Card */
+                <div
+                  onClick={() => onSelectProperty(heroProperty.id)}
+                  className="bg-white rounded-[36px] border border-border-subtle shadow-[0_24px_50px_rgba(15,23,42,0.06)] p-6 space-y-5 relative overflow-hidden group cursor-pointer"
+                >
+                  {/* Header */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ink opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-ink"></span>
+                      </span>
+                      <span className="text-sm font-semibold text-body">{heroProperty.name}</span>
                     </div>
-                    <span className="text-xs font-medium text-ink bg-canvas px-2.5 py-1 rounded-full">2 Tersedia</span>
+                    <AwesomicBadge variant="filled-dark">GPS OK</AwesomicBadge>
                   </div>
 
-                  <div className="pt-3 border-t border-canvas flex items-center justify-between">
-                    <span className="text-base font-bold text-body">Rp 2.100.000 <span className="text-xs text-muted font-normal">/bln</span></span>
+                  {/* Image */}
+                  <div className="relative aspect-[4/3] rounded-[28px] bg-canvas overflow-hidden">
+                    <img
+                      src={heroProperty.media[0]?.url_medium || heroProperty.media[0]?.url_thumbnail || heroProperty.media[0]?.url_original}
+                      alt={heroProperty.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute top-4 right-4 bg-ink/80 backdrop-blur-sm text-white text-[10px] font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                      <Shield className="w-3.5 h-3.5" />
+                      Verified Media
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-xs font-semibold text-muted">{heroProperty.location.city}</h3>
+                        <p className="text-sm font-medium text-muted mt-0.5">{heroProperty.location.address}</p>
+                      </div>
+                      <span className="text-xs font-medium text-ink bg-canvas px-2.5 py-1 rounded-full">
+                        {heroProperty.rooms.filter(r => r.status === 'available').length} Tersedia
+                      </span>
+                    </div>
+
+                    <div className="pt-3 border-t border-canvas flex items-center justify-between">
+                      <span className="text-base font-bold text-body">
+                        {formatPrice(Math.min(...heroProperty.rooms.map(r => r.price_monthly)))} <span className="text-xs text-muted font-normal">/bln</span>
+                      </span>
+                      <button className="text-xs font-semibold text-ink hover:underline flex items-center gap-0.5">
+                        Lihat Detail <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Empty State - Intentional placeholder */
+                <div className="bg-white rounded-[36px] border border-border-subtle shadow-[0_24px_50px_rgba(15,23,42,0.06)] p-6 space-y-5 relative overflow-hidden">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ink opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-ink"></span>
+                      </span>
+                      <span className="text-sm font-semibold text-body">Segera Hadir</span>
+                    </div>
+                    <AwesomicBadge variant="filled-dark">Coming Soon</AwesomicBadge>
+                  </div>
+
+                  <div className="aspect-[4/3] rounded-[28px] bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
+                    <div className="text-center">
+                      <Building2 className="w-12 h-12 text-primary/30 mx-auto mb-2" />
+                      <p className="text-sm font-medium text-muted">100+ Kost Terverifikasi</p>
+                    </div>
+                  </div>
+
+                  <div className="text-center py-4">
+                    <p className="text-muted text-sm">Mulai cari kost di kotamu</p>
                     <button
-                      onClick={() => onStartSearching('Palopo')}
-                      className="text-xs font-semibold text-ink hover:underline flex items-center gap-0.5"
+                      onClick={() => onStartSearching()}
+                      className="mt-2 text-primary text-sm font-semibold hover:underline"
                     >
-                      Hubungi Pemilik <ArrowRight className="w-3.5 h-3.5" />
+                      Jelajahi Kost
                     </button>
                   </div>
                 </div>
-              </div>
+              )}
 
-              {/* Stats Row - Bento Style */}
+              {/* Stats Row */}
               <div className="grid grid-cols-2 gap-3 mt-4">
                 <div className="bg-white rounded-[28px] border border-border-subtle p-4 text-left">
                   <span className="text-[10px] font-medium text-muted uppercase tracking-wider block">Akurasi</span>
-                  <span className="text-sm font-bold text-body">100% Cocok</span>
+                  <span className="text-sm font-bold text-body">98% Match</span>
                 </div>
                 <div className="bg-white rounded-[28px] border border-border-subtle p-4 text-left">
                   <span className="text-[10px] font-medium text-muted uppercase tracking-wider block">Status</span>
@@ -292,7 +326,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </section>
 
-        {/* 2. PROBLEM PANEL - Dark Surface */}
+        {/* 2. PROBLEM PANEL */}
         <section className="py-12 md:py-16">
           <DarkPanel padding="lg" className="max-w-full">
             <div className="max-w-3xl mx-auto text-center space-y-6">
@@ -318,7 +352,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </section>
 
-        {/* 4. CITY DISCOVERY GRID */}
+        {/* 4. CITY DISCOVERY GRID - Minimalist */}
         <section className="py-12 md:py-20">
           <div className="space-y-10">
             <SectionHeader
@@ -326,36 +360,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               subtext="Pilihan kost terverifikasi di berbagai kota di Indonesia."
             />
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
               {CITIES.map((city, index) => (
                 <motion.button
                   key={city.name}
-                  initial={reduce ? undefined : { opacity: 0, y: 20 }}
+                  initial={reduce ? undefined : { opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                  transition={{ duration: 0.3, delay: index * 0.03 }}
                   onClick={() => handleQuickSearch(city.name)}
-                  className="group relative bg-white rounded-[24px] overflow-hidden border border-border-subtle hover:border-primary/30 hover:shadow-lg transition-all duration-300 text-left"
+                  className="group bg-white rounded-[16px] border border-border-subtle p-4 hover:border-primary/30 hover:shadow-md transition-all duration-200 text-left"
                 >
-                  {/* City Image */}
-                  <div className="aspect-[4/3] overflow-hidden">
-                    <img
-                      src={city.image}
-                      alt={`Kost di ${city.name}`}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                  {/* Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="text-white font-bold text-sm mb-1">{city.name}</h3>
-                    <p className="text-white/70 text-xs">{city.count}+ kost tersedia</p>
-                  </div>
-                  {/* Hover Arrow */}
-                  <div className="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <ChevronRight className="w-4 h-4 text-body" />
-                  </div>
+                  <h3 className="font-semibold text-body text-sm mb-1">{city.name}</h3>
+                  <p className="text-muted text-xs">{city.count}+ kost</p>
                 </motion.button>
               ))}
             </div>
@@ -373,7 +390,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </section>
 
-        {/* 5. FEATURE CARDS - Bento Grid */}
+        {/* 5. FEATURE CARDS */}
         <section className="py-12 md:py-20">
           <div className="space-y-10">
             <SectionHeader
@@ -382,7 +399,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Feature 1 */}
               <AwesomicCard hoverable>
                 <div className="w-12 h-12 rounded-[16px] bg-canvas flex items-center justify-center mb-4">
                   <Shield className="w-6 h-6 text-ink" />
@@ -393,7 +409,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </p>
               </AwesomicCard>
 
-              {/* Feature 2 */}
               <AwesomicCard hoverable>
                 <div className="w-12 h-12 rounded-[16px] bg-canvas flex items-center justify-center mb-4">
                   <TrendingUp className="w-6 h-6 text-ink" />
@@ -404,7 +419,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 </p>
               </AwesomicCard>
 
-              {/* Feature 3 */}
               <AwesomicCard hoverable className="md:col-span-2 lg:col-span-1">
                 <div className="w-12 h-12 rounded-[16px] bg-canvas flex items-center justify-center mb-4">
                   <CircleCheck className="w-6 h-6 text-ink" />
@@ -464,49 +478,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </DarkPanel>
         </section>
 
-        {/* 7. VIDEO DEMO SECTION */}
-        <section className="py-12 md:py-20">
-          <div className="max-w-4xl mx-auto">
-            <SectionHeader
-              headline="Lihat Cara Kerjanya"
-              subtext="Video singkat ini menunjukkan bagaimana KostFind membantu Anda menemukan kost ideal."
-              align="center"
-            />
-
-            <motion.div
-              initial={reduce ? undefined : { opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative mt-8 rounded-[32px] overflow-hidden bg-black aspect-video max-w-3xl mx-auto group cursor-pointer"
-            >
-              {/* Thumbnail Image */}
-              <img
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80"
-                alt="KostFind Demo Video"
-                className="w-full h-full object-cover opacity-70 group-hover:opacity-60 transition-opacity"
-              />
-
-              {/* Play Button */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-20 h-20 md:w-24 md:h-24 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                  <Play className="w-8 h-8 md:w-10 md:h-10 text-body ml-1" fill="currentColor" />
-                </div>
-              </div>
-
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-
-              {/* Caption */}
-              <div className="absolute bottom-6 left-6 right-6">
-                <p className="text-white font-semibold text-sm md:text-base">Demo: Cari Kost dalam 3 Langkah</p>
-                <p className="text-white/70 text-xs mt-1">Durasi: 1 menit</p>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* 8. TESTIMONIALS */}
+        {/* 7. TESTIMONIALS - Authentic with Initials */}
         <section className="py-12 md:py-20">
           <div className="space-y-10">
             <SectionHeader
@@ -525,32 +497,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="bg-white rounded-[24px] border border-border-subtle p-6 space-y-4 hover:shadow-lg transition-shadow"
                 >
-                  {/* Quote Icon */}
-                  <Quote className="w-8 h-8 text-primary/20" />
+                  {/* Initials Avatar - Authentic */}
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center text-white font-bold text-lg">
+                    {testimonial.initials}
+                  </div>
 
-                  {/* Rating */}
+                  {/* Rating - simple dots */}
                   <div className="flex gap-1">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-[#fcbe11] text-[#fcbe11]" />
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div key={i} className="w-2 h-2 rounded-full bg-[#fcbe11]" />
                     ))}
                   </div>
 
                   {/* Quote */}
-                  <p className="text-body text-sm leading-relaxed italic">
+                  <p className="text-body text-sm leading-relaxed">
                     "{testimonial.quote}"
                   </p>
 
                   {/* Author */}
-                  <div className="flex items-center gap-3 pt-4 border-t border-canvas">
-                    <img
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
-                    <div>
-                      <p className="font-semibold text-ink text-sm">{testimonial.name}</p>
-                      <p className="text-muted text-xs">{testimonial.role}</p>
-                    </div>
+                  <div className="pt-4 border-t border-canvas">
+                    <p className="font-semibold text-ink text-sm">{testimonial.name}</p>
+                    <p className="text-muted text-xs">{testimonial.role}</p>
                   </div>
                 </motion.div>
               ))}
@@ -558,7 +525,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </section>
 
-        {/* 9. PROPERTY PREVIEW - Horizontal Scroll Tiles */}
+        {/* 8. PROPERTY PREVIEW - Horizontal Scroll */}
         <section className="py-12 md:py-20">
           <div className="space-y-8">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
@@ -595,7 +562,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     {/* Image */}
                     <div className="relative aspect-[4/3] bg-canvas overflow-hidden">
                       <img
-                        src={property.media[0]?.url_medium}
+                        src={property.media[0]?.url_medium || property.media[0]?.url_thumbnail || property.media[0]?.url_original}
                         alt={property.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -646,7 +613,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </section>
 
-        {/* 10. CTA SECTION */}
+        {/* 9. CTA SECTION */}
         <section className="py-12 md:py-20">
           <DarkPanel padding="xl" className="text-center">
             <div className="max-w-xl mx-auto space-y-6">
@@ -669,7 +636,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </DarkPanel>
         </section>
 
-        {/* 11. TRUST INDICATORS */}
+        {/* 10. TRUST INDICATORS */}
         <section className="py-12 pb-8">
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 text-muted">
             <div className="flex items-center gap-2">
@@ -688,7 +655,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </section>
       </div>
 
-      {/* 12. FOOTER */}
+      {/* FOOTER */}
       <Footer />
     </div>
   );
