@@ -16,6 +16,7 @@ import {
   MessageCircle,
   ChevronDown,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const NAV_LINKS = [
   { to: '/', label: 'Beranda', icon: Home },
@@ -89,16 +90,30 @@ export const Navbar: React.FC = () => {
       <nav className="bg-white/95 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="h-16 flex items-center justify-between">
-            {/* Logo */}
+            {/* Logo - Circular with motion */}
             <Link to="/" className="flex items-center gap-3 cursor-pointer group flex-shrink-0">
               {settings.logo_url ? (
-                <img
-                  src={settings.logo_url}
-                  alt={settings.site_name || 'KostFind'}
-                  className="h-9 w-auto object-contain rounded-xl shadow-sm group-hover:shadow-md transition-shadow duration-200"
-                />
+                <motion.div
+                  whileHover={{ scale: 1.05, rotate: 3 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                  className="relative"
+                >
+                  <div className="absolute -inset-1 bg-gradient-to-r from-[#004ac6] to-[#006c49] rounded-full blur opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
+                  <img
+                    src={settings.logo_url}
+                    alt={settings.site_name || 'KostFind'}
+                    className="relative h-10 w-10 object-contain rounded-full shadow-md bg-white border-2 border-white"
+                  />
+                </motion.div>
               ) : (
-                <LogoText />
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                >
+                  <LogoText />
+                </motion.div>
               )}
             </Link>
 
