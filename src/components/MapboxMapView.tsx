@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import Map, { Marker, Popup, GeolocateControl, NavigationControl, ScaleControl, Source, Layer } from 'react-map-gl/mapbox';
 import type { MapRef, ViewStateChangeEvent } from 'react-map-gl/mapbox';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -26,6 +26,15 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Palopo city center coordinates [longitude, latitude]
 const PALOPO_CENTER: [number, number] = [120.19, -2.99];
+
+// City-to-coordinate mapping for selectedCity flyTo
+const CITY_COORDS: Record<string, [number, number]> = {
+  Palopo: [120.19, -2.99],
+  Jakarta: [106.82, -6.20],
+  Bandung: [107.61, -6.90],
+  Surabaya: [112.75, -7.25],
+  Yogyakarta: [110.37, -7.80],
+};
 
 // Filter bounds for validating property GPS coords
 const PALOPO_VALID_BOUNDS: [[number, number], [number, number]] = [
@@ -112,19 +121,30 @@ const getLowestPrice = (rooms: Room[]): number => {
   return Math.min(...rooms.map((r) => r.price_monthly));
 };
 
-// Animated Price Marker - Google Maps style with bounce animation
-const PriceMarker: React.FC<{
+// Zoom threshold for price disclosure.
+// Below this zoom, markers render as a compact dot to avoid clutter at city/district view.
+// At or above this zoom, streets are clearly visible and the full price tag is shown.
+// Hover or selection always promotes the marker to the full price tag regardless of zoom.
+const PRICE_VISIBLE_ZOOM = 15;
+
+// Memoized PriceMarker - prevents re-renders when props haven't changed
+type PriceMarkerProps = {
   property: Property;
   rooms: Room[];
   isHovered: boolean;
   isSelected: boolean;
+  zoom: number;
   onClick: () => void;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
-}> = ({ property, rooms, isHovered, isSelected, onClick, onMouseEnter, onMouseLeave }) => {
+};
+
+const PriceMarker = React.memo<PriceMarkerProps>((props) => {
+  const { property, rooms, isHovered, isSelected, zoom, onClick, onMouseEnter, onMouseLeave } = props;
   const lowestPrice = getLowestPrice(rooms);
   const priceText = formatPriceShort(lowestPrice);
   const isActive = isHovered || isSelected;
+  const showFullPrice = isActive || zoom >= PRICE_VISIBLE_ZOOM;
 
   return (
     <Marker
@@ -138,7 +158,7 @@ const PriceMarker: React.FC<{
     >
       <motion.div
         className="relative cursor-pointer"
-        initial={{ scale: 1, y: 0 }}
+        initial={false}
         animate={{
           scale: isActive ? 1.15 : 1,
           y: isActive ? -4 : 0,
@@ -147,56 +167,85 @@ const PriceMarker: React.FC<{
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        {/* Shadow */}
-        <motion.div
-          className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-black/20 rounded-full blur-sm"
-          animate={{
-            width: isActive ? 24 : 18,
-            height: isActive ? 6 : 4,
-          }}
-          transition={{ duration: 0.2 }}
-        />
+        <AnimatePresence mode="popLayout" initial={false}>
+          {showFullPrice ? (
+            <motion.div
+              key="full"
+              layout
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.6 }}
+              transition={{ type: 'spring', stiffness: 420, damping: 26 }}
+              className="relative"
+            >
+              {/* Shadow */}
+              <motion.div
+                className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-black/20 rounded-full blur-sm"
+                animate={{
+                  width: isActive ? 24 : 18,
+                  height: isActive ? 6 : 4,
+                }}
+                transition={{ duration: 0.2 }}
+              />
 
-        {/* Marker body */}
-        <motion.div
-          className={`
-            relative px-3 py-1.5 rounded-full text-sm font-bold shadow-lg whitespace-nowrap
-            ${isActive
-              ? 'bg-[#004ac6] text-white ring-4 ring-[#004ac6]/30'
-              : property.is_verified
-                ? 'bg-white text-slate-800 border-2 border-[#004ac6]'
-                : 'bg-white text-slate-800 border-2 border-slate-200'
-            }
-          `}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {property.is_verified && !isActive && (
-            <span className="inline-block w-1.5 h-1.5 bg-[#006c49] rounded-full mr-1 align-middle" />
+              {/* Price body */}
+              <motion.div
+                className={`
+                  relative px-3 py-1.5 rounded-full text-sm font-bold shadow-lg whitespace-nowrap
+                  ${isActive
+                    ? 'bg-[#004ac6] text-white ring-4 ring-[#004ac6]/30'
+                    : property.is_verified
+                      ? 'bg-white text-slate-800 border-2 border-[#004ac6]'
+                      : 'bg-white text-slate-800 border-2 border-slate-200'
+                  }
+                `}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {property.is_verified && !isActive && (
+                  <span className="inline-block w-1.5 h-1.5 bg-[#006c49] rounded-full mr-1 align-middle" />
+                )}
+                {priceText}
+              </motion.div>
+
+              {/* Arrow pointer */}
+              <div
+                className={`
+                  absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-0 h-0
+                  border-l-[6px] border-r-[6px] border-t-[8px]
+                  border-l-transparent border-r-transparent
+                  ${isActive ? 'border-t-[#004ac6]' : 'border-t-white'}
+                `}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="dot"
+              layout
+              initial={{ opacity: 0, scale: 0.4 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.4 }}
+              transition={{ type: 'spring', stiffness: 420, damping: 26 }}
+              aria-label={`Kost ${property.name}, ${priceText} per bulan. Perbesar peta untuk melihat harga.`}
+              className={`
+                relative w-3 h-3 rounded-full shadow-[0_2px_6px_rgba(0,0,0,0.25)]
+                ring-2 ring-white
+                ${property.is_verified ? 'bg-[#004ac6]' : 'bg-slate-500'}
+              `}
+            />
           )}
-          {priceText}
-        </motion.div>
-
-        {/* Arrow pointer */}
-        <div
-          className={`
-            absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-0 h-0
-            border-l-[6px] border-r-[6px] border-t-[8px]
-            border-l-transparent border-r-transparent
-            ${isActive ? 'border-t-[#004ac6]' : 'border-t-white'}
-          `}
-        />
+        </AnimatePresence>
       </motion.div>
     </Marker>
   );
-};
+});
 
-// Custom Zoom Controls - Google Maps style
-const ZoomControls: React.FC<{
+// Memoized Zoom Controls - Google Maps style
+const ZoomControls = React.memo<{
   onZoomIn: () => void;
   onZoomOut: () => void;
   onResetBearing: () => void;
-}> = ({ onZoomIn, onZoomOut, onResetBearing }) => (
+}>(({ onZoomIn, onZoomOut, onResetBearing }) => (
   <div className="flex flex-col gap-0.5 bg-white rounded-lg shadow-lg overflow-hidden">
     <button
       onClick={onZoomIn}
@@ -220,17 +269,17 @@ const ZoomControls: React.FC<{
       <Compass className="w-4 h-4 text-slate-700" />
     </button>
   </div>
-);
+));
 
-// Layer Toggle Panel - Google Maps style
-const LayerPanel: React.FC<{
+// Memoized Layer Toggle Panel - Google Maps style
+const LayerPanel = React.memo<{
   isOpen: boolean;
   onToggle: () => void;
   mapStyle: MapStyleKey;
   onStyleChange: (style: MapStyleKey) => void;
   showTraffic: boolean;
   onToggleTraffic: () => void;
-}> = ({ isOpen, onToggle, mapStyle, onStyleChange, showTraffic, onToggleTraffic }) => (
+}>(({ isOpen, onToggle, mapStyle, onStyleChange, showTraffic, onToggleTraffic }) => (
   <div className="relative">
     <button
       onClick={onToggle}
@@ -293,7 +342,7 @@ const LayerPanel: React.FC<{
       )}
     </AnimatePresence>
   </div>
-);
+));
 
 // Fullscreen Property Card - Google Maps bottom sheet style
 const PropertyCard: React.FC<{
@@ -448,6 +497,37 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
     properties: Record<string, unknown>;
   } | null>(null);
   const [isLoadingRoute, setIsLoadingRoute] = useState(false);
+  const [showGestureHint, setShowGestureHint] = useState(true);
+
+  // Debounce ref for route fetching - prevents rapid API calls
+  const routeFetchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Auto-hide mobile gesture hint after 3 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowGestureHint(false), 3000);
+    return () => {
+      clearTimeout(timer);
+      // Clean up route fetch timeout on unmount
+      if (routeFetchTimeoutRef.current) {
+        clearTimeout(routeFetchTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Fly to selected city when prop changes
+  useEffect(() => {
+    if (!selectedCity || !mapRef.current) return;
+    const coords = CITY_COORDS[selectedCity];
+    if (!coords) return;
+    mapRef.current.flyTo({
+      center: coords,
+      zoom: 12,
+      pitch: 0,
+      bearing: 0,
+      duration: 1500,
+      essential: true,
+    });
+  }, [selectedCity]);
 
   const mapRef = useRef<MapRef | null>(null);
 
@@ -475,31 +555,39 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
     return validProperties.filter((p) => p.property.type === activeFilter);
   }, [validProperties, activeFilter]);
 
-  // Fetch driving route from Directions API
+  // Fetch driving route from Directions API (debounced)
   const fetchRoute = useCallback(async (start: [number, number], end: [number, number]) => {
     if (!accessToken) return;
 
-    setIsLoadingRoute(true);
-    try {
-      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${accessToken}`;
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.routes?.[0]) {
-        setRouteGeometry(data.routes[0]);
-      }
-    } catch (err) {
-      console.warn('[Map] Failed to fetch route:', err);
-    } finally {
-      setIsLoadingRoute(false);
+    // Clear existing timeout (debounce)
+    if (routeFetchTimeoutRef.current) {
+      clearTimeout(routeFetchTimeoutRef.current);
     }
+
+    routeFetchTimeoutRef.current = setTimeout(async () => {
+      setIsLoadingRoute(true);
+      try {
+        const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${accessToken}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.routes?.[0]) {
+          setRouteGeometry(data.routes[0]);
+        }
+      } catch (err) {
+        console.warn('[Map] Failed to fetch route:', err);
+      } finally {
+        setIsLoadingRoute(false);
+      }
+    }, 500); // 500ms debounce
   }, [accessToken]);
 
-  // Fly to marker with smooth animation and calculate route
+  // Open preview only. Redirect to the detail page is intentionally NOT triggered here —
+  // it is the bottom sheet's "View Details" button (onViewDetails prop) that owns navigation,
+  // so users on mobile can read the preview and decide before being routed away.
   const handleMarkerClick = useCallback((prop: PropertyMarker) => {
     setPopupInfo(prop);
     setIsBottomSheetOpen(true);
-    onSelectProperty(prop.property.id);
 
     // Calculate route from city center to property
     fetchRoute(PALOPO_CENTER, [prop.property.location.longitude, prop.property.location.latitude]);
@@ -511,15 +599,32 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
       bearing: 0,
       ...FLY_TO_PRESETS.smooth,
     });
-  }, [onSelectProperty, fetchRoute]);
+  }, [fetchRoute]);
 
-  // Handle map load with 3D buildings
+  // Handle map load with 3D buildings + Indonesian language labels
   const handleMapLoad = useCallback(() => {
     const map = mapRef.current?.getMap();
     if (!map) return;
 
-    const layers = map.getStyle()?.layers;
-    if (!layers) return;
+    const style = map.getStyle();
+    if (!style?.layers) return;
+
+    // Set Indonesian language labels for all symbol layers
+    style.layers.forEach((layer) => {
+      if (layer.type === 'symbol' && layer.layout?.['text-field']) {
+        try {
+          map.setLayoutProperty(layer.id, 'text-field', [
+            'coalesce',
+            ['get', 'name_id'],   // Bahasa Indonesia
+            ['get', 'name'],      // fallback
+          ]);
+        } catch (e) {
+          // Some layers may not support this, silently skip
+        }
+      }
+    });
+
+    const layers = style.layers;
     const labelLayerId = layers.find(
       (layer) => layer.type === 'symbol' && layer.layout?.['text-field'],
     )?.id;
@@ -611,7 +716,14 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
   }
 
   return (
-    <div className="h-full w-full relative overflow-hidden">
+    <div className="h-full w-full relative overflow-hidden" style={{ cursor: 'grab' }}>
+      {/* Mobile gesture hint - auto-hides after 3 seconds */}
+      {showGestureHint && (
+        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-slate-900/80 text-white text-xs px-3 py-2 rounded-full backdrop-blur-sm z-10 pointer-events-none md:hidden">
+          Gunakan 2 jari untuk zoom
+        </div>
+      )}
+
       <Map
         ref={mapRef}
         initialViewState={{
@@ -625,16 +737,16 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
         mapStyle={MAP_STYLES[mapStyle].url}
         mapboxAccessToken={accessToken}
         maxBounds={SULAWESI_BOUNDS}
-        minZoom={7}
-        maxZoom={18}
+        minZoom={4}
+        maxZoom={20}
         onLoad={handleMapLoad}
         onMove={handleMove}
         dragRotate={true}
         touchPitch={true}
         attributionControl={false}
       >
-        {/* Native controls hidden - using custom */}
-        <NavigationControl showCompass={false} showZoom={false} position="bottom-right" />
+        {/* Native controls - enabled for Google Maps UX */}
+        <NavigationControl showCompass={true} showZoom={true} visualizePitch={true} position="bottom-right" />
         <GeolocateControl
           position="bottom-right"
           trackUserLocation={true}
@@ -672,7 +784,7 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
           </Source>
         )}
 
-        {/* Property markers */}
+        {/* Property markers — render as compact dot until zoom ≥ PRICE_VISIBLE_ZOOM */}
         {filteredProperties.map(({ property, rooms }) => (
           <PriceMarker
             key={property.id}
@@ -680,6 +792,7 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
             rooms={rooms}
             isHovered={hoveredPropertyId === property.id}
             isSelected={popupInfo?.property.id === property.id}
+            zoom={zoom}
             onClick={() => handleMarkerClick({ property, rooms })}
             onMouseEnter={() => onHoverProperty(property.id)}
             onMouseLeave={() => onHoverProperty(null)}

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback, Suspense } from 'react';
 import type { Property, Room } from '../types';
-import { Search, MapPin, Heart, SlidersHorizontal, X } from 'lucide-react';
+import { Search, MapPin, Heart, SlidersHorizontal, X, Map as MapIcon } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
 import { MapboxMapView } from './MapboxMapView';
 
@@ -38,24 +38,35 @@ export const SearchPage: React.FC<SearchPageProps> = ({
     );
   };
 
-  const getPropertyRooms = (propId: string) => {
+  // Memoized room lookup to avoid recreating function on each render
+  const getPropertyRooms = useCallback((propId: string) => {
     return rooms.filter((r) => r.property_id === propId);
-  };
+  }, [rooms]);
 
-  // Filter listings based on selections
-  const filteredProperties = properties.filter((p) => {
-    const propRooms = getPropertyRooms(p.id);
-    const lowestPrice = propRooms.length > 0 ? Math.min(...propRooms.map((r) => r.price_monthly)) : 0;
-    
-    const matchesQuery = p.name.toLowerCase().includes(query.toLowerCase()) || 
-                         p.location.address.toLowerCase().includes(query.toLowerCase());
-    const matchesCity = selectedCity ? p.location.city === selectedCity : true;
-    const matchesType = selectedType ? p.type === selectedType : true;
-    const matchesPrice = lowestPrice <= maxPrice;
-    const matchesFacilities = selectedFacilities.every((fac) => p.facilities.includes(fac));
+  // Filter listings based on selections - memoized to prevent recalc on every render
+  const filteredProperties = useMemo(() => {
+    return properties.filter((p) => {
+      const propRooms = getPropertyRooms(p.id);
+      const lowestPrice = propRooms.length > 0 ? Math.min(...propRooms.map((r) => r.price_monthly)) : 0;
 
-    return matchesQuery && matchesCity && matchesType && matchesPrice && matchesFacilities;
-  });
+      const matchesQuery = p.name.toLowerCase().includes(query.toLowerCase()) ||
+                           p.location.address.toLowerCase().includes(query.toLowerCase());
+      const matchesCity = selectedCity ? p.location.city === selectedCity : true;
+      const matchesType = selectedType ? p.type === selectedType : true;
+      const matchesPrice = lowestPrice <= maxPrice;
+      const matchesFacilities = selectedFacilities.every((fac) => p.facilities.includes(fac));
+
+      return matchesQuery && matchesCity && matchesType && matchesPrice && matchesFacilities;
+    });
+  }, [properties, query, selectedCity, selectedType, maxPrice, selectedFacilities, getPropertyRooms]);
+
+  // Memoized property list for Mapbox - only recomputes when filtered data changes
+  const propertyMarkers = useMemo(() => {
+    return filteredProperties.map((p) => ({
+      property: p,
+      rooms: getPropertyRooms(p.id),
+    }));
+  }, [filteredProperties, getPropertyRooms]);
 
   return (
     <div className="flex h-[calc(100vh-64px)] overflow-hidden relative">
@@ -334,19 +345,27 @@ export const SearchPage: React.FC<SearchPageProps> = ({
         )}
       </main>
 
-      {/* 3. Right Panel - Mapbox Map */}
+      {/* 3. Right Panel - Mapbox Map (Lazy loaded) */}
       <section className="w-96 border-l border-slate-200/80 overflow-hidden flex-shrink-0 relative hidden lg:flex flex-col">
-        <MapboxMapView
-          properties={filteredProperties.map((p) => ({
-            property: p,
-            rooms: getPropertyRooms(p.id),
-          }))}
-          hoveredPropertyId={hoveredPropertyId}
-          onSelectProperty={onSelectProperty}
-          onHoverProperty={setHoveredPropertyId}
-          selectedCity={selectedCity}
-          accessToken={import.meta.env.VITE_MAPBOX_TOKEN}
-        />
+        <Suspense fallback={
+          <div className="h-full w-full bg-slate-100 flex items-center justify-center">
+            <div className="text-center p-6">
+              <div className="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+                <MapIcon className="w-8 h-8 text-slate-400" />
+              </div>
+              <p className="text-sm font-semibold text-slate-500">Memuat peta...</p>
+            </div>
+          </div>
+        }>
+          <MapboxMapView
+            properties={propertyMarkers}
+            hoveredPropertyId={hoveredPropertyId}
+            onSelectProperty={onSelectProperty}
+            onHoverProperty={setHoveredPropertyId}
+            selectedCity={selectedCity}
+            accessToken={import.meta.env.VITE_MAPBOX_TOKEN}
+          />
+        </Suspense>
       </section>
 
     </div>
