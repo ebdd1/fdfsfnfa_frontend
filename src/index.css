@@ -6,6 +6,59 @@
    Light theme: "Rounded midnight marketplace"
    ============================================ */
 
+/* ============================================
+   CLAY DESIGN TOKENS — from layout-context MCP
+   Source: .layout/tokens.json (Clay.com)
+   ============================================ */
+:root {
+  /* Clay Primary Accent */
+  --clay-accent: #3859f9;
+  --clay-accent-warm: #fa6900;
+  --clay-accent-cool: #0382f7;
+  --clay-accent-hover: rgb(255, 118, 20);
+
+  /* Clay Text */
+  --clay-text-primary: #000000;
+  --clay-text-secondary: #282c35;
+
+  /* Clay Backgrounds (Oat Scale) */
+  --clay-oat-50: #fffcfa;
+  --clay-oat-100: #f9f8f6;
+  --clay-oat-200: #f3f2ed;
+  --clay-oat-300: #eee9df;
+  --clay-oat-400: #dad4c8;
+
+  /* Clay Borders */
+  --clay-border: #302f2c;
+  --clay-border-subtle: rgba(231, 231, 231, 0.25);
+
+  /* Clay Status */
+  --clay-success: #047e4a;
+  --clay-warning: #fcbe11;
+  --clay-error: #b21a3f;
+  --clay-info: #038ff7;
+
+  /* Clay Spacing */
+  --clay-space-sm: 12px;
+  --clay-space-md: 24px;
+  --clay-space-lg: 20px;
+  --clay-space-xl: 32px;
+
+  /* Clay Radius */
+  --clay-radius-full: 12px;
+  --clay-radius-sm: 0.75rem;
+  --clay-radius-md: 1rem;
+  --clay-radius-lg: 1.25rem;
+
+  /* Clay Motion */
+  --clay-duration-fast: 0.25s;
+  --clay-duration-base: 0.3s;
+  --clay-ease-default: ease;
+}
+
+/* ============================================
+   AWESOMIC BASE TOKENS
+   ============================================ */
 :root {
   /* Surface Scale */
   --surface-canvas: #f4f4f5;      /* Page background (Mist) */

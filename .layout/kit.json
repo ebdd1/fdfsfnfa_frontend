@@ -1,0 +1,21 @@
+{
+  "name": "Clay",
+  "slug": "",
+  "tags": [
+    "light",
+    "minimal",
+    "saas",
+    "developer-tool"
+  ],
+  "tier": "minimal",
+  "author": {
+    "orgId": "layout-team",
+    "userId": "layout-team",
+    "avatarUrl": "/marketing/layout-avatar.svg",
+    "displayName": "Layout"
+  },
+  "licence": "MIT",
+  "description": "Clean, modern B2B design system with warm and cool accent colours, built on Roobertvf typography and CSS custom properties for seamless developer integration",
+  "publishedAt": "2026-06-02T16:42:49.000Z",
+  "schemaVersion": 1
+}

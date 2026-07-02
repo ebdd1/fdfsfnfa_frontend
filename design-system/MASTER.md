@@ -77,6 +77,76 @@ Untuk melengkapi brand colors existing:
 
 ---
 
+## 🎨 Clay Design System (from layout-context MCP)
+
+**Source:** `.layout/tokens.json` — Clay.com Design System
+
+### Quick Reference
+```css
+:root {
+  /* Primary Accent */
+  --clay-accent: #3859f9;           /* Blueberry-400 */
+  --clay-accent-warm: #fa6900;      /* Tangarine-600 */
+  --clay-accent-cool: #0382f7;     /* Blueberry-500 */
+  --clay-accent-hover: rgb(255, 118, 20);
+
+  /* Text */
+  --clay-text-primary: #000000;
+  --clay-text-secondary: #282c35;
+
+  /* Backgrounds (Oat Scale) */
+  --clay-oat-50: #fffcfa;
+  --clay-oat-100: #f9f8f6;
+  --clay-oat-200: #f3f2ed;
+  --clay-oat-300: #eee9df;
+
+  /* Borders */
+  --clay-border: #302f2c;
+
+  /* Status */
+  --clay-success: #047e4a;
+  --clay-warning: #fcbe11;
+  --clay-error: #b21a3f;
+  --clay-info: #038ff7;
+
+  /* Spacing */
+  --clay-space-sm: 12px;
+  --clay-space-md: 24px;
+  --clay-space-lg: 20px;
+  --clay-space-xl: 32px;
+
+  /* Radius */
+  --clay-radius-full: 12px;
+}
+```
+
+### NEVER Rules (Clay)
+- NEVER use `Inter`, `Roboto`, or `Arial` as primary font
+- NEVER use hardcoded hex colors — always reference `--clay-*` tokens
+- NEVER use border-radius > 12px on primary buttons
+- NEVER construct spacing values outside the defined scale
+- NEVER omit hover, focus-visible, and active states
+- NEVER use `!important` to override token values
+
+### How to Apply Clay Tokens
+```tsx
+// Tailwind with CSS vars
+<button className="bg-[var(--clay-accent)] text-white rounded-[var(--clay-radius-full)]">
+  CTA Button
+</button>
+
+// Style object
+<button style={{
+  backgroundColor: 'var(--clay-accent)',
+  borderRadius: 'var(--clay-radius-full)',
+  transition: 'all 0.3s ease'
+}}>
+  CTA Button
+</button>
+```
+
+---
+
 ## 🔤 Typography
 
 ### Font Stack
