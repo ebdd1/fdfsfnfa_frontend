@@ -21,10 +21,10 @@ import {
   MapPin,
   Shield,
   ArrowRight,
-  Sparkles,
   Star,
   Users,
   Building2,
+  Home,
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -120,8 +120,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 transition={{ duration: 0.4 }}
               >
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-border-subtle text-muted text-xs font-medium shadow-sm">
-                  <Sparkles className="w-3.5 h-3.5 text-ink" />
-                  <span>{settings.tagline || 'Platform Kos Digital'}</span>
+                  <Home className="w-3.5 h-3.5 text-primary" />
+                  <span>{settings.tagline || 'Kost Terverifikasi GPS'}</span>
                 </span>
               </motion.div>
 
