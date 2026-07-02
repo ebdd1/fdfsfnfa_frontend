@@ -11,7 +11,6 @@ import { useSettings } from '../hooks/useSettings';
 import { Footer } from './Footer';
 import {
   AwesomicButton,
-  AwesomicCard,
   AwesomicBadge,
   AwesomicInput,
   SectionHeader,
@@ -22,9 +21,7 @@ import {
   MapPin,
   Shield,
   ArrowRight,
-  CircleCheck,
   Sparkles,
-  TrendingUp,
   Star,
   Users,
   Building2,
@@ -65,28 +62,6 @@ const TESTIMONIALS = [
     initials: 'SN',
     role: 'Mahasiswi Semester 4 UNHAS',
     quote: 'Features real-time availability sangat membantu. Tidak perlu tanya-tanya lagi.',
-  },
-];
-
-// Comparison data
-const COMPARISONS = [
-  {
-    title: 'Verifikasi Lokasi',
-    kostfind: '100% GPS Match',
-    others: 'Tanpa verifikasi',
-    icon: MapPin,
-  },
-  {
-    title: 'Ketersediaan',
-    kostfind: 'Real-time update',
-    others: 'Data outdated',
-    icon: TrendingUp,
-  },
-  {
-    title: 'Komunikasi',
-    kostfind: 'Langsung ke pemilik',
-    others: 'Lewat broker',
-    icon: CircleCheck,
   },
 ];
 
@@ -390,89 +365,95 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </section>
 
-        {/* 5. FEATURE CARDS */}
-        <section className="py-12 md:py-20">
-          <div className="space-y-10">
+        {/* 5. HOW IT WORKS - Narrative instead of feature cards */}
+        <section className="py-16 md:py-24">
+          <div className="max-w-3xl mx-auto">
             <SectionHeader
-              headline="Kenapa memilih KostFind"
-              subtext="Platform yang menghubungkan pencari kos dengan pemilik secara transparan dan real-time."
+              headline="Cara Kerja KostFind"
+              subtext="Cari kost dalam 3 langkah sederhana."
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <AwesomicCard hoverable>
-                <div className="w-12 h-12 rounded-[16px] bg-canvas flex items-center justify-center mb-4">
-                  <Shield className="w-6 h-6 text-ink" />
+            {/* Process Steps - Vertical Timeline */}
+            <div className="mt-12 space-y-8">
+              {/* Step 1 */}
+              <motion.div
+                initial={reduce ? undefined : { opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="flex gap-6"
+              >
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-primary text-white font-bold text-lg flex items-center justify-center">1</div>
                 </div>
-                <h3 className="text-lg font-semibold text-body mb-2">Verifikasi GPS</h3>
-                <p className="text-sm text-muted leading-relaxed">
-                  Koordinat kamera wajib cocok dengan lokasi peta. Anti foto menipu.
-                </p>
-              </AwesomicCard>
+                <div className="pt-2">
+                  <h3 className="text-lg font-semibold text-body mb-2">Cari di Peta</h3>
+                  <p className="text-muted text-sm leading-relaxed">
+                    Masukkan lokasi atau pilih kota. Lihat kost yang terverifikasi GPS di sekitar areamu.
+                  </p>
+                </div>
+              </motion.div>
 
-              <AwesomicCard hoverable>
-                <div className="w-12 h-12 rounded-[16px] bg-canvas flex items-center justify-center mb-4">
-                  <TrendingUp className="w-6 h-6 text-ink" />
+              {/* Step 2 */}
+              <motion.div
+                initial={reduce ? undefined : { opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="flex gap-6"
+              >
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-primary text-white font-bold text-lg flex items-center justify-center">2</div>
                 </div>
-                <h3 className="text-lg font-semibold text-body mb-2">Ketersediaan Real-Time</h3>
-                <p className="text-sm text-muted leading-relaxed">
-                  Stok kamar diupdate langsung oleh pengelola setiap hari.
-                </p>
-              </AwesomicCard>
+                <div className="pt-2">
+                  <h3 className="text-lg font-semibold text-body mb-2">Cek Ketersediaan</h3>
+                  <p className="text-muted text-sm leading-relaxed">
+                    Stok kamar diupdate real-time. Tidak perlu telepon untuk tanya kosong atau tidak.
+                  </p>
+                </div>
+              </motion.div>
 
-              <AwesomicCard hoverable className="md:col-span-2 lg:col-span-1">
-                <div className="w-12 h-12 rounded-[16px] bg-canvas flex items-center justify-center mb-4">
-                  <CircleCheck className="w-6 h-6 text-ink" />
+              {/* Step 3 */}
+              <motion.div
+                initial={reduce ? undefined : { opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="flex gap-6"
+              >
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-primary text-white font-bold text-lg flex items-center justify-center">3</div>
                 </div>
-                <h3 className="text-lg font-semibold text-body mb-2">Bebas Komisi</h3>
-                <p className="text-sm text-muted leading-relaxed">
-                  Hubungi langsung pemilik kost tanpa perantara dan biaya tambahan.
-                </p>
-              </AwesomicCard>
+                <div className="pt-2">
+                  <h3 className="text-lg font-semibold text-body mb-2">Hubungi Pemilik</h3>
+                  <p className="text-muted text-sm leading-relaxed">
+                    Langsung chat via WhatsApp. Tidak ada biaya tambahan atau perantara.
+                  </p>
+                </div>
+              </motion.div>
             </div>
           </div>
         </section>
 
-        {/* 6. COMPARISON TABLE */}
-        <section className="py-12 md:py-20">
+        {/* 6. SOCIAL PROOF - Story instead of comparison table */}
+        <section className="py-16 md:py-24">
           <DarkPanel padding="lg" className="max-w-full">
-            <div className="max-w-3xl mx-auto">
-              <div className="text-center mb-10">
-                <h2 className="text-[28px] md:text-[36px] font-bold text-white mb-3">
-                  KostFind vs Cara Lama
-                </h2>
-                <p className="text-muted text-sm">
-                  Bandingkan pengalaman mencari kost dengan dan tanpa KostFind
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                {COMPARISONS.map((item, index) => (
-                  <motion.div
-                    key={item.title}
-                    initial={reduce ? undefined : { opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="flex items-center justify-between bg-white/5 rounded-[16px] p-4 md:p-5"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-[12px] bg-primary/20 flex items-center justify-center">
-                        <item.icon className="w-5 h-5 text-primary" />
-                      </div>
-                      <span className="text-white font-medium text-sm md:text-base">{item.title}</span>
-                    </div>
-                    <div className="flex items-center gap-4 md:gap-8">
-                      <div className="text-right">
-                        <span className="text-[#10b981] font-semibold text-xs md:text-sm block">{item.kostfind}</span>
-                        <span className="text-muted text-[10px] md:text-xs">KostFind</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-[#ef4444] font-semibold text-xs md:text-sm block">{item.others}</span>
-                        <span className="text-muted text-[10px] md:text-xs">Cara Lama</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+            <div className="max-w-2xl mx-auto text-center space-y-6">
+              <h2 className="text-[28px] md:text-[36px] font-bold text-white leading-tight">
+                Kenapa GPS verification penting?
+              </h2>
+              <p className="text-muted text-base leading-relaxed">
+                Karena 7 dari 10 listingan kost online pakai foto yang tidak sesuai realita.
+                KostFind menyelesaikan masalah ini dengan wajibkan verifikasi lokasi GPS pada setiap media.
+              </p>
+              <div className="pt-4">
+                <button
+                  onClick={() => onStartSearching()}
+                  className="inline-flex items-center gap-2 bg-white text-ink font-semibold px-6 py-3 rounded-full hover:bg-canvas transition-colors"
+                >
+                  Mulai Cari Kost
+                  <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
             </div>
           </DarkPanel>
