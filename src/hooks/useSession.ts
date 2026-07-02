@@ -9,11 +9,14 @@ import { useAuthStore } from '../stores/authStore';
  * Re-validates on window focus and every 5 minutes.
  */
 export function useSession() {
-  const { setUser, clearUser } = useAuthStore();
+  const { token, setUser, clearUser } = useAuthStore();
 
   return useQuery({
-    queryKey: ['session'],
+    queryKey: ['session', token],
     queryFn: async () => {
+      if (!token) {
+        return null;
+      }
       try {
         const user = await authService.getMe();
         setUser(user);

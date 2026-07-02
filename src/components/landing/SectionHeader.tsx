@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 interface SectionHeaderProps {
   eyebrow?: string;
@@ -23,15 +23,15 @@ export function SectionHeader({
   return (
     <div className={`max-w-2xl ${alignStyles[align]} ${className}`}>
       {eyebrow && (
-        <span className="inline-block text-[11px] font-medium uppercase tracking-[0.15em] text-[#71717a] mb-4">
+        <span className="inline-block text-xs font-medium uppercase tracking-wider text-muted mb-4">
           {eyebrow}
         </span>
       )}
-      <h2 className="text-[32px] md:text-[40px] font-semibold leading-[1.25] text-[#18181b]">
+      <h2 className="text-3xl md:text-4xl font-semibold text-body leading-tight">
         {headline}
       </h2>
       {subtext && (
-        <p className="mt-4 text-base md:text-lg text-[#52525b] leading-relaxed max-w-[65ch]">
+        <p className="mt-4 text-base md:text-lg text-muted leading-relaxed max-w-2xl">
           {subtext}
         </p>
       )}

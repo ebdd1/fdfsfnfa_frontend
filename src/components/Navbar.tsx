@@ -1,29 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 import { useSettingsStore } from '../stores/settingsStore';
 import { LogoText } from './LogoText';
-import {
-  Shield,
-  LayoutDashboard,
-  LogOut,
-  Menu,
-  X,
-  Home,
-  MapPin,
-  Plus,
-  Heart,
-  MessageCircle,
-  ChevronDown,
-} from 'lucide-react';
-import { motion } from 'framer-motion';
-
-const NAV_LINKS = [
-  { to: '/', label: 'Beranda', icon: Home },
-  { to: '/search', label: 'Cari Kost', icon: MapPin },
-  { to: '/watchlist', label: 'Watchlist', icon: Heart, auth: true },
-  { to: '/chat', label: 'Pesan', icon: MessageCircle, auth: true },
-];
+import { Shield, User, LayoutDashboard, LogOut } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { pathname } = useLocation();
@@ -31,25 +11,7 @@ export const Navbar: React.FC = () => {
   const { user, isAuthenticated } = useAuthStore();
   const { settings } = useSettingsStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -67,257 +29,169 @@ export const Navbar: React.FC = () => {
     navigate('/');
   };
 
-  const isActive = (to: string) => {
-    if (to === '/') return pathname === '/';
-    return pathname.startsWith(to);
-  };
-
-  // Don't show navbar on dashboard pages
+  // Don't show navbar on dashboard pages as they have their own sidebars
   if (pathname.includes('/dashboard') || pathname.includes('/admin') || pathname.includes('/anda/home')) {
     return null;
   }
 
   return (
-    <header className="sticky top-0 z-50">
-      {/* Backdrop for mobile menu */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 md:hidden"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-      )}
+    <div className="w-full sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/50">
+      <header className="max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2.5 cursor-pointer group">
+          {settings.logo_url ? (
+            <img
+              src={settings.logo_url}
+              alt={settings.site_name || 'Logo'}
+              className="h-9 w-auto object-contain rounded-xl"
+            />
+          ) : (
+            <LogoText />
+          )}
+        </Link>
 
-      <nav className="bg-white/95 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="h-16 flex items-center justify-between">
-            {/* Logo - Circular with motion */}
-            <Link to="/" className="flex items-center gap-3 cursor-pointer group flex-shrink-0">
-              {settings.logo_url ? (
-                <motion.div
-                  whileHover={{ scale: 1.05, rotate: 3 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                  className="relative"
-                >
-                  <div className="absolute -inset-1 bg-gradient-to-r from-[#004ac6] to-[#006c49] rounded-full blur opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
-                  <img
-                    src={settings.logo_url}
-                    alt={settings.site_name || 'KostFind'}
-                    className="relative h-10 w-10 object-contain rounded-full shadow-md bg-white border-2 border-white"
-                  />
-                </motion.div>
-              ) : (
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                >
-                  <LogoText />
-                </motion.div>
-              )}
-            </Link>
+        {/* Center Navigation Links */}
+        <nav className="hidden md:flex items-center gap-8">
+          <Link
+            to="/"
+            className={`text-[13px] font-bold transition-all duration-200 cursor-pointer ${
+              pathname === '/' ? 'text-slate-900' : 'text-slate-400 hover:text-slate-950'
+            }`}
+          >
+            Beranda
+          </Link>
+          <Link
+            to="/search"
+            className={`text-[13px] font-bold transition-all duration-200 cursor-pointer ${
+              pathname.startsWith('/search') ? 'text-slate-900' : 'text-slate-400 hover:text-slate-950'
+            }`}
+          >
+            Cari Kost
+          </Link>
+          <Link
+            to={isAuthenticated ? "/watchlist" : "/login"}
+            className={`text-[13px] font-bold transition-all duration-200 cursor-pointer ${
+              pathname.startsWith('/watchlist') ? 'text-slate-900' : 'text-slate-400 hover:text-slate-950'
+            }`}
+          >
+            Watchlist
+          </Link>
+          <Link
+            to={isAuthenticated ? "/chat" : "/login"}
+            className={`text-[13px] font-bold transition-all duration-200 cursor-pointer ${
+              pathname.startsWith('/chat') ? 'text-slate-900' : 'text-slate-400 hover:text-slate-950'
+            }`}
+          >
+            Pesan Masuk
+          </Link>
+        </nav>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
-              {NAV_LINKS.map((link) => {
-                // Skip auth-required links if not logged in
-                if (link.auth && !isAuthenticated) return null;
-                const Icon = link.icon;
-                const active = isActive(link.to);
-                return (
-                  <Link
-                    key={link.to}
-                    to={link.auth && !isAuthenticated ? '/login' : link.to}
-                    className={`
-                      group relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer
-                      ${active
-                        ? 'text-[#004ac6] bg-[#004ac6]/5'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                      }
-                    `}
-                  >
-                    <Icon className={`w-4 h-4 transition-transform duration-200 ${active ? '' : 'group-hover:scale-110'}`} />
-                    {link.label}
-                    {active && (
-                      <span className="absolute -bottom-[25px] left-1/2 -translate-x-1/2 w-8 h-0.5 bg-[#004ac6] rounded-full" />
-                    )}
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* Desktop Right Section */}
-            <div className="hidden md:flex items-center gap-3">
-              {isAuthenticated && user ? (
-                <div
-                  ref={dropdownRef}
-                  className="relative"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <button className="flex items-center gap-2.5 px-2 py-1.5 rounded-xl hover:bg-slate-100 transition-colors duration-200 cursor-pointer">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#004ac6] to-[#003a9e] flex items-center justify-center text-white font-bold text-sm shadow-sm">
-                      {user.avatar_url ? (
-                        <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover rounded-xl" />
-                      ) : (
-                        user.name?.charAt(0).toUpperCase() || 'U'
-                      )}
-                    </div>
-                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
-                  </button>
-
-                  {dropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-64 bg-white/98 backdrop-blur-xl border border-slate-200/80 rounded-2xl shadow-xl shadow-slate-200/50 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                      {/* User Info */}
-                      <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-3">
-                        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#004ac6] to-[#003a9e] flex items-center justify-center text-white font-bold text-base shadow-sm">
-                          {user.avatar_url ? (
-                            <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover rounded-xl" />
-                          ) : (
-                            user.name?.charAt(0).toUpperCase() || 'U'
-                          )}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-sm font-bold text-slate-800 truncate leading-tight">{user.name}</p>
-                          <p className="text-xs font-medium text-slate-400 mt-0.5 leading-tight">
-                            {user.role === 'admin' ? 'Administrator' : user.role === 'owner' ? 'Pemilik Kost' : 'Pencari Kost'}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Dashboard Links */}
-                      <div className="mt-2 px-2">
-                        {user.role === 'seeker' && (
-                          <Link
-                            to="/anda/home"
-                            onClick={() => setDropdownOpen(false)}
-                            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-[#004ac6]/5 hover:text-[#004ac6] transition-colors duration-150"
-                          >
-                            <LayoutDashboard className="w-5 h-5 text-slate-400 group-hover:text-[#004ac6] transition-colors" />
-                            Dasbor Saya
-                          </Link>
-                        )}
-                        {user.role === 'owner' && (
-                          <Link
-                            to="/dashboard"
-                            onClick={() => setDropdownOpen(false)}
-                            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-[#004ac6]/5 hover:text-[#004ac6] transition-colors duration-150"
-                          >
-                            <LayoutDashboard className="w-5 h-5 text-slate-400 group-hover:text-[#004ac6] transition-colors" />
-                            Dasbor Pemilik
-                          </Link>
-                        )}
-                        {user.role === 'admin' && (
-                          <Link
-                            to="/admin"
-                            onClick={() => setDropdownOpen(false)}
-                            className="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-[#004ac6]/5 hover:text-[#004ac6] transition-colors duration-150"
-                          >
-                            <Shield className="w-5 h-5 text-slate-400 group-hover:text-[#004ac6] transition-colors" />
-                            Mode Admin
-                          </Link>
-                        )}
-                      </div>
-
-                      <hr className="border-slate-100 my-2" />
-
-                      {/* Logout */}
-                      <div className="px-2">
-                        <button
-                          onClick={() => {
-                            setDropdownOpen(false);
-                            handleLogout();
-                          }}
-                          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors duration-150 w-full"
-                        >
-                          <LogOut className="w-5 h-5 text-red-400 group-hover:text-red-500 transition-colors" />
-                          Keluar
-                        </button>
-                      </div>
-                    </div>
+        {/* Right Section */}
+        <div className="flex items-center gap-5">
+          {isAuthenticated && user ? (
+            <>
+              <div 
+                className="relative"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <div className="w-9 h-9 rounded-xl bg-slate-200 overflow-hidden border border-slate-200 cursor-pointer flex-shrink-0 transition-transform active:scale-95 flex items-center justify-center text-slate-400">
+                  {user.avatar_url ? (
+                    <img src={user.avatar_url} alt="Profile" className="w-full h-full object-cover" />
+                  ) : (
+                    <User className="w-5 h-5" />
                   )}
                 </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Link
-                    to="/login"
-                    className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors duration-200 cursor-pointer"
-                  >
-                    Masuk
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="px-5 py-2.5 text-sm font-bold text-white bg-[#004ac6] hover:bg-[#003a9e] rounded-xl shadow-sm shadow-[#004ac6]/25 hover:shadow-md hover:shadow-[#004ac6]/30 transition-all duration-200 cursor-pointer flex items-center gap-2"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Daftar
-                  </Link>
-                </div>
-              )}
-            </div>
+                
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2.5 w-56 bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] py-2.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                    <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-3">
+                      {user.avatar_url ? (
+                        <img src={user.avatar_url} alt={user.name} className="w-8 h-8 rounded-lg object-cover shrink-0" />
+                      ) : (
+                        <div className="w-8 h-8 rounded-lg bg-[var(--primary-50)] text-[var(--primary-600)] flex items-center justify-center font-bold text-sm shrink-0">
+                          {user.name?.charAt(0).toUpperCase()}
+                      </div>
+                      )}
+                      <div className="min-w-0">
+                        <p className="text-xs font-black text-slate-800 truncate leading-none">{user.name}</p>
+                        <p className="text-[10px] font-semibold text-slate-400 mt-1 uppercase tracking-wider leading-none">
+                          {user.role === 'admin' ? 'Administrator' : user.role === 'owner' ? 'Pemilik Kost' : 'Pencari Kost'}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-2 space-y-0.5">
+                      {user.role === 'seeker' && (
+                        <Link
+                          to="/anda/home"
+                          onClick={() => setDropdownOpen(false)}
+                          className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] transition-colors"
+                        >
+                          <LayoutDashboard className="h-4 w-4 text-slate-400 group-hover:text-[var(--primary-600)] transition-colors" />
+                          <span>Dasbor Saya</span>
+                        </Link>
+                      )}
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6 text-slate-700" />
-              ) : (
-                <Menu className="w-6 h-6 text-slate-700" />
-              )}
-            </button>
-          </div>
-        </div>
+                      {user.role === 'owner' && (
+                        <Link
+                          to="/dashboard"
+                          onClick={() => setDropdownOpen(false)}
+                          className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] transition-colors"
+                        >
+                          <LayoutDashboard className="h-4 w-4 text-slate-400 group-hover:text-[var(--primary-600)] transition-colors" />
+                          <span>Dasbor Pemilik</span>
+                        </Link>
+                      )}
 
-        {/* Mobile Menu */}
-        <div className={`md:hidden transition-all duration-300 overflow-hidden ${mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-          <div className="px-4 py-4 space-y-1 border-t border-slate-100 bg-white">
-            {NAV_LINKS.map((link) => {
-              if (link.auth && !isAuthenticated) return null;
-              const Icon = link.icon;
-              const active = isActive(link.to);
-              return (
-                <Link
-                  key={link.to}
-                  to={link.auth && !isAuthenticated ? '/login' : link.to}
-                  className={`
-                    group flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer
-                    ${active
-                      ? 'text-[#004ac6] bg-[#004ac6]/5'
-                      : 'text-slate-600 hover:bg-slate-100'
-                    }
-                  `}
-                >
-                  <Icon className="w-5 h-5" />
-                  {link.label}
-                </Link>
-              );
-            })}
-
-            {!isAuthenticated && (
-              <div className="pt-3 border-t border-slate-100 mt-3 space-y-2">
-                <Link
-                  to="/login"
-                  className="block w-full px-4 py-3 text-sm font-semibold text-center text-slate-600 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors cursor-pointer"
-                >
-                  Masuk
-                </Link>
-                <Link
-                  to="/register"
-                  className="block w-full px-4 py-3 text-sm font-bold text-center text-white bg-[#004ac6] rounded-xl hover:bg-[#003a9e] transition-colors cursor-pointer flex items-center justify-center gap-2"
-                >
-                  <Plus className="w-4 h-4" />
-                  Daftar
-                </Link>
+                      {user.role === 'admin' && (
+                        <Link
+                          to="/admin"
+                          onClick={() => setDropdownOpen(false)}
+                          className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                        >
+                          <Shield className="h-4 w-4 text-slate-400 group-hover:text-slate-900 transition-colors" />
+                          <span>Mode Admin</span>
+                        </Link>
+                      )}
+                      
+                      <hr className="border-slate-100 my-1 mx-2" />
+                      
+                      <button
+                        onClick={() => {
+                          setDropdownOpen(false);
+                          handleLogout();
+                        }}
+                        className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-red-500 hover:bg-rose-50 hover:text-red-700 transition-colors"
+                      >
+                        <LogOut className="h-4 w-4 text-rose-400 group-hover:text-red-650 transition-colors" />
+                        <span>Keluar</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          ) : (
+            <>
+              <Link 
+                to="/login"
+                className="text-xs font-bold text-slate-500 hover:text-slate-950 px-2 py-2 transition-colors cursor-pointer"
+              >
+                Masuk
+              </Link>
+              <Link 
+                to="/register"
+                className="border border-slate-950 text-slate-950 font-bold text-xs px-5 py-2.5 rounded-full hover:bg-slate-950 hover:text-white transition-all duration-200 active:scale-95 shadow-sm cursor-pointer"
+              >
+                Daftar
+              </Link>
+            </>
+          )}
         </div>
-      </nav>
-    </header>
+
+      </header>
+    </div>
   );
 };
-
-export default Navbar;

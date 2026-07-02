@@ -13,9 +13,9 @@ export function AwesomicBadge({
 }: AwesomicBadgeProps) {
   const variantStyles = {
     "transparent-dark":
-      "bg-transparent text-white border border-white/30",
+      "bg-transparent text-ink border border-white/30",
     "filled-dark": "bg-[#3f3f46] text-[#fafafa]",
-    ember: "bg-[#ff5a00] text-white",
+    ember: "bg-[#ff5a00] text-ink",
   };
 
   return (

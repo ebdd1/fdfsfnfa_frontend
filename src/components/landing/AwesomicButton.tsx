@@ -1,10 +1,10 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import type { ReactNode, MouseEventHandler } from "react";
+import { motion, useReducedMotion } from 'framer-motion';
+import type { ReactNode, MouseEventHandler } from 'react';
 
 interface AwesomicButtonProps {
-  variant?: "primary" | "outline" | "ghost";
+  variant?: "primary" | "secondary" | "ghost";
   size?: "sm" | "md" | "lg";
   children: ReactNode;
   className?: string;
@@ -24,28 +24,27 @@ export function AwesomicButton({
 }: AwesomicButtonProps) {
   const reduce = useReducedMotion();
 
-  const baseStyles =
-    "inline-flex items-center justify-center font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "inline-flex items-center justify-center font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
 
   const sizeStyles = {
     sm: "text-sm px-4 py-2",
-    md: "text-sm md:text-base px-5 py-3",
-    lg: "text-base px-6 py-4",
+    md: "text-base px-6 py-3",
+    lg: "text-lg px-8 py-4",
   };
 
   const variantStyles = {
     primary:
-      "bg-[#09090b] text-white shadow-[var(--cta-shadow)] hover:shadow-[var(--cta-shadow)] active:translate-y-px focus-visible:ring-[#09090b]",
-    outline:
-      "bg-white text-[#3f3f46] border border-[#3f3f46] hover:bg-[#f4f4f5] active:translate-y-px focus-visible:ring-[#3f3f46]",
+      "bg-primary text-white shadow-md hover:bg-[#2d47d9] active:translate-y-px focus-visible:ring-primary",
+    secondary:
+      "bg-card text-primary border-2 border-primary hover:bg-primary-light active:translate-y-px focus-visible:ring-primary",
     ghost:
-      "bg-transparent text-[#18181b] hover:bg-[#f4f4f5] active:translate-y-px focus-visible:ring-[#18181b]",
+      "bg-transparent text-primary hover:bg-primary-light active:translate-y-px focus-visible:ring-primary",
   };
 
   const radiusStyles = {
-    primary: "rounded-[36px]",
-    outline: "rounded-[36px]",
-    ghost: "rounded-[14px]",
+    sm: "rounded-lg",
+    md: "rounded-lg",
+    lg: "rounded-lg",
   };
 
   return (
@@ -55,7 +54,7 @@ export function AwesomicButton({
       transition={{ duration: 0.15 }}
       type={type}
       onClick={onClick}
-      className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${radiusStyles[variant]} ${className}`}
+      className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${radiusStyles[size]} ${className}`}
       disabled={disabled}
     >
       {children}

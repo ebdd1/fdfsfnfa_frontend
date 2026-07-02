@@ -1,10 +1,10 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import type { ReactNode, MouseEventHandler } from "react";
+import { motion, useReducedMotion } from 'framer-motion';
+import type { ReactNode, MouseEventHandler } from 'react';
 
 interface AwesomicCardProps {
-  variant?: "white" | "muted" | "dark" | "decorative";
+  variant?: "elevated" | "outline" | "primary";
   padding?: "sm" | "md" | "lg";
   children: ReactNode;
   hoverable?: boolean;
@@ -13,7 +13,7 @@ interface AwesomicCardProps {
 }
 
 export function AwesomicCard({
-  variant = "white",
+  variant = "elevated",
   padding = "md",
   children,
   hoverable = false,
@@ -23,19 +23,18 @@ export function AwesomicCard({
   const reduce = useReducedMotion();
 
   const variantStyles = {
-    white: "bg-white border border-[#e8e8ea]",
-    muted: "bg-[#ececee] border border-transparent",
-    dark: "bg-[#09090b] text-white",
-    decorative: "bg-[#fe45e2] text-white",
+    elevated: "bg-card border border-default shadow-sm hover:shadow-md",
+    outline: "bg-card border-2 border-primary",
+    primary: "bg-primary text-white",
   };
 
   const paddingStyles = {
-    sm: "p-5",
-    md: "p-6 md:p-7",
-    lg: "p-8 md:p-9",
+    sm: "p-4",
+    md: "p-6",
+    lg: "p-8",
   };
 
-  const cardClass = `rounded-[36px] transition-transform duration-200 ${variantStyles[variant]} ${paddingStyles[padding]} ${hoverable ? 'cursor-pointer' : ''} ${className}`;
+  const cardClass = `rounded-lg transition-all duration-200 ${variantStyles[variant]} ${paddingStyles[padding]} ${hoverable ? "cursor-pointer" : ""} ${className}`;
 
   if (hoverable && !reduce) {
     return (
@@ -45,6 +44,7 @@ export function AwesomicCard({
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         whileHover={{ y: -4 }}
+        whileTap={{ scale: 0.98 }}
         onClick={onClick}
         className={cardClass}
       >

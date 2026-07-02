@@ -29,7 +29,45 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [locationSuccess, setLocationSuccess] = useState(false);
+  const [modalState, setModalState] = useState<'entering' | 'open' | 'exiting' | 'closed'>('closed');
   const photoInputRef = useRef<HTMLInputElement>(null);
+
+  // Handle modal open/close animations
+  useEffect(() => {
+    if (isOpen && modalState === 'closed') {
+      setModalState('entering');
+      const timer = setTimeout(() => setModalState('open'), 10);
+      return () => clearTimeout(timer);
+    } else if (!isOpen && (modalState === 'entering' || modalState === 'open')) {
+      setModalState('exiting');
+      const duration = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--modal-close-dur')) || 150;
+      const timer = setTimeout(() => setModalState('closed'), duration);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, modalState]);
+
+  // Handle escape key to close
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && (modalState === 'entering' || modalState === 'open')) {
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [modalState, onClose]);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -89,7 +127,13 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
     );
   };
 
-  if (!isOpen) return null;
+  if (modalState === 'closed') return null;
+
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []).slice(0, 5 - photoFiles.length);
@@ -172,14 +216,23 @@ export const AddPropertyModal: React.FC<AddPropertyModalProps> = ({ isOpen, onCl
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl shadow-xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200">
+    <div
+      className="t-modal-overlay"
+      onClick={handleOverlayClick}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div
+        className="t-modal bg-white w-full max-w-lg"
+        data-state={modalState === 'entering' ? 'entering' : modalState === 'exiting' ? 'exiting' : 'open'}
+      >
         <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-slate-50/50">
           <div>
-            <h2 className="text-lg font-black text-slate-800">Tambah Kost Baru</h2>
+            <h2 id="modal-title" className="text-lg font-black text-slate-800">Tambah Kost Baru</h2>
             <p className="text-xs text-slate-500 font-medium mt-1">Daftarkan kost Anda ke platform.</p>
           </div>
-          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
+          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-colors" aria-label="Tutup modal">
             <X className="w-5 h-5" />
           </button>
         </div>

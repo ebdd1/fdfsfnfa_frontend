@@ -2,157 +2,135 @@
 @config "../tailwind.config.js";
 
 /* ============================================
-   AWESOMIC DESIGN TOKENS — KostFind Landing
-   Light theme: "Rounded midnight marketplace"
+   KOSTFIND DESIGN TOKENS — Clay Design System
+   Based on: layout-context MCP (Clay.com)
    ============================================ */
 
-/* ============================================
-   CLAY DESIGN TOKENS — from layout-context MCP
-   Source: .layout/tokens.json (Clay.com)
-   ============================================ */
 :root {
-  /* Clay Primary Accent */
-  --clay-accent: #3859f9;
-  --clay-accent-warm: #fa6900;
-  --clay-accent-cool: #0382f7;
-  --clay-accent-hover: rgb(255, 118, 20);
+  /* Brand Primary (Blueberry) */
+  --color-primary: #3859f9;
+  --color-primary-hover: #2d47d9;
+  --color-primary-light: #ecf6ff;
 
-  /* Clay Text */
-  --clay-text-primary: #000000;
-  --clay-text-secondary: #282c35;
+  /* Brand Success (Matcha) */
+  --color-success: #047e4a;
+  --color-success-light: #dbffe0;
 
-  /* Clay Backgrounds (Oat Scale) */
-  --clay-oat-50: #fffcfa;
-  --clay-oat-100: #f9f8f6;
-  --clay-oat-200: #f3f2ed;
-  --clay-oat-300: #eee9df;
-  --clay-oat-400: #dad4c8;
+  /* Brand Warning (Lemon) */
+  --color-warning: #fcbe11;
+  --color-warning-light: #fff8d2;
 
-  /* Clay Borders */
-  --clay-border: #302f2c;
-  --clay-border-subtle: rgba(231, 231, 231, 0.25);
+  /* Brand Danger (Pomegranate) */
+  --color-danger: #b21a3f;
+  --color-danger-light: #ffebec;
 
-  /* Clay Status */
-  --clay-success: #047e4a;
-  --clay-warning: #fcbe11;
-  --clay-error: #b21a3f;
-  --clay-info: #038ff7;
-
-  /* Clay Spacing */
-  --clay-space-sm: 12px;
-  --clay-space-md: 24px;
-  --clay-space-lg: 20px;
-  --clay-space-xl: 32px;
-
-  /* Clay Radius */
-  --clay-radius-full: 12px;
-  --clay-radius-sm: 0.75rem;
-  --clay-radius-md: 1rem;
-  --clay-radius-lg: 1.25rem;
-
-  /* Clay Motion */
-  --clay-duration-fast: 0.25s;
-  --clay-duration-base: 0.3s;
-  --clay-ease-default: ease;
-}
-
-/* ============================================
-   AWESOMIC BASE TOKENS
-   ============================================ */
-:root {
-  /* Surface Scale */
-  --surface-canvas: #f4f4f5;      /* Page background (Mist) */
-  --surface-card: #ffffff;         /* White card surfaces (Snow) */
-  --surface-card-muted: #ececee;   /* Secondary cards (Fog) */
-  --surface-dark: #09090b;         /* Filled buttons, dark panels (Obsidian) */
-  --surface-dark-soft: #222222;    /* Softer dark for announcements */
+  /* Brand Info (Blueberry Cool) */
+  --color-info: #038ff7;
+  --color-info-light: #d7ebfe;
 
   /* Text Scale */
-  --text-primary: #18181b;         /* Ink - body text */
-  --text-secondary: #52525b;       /* Slate - secondary text */
-  --text-muted: #71717a;           /* Steel - muted labels */
-  --text-subtle: #a1a1aa;          /* Ash - placeholder, decorative */
-  --text-inverse: #ffffff;         /* White text on dark */
+  --text-ink: #000000;
+  --text-body: #282c35;
+  --text-muted: #52525b;
+  --text-placeholder: #71717a;
+
+  /* Background Scale (Oat) */
+  --bg-canvas: #f9f8f6;
+  --bg-elevated: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f3f2ed;
 
   /* Borders */
-  --border-default: #d4d4d8;       /* Pebble - hairline dividers */
-  --border-subtle: #ececee;        /* Fog - card borders */
-  --border-dark: rgba(255, 255, 255, 0.2);
+  --border-default: #d4d4d8;
+  --border-subtle: #e8e8ea;
 
-  /* Accent (restrained - only on badges, one decorative card) */
-  --accent-ember: #ff5a00;         /* YC-style badge only */
-  --accent-orchid: #fe45e2;        /* One decorative card wash only */
+  /* Clay Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
 
-  /* CTA (primary action - Obsidian) */
-  --cta-bg: #09090b;
-  --cta-text: #ffffff;
-  --cta-border: rgb(44, 46, 52);
-  --cta-shadow: rgba(255, 255, 255, 0.5) 0px 0.5px 0px 0px inset,
-                rgba(117, 123, 133, 0.4) 0px 9px 14px -5px inset,
-                rgb(44, 46, 52) 0px 0px 0px 1.5px,
-                rgba(0, 0, 0, 0.14) 0px 4px 6px 0px;
-
-  /* Typography */
-  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-
-  /* Border Radius */
-  --radius-hero: 48px;
-  --radius-cards: 36px;
-  --radius-cards-compact: 28px;
-  --radius-badges: 12px;
-  --radius-buttons: 36px;
-  --radius-buttons-sm: 14px;
-  --radius-inputs: 14px;
-
-  /* Shadows */
-  --shadow-card: rgb(228, 228, 231) 0px 1px 0px 0px inset;
-  --shadow-card-elevated: rgba(0, 0, 0, 0.04) 0px 4px 12px 0px;
-}
-
-/* Tailwind v4 Theme Extension */
-@theme {
-  /* Colors */
-  --color-canvas: var(--surface-canvas);
-  --color-card: var(--surface-card);
-  --color-card-muted: var(--surface-card-muted);
-  --color-dark: var(--surface-dark);
-  --color-dark-soft: var(--surface-dark-soft);
-  --color-ink: var(--text-primary);
-  --color-slate-light: var(--text-secondary);
-  --color-steel: var(--text-muted);
-  --color-ash: var(--text-subtle);
-  --color-pebble: var(--border-default);
-  --color-fog: var(--border-subtle);
-  --color-ember: var(--accent-ember);
-  --color-orchid: var(--accent-orchid);
-
-  /* Font Family */
-  --font-sans: var(--font-sans);
-
-  /* Border Radius */
-  --radius-hero: 48px;
-  --radius-cards: 36px;
-  --radius-cards-compact: 28px;
-  --radius-badges: 12px;
+  /* Clay Border Radius (max 12px per Clay rules) */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-pill: 9999px;
-  --radius-xl: 14px;
+
+  /* Motion */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
 }
+
+/* ============================================
+   TAILWIND THEME EXTENSION
+   ============================================ */
+
+@theme {
+  /* Colors - direct hex values for Tailwind */
+  --color-primary: #3859f9;
+  --color-primary-hover: #2d47d9;
+  --color-primary-light: #ecf6ff;
+
+  --color-success: #047e4a;
+  --color-success-light: #dbffe0;
+
+  --color-warning: #fcbe11;
+  --color-warning-light: #fff8d2;
+
+  --color-danger: #b21a3f;
+  --color-danger-light: #ffebec;
+
+  --color-info: #0382f7;
+  --color-info-light: #d7ebfe;
+
+  --text-ink: #000000;
+  --text-body: #282c35;
+  --text-muted: #52525b;
+  --text-placeholder: #71717a;
+
+  --bg-canvas: #f9f8f6;
+  --bg-elevated: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f3f2ed;
+
+  --border-default: #d4d4d8;
+  --border-subtle: #e8e8ea;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
 
 body {
   margin: 0;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color: #ffffff;
-  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background-color: var(--bg-canvas);
+  color: var(--text-body);
 }
 
-/* Mapbox popup customization — Google Maps-style card */
+/* ============================================
+   MAPBOX CUSTOMIZATION
+   ============================================ */
+
 .mapbox-popup-kostfind .mapboxgl-popup-content {
   padding: 0 !important;
-  border-radius: 12px !important;
+  border-radius: var(--radius-md) !important;
   overflow: hidden !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15),
-              0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
-  border: 1px solid rgb(226, 232, 240) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid var(--border-default) !important;
 }
 
 .mapbox-popup-kostfind .mapboxgl-popup-close-button {
@@ -180,66 +158,44 @@ body {
 
 /* Mapbox controls — Google Maps style */
 .mapboxgl-ctrl-group {
-  border-radius: 12px !important;
-  border: 1px solid #E8E2D3 !important;
-  box-shadow: 0 2px 8px rgba(61,57,41,0.12) !important;
+  border-radius: var(--radius-md) !important;
   overflow: hidden !important;
+  box-shadow: 0 2px 8px rgba(61,57,41,0.12) !important;
 }
 
-.mapboxgl-ctrl-group button {
-  background-color: #FAF8F1 !important;
-  border-color: #E8E2D3 !important;
+/* ============================================
+   SCROLLBAR CUSTOMIZATION
+   ============================================ */
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-.mapboxgl-ctrl-group button:hover {
-  background-color: #F0EBE0 !important;
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-.mapboxgl-ctrl-zoom-in .mapboxgl-ctrl-icon,
-.mapboxgl-ctrl-zoom-out .mapboxgl-ctrl-icon,
-.mapboxgl-ctrl-compass .mapboxgl-ctrl-icon {
-  filter: invert(25%) sepia(15%) saturate(600%) hue-rotate(5deg) brightness(0.15);
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 3px;
 }
 
-.mapboxgl-ctrl-geolocate {
-  bottom: 130px !important;
-}
-
-.mapboxgl-ctrl-scale {
-  background-color: white !important;
-  border: 1px solid rgb(226, 232, 240) !important;
-  border-radius: 4px !important;
-  padding: 2px 6px !important;
-  font-weight: 600 !important;
-  color: rgb(71, 85, 105) !important;
-}
-
-/* Hide scrollbar on filter chips */
-.scrollbar-none {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.scrollbar-none::-webkit-scrollbar {
-  display: none;
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }
 
 /* ============================================
    TRANSITIONS.DEV — Modal Animations
-   Scale-up modal dialog with softer scale-down
    ============================================ */
 
-/* Modal CSS Variables */
 :root {
-  /* Modal open / close */
   --modal-open-dur: 250ms;
   --modal-close-dur: 150ms;
   --modal-scale: 0.96;
-  --modal-scale-close: 0.96;
   --modal-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Modal Overlay */
 .t-modal-overlay {
   position: fixed;
   inset: 0;
@@ -253,22 +209,15 @@ body {
   -webkit-backdrop-filter: blur(4px);
 }
 
-/* Modal Content */
 .t-modal {
   position: relative;
   width: 100%;
   max-width: 32rem;
   max-height: 90vh;
   overflow: hidden;
-  border-radius: 1.5rem;
+  border-radius: var(--radius-xl);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   transform-origin: center center;
-}
-
-/* Modal Enter Animation */
-.t-modal[data-state="entering"],
-.t-modal.is-enter-start {
-  animation: modal-enter var(--modal-open-dur) var(--modal-ease) forwards;
 }
 
 @keyframes modal-enter {
@@ -282,12 +231,6 @@ body {
   }
 }
 
-/* Modal Exit Animation */
-.t-modal[data-state="exiting"],
-.t-modal.is-closing {
-  animation: modal-exit var(--modal-close-dur) var(--modal-ease) forwards;
-}
-
 @keyframes modal-exit {
   from {
     opacity: 1;
@@ -295,25 +238,47 @@ body {
   }
   to {
     opacity: 0;
-    transform: scale(var(--modal-scale-close));
+    transform: scale(var(--modal-scale));
   }
 }
 
-/* Reduced motion preference */
+.t-modal[data-state="entering"] {
+  animation: modal-enter var(--modal-open-dur) var(--modal-ease) forwards;
+}
+
+.t-modal[data-state="exiting"] {
+  animation: modal-exit var(--modal-close-dur) var(--modal-ease) forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .t-modal[data-state="entering"],
-  .t-modal.is-enter-start {
+  .t-modal[data-state="exiting"] {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
-
-  .t-modal[data-state="exiting"],
-  .t-modal.is-closing {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-
   .t-modal-overlay {
     transition: none !important;
   }
+}
+
+/* ============================================
+   CLAY NEVER RULES ENFORCEMENT
+   ============================================ */
+
+/* These classes enforce Clay design rules */
+
+.clay-button {
+  border-radius: var(--radius-md) !important; /* Never > 12px per Clay rules */
+}
+
+.clay-text-primary {
+  color: var(--text-ink) !important;
+}
+
+.clay-text-secondary {
+  color: var(--text-body) !important;
+}
+
+.clay-border {
+  border-color: var(--border-default) !important;
 }

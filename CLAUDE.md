@@ -129,10 +129,179 @@ xl:  1280px  (large desktops)
 
 ---
 
-## 🛠️ Available Skills
+## 🛠️ Skill-Based Workflow
 
-- `ui-ux-pro-max` — Design system & UI reasoning
-- Use via: `/ui` or natural language request for UI components
+Setiap fase development punya skill yang tepat. Ikuti alur ini agar kerja terstruktur.
+
+### Fase 1: Awal Sprint / Minggu Baru
+```
+/retro
+```
+→ Retrospective mingguan: apa berhasil, apa gagal, next week prioritas. Prevent autopilot mode.
+
+---
+
+### Fase 2: Mau Bangun Fitur Baru
+```
+/office-hours        → Challenge premise, get perspective
+/spec                → Convert vague intent ke precise spec
+/autoplan            → CEO + design + eng review sekaligus
+```
+→ Standard planning flow. `/office-hours` nge-challenge — bisa jadi fitur yang dipikir perlu ternyata nggak solve user problem.
+
+---
+
+### Fase 3: Coding / Implementasi
+**Frontend React:**
+```
+/react-expert
+```
+→ Stuck di hooks, state management, performance optimization.
+
+**Fitur fullstack (frontend + backend):**
+```
+/fullstack-guardian
+```
+→ Payment method baru, booking flow baru, role permissions baru.
+
+**Real-time features (Socket.IO):**
+```
+/websocket-engineer
+```
+→ Push notification, booking status real-time.
+
+---
+
+### Fase 4: Review & Polish
+**Sebelum push/deploy:**
+```
+/review
+```
+→ PR diff review: bugs, security, code smells, N+1.
+
+**Visual polish:**
+```
+/design-review
+```
+→ Spacing, hierarchy, AI slop patterns, brand color consistency.
+
+**Deep code audit:**
+```
+/code-reviewer
+```
+
+---
+
+### Fase 5: Security (Periodic)
+**Quarterly audit:**
+```
+/security-reviewer
+```
+→ Full SAST, pentest, compliance.
+
+**Quick OWASP check:**
+```
+/owasp-security-check
+```
+→ Anteseden ke security-reviewer, atau sebelum deploy.
+
+---
+
+### Fase 6: QA & Testing
+**Full QA + bug fix:**
+```
+/qa
+```
+→ Systematic test, reproduce bugs, fix found bugs.
+
+**Screenshot/verify render:**
+```
+/browse <url>
+```
+→ Landing page consistency, mobile viewport testing.
+
+**Investigate bug:**
+```
+/investigate
+```
+→ Root cause analysis, log tracing.
+
+---
+
+### Fase 7: Deploy
+**Ship workflow:**
+```
+/land-and-deploy
+```
+→ Detect base branch, run tests, review diff, commit, push, create PR.
+
+**Post-deploy monitoring:**
+```
+/canary
+```
+→ Error rates, performance regression.
+
+---
+
+### Fase 8: Context & Docs
+**Save progress:**
+```
+/context-save
+```
+→ Mau stop session, context survive.
+
+**Store insight:**
+```
+/learn
+```
+→ "Mapbox bounds bug lesson", "OWASP findings", etc.
+
+**Generate docs:**
+```
+/document-generate
+```
+
+---
+
+### Alur Visual
+
+```
+SPRINT START
+/retro
+    │
+    ▼
+PLANNING (fitur baru?)
+/office-hours → /spec → /autoplan
+    │
+    ▼
+IMPLEMENTASI
+/react-expert | /fullstack-guardian | /websocket-engineer
+    │
+    ▼
+REVIEW & POLISH
+/review → /design-review → /code-reviewer
+    │
+    ▼
+SECURITY (periodic)
+/security-reviewer → /owasp-security-check
+    │
+    ▼
+QA & DEPLOY
+/qa → /browse → /land-and-deploy → /canary
+    │
+    ▼
+CONTEXT & DOCS
+/context-save | /learn | /document-generate
+```
+
+---
+
+### Prioritas Sekarang (2026-06-24)
+Berdasarkan mobile polish sprint:
+1. `/design-review` — review landing page + dashboard yang baru di-poles
+2. `/qa` — test mobile viewport flows (375px, 768px)
+3. `/browse` — screenshot verify landing page rendering
+4. `/investigate` — kalau ada bug yang belum fixed
 
 ---
 
@@ -144,5 +313,5 @@ xl:  1280px  (large desktops)
 
 ---
 
-**Maintained by:** Development Team  
-**Last Updated:** 2026-06-21
+**Maintained by:** Development Team
+**Last Updated:** 2026-06-24

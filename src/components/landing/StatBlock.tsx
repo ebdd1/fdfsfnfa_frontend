@@ -17,10 +17,10 @@ export function StatBlock({ value, label, className = "" }: StatBlockProps) {
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className={`text-center ${className}`}
     >
-      <div className="text-[40px] md:text-[48px] lg:text-[56px] font-bold text-[#09090b] leading-[1]">
+      <div className="text-[40px] md:text-[48px] lg:text-[56px] font-bold text-[text-ink] leading-[1]">
         {value}
       </div>
-      <div className="mt-2 text-[13px] text-[#71717a] leading-[1.56]">
+      <div className="mt-2 text-[13px] text-[text-muted] leading-[1.56]">
         {label}
       </div>
     </motion.div>
