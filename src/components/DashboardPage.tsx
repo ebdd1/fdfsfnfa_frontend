@@ -203,7 +203,7 @@ export const DashboardPage = () => {
         </button>
 
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--primary-50)]] border border-[var(--primary-100)]]/40 text-[var(--primary-600)]]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--primary-50)] border border-[var(--primary-100)]/40 text-[var(--primary-600)]">
             <Sparkles className="w-4 h-4" />
           </div>
           {settings.logo_url ? (
@@ -236,7 +236,7 @@ export const DashboardPage = () => {
             <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
               <span className="text-[11px] font-black text-slate-800 uppercase tracking-widest">Notifikasi</span>
               {notifUnread > 0 && (
-                <button onClick={() => markAllRead()} className="text-[10px] font-bold text-[var(--primary-600)]] hover:text-[var(--primary-700)]] cursor-pointer">
+                <button onClick={() => markAllRead()} className="text-[10px] font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)] cursor-pointer">
                   Tandai dibaca
                 </button>
               )}
@@ -255,9 +255,9 @@ export const DashboardPage = () => {
                   <button
                     key={n.id}
                     onClick={() => openNotification(n)}
-                    className={`w-full flex items-start gap-3 px-4 py-3 hover:bg-slate-50 active:bg-slate-100 transition-colors text-left cursor-pointer ${n.isRead ? '' : 'bg-[var(--primary-50)]]/40'}`}
+                    className={`w-full flex items-start gap-3 px-4 py-3 hover:bg-slate-50 active:bg-slate-100 transition-colors text-left cursor-pointer ${n.isRead ? '' : 'bg-[var(--primary-50)]/40'}`}
                   >
-                    <div className="relative w-10 h-10 rounded-xl bg-[var(--primary-50)]] border border-[var(--primary-100)]] flex items-center justify-center text-[var(--primary-600)]] shrink-0">
+                    <div className="relative w-10 h-10 rounded-xl bg-[var(--primary-50)] border border-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] shrink-0">
                       <ClipboardList className="w-5 h-5" />
                       {!n.isRead && <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-rose-500 border-2 border-white" />}
                     </div>
@@ -306,13 +306,13 @@ export const DashboardPage = () => {
 
             {/* Profile */}
             <div className="px-4 pt-4">
-              <div className="flex items-center gap-3 p-3 bg-[var(--primary-50)]]/60 rounded-2xl border border-[var(--primary-100)]]/40">
-                <div className="w-11 h-11 rounded-full bg-[var(--primary-100)]] flex items-center justify-center text-[var(--primary-600)]] overflow-hidden shrink-0">
+              <div className="flex items-center gap-3 p-3 bg-[var(--primary-50)]/60 rounded-2xl border border-[var(--primary-100)]/40">
+                <div className="w-11 h-11 rounded-full bg-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] overflow-hidden shrink-0">
                   {user?.avatar_url ? <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" /> : <User className="w-5 h-5" />}
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-extrabold text-slate-900 truncate">{user?.name || 'Pemilik Kost'}</p>
-                  <span className="text-[10px] font-bold text-[var(--primary-700)]] uppercase tracking-wide">Pemilik Kost</span>
+                  <span className="text-[10px] font-bold text-[var(--primary-700)] uppercase tracking-wide">Pemilik Kost</span>
                 </div>
               </div>
             </div>
@@ -325,12 +325,12 @@ export const DashboardPage = () => {
                   key={key}
                   onClick={() => goToSection(key)}
                   className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
-                    activeSection === key ? 'bg-[var(--primary-50)]] text-[var(--primary-700)]]' : 'text-slate-600 hover:bg-slate-100'
+                    activeSection === key ? 'bg-[var(--primary-50)] text-[var(--primary-700)]' : 'text-slate-600 hover:bg-slate-100'
                   }`}
                 >
                   <span className="relative shrink-0">
                     <Icon className="w-[18px] h-[18px]" />
-                    {key === 'chat' && hasUnread && <span className="absolute -top-1 -right-1 w-2 h-2 bg-[var(--primary-500)]] rounded-full" />}
+                    {key === 'chat' && hasUnread && <span className="absolute -top-1 -right-1 w-2 h-2 bg-[var(--primary-500)] rounded-full" />}
                   </span>
                   <span className="flex-1 text-left">{label}</span>
                   {key === 'properties' && properties.length > 0 && (
@@ -343,7 +343,7 @@ export const DashboardPage = () => {
               <button
                 onClick={() => goToSection('settings')}
                 className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
-                  activeSection === 'settings' ? 'bg-[var(--primary-50)]] text-[var(--primary-700)]]' : 'text-slate-600 hover:bg-slate-100'
+                  activeSection === 'settings' ? 'bg-[var(--primary-50)] text-[var(--primary-700)]' : 'text-slate-600 hover:bg-slate-100'
                 }`}
               >
                 <Settings className="w-[18px] h-[18px] shrink-0" />
@@ -402,18 +402,18 @@ export const DashboardPage = () => {
 
           {/* Owner Profile Summary */}
           {!isSidebarCollapsed ? (
-            <div className="flex items-center gap-3 px-3 py-3 bg-[var(--primary-50)]]/50 rounded-xl border border-[var(--primary-100)]]/30 shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-[var(--primary-100)]] flex items-center justify-center text-[var(--primary-600)]] border border-[var(--primary-200)]] shrink-0 overflow-hidden">
+            <div className="flex items-center gap-3 px-3 py-3 bg-[var(--primary-50)]/50 rounded-xl border border-[var(--primary-100)]/30 shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] border border-[var(--primary-200)] shrink-0 overflow-hidden">
                 {user?.avatar_url ? <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" /> : <User className="w-5 h-5" />}
               </div>
               <div className="min-w-0 flex-1 text-left">
                 <p className="text-sm font-extrabold text-slate-900 leading-tight truncate">{user?.name || 'Pemilik Kost'}</p>
-                <span className="text-[10px] font-bold text-[var(--primary-700)]] uppercase tracking-wide block mt-0.5">Pemilik Kost</span>
+                <span className="text-[10px] font-bold text-[var(--primary-700)] uppercase tracking-wide block mt-0.5">Pemilik Kost</span>
               </div>
             </div>
           ) : (
             <div className="flex justify-center">
-              <div className="w-10 h-10 rounded-full bg-[var(--primary-100)]]/50 flex items-center justify-center text-[var(--primary-600)]] border border-[var(--primary-200)]] overflow-hidden" title={user?.name || 'Pemilik Kost'}>
+              <div className="w-10 h-10 rounded-full bg-[var(--primary-100)]/50 flex items-center justify-center text-[var(--primary-600)] border border-[var(--primary-200)] overflow-hidden" title={user?.name || 'Pemilik Kost'}>
                 {user?.avatar_url ? <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" /> : <User className="w-5 h-5" />}
               </div>
             </div>
@@ -431,7 +431,7 @@ export const DashboardPage = () => {
                 onClick={() => setActiveSection('overview')}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
                   isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
-                } ${activeSection === 'overview' ? 'bg-[var(--primary-50)]] text-[var(--primary-700)]] border border-[var(--primary-100)]]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                } ${activeSection === 'overview' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
                 title="Dasbor"
               >
                 <LayoutDashboard className="w-4 h-4 shrink-0" />
@@ -442,7 +442,7 @@ export const DashboardPage = () => {
                 onClick={() => setActiveSection('properties')}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
                   isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
-                } ${activeSection === 'properties' ? 'bg-[var(--primary-50)]] text-[var(--primary-700)]] border border-[var(--primary-100)]]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                } ${activeSection === 'properties' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
                 title="Kost"
               >
                 <Building2 className="w-4 h-4 shrink-0" />
@@ -458,7 +458,7 @@ export const DashboardPage = () => {
                 onClick={() => setActiveSection('finance')}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
                   isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
-                } ${activeSection === 'finance' ? 'bg-[var(--primary-50)]] text-[var(--primary-700)]] border border-[var(--primary-100)]]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                } ${activeSection === 'finance' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
                 title="Keuangan"
               >
                 <Wallet className="w-4 h-4 shrink-0" />
@@ -469,7 +469,7 @@ export const DashboardPage = () => {
                 onClick={() => setActiveSection('orders')}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
                   isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
-                } ${activeSection === 'orders' ? 'bg-[var(--primary-50)]] text-[var(--primary-700)]] border border-[var(--primary-100)]]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                } ${activeSection === 'orders' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
                 title="Permintaan Sewa"
               >
                 <ClipboardList className="w-4 h-4 shrink-0" />
@@ -480,20 +480,20 @@ export const DashboardPage = () => {
                 onClick={() => setActiveSection('chat')}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
                   isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
-                } ${activeSection === 'chat' ? 'bg-[var(--primary-50)]] text-[var(--primary-700)]] border border-[var(--primary-100)]]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                } ${activeSection === 'chat' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
                 title="Pesan"
               >
                 <div className="relative shrink-0">
                   <MessageSquare className="w-4 h-4" />
                   {conversations.some((c) => c.unread_count > 0) && (
-                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-[var(--primary-500)]] rounded-full ring-2 ring-white" />
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-[var(--primary-500)] rounded-full ring-2 ring-white" />
                   )}
                 </div>
                 {!isSidebarCollapsed && (
                   <div className="flex items-center justify-between w-full">
                     <span>Pesan</span>
                     {conversations.some((c) => c.unread_count > 0) && (
-                      <span className="text-[9px] font-black bg-[var(--primary-100)]] text-[var(--primary-700)]] px-1.5 py-0.5 rounded-full">Baru</span>
+                      <span className="text-[9px] font-black bg-[var(--primary-100)] text-[var(--primary-700)] px-1.5 py-0.5 rounded-full">Baru</span>
                     )}
                   </div>
                 )}
@@ -510,7 +510,7 @@ export const DashboardPage = () => {
                 onClick={() => setActiveSection('settings')}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
                   isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
-                } ${activeSection === 'settings' ? 'bg-[var(--primary-50)]] text-[var(--primary-700)]] border border-[var(--primary-100)]]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                } ${activeSection === 'settings' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
                 title="Pengaturan"
               >
                 <Settings className="w-4 h-4 shrink-0" />
@@ -597,7 +597,7 @@ export const DashboardPage = () => {
                     <div className="px-4 py-2 border-b border-slate-100 flex justify-between items-center">
                       <span className="text-[11px] font-black text-slate-800 uppercase tracking-widest">Notifikasi</span>
                       {notifUnread > 0 && (
-                        <button onClick={() => markAllRead()} className="text-[10px] font-bold text-[var(--primary-600)]] hover:text-[var(--primary-700)]] cursor-pointer">
+                        <button onClick={() => markAllRead()} className="text-[10px] font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)] cursor-pointer">
                           Tandai dibaca
                         </button>
                       )}
@@ -616,9 +616,9 @@ export const DashboardPage = () => {
                           <button
                             key={n.id}
                             onClick={() => openNotification(n)}
-                            className={`w-full flex items-start gap-3 px-3 py-2.5 hover:bg-slate-50 transition-colors text-left cursor-pointer ${n.isRead ? '' : 'bg-[var(--primary-50)]]/40'}`}
+                            className={`w-full flex items-start gap-3 px-3 py-2.5 hover:bg-slate-50 transition-colors text-left cursor-pointer ${n.isRead ? '' : 'bg-[var(--primary-50)]/40'}`}
                           >
-                            <div className="relative w-10 h-10 rounded-xl bg-[var(--primary-50)]] border border-[var(--primary-100)]] flex items-center justify-center text-[var(--primary-600)]] shrink-0">
+                            <div className="relative w-10 h-10 rounded-xl bg-[var(--primary-50)] border border-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] shrink-0">
                               <ClipboardList className="w-5 h-5" />
                               {!n.isRead && <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-rose-500 border-2 border-white" />}
                             </div>
@@ -647,7 +647,7 @@ export const DashboardPage = () => {
                 }}
                 className="flex items-center gap-2 p-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition-all duration-200 cursor-pointer group"
               >
-                <div className="w-7 h-7 rounded-lg bg-[var(--primary-100)]] overflow-hidden border border-slate-200 flex-shrink-0 flex items-center justify-center text-[var(--primary-600)]] text-xs font-black">
+                <div className="w-7 h-7 rounded-lg bg-[var(--primary-100)] overflow-hidden border border-slate-200 flex-shrink-0 flex items-center justify-center text-[var(--primary-600)] text-xs font-black">
                   {user?.avatar_url ? (
                     <img src={user.avatar_url} alt={user?.name || 'Pemilik Kost'} className="w-full h-full object-cover" />
                   ) : (
@@ -673,7 +673,7 @@ export const DashboardPage = () => {
                           setIsProfileOpen(false);
                           setShowProfileEditor(true);
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)]] flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
                         <User className="w-4 h-4 text-slate-400" />
                         <span>Edit Profil Saya</span>
@@ -683,9 +683,9 @@ export const DashboardPage = () => {
                           setIsProfileOpen(false);
                           navigate('/anda/home');
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)]] flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
-                        <Sparkles className="w-4 h-4 text-[var(--primary-500)]]" />
+                        <Sparkles className="w-4 h-4 text-[var(--primary-500)]" />
                         <span>Beralih ke Dasbor Pencari</span>
                       </button>
                       <button
@@ -693,7 +693,7 @@ export const DashboardPage = () => {
                           setIsProfileOpen(false);
                           navigate('/');
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)]] flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
                         <ArrowLeft className="w-4 h-4 text-slate-400" />
                         <span>Kembali ke Beranda</span>
@@ -757,12 +757,12 @@ export const DashboardPage = () => {
               className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 cursor-pointer transition-colors active:scale-95"
             >
               <span className="relative">
-                <Icon className={`w-[22px] h-[22px] transition-colors ${active ? 'text-[var(--primary-600)]]' : 'text-slate-400'}`} />
+                <Icon className={`w-[22px] h-[22px] transition-colors ${active ? 'text-[var(--primary-600)]' : 'text-slate-400'}`} />
                 {key === 'chat' && hasUnread && (
-                  <span className="absolute -top-1 -right-1.5 w-2 h-2 bg-[var(--primary-500)]] rounded-full ring-2 ring-white" />
+                  <span className="absolute -top-1 -right-1.5 w-2 h-2 bg-[var(--primary-500)] rounded-full ring-2 ring-white" />
                 )}
               </span>
-              <span className={`text-[10px] font-bold transition-colors ${active ? 'text-[var(--primary-600)]]' : 'text-slate-400'}`}>
+              <span className={`text-[10px] font-bold transition-colors ${active ? 'text-[var(--primary-600)]' : 'text-slate-400'}`}>
                 {label}
               </span>
             </button>

@@ -929,7 +929,7 @@ export const UserDashboardPage: React.FC = () => {
                       <p className="text-xs text-slate-400 mb-5 max-w-[15rem]">Cari kost terverifikasi dan ajukan sewa untuk mulai menghuni.</p>
                       <button
                         onClick={() => navigate('/search')}
-                        className="inline-flex items-center gap-2 bg-[var(--primary-600)]] hover:bg-[var(--primary-700)]] text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-sm active:scale-95 transition-all cursor-pointer"
+                        className="inline-flex items-center gap-2 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-sm active:scale-95 transition-all cursor-pointer"
                       >
                         <Search className="w-4 h-4" /> Cari Kost Sekarang
                       </button>
