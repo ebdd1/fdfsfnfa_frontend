@@ -197,10 +197,10 @@ export const UserDashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-50 h-screen flex flex-col md:flex-row overflow-hidden font-sans relative">
+    <div className="bg-background h-screen flex flex-col md:flex-row overflow-hidden font-body relative">
 
       {/* MOBILE TOP BAR */}
-      <header className="flex md:hidden items-center justify-between px-3 h-14 bg-white shrink-0 z-30 border-b border-slate-100">
+      <header className="flex md:hidden items-center justify-between px-3 h-14 bg-surface-container-lowest shrink-0 z-30 border-b border-surface-container">
         {/* Left: Menu + Logo */}
         <div className="flex items-center gap-1.5 min-w-0">
           <button
@@ -258,15 +258,15 @@ export const UserDashboardPage: React.FC = () => {
       {/* MOBILE NOTIFICATIONS SHEET */}
       {isNotificationsOpen && (
         <div className="md:hidden fixed inset-0 z-50" onClick={() => setIsNotificationsOpen(false)}>
-          <div className="absolute inset-0 bg-slate-900/40 animate-in fade-in duration-200" />
+          <div className="absolute inset-0 bg-on-surface/40 animate-in fade-in duration-200" />
           <div
-            className="absolute top-14 right-3 left-3 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+            className="absolute top-14 right-3 left-3 bg-surface-container-lowest rounded-2xl shadow-elevation-hover border border-surface-container overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
-              <span className="text-xs font-black text-slate-800 uppercase tracking-widest">Notifikasi</span>
+            <div className="px-5 py-3.5 border-b border-surface-container flex items-center justify-between">
+              <span className="text-label-sm font-bold text-on-surface uppercase tracking-wider">Notifikasi</span>
               {notifUnread > 0 && (
-                <button onClick={() => markAllRead()} className="text-xs font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)] cursor-pointer">
+                <button onClick={() => markAllRead()} className="text-label-sm font-semibold text-primary hover:text-primary/80 cursor-pointer">
                   Tandai dibaca
                 </button>
               )}
@@ -274,11 +274,11 @@ export const UserDashboardPage: React.FC = () => {
 
             {notifications.length === 0 ? (
               <div className="px-5 py-10 flex flex-col items-center text-center">
-                <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center mb-3 text-slate-300">
+                <div className="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center mb-3 text-on-surface-variant">
                   <Bell className="w-5 h-5" />
                 </div>
-                <p className="text-sm font-bold text-slate-600">Tidak ada notifikasi</p>
-                <p className="text-xs text-slate-400 mt-0.5">Update proses sewa kost akan muncul di sini.</p>
+                <p className="text-body-sm font-semibold text-on-surface">Tidak ada notifikasi</p>
+                <p className="text-label-sm text-on-surface-variant mt-1">Update proses sewa kost akan muncul di sini.</p>
               </div>
             ) : (
               <div className="max-h-[60vh] overflow-y-auto py-1">
@@ -286,18 +286,18 @@ export const UserDashboardPage: React.FC = () => {
                   <button
                     key={n.id}
                     onClick={() => openNotification(n)}
-                    className={`w-full flex items-start gap-3 px-4 py-3 hover:bg-slate-50 active:bg-slate-100 transition-colors text-left cursor-pointer ${n.isRead ? '' : 'bg-[var(--primary-50)]/40'}`}
+                    className={`w-full flex items-start gap-3 px-4 py-3 hover:bg-surface-container transition-colors text-left cursor-pointer ${n.isRead ? '' : 'bg-primary/5'}`}
                   >
-                    <div className="relative w-10 h-10 rounded-xl bg-[var(--primary-50)] border border-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] shrink-0">
+                    <div className="relative w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
                       <Home className="w-5 h-5" />
-                      {!n.isRead && <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-rose-500 border-2 border-white" />}
+                      {!n.isRead && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-error border-2 border-surface-container-lowest" />}
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="text-sm font-bold text-slate-800 truncate">{n.title}</p>
-                        <span className="text-xs text-slate-400 shrink-0">{timeAgo(n.createdAt)}</span>
+                        <p className="text-body-sm font-semibold text-on-surface truncate">{n.title}</p>
+                        <span className="text-label-sm text-on-surface-variant shrink-0">{timeAgo(n.createdAt)}</span>
                       </div>
-                      <p className="text-xs text-slate-500 leading-snug line-clamp-2">{n.body}</p>
+                      <p className="text-label-sm text-on-surface-variant leading-snug line-clamp-2">{n.body}</p>
                     </div>
                   </button>
                 ))}
@@ -312,20 +312,20 @@ export const UserDashboardPage: React.FC = () => {
         <div className="md:hidden fixed inset-0 z-50 flex">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-slate-900/50 animate-in fade-in duration-200"
+            className="absolute inset-0 bg-on-surface/50 animate-in fade-in duration-200"
             onClick={() => setIsMobileMenuOpen(false)}
           />
           {/* Panel */}
-          <aside className="relative flex flex-col w-[280px] max-w-[82%] h-full bg-white shadow-2xl animate-in slide-in-from-left duration-250">
+          <aside className="relative flex flex-col w-[280px] max-w-[82%] h-full bg-surface-container-lowest shadow-elevation-hover animate-in slide-in-from-left duration-250">
             {/* Drawer header */}
-            <div className="flex items-center justify-between px-5 h-14 border-b border-slate-100 shrink-0">
+            <div className="flex items-center justify-between px-5 h-14 border-b border-surface-container shrink-0">
               <div className="flex items-center gap-2.5">
                 <LogoText />
               </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Tutup menu"
-                className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                className="p-1.5 text-on-surface-variant hover:bg-surface-container rounded-lg transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -333,20 +333,20 @@ export const UserDashboardPage: React.FC = () => {
 
             {/* Profile */}
             <div className="px-4 pt-4">
-              <div className="flex items-center gap-3 p-3 bg-[var(--primary-50)]/60 rounded-2xl border border-[var(--primary-100)]/40">
-                <div className="w-11 h-11 rounded-full bg-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] overflow-hidden shrink-0">
+              <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-xl border border-primary/10">
+                <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center text-primary overflow-hidden shrink-0">
                   {user?.avatar_url ? <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" /> : <User className="w-5 h-5" />}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-extrabold text-slate-900 truncate">{user?.name || 'Pencari Kost'}</p>
-                  <span className="text-xs font-bold text-[var(--primary-700)] uppercase tracking-wide">Pencari Kost</span>
+                  <p className="text-body-sm font-semibold text-on-surface truncate">{user?.name || 'Pencari Kost'}</p>
+                  <span className="text-label-sm font-bold text-primary uppercase tracking-wide">Pencari Kost</span>
                 </div>
               </div>
             </div>
 
             {/* Nav */}
             <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest px-3 mb-1.5">Menu Utama</p>
+              <p className="text-label-sm font-bold text-on-surface-variant uppercase tracking-wider px-3 mb-2">Menu Utama</p>
               {([
                 { key: 'overview', label: 'Ringkasan', icon: LayoutDashboard },
                 { key: 'leases', label: 'Riwayat Sewa', icon: Home },
@@ -354,8 +354,8 @@ export const UserDashboardPage: React.FC = () => {
                 <button
                   key={key}
                   onClick={() => goToSection(key)}
-                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
-                    activeSection === key ? 'bg-[var(--primary-50)] text-[var(--primary-700)]' : 'text-slate-600 hover:bg-slate-100'
+                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-body-sm font-medium transition-colors cursor-pointer ${
+                    activeSection === key ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-surface-container'
                   }`}
                 >
                   <Icon className="w-[18px] h-[18px] shrink-0" />
@@ -363,7 +363,7 @@ export const UserDashboardPage: React.FC = () => {
                 </button>
               ))}
 
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest px-3 mb-1.5 mt-4">Eksplorasi</p>
+              <p className="text-label-sm font-bold text-on-surface-variant uppercase tracking-wider px-3 mb-2 mt-4">Eksplorasi</p>
               {([
                 { key: 'search', label: 'Cari Kost', icon: Search },
                 { key: 'watchlist', label: 'Watchlist', icon: Heart },
@@ -372,26 +372,26 @@ export const UserDashboardPage: React.FC = () => {
                 <button
                   key={key}
                   onClick={() => goToSection(key)}
-                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
-                    activeSection === key ? 'bg-[var(--primary-50)] text-[var(--primary-700)]' : 'text-slate-600 hover:bg-slate-100'
+                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-body-sm font-medium transition-colors cursor-pointer ${
+                    activeSection === key ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-surface-container'
                   }`}
                 >
                   <span className="relative shrink-0">
                     <Icon className="w-[18px] h-[18px]" />
-                    {key === 'chat' && hasUnread && <span className="absolute -top-1 -right-1 w-2 h-2 bg-[var(--primary-500)] rounded-full" />}
+                    {key === 'chat' && hasUnread && <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />}
                   </span>
                   <span className="flex-1 text-left">{label}</span>
                   {key === 'chat' && hasUnread && (
-                    <span className="text-xs font-black bg-[var(--primary-100)] text-[var(--primary-700)] px-1.5 py-0.5 rounded-full">Baru</span>
+                    <span className="text-label-sm font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">Baru</span>
                   )}
                 </button>
               ))}
 
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest px-3 mb-1.5 mt-4">Akun</p>
+              <p className="text-label-sm font-bold text-on-surface-variant uppercase tracking-wider px-3 mb-2 mt-4">Akun</p>
               <button
                 onClick={() => goToSection('settings')}
-                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
-                  activeSection === 'settings' ? 'bg-[var(--primary-50)] text-[var(--primary-700)]' : 'text-slate-600 hover:bg-slate-100'
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-body-sm font-medium transition-colors cursor-pointer ${
+                  activeSection === 'settings' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-surface-container'
                 }`}
               >
                 <Settings className="w-[18px] h-[18px] shrink-0" />
@@ -400,24 +400,24 @@ export const UserDashboardPage: React.FC = () => {
             </nav>
 
             {/* Footer */}
-            <div className="px-3 py-3 border-t border-slate-100 space-y-1 shrink-0">
+            <div className="px-3 py-3 border-t border-surface-container space-y-1 shrink-0">
               <button
                 onClick={() => { setIsMobileMenuOpen(false); navigate('/dashboard'); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-body-sm font-medium text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer"
               >
-                <Sparkles className="w-[18px] h-[18px] text-[var(--primary-500)] shrink-0" />
+                <Sparkles className="w-[18px] h-[18px] text-primary shrink-0" />
                 <span>Mode Pemilik Kost</span>
               </button>
               <button
                 onClick={() => { setIsMobileMenuOpen(false); navigate('/'); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-body-sm font-medium text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer"
               >
                 <ArrowLeft className="w-[18px] h-[18px] shrink-0" />
                 <span>Kembali Beranda</span>
               </button>
               <button
                 onClick={() => { setIsMobileMenuOpen(false); logout(); navigate('/'); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-rose-500 hover:bg-rose-50 transition-colors cursor-pointer"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-body-sm font-medium text-error hover:bg-error-container transition-colors cursor-pointer"
               >
                 <LogOut className="w-[18px] h-[18px] shrink-0" />
                 <span>Keluar</span>
@@ -850,29 +850,27 @@ export const UserDashboardPage: React.FC = () => {
               <div className="space-y-5 md:space-y-6 animate-in fade-in duration-300">
 
                 {/* ── Greeting + quick stats ── */}
-                <div className="relative overflow-hidden rounded-3xl bg-white border border-slate-200/70 p-5 sm:p-7 shadow-sm">
-                  {/* Soft transparent green glows */}
-                  <div className="absolute -top-16 -right-10 w-56 h-56 rounded-full bg-[var(--primary-400)]/15 blur-3xl pointer-events-none" />
-                  <div className="absolute -bottom-20 -left-12 w-56 h-56 rounded-full bg-teal-300/10 blur-3xl pointer-events-none" />
+                <div className="relative overflow-hidden rounded-2xl bg-surface-container-lowest border border-surface-container p-5 sm:p-6">
+                  {/* Subtle accent glow */}
+                  <div className="absolute -top-12 -right-8 w-40 h-40 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
 
                   <div className="relative flex items-center gap-3.5">
-                    <div className="w-12 h-12 rounded-2xl bg-[var(--primary-50)] ring-1 ring-[var(--primary-100)] overflow-hidden flex items-center justify-center shrink-0 text-[var(--primary-600)]">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 overflow-hidden flex items-center justify-center shrink-0 text-primary">
                       {user?.avatar_url ? (
                         <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
                       ) : (
-                        <span className="text-lg font-black">{(user?.name || 'U')[0].toUpperCase()}</span>
+                        <span className="text-lg font-bold">{(user?.name || 'U')[0].toUpperCase()}</span>
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-medium text-slate-400">{greeting},</p>
-                      <h1 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 truncate">
+                      <p className="text-label-sm text-on-surface-variant">{greeting},</p>
+                      <h1 className="text-heading-md font-headline-md font-bold text-on-surface truncate">
                         {firstName}
-                        <Sparkles className="inline-block w-5 h-5 ml-1.5 text-amber-400 align-middle" />
                       </h1>
                     </div>
                   </div>
 
-                  <p className="relative mt-3 text-sm text-slate-500 leading-relaxed max-w-md">
+                  <p className="relative mt-3 text-body-sm text-on-surface-variant leading-relaxed max-w-md">
                     {activeLeases.length > 0
                       ? `Kamu punya ${activeLeases.length} sewa aktif${unreadCount > 0 ? ` · ${unreadCount} pesan belum dibaca` : ''}. Semoga betah di kost-mu!`
                       : 'Belum ada sewa aktif. Yuk cari kost impianmu sekarang.'}
@@ -880,40 +878,40 @@ export const UserDashboardPage: React.FC = () => {
                 </div>
 
                 {/* ── Real metric tiles ── */}
-                <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
+                <div className="grid grid-cols-3 gap-3 sm:gap-4">
                   {[
-                    { key: 'leases' as const, label: 'Sewa Aktif', value: activeLeases.length, icon: Home, tint: 'bg-[var(--primary-50)] text-[var(--primary-600)]', accent: 'group-hover:border-[var(--primary-200)]', onClick: () => setActiveSection('leases') },
-                    { key: 'watchlist' as const, label: 'Tersimpan', value: watchlistIds.length, icon: Heart, tint: 'bg-rose-50 text-rose-500', accent: 'group-hover:border-rose-200', onClick: () => setActiveSection('watchlist') },
-                    { key: 'chat' as const, label: 'Pesan Baru', value: unreadCount, icon: MessageSquare, tint: 'bg-sky-50 text-sky-600', accent: 'group-hover:border-sky-200', onClick: () => setActiveSection('chat') },
+                    { key: 'leases' as const, label: 'Sewa Aktif', value: activeLeases.length, icon: Home, tint: 'bg-primary/10 text-primary', accent: 'hover:border-primary/30', onClick: () => setActiveSection('leases') },
+                    { key: 'watchlist' as const, label: 'Tersimpan', value: watchlistIds.length, icon: Heart, tint: 'bg-tertiary/10 text-tertiary', accent: 'hover:border-tertiary/30', onClick: () => setActiveSection('watchlist') },
+                    { key: 'chat' as const, label: 'Pesan Baru', value: unreadCount, icon: MessageSquare, tint: 'bg-secondary/10 text-secondary', accent: 'hover:border-secondary/30', onClick: () => setActiveSection('chat') },
                   ].map(({ key, label, value, icon: Icon, tint, accent, onClick }) => (
                     <button
                       key={key}
                       onClick={onClick}
-                      className={`group flex flex-col bg-white rounded-2xl p-3.5 sm:p-4 border border-slate-200 shadow-sm hover:shadow-md ${accent} active:scale-[0.98] transition-all text-left cursor-pointer`}
+                      className={`group flex flex-col bg-surface-container-lowest rounded-xl p-4 border border-surface-container ${accent} active:scale-[0.98] transition-all text-left cursor-pointer`}
                     >
-                      <div className="flex items-center justify-between mb-2.5">
-                        <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center ${tint} group-hover:scale-110 transition-transform`}>
-                          <Icon className="w-[18px] h-[18px] sm:w-5 sm:h-5" />
+                      <div className="flex items-center justify-between mb-3">
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${tint}`}>
+                          <Icon className="w-5 h-5" />
                         </div>
-                        <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-400 group-hover:translate-x-0.5 transition-all" />
+                        <ChevronRight className="w-4 h-4 text-on-surface-variant group-hover:translate-x-0.5 transition-all" />
                       </div>
-                      <p className="text-2xl sm:text-3xl font-black text-slate-900 leading-none tabular-nums">{value}</p>
-                      <p className="text-xs sm:text-xs font-semibold text-slate-500 mt-1.5">{label}</p>
+                      <p className="text-heading-lg font-headline-md font-bold text-on-surface tabular-nums">{value}</p>
+                      <p className="text-label-sm text-on-surface-variant mt-1">{label}</p>
                     </button>
                   ))}
                 </div>
 
                 {/* ── Active lease ── */}
-                <div className="bg-white rounded-2xl border border-slate-200/70 shadow-sm overflow-hidden">
-                  <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
-                    <div className="flex items-center gap-2.5">
-                      <span className="w-1.5 h-4 bg-[var(--primary-500)] rounded-full" />
-                      <h3 className="text-sm font-bold text-slate-800">Sewa Aktif Kamu</h3>
+                <div className="bg-surface-container-lowest rounded-xl border border-surface-container overflow-hidden">
+                  <div className="flex items-center justify-between px-5 py-4 border-b border-surface-container-high">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1 h-4 bg-primary rounded-full" />
+                      <h3 className="text-label-md font-label-md font-bold text-on-surface">Sewa Aktif Kamu</h3>
                     </div>
                     {activeLeases.length > 0 && (
                       <button
                         onClick={() => setActiveSection('leases')}
-                        className="text-xs font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)] flex items-center gap-1 cursor-pointer"
+                        className="text-label-sm text-primary hover:text-primary/80 flex items-center gap-1 cursor-pointer"
                       >
                         Semua <ArrowRight className="w-3.5 h-3.5" />
                       </button>
@@ -922,20 +920,20 @@ export const UserDashboardPage: React.FC = () => {
 
                   {activeLeases.length === 0 ? (
                     <div className="px-5 py-10 flex flex-col items-center justify-center text-center">
-                      <div className="w-14 h-14 bg-[var(--primary-50)] rounded-2xl flex items-center justify-center mb-4 text-[var(--primary-500)]">
+                      <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-4 text-primary">
                         <Home className="w-6 h-6" />
                       </div>
-                      <p className="text-sm font-bold text-slate-700 mb-1">Belum ada sewa aktif</p>
-                      <p className="text-xs text-slate-400 mb-5 max-w-[15rem]">Cari kost terverifikasi dan ajukan sewa untuk mulai menghuni.</p>
+                      <p className="text-body-sm font-semibold text-on-surface mb-1">Belum ada sewa aktif</p>
+                      <p className="text-label-sm text-on-surface-variant mb-5 max-w-xs">Cari kost terverifikasi dan ajukan sewa untuk mulai menghuni.</p>
                       <button
                         onClick={() => navigate('/search')}
-                        className="inline-flex items-center gap-2 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-sm active:scale-95 transition-all cursor-pointer"
+                        className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-on-primary text-label-sm font-semibold px-5 py-2.5 rounded-lg shadow-sm active:scale-95 transition-all cursor-pointer"
                       >
                         <Search className="w-4 h-4" /> Cari Kost Sekarang
                       </button>
                     </div>
                   ) : (
-                    <div className="divide-y divide-slate-100">
+                    <div className="divide-y divide-surface-container">
                       {activeLeases.map((lease) => {
                         const start = new Date(lease.startDate);
                         const end = new Date(start);
@@ -943,24 +941,24 @@ export const UserDashboardPage: React.FC = () => {
                         const fmtDate = (d: Date) => d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
                         return (
                           <div key={lease.id} className="flex items-center gap-4 px-5 py-4">
-                            <div className="w-12 h-12 rounded-xl bg-[var(--primary-50)] border border-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] shrink-0">
+                            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
                               <Home className="w-5 h-5" />
                             </div>
                             <div className="min-w-0 flex-1 text-left">
                               <div className="flex items-center gap-2">
-                                <p className="text-sm font-bold text-slate-800 truncate">{lease.property?.name || 'Kost'}</p>
-                                <span className="inline-flex items-center gap-1 rounded-full bg-[var(--primary-50)] px-2 py-0.5 text-xs font-black uppercase tracking-wider text-[var(--primary-700)] shrink-0">
-                                  <span className="h-1.5 w-1.5 rounded-full bg-[var(--primary-500)]" /> Aktif
+                                <p className="text-body-sm font-semibold text-on-surface truncate">{lease.property?.name || 'Kost'}</p>
+                                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-label-sm font-bold text-primary">
+                                  <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Aktif
                                 </span>
                               </div>
-                              <p className="text-xs text-slate-500 mt-0.5 truncate">
+                              <p className="text-label-sm text-on-surface-variant mt-0.5 truncate">
                                 Kamar {lease.room?.roomNumber || '—'}{lease.property?.city ? ` · ${lease.property.city}` : ''}
                               </p>
-                              <p className="text-xs text-slate-400 mt-0.5">{fmtDate(start)} — {fmtDate(end)} · {lease.durationMonths} bln</p>
+                              <p className="text-label-sm text-on-surface-variant/60 mt-0.5">{fmtDate(start)} — {fmtDate(end)} · {lease.durationMonths} bln</p>
                             </div>
                             <div className="text-right shrink-0">
-                              <p className="text-sm font-black text-slate-900">{fmtIDR(lease.priceMonthly)}</p>
-                              <p className="text-xs text-slate-400">per bulan</p>
+                              <p className="text-body-sm font-semibold text-on-surface">{fmtIDR(lease.priceMonthly)}</p>
+                              <p className="text-label-sm text-on-surface-variant">per bulan</p>
                             </div>
                           </div>
                         );
@@ -973,19 +971,19 @@ export const UserDashboardPage: React.FC = () => {
                 {recommendations.length > 0 && (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <span className="w-1.5 h-4 bg-[var(--primary-500)] rounded-full" />
-                        <h3 className="text-[15px] font-bold text-slate-800">Rekomendasi Buat Kamu</h3>
+                      <div className="flex items-center gap-2">
+                        <span className="w-1 h-4 bg-primary rounded-full" />
+                        <h3 className="text-label-md font-label-md font-bold text-on-surface">Rekomendasi Buat Kamu</h3>
                       </div>
                       <button
                         onClick={() => navigate('/search')}
-                        className="text-xs font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)] flex items-center gap-1 cursor-pointer"
+                        className="text-label-sm text-primary hover:text-primary/80 flex items-center gap-1 cursor-pointer"
                       >
                         Lihat semua <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
 
-                    <div className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory scrollbar-thin">
                       {recommendations.map((p) => {
                         const cover = p.media?.[0]?.url_medium || p.media?.[0]?.url_original || p.media?.[0]?.url_thumbnail;
                         const price = lowestPrice(p);
@@ -993,33 +991,33 @@ export const UserDashboardPage: React.FC = () => {
                           <button
                             key={p.id}
                             onClick={() => onSelectProperty(p.id)}
-                            className="group shrink-0 w-[240px] snap-start bg-white rounded-2xl border border-slate-200/70 shadow-sm hover:shadow-md hover:border-slate-300 transition-all overflow-hidden text-left cursor-pointer"
+                            className="group shrink-0 w-[260px] snap-start bg-surface-container-lowest rounded-xl border border-surface-container hover:border-primary/30 hover:shadow-lg transition-all overflow-hidden text-left cursor-pointer"
                           >
-                            <div className="relative h-32 bg-slate-100 overflow-hidden">
+                            <div className="relative h-36 bg-surface-container overflow-hidden">
                               {cover ? (
                                 <img src={cover} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                               ) : (
-                                <div className="w-full h-full flex items-center justify-center text-slate-300">
+                                <div className="w-full h-full flex items-center justify-center text-on-surface-variant">
                                   <Building2 className="w-8 h-8" />
                                 </div>
                               )}
                               {p.is_verified && (
-                                <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-white px-2 py-0.5 text-xs font-black uppercase tracking-wider text-[var(--primary-700)] shadow-sm">
-                                  <Shield className="w-2.5 h-2.5" /> Terverifikasi
+                                <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-surface-container-lowest px-2 py-1 text-label-sm font-bold text-primary shadow-sm">
+                                  <Shield className="w-3 h-3" /> Terverifikasi
                                 </span>
                               )}
                             </div>
-                            <div className="p-3.5">
-                              <p className="text-sm font-bold text-slate-800 truncate">{p.name}</p>
-                              <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-1 truncate">
+                            <div className="p-4">
+                              <p className="text-body-sm font-semibold text-on-surface truncate">{p.name}</p>
+                              <p className="text-label-sm text-on-surface-variant mt-1 flex items-center gap-1 truncate">
                                 <MapPin className="w-3 h-3 shrink-0" /> {p.location?.city || 'Lokasi tidak tersedia'}
                               </p>
-                              <div className="mt-2.5 flex items-end justify-between">
+                              <div className="mt-3 flex items-end justify-between">
                                 <div>
-                                  <p className="text-xs text-slate-400 leading-none">mulai</p>
-                                  <p className="text-sm font-black text-[var(--primary-600)]">{price > 0 ? fmtIDR(price) : '—'}</p>
+                                  <p className="text-label-sm text-on-surface-variant leading-none">mulai</p>
+                                  <p className="text-body-sm font-semibold text-primary">{price > 0 ? fmtIDR(price) : '—'}</p>
                                 </div>
-                                <span className="text-xs font-bold text-slate-500 bg-slate-50 border border-slate-150 px-2 py-1 rounded-lg">
+                                <span className="text-label-sm text-on-surface-variant bg-surface-container px-2 py-1 rounded-lg">
                                   {(p.rooms || []).filter((r) => r.status === 'available').length} kamar
                                 </span>
                               </div>
@@ -1033,19 +1031,19 @@ export const UserDashboardPage: React.FC = () => {
 
                 {/* ── Quick shortcuts (desktop only — mobile uses header icons) ── */}
                 <div className="hidden md:block space-y-3">
-                  <h2 className="text-sm font-bold text-slate-700 px-1">Akses Cepat</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <h2 className="text-label-md font-label-md font-bold text-on-surface px-1">Akses Cepat</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Primary action — Cari Kost (marketplace core action) */}
                     <button
                       onClick={() => navigate('/search')}
-                      className="group relative flex items-center gap-4 overflow-hidden bg-gradient-to-br from-[var(--primary-600)] to-teal-600 rounded-2xl p-5 shadow-md shadow-[var(--primary-600)]/20 hover:shadow-lg hover:shadow-[var(--primary-600)]/30 transition-all text-left cursor-pointer active:scale-[0.98]"
+                      className="group relative flex items-center gap-4 overflow-hidden bg-gradient-to-br from-primary to-secondary rounded-xl p-5 shadow-lg shadow-primary/15 hover:shadow-xl hover:shadow-primary/20 transition-all text-left cursor-pointer active:scale-[0.98]"
                     >
-                      <div className="w-12 h-12 rounded-xl bg-white/20 text-white flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <div className="w-12 h-12 rounded-lg bg-white/20 text-white flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                         <Search className="w-6 h-6" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-[15px] font-bold text-white">Cari Kost Baru</p>
-                        <p className="text-xs text-[var(--primary-50)]/90 mt-0.5">Temukan kost terdekat terverifikasi</p>
+                        <p className="text-body-md font-semibold text-white">Cari Kost Baru</p>
+                        <p className="text-label-sm text-white/80 mt-0.5">Temukan kost terdekat terverifikasi</p>
                       </div>
                       <ChevronRight className="w-5 h-5 text-white/70 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
                     </button>
@@ -1053,17 +1051,17 @@ export const UserDashboardPage: React.FC = () => {
                     {/* Secondary action — Pesan Masuk */}
                     <button
                       onClick={() => setActiveSection('chat')}
-                      className="group flex items-center gap-4 bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-[var(--primary-200)] transition-all text-left cursor-pointer active:scale-[0.98]"
+                      className="group flex items-center gap-4 bg-surface-container-lowest rounded-xl p-5 border border-surface-container hover:border-primary/30 shadow-sm hover:shadow-md transition-all text-left cursor-pointer active:scale-[0.98]"
                     >
-                      <div className="relative w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <div className="relative w-12 h-12 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                         <Mail className="w-6 h-6" />
-                        {unreadCount > 0 && <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-[20px] px-1 rounded-full bg-rose-500 text-white text-xs font-black flex items-center justify-center ring-2 ring-white">{unreadCount}</span>}
+                        {unreadCount > 0 && <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-error text-white text-label-sm font-bold flex items-center justify-center ring-2 ring-surface-container-lowest">{unreadCount}</span>}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="text-[15px] font-bold text-slate-800">Pesan Masuk</p>
-                        <p className="text-xs text-slate-500 mt-0.5">Tanya jawab dengan pemilik kost</p>
+                        <p className="text-body-md font-semibold text-on-surface">Pesan Masuk</p>
+                        <p className="text-label-sm text-on-surface-variant mt-0.5">Tanya jawab dengan pemilik kost</p>
                       </div>
-                      <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-slate-600 group-hover:translate-x-1 transition-all shrink-0" />
+                      <ChevronRight className="w-5 h-5 text-on-surface-variant group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0" />
                     </button>
                   </div>
                 </div>
