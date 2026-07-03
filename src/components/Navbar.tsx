@@ -60,7 +60,7 @@ export const Navbar: React.FC = () => {
                 : 'text-on-surface-variant'
             }`}
           >
-            Jelajahi
+            Beranda
           </Link>
           <Link
             to="/search"
@@ -81,6 +81,26 @@ export const Navbar: React.FC = () => {
             }`}
           >
             Penawaran
+          </Link>
+          <Link
+            to="/about"
+            className={`nav-link text-label-md font-label-md ${
+              pathname === '/about'
+                ? 'text-primary active'
+                : 'text-on-surface-variant'
+            }`}
+          >
+            Tentang Kami
+          </Link>
+          <Link
+            to="/how-it-works"
+            className={`nav-link text-label-md font-label-md ${
+              pathname === '/how-it-works'
+                ? 'text-primary active'
+                : 'text-on-surface-variant'
+            }`}
+          >
+            Cara Kerja
           </Link>
         </nav>
 
@@ -255,7 +275,7 @@ export const Navbar: React.FC = () => {
                 pathname === '/' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
               }`}
             >
-              Jelajahi
+              Beranda
             </Link>
             <Link
               to="/search"
@@ -274,6 +294,24 @@ export const Navbar: React.FC = () => {
               }`}
             >
               Penawaran
+            </Link>
+            <Link
+              to="/about"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
+                pathname === '/about' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
+              }`}
+            >
+              Tentang Kami
+            </Link>
+            <Link
+              to="/how-it-works"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
+                pathname === '/how-it-works' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
+              }`}
+            >
+              Cara Kerja
             </Link>
 
             <hr className="border-surface-container-high my-2" />
