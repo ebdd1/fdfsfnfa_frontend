@@ -5,8 +5,8 @@ import {
 } from 'lucide-react';
 import { useMyOrders, useOrderActions } from '../hooks/useOrders';
 import { useAuthStore } from '../stores/authStore';
-import { ORDER_STATUS_LABEL } from '../services/api/order.service';
 import { OrderTimeline } from '../components/OrderTimeline';
+import { OrderStatusBadge, OrderEmptyState } from '../components/order';
 import type { RentalOrder, OrderStatus } from '../types';
 
 const fmtIDR = (n: number) =>
@@ -14,29 +14,6 @@ const fmtIDR = (n: number) =>
 
 const fmtDate = (d: string) =>
   new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-
-const STATUS_BADGE: Record<OrderStatus, string> = {
-  pending: 'bg-amber-50 text-amber-700 border-amber-100',
-  awaiting_payment: 'bg-blue-50 text-blue-700 border-blue-100',
-  awaiting_confirmation: 'bg-violet-50 text-violet-700 border-violet-100',
-  active: 'bg-[var(--primary-50)] text-[var(--primary-700)] border-[var(--primary-100)]',
-  rejected: 'bg-rose-50 text-rose-700 border-rose-100',
-  cancelled: 'bg-slate-100 text-slate-600 border-slate-200',
-  completed: 'bg-slate-50 text-slate-500 border-slate-200',
-};
-
-const MethodBadge: React.FC<{ method?: string }> = ({ method }) => {
-  if (!method) return null;
-  return method === 'transfer' ? (
-    <span className="inline-flex items-center gap-1 text-[9px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full">
-      <Banknote className="w-3 h-3" /> Transfer
-    </span>
-  ) : (
-    <span className="inline-flex items-center gap-1 text-[9px] font-bold text-amber-600 bg-amber-50 border border-amber-100 px-2 py-0.5 rounded-full">
-      <HandCoins className="w-3 h-3" /> COD
-    </span>
-  );
-};
 
 /* ── Lightbox ── */
 const Lightbox: React.FC<{ url: string; onClose: () => void }> = ({ url, onClose }) => (
@@ -91,7 +68,15 @@ const OrderCard: React.FC<OrderCardProps> = ({
                 {order.room?.roomNumber || order.roomId.slice(0, 4)}
               </span>
               <span className="text-[10px] font-semibold text-slate-500">{order.property?.name}</span>
-              <MethodBadge method={order.paymentMethod} />
+              {order.paymentMethod === 'transfer' ? (
+                <span className="inline-flex items-center gap-1 text-[9px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full">
+                  <Banknote className="w-3 h-3" /> Transfer
+                </span>
+              ) : order.paymentMethod === 'cod' ? (
+                <span className="inline-flex items-center gap-1 text-[9px] font-bold text-amber-600 bg-amber-50 border border-amber-100 px-2 py-0.5 rounded-full">
+                  <HandCoins className="w-3 h-3" /> COD
+                </span>
+              ) : null}
             </div>
 
             <div className="mt-2 flex flex-wrap gap-3 text-[11px] text-slate-400 font-medium">
@@ -104,10 +89,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
         <div className="flex flex-col items-end gap-2 shrink-0">
           <span className="text-base font-black text-slate-900">{fmtIDR(order.priceMonthly)}</span>
           <span className="text-[10px] font-semibold text-slate-400">per bulan</span>
-          <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-wider ${STATUS_BADGE[order.status]}`}>
-            <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70" />
-            {ORDER_STATUS_LABEL[order.status]}
-          </span>
+          <OrderStatusBadge status={order.status} size="sm" />
           {order.status === 'active' && order.paidAt && (
             <span className="text-[10px] text-slate-400">Lunas: {fmtDate(order.paidAt)}</span>
           )}
@@ -234,7 +216,6 @@ export const OwnerOrdersSection: React.FC = () => {
 
   const ownerOrders = orders.filter((o) => o.ownerId === user?.id);
   const pending = ownerOrders.filter((o) => o.status === 'pending');
-  // Tab Pembayaran: COD awaiting_payment + transfer awaiting_confirmation
   const payment = ownerOrders.filter(
     (o) =>
       (o.status === 'awaiting_payment' && o.paymentMethod === 'cod') ||
@@ -250,6 +231,26 @@ export const OwnerOrdersSection: React.FC = () => {
     { key: 'payment', label: 'Pembayaran', count: payment.length, icon: <Banknote className="w-3.5 h-3.5" /> },
     { key: 'active', label: 'Aktif', count: active.length, icon: <CheckCircle className="w-3.5 h-3.5" /> },
   ];
+
+  const getEmptyMessage = (tab: TabKey) => {
+    switch (tab) {
+      case 'pending':
+        return {
+          title: 'Tidak ada permintaan masuk',
+          description: 'Ketika pencari kost mengajukan sewa, permintaan akan muncul di sini.',
+        };
+      case 'payment':
+        return {
+          title: 'Tidak ada pembayaran menunggu verifikasi',
+          description: 'Pembayaran dari penyewa akan muncul di sini setelah Anda menerima pengajuan.',
+        };
+      case 'active':
+        return {
+          title: 'Belum ada penyewa aktif',
+          description: 'Penyewaan aktif akan muncul di sini setelah Anda mengkonfirmasi pembayaran.',
+        };
+    }
+  };
 
   return (
     <div className="space-y-5 animate-in fade-in duration-300">
@@ -299,21 +300,10 @@ export const OwnerOrdersSection: React.FC = () => {
           </button>
         </div>
       ) : list.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-slate-200/60 p-12 flex flex-col items-center justify-center text-center">
-          <div className="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-            <Clock className="w-6 h-6 text-slate-300" />
-          </div>
-          <p className="text-sm font-bold text-slate-600 mb-1">
-            {tab === 'pending' ? 'Tidak ada permintaan masuk' :
-             tab === 'payment' ? 'Tidak ada pembayaran menunggu verifikasi' :
-             'Belum ada penyewa aktif'}
-          </p>
-          <p className="text-xs text-slate-400 max-w-xs">
-            {tab === 'pending' ? 'Ketika pencari kost mengajukan sewa, permintaan akan muncul di sini.' :
-             tab === 'payment' ? 'Pembayaran dari penyewa akan muncul di sini setelah Anda menerima pengajuan.' :
-             'Penyewaan aktif akan muncul di sini setelah Anda mengkonfirmasi pembayaran.'}
-          </p>
-        </div>
+        <OrderEmptyState
+          icon={<Clock className="w-6 h-6" />}
+          {...getEmptyMessage(tab)}
+        />
       ) : (
         <div className="space-y-3">
           {list.map((order) => (

@@ -5,9 +5,9 @@ import {
 } from 'lucide-react';
 import { useMyOrders, useOrderActions } from '../hooks/useOrders';
 import { useAuthStore } from '../stores/authStore';
-import { ORDER_STATUS_LABEL } from '../services/api/order.service';
 import { uploadService } from '../services/api/upload.service';
 import { OrderTimeline } from '../components/OrderTimeline';
+import { OrderStatusBadge, OrderEmptyState } from '../components/order';
 import type { RentalOrder, OrderStatus } from '../types';
 
 const fmtIDR = (n: number) =>
@@ -15,36 +15,6 @@ const fmtIDR = (n: number) =>
 
 const fmtDate = (d: string) =>
   new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-
-const STATUS_STYLE: Record<OrderStatus, { chip: string; dot: string }> = {
-  pending: { chip: 'bg-amber-50 text-amber-700 border-amber-100', dot: 'bg-amber-500' },
-  awaiting_payment: { chip: 'bg-blue-50 text-blue-700 border-blue-100', dot: 'bg-blue-500' },
-  awaiting_confirmation: { chip: 'bg-violet-50 text-violet-700 border-violet-100', dot: 'bg-violet-500' },
-  active: { chip: 'bg-[var(--primary-50)] text-[var(--primary-700)] border-[var(--primary-100)]', dot: 'bg-[var(--primary-500)]' },
-  rejected: { chip: 'bg-rose-50 text-rose-700 border-rose-100', dot: 'bg-rose-500' },
-  cancelled: { chip: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400' },
-  completed: { chip: 'bg-slate-50 text-slate-500 border-slate-200', dot: 'bg-slate-400' },
-};
-
-const StatusBadge: React.FC<{ status: OrderStatus }> = ({ status }) => (
-  <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-wider ${STATUS_STYLE[status].chip}`}>
-    <span className={`h-1.5 w-1.5 rounded-full ${STATUS_STYLE[status].dot}`} />
-    {ORDER_STATUS_LABEL[status]}
-  </span>
-);
-
-const MethodBadge: React.FC<{ method?: string }> = ({ method }) => {
-  if (!method) return null;
-  return method === 'transfer' ? (
-    <span className="inline-flex items-center gap-1 text-[9px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full">
-      <Banknote className="w-3 h-3" /> Transfer
-    </span>
-  ) : (
-    <span className="inline-flex items-center gap-1 text-[9px] font-bold text-amber-600 bg-amber-50 border border-amber-100 px-2 py-0.5 rounded-full">
-      <HandCoins className="w-3 h-3" /> COD
-    </span>
-  );
-};
 
 /* ── Transfer payment modal ── */
 interface TransferModalProps {
@@ -208,7 +178,15 @@ const OrderRow: React.FC<{
                 {order.room?.roomNumber || order.roomId.slice(0, 4)}
               </span>
               <span className="text-[11px] text-slate-400 font-medium">Pemilik: {owner?.name || '—'}</span>
-              <MethodBadge method={order.paymentMethod} />
+              {order.paymentMethod === 'transfer' ? (
+                <span className="inline-flex items-center gap-1 text-[9px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full">
+                  <Banknote className="w-3 h-3" /> Transfer
+                </span>
+              ) : order.paymentMethod === 'cod' ? (
+                <span className="inline-flex items-center gap-1 text-[9px] font-bold text-amber-600 bg-amber-50 border border-amber-100 px-2 py-0.5 rounded-full">
+                  <HandCoins className="w-3 h-3" /> COD
+                </span>
+              ) : null}
             </div>
             <div className="mt-1.5 flex flex-wrap gap-3 text-[11px] text-slate-400 font-medium">
               <span>Mulai: {fmtDate(order.startDate)}</span>
@@ -220,7 +198,7 @@ const OrderRow: React.FC<{
         <div className="flex flex-col items-end gap-2 shrink-0">
           <span className="text-base font-black text-slate-900">{fmtIDR(order.priceMonthly)}</span>
           <span className="text-[10px] font-semibold text-slate-400">per bulan</span>
-          <StatusBadge status={order.status} />
+          <OrderStatusBadge status={order.status} size="sm" />
           {order.status === 'active' && order.paidAt && (
             <span className="text-[10px] text-[var(--primary-600)] font-semibold">Lunas: {fmtDate(order.paidAt)}</span>
           )}
@@ -388,13 +366,11 @@ export const SeekerOrdersSection: React.FC = () => {
           </button>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-slate-200/60 p-12 flex flex-col items-center justify-center text-center">
-          <div className="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-            <Home className="w-6 h-6 text-slate-300" />
-          </div>
-          <p className="text-sm font-bold text-slate-600 mb-1">Belum ada pengajuan sewa</p>
-          <p className="text-xs text-slate-400 max-w-xs">Ajukan sewa kamar kost yang Anda minati di halaman detail kost.</p>
-        </div>
+        <OrderEmptyState
+          icon={<Home className="w-6 h-6" />}
+          title="Belum ada pengajuan sewa"
+          description="Ajukan sewa kamar kost yang Anda minati di halaman detail kost."
+        />
       ) : (
         <div className="space-y-3">
           {filtered.map((order) => (

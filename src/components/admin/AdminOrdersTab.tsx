@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Loader2, Home, Building2 } from 'lucide-react';
 import { useAdminOrders } from '../../hooks/useOrders';
-import { ORDER_STATUS_LABEL } from '../../services/api/order.service';
+import { OrderStatusBadge } from '../order';
 import type { OrderStatus } from '../../types';
 
 const fmtIDR = (n: number) =>
@@ -9,23 +9,6 @@ const fmtIDR = (n: number) =>
 
 const fmtDate = (d: string) =>
   new Date(d).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
-
-const STATUS_STYLE: Record<OrderStatus, { chip: string; dot: string }> = {
-  pending: { chip: 'bg-amber-50 text-amber-700 border-amber-100', dot: 'bg-amber-500' },
-  awaiting_payment: { chip: 'bg-blue-50 text-blue-700 border-blue-100', dot: 'bg-blue-500' },
-  awaiting_confirmation: { chip: 'bg-violet-50 text-violet-700 border-violet-100', dot: 'bg-violet-500' },
-  active: { chip: 'bg-[var(--primary-50)] text-[var(--primary-700)] border-[var(--primary-100)]', dot: 'bg-[var(--primary-500)]' },
-  rejected: { chip: 'bg-rose-50 text-rose-700 border-rose-100', dot: 'bg-rose-500' },
-  cancelled: { chip: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400' },
-  completed: { chip: 'bg-slate-50 text-slate-500 border-slate-200', dot: 'bg-slate-400' },
-};
-
-const StatusBadge: React.FC<{ status: OrderStatus }> = ({ status }) => (
-  <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-wider ${STATUS_STYLE[status].chip}`}>
-    <span className={`h-1.5 w-1.5 rounded-full ${STATUS_STYLE[status].dot}`} />
-    {ORDER_STATUS_LABEL[status]}
-  </span>
-);
 
 const AvatarChip: React.FC<{ name?: string; avatar_url?: string; label: string }> = ({ name, avatar_url, label }) => (
   <div className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 overflow-hidden shrink-0">
@@ -192,7 +175,7 @@ export const AdminOrdersTab: React.FC = () => {
                       <span className="text-xs font-black text-slate-900">{fmtIDR(order.totalAmount)}</span>
                     </td>
                     <td className="px-5 py-4">
-                      <StatusBadge status={order.status} />
+                      <OrderStatusBadge status={order.status} size="sm" />
                     </td>
                   </tr>
                 ))}
