@@ -24,6 +24,8 @@ const SearchPageContainer = lazy(() => import('./pages/SearchPageContainer').the
 const DetailPageContainer = lazy(() => import('./pages/DetailPageContainer').then(m => ({ default: m.DetailPageContainer })));
 const UserDashboardPage = lazy(() => import('./components/UserDashboardPage').then(m => ({ default: m.UserDashboardPage })));
 const AdminDashboardPage = lazy(() => import('./components/AdminDashboardPage').then(m => ({ default: m.AdminDashboardPage })));
+const AboutPage = lazy(() => import('./components/AboutPage').then(m => ({ default: m.AboutPage })));
+const HowItWorksPage = lazy(() => import('./components/HowItWorksPage').then(m => ({ default: m.HowItWorksPage })));
 
 // Lazy-loaded skeleton for page transitions
 const PageSkeleton = () => (
@@ -180,6 +182,8 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={<LandingPageContainer />} />
           <Route path="/search" element={<SearchPageContainer />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/how-it-works" element={<HowItWorksPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
