@@ -26,6 +26,7 @@ const UserDashboardPage = lazy(() => import('./components/UserDashboardPage').th
 const AdminDashboardPage = lazy(() => import('./components/AdminDashboardPage').then(m => ({ default: m.AdminDashboardPage })));
 const AboutPage = lazy(() => import('./components/AboutPage').then(m => ({ default: m.AboutPage })));
 const HowItWorksPage = lazy(() => import('./components/HowItWorksPage').then(m => ({ default: m.HowItWorksPage })));
+const RentOrderPage = lazy(() => import('./pages/RentOrderPage').then(m => ({ default: m.RentOrderPage })));
 
 // Lazy-loaded skeleton for page transitions
 const PageSkeleton = () => (
@@ -190,6 +191,16 @@ function App() {
           {/* Property detail (GET /listings/:id is JWT-guarded; the axios
               interceptor redirects unauthenticated users to /login). */}
           <Route path="/property/:id" element={<DetailPageContainer />} />
+
+          {/* Rent order page (inline, not modal) */}
+          <Route
+            path="/property/:id/apply"
+            element={
+              <ProtectedRoute>
+                <RentOrderPage />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Protected Routes */}
           <Route

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import type { Property, Room } from '../types';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '../stores/authStore';
-import { RentOrderModal } from './RentOrderModal';
 
 interface DetailPageProps {
   property: Property;
@@ -22,7 +21,6 @@ export const DetailPage: React.FC<DetailPageProps> = ({
 }) => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const [isRentOpen, setIsRentOpen] = useState(false);
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
   const photos = property.media || [];
 
@@ -229,7 +227,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
               whileTap={{ scale: 0.98 }}
               onClick={() => {
                 if (!user) return navigate('/login');
-                setIsRentOpen(true);
+                navigate(`/property/${property.id}/apply`);
               }}
               disabled={availableCount === 0}
               className="px-6 py-3 bg-primary text-on-primary rounded-lg font-label-md font-label-md hover:brightness-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[0_4px_10px_rgba(0,53,148,0.2)]"
@@ -305,13 +303,6 @@ export const DetailPage: React.FC<DetailPageProps> = ({
           </div>
         </div>
       )}
-
-      <RentOrderModal
-        isOpen={isRentOpen}
-        onClose={() => setIsRentOpen(false)}
-        propertyName={property.name}
-        rooms={propertyRooms}
-      />
     </div>
   );
 };
