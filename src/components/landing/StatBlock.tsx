@@ -18,10 +18,10 @@ export function StatBlock({ value, label, highlight, className = "" }: StatBlock
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className={`text-center ${className}`}
     >
-      <div className={`text-[40px] md:text-[48px] lg:text-[56px] font-bold leading-[1] ${highlight ? 'text-primary' : 'text-ink'}`}>
+      <div className={`text-[40px] md:text-[48px] lg:text-[56px] font-bold leading-[1] ${highlight ? 'text-[#FF6B35]' : 'text-[#FAFAFA]'}`}>
         {value}
       </div>
-      <div className="mt-2 text-[13px] text-muted leading-[1.56]">
+      <div className="mt-2 text-[13px] text-[#71717A] leading-[1.56]">
         {label}
       </div>
     </motion.div>

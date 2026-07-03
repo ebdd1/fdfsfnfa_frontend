@@ -2,49 +2,53 @@
 @config "../tailwind.config.js";
 
 /* ============================================
-   KOSTFIND DESIGN TOKENS — Mamikos Style Theme
-   Warm Orange, Student-Friendly, Affordable
+   KOSTFIND DESIGN TOKENS — Dark Premium Theme
+   Midnight Black, Orange Accent, Premium Feel
    ============================================ */
 
 :root {
-  /* Brand Primary (Mamikos Orange) */
+  /* Brand Primary (Mamikos Orange - tetap dipertahankan) */
   --color-primary: #FF6B35;
   --color-primary-hover: #E85A28;
   --color-primary-light: #FFF4EF;
+  --color-primary-dark: #CC5529;
 
-  /* Brand Success (Matcha) */
+  /* Brand Success (Matcha - tetap untuk status indicators) */
   --color-success: #10B981;
-  --color-success-light: #ECFDF5;
+  --color-success-light: rgba(16, 185, 129, 0.15);
 
   /* Brand Warning (Amber) */
   --color-warning: #F59E0B;
-  --color-warning-light: #FFFBEB;
+  --color-warning-light: rgba(245, 158, 11, 0.15);
 
   /* Brand Danger (Red) */
   --color-danger: #EF4444;
-  --color-danger-light: #FEF2F2;
+  --color-danger-light: rgba(239, 68, 68, 0.15);
 
-  /* Text Scale */
-  --text-ink: #1F2937;
-  --text-body: #374151;
-  --text-muted: #6B7280;
-  --text-placeholder: #9CA3AF;
+  /* Dark Premium Text Scale */
+  --text-ink: #FAFAFA;
+  --text-body: #E5E5E5;
+  --text-muted: #A1A1AA;
+  --text-placeholder: #71717A;
 
-  /* Background Scale (Warm White) */
-  --bg-canvas: #FFFBF9;
-  --bg-elevated: #FFFFFF;
-  --bg-card: #FFFFFF;
-  --bg-card-hover: #FFF7F5;
-
-  /* Warm Accent */
-  --bg-warm: #FFF5F0;
-  --border-warm: #FED7CC;
+  /* Dark Premium Background Scale */
+  --bg-canvas: #09090B;
+  --bg-elevated: #18181B;
+  --bg-card: #27272A;
+  --bg-card-hover: #3F3F46;
+  --bg-surface: #1C1C1E;
 
   /* Borders */
-  --border-default: #E5E7EB;
-  --border-subtle: #F3F4F6;
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-warm: rgba(255, 107, 53, 0.3);
 
-  /* Clay Border Radius */
+  /* Dark Premium Shadows */
+  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 24px rgba(255, 107, 53, 0.25);
+
+  /* Border Radius */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
@@ -57,39 +61,42 @@
 }
 
 /* ============================================
-   TAILWIND THEME EXTENSION
+   TAILWIND THEME EXTENSION — Dark Premium
    ============================================ */
 
 @theme {
-  /* Colors - Mamikos Orange palette */
+  /* Colors - Mamikos Orange palette (kept for brand) */
   --color-primary: #FF6B35;
   --color-primary-hover: #E85A28;
-  --color-primary-light: #FFF4EF;
+  --color-primary-light: rgba(255, 107, 53, 0.15);
 
   --color-success: #10B981;
-  --color-success-light: #ECFDF5;
+  --color-success-light: rgba(16, 185, 129, 0.15);
 
   --color-warning: #F59E0B;
-  --color-warning-light: #FFFBEB;
+  --color-warning-light: rgba(245, 158, 11, 0.15);
 
   --color-danger: #EF4444;
-  --color-danger-light: #FEF2F2;
+  --color-danger-light: rgba(239, 68, 68, 0.15);
 
   --color-info: #FF6B35;
-  --color-info-light: #FFF4EF;
+  --color-info-light: rgba(255, 107, 53, 0.15);
 
-  --text-ink: #1F2937;
-  --text-body: #374151;
-  --text-muted: #6B7280;
-  --text-placeholder: #9CA3AF;
+  /* Dark Premium Text */
+  --text-ink: #FAFAFA;
+  --text-body: #E5E5E5;
+  --text-muted: #A1A1AA;
+  --text-placeholder: #71717A;
 
-  --bg-canvas: #FFFBF9;
-  --bg-elevated: #FFFFFF;
-  --bg-card: #FFFFFF;
-  --bg-card-hover: #FFF7F5;
+  /* Dark Premium Backgrounds */
+  --bg-canvas: #09090B;
+  --bg-elevated: #18181B;
+  --bg-card: #27272A;
+  --bg-card-hover: #3F3F46;
 
-  --border-default: #E5E7EB;
-  --border-subtle: #F3F4F6;
+  /* Dark Premium Borders */
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-subtle: rgba(255, 255, 255, 0.06);
 
   /* Border Radius */
   --radius-sm: 8px;
@@ -100,7 +107,7 @@
 }
 
 /* ============================================
-   BASE STYLES
+   BASE STYLES — Dark Premium
    ============================================ */
 
 body {
@@ -108,6 +115,38 @@ body {
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   background-color: var(--bg-canvas);
   color: var(--text-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgba(255, 107, 53, 0.3);
+  color: #FAFAFA;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #18181B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3F3F46;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #52525B;
 }
 
 /* ============================================

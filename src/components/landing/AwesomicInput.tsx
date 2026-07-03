@@ -34,7 +34,7 @@ export function AwesomicInput({
         name="email"
         placeholder={placeholder}
         required
-        className="flex-1 bg-card text-[text-body] placeholder-[text-muted] rounded-[14px] px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[text-ink]/20 transition-all"
+        className="flex-1 bg-[#18181B] text-[#E5E5E5] placeholder-[#71717A] rounded-[14px] px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#FF6B35]/30 transition-all border border-[rgba(255,255,255,0.1)] focus:border-[#FF6B35]/50"
       />
       <AwesomicButton type="submit" size="md">
         {buttonText}

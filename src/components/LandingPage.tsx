@@ -1,6 +1,6 @@
-// Reading this as: Property/kost landing page for Indonesian students, with Midnight Marketplace theme
-// DESIGN_VARIANCE: 8, MOTION_INTENSITY: 6, VISUAL_DENSITY: 4
-// Theme: Midnight Marketplace - authentic, contextual, trustworthy
+// Dark Premium Landing Page - No white backgrounds
+// Theme: Midnight Premium - Black canvas with orange accents
+// DESIGN_VARIANCE: 9, MOTION_INTENSITY: 6, VISUAL_DENSITY: 5
 
 "use client";
 
@@ -33,7 +33,7 @@ interface LandingPageProps {
   onSelectProperty: (id: string) => void;
 }
 
-// City data with contextually appropriate imagery
+// City data
 const CITIES = [
   { name: 'Palopo', count: 342 },
   { name: 'Makassar', count: 891 },
@@ -43,7 +43,7 @@ const CITIES = [
   { name: 'Surabaya', count: 678 },
 ];
 
-// Testimonial data - using initials for authenticity
+// Testimonial data
 const TESTIMONIALS = [
   {
     name: 'Rina Andriani',
@@ -74,7 +74,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const reduce = useReducedMotion();
 
-  // Get first property for hero preview (or null if empty)
   const heroProperty = featuredProperties.length > 0 ? featuredProperties[0] : null;
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -96,12 +95,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   };
 
   return (
-    <div className="bg-canvas min-h-screen font-sans text-body antialiased">
-      {/* Warm Gradient Background - Mamikos Orange */}
+    <div className="bg-[#09090B] min-h-screen font-sans text-[#E5E5E5] antialiased">
+      {/* Subtle gradient background */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#FF6B35]/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#FF6B35]/5 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-[#F59E0B]/5 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#FF6B35]/5 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#FF6B35]/3 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-[#FF6B35]/2 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6">
@@ -119,8 +118,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 viewport={{ once: true }}
                 transition={{ duration: 0.4 }}
               >
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-border-subtle text-muted text-xs font-medium shadow-sm">
-                  <Home className="w-3.5 h-3.5 text-primary" />
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#27272A] border border-[rgba(255,255,255,0.1)] text-[#A1A1AA] text-xs font-medium">
+                  <Home className="w-3.5 h-3.5 text-[#FF6B35]" />
                   <span>{settings.tagline || 'Kost Terverifikasi GPS'}</span>
                 </span>
               </motion.div>
@@ -131,10 +130,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-[40px] md:text-[56px] lg:text-[64px] font-bold tracking-tight leading-[1.05] text-ink"
+                className="text-[40px] md:text-[56px] lg:text-[64px] font-bold tracking-tight leading-[1.05] text-[#FAFAFA]"
               >
                 Cari kost tanpa{' '}
-                <span className="text-primary">takut</span>{' '}
+                <span className="text-[#FF6B35]">takut</span>{' '}
                 foto menipu
               </motion.h1>
 
@@ -144,7 +143,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-muted text-base md:text-lg leading-relaxed max-w-xl"
+                className="text-[#A1A1AA] text-base md:text-lg leading-relaxed max-w-xl"
               >
                 {settings.site_name} memverifikasi media listing secara ketat dengan koordinat GPS dan penanda waktu.
               </motion.p>
@@ -162,7 +161,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     placeholder="Cari daerah, kampus, atau jalan..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-1 bg-white text-body placeholder-[#a1a1aa] rounded-[14px] px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ink/10 transition-all border border-transparent focus:border-ink/20"
+                    className="flex-1 bg-[#18181B] text-[#E5E5E5] placeholder-[#71717A] rounded-[14px] px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#FF6B35]/30 transition-all border border-[rgba(255,255,255,0.1)] focus:border-[#FF6B35]/50"
                   />
                   <AwesomicButton type="submit" size="md">
                     Cari Kost
@@ -178,13 +177,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 transition={{ duration: 0.4, delay: 0.4 }}
                 className="flex flex-wrap items-center gap-2"
               >
-                <span className="text-xs text-muted font-medium">Populer:</span>
+                <span className="text-xs text-[#71717A] font-medium">Populer:</span>
                 {settings.cities.slice(0, 3).map((city) => (
                   <button
                     key={city}
                     type="button"
                     onClick={() => handleQuickSearch(city)}
-                    className="text-xs text-muted hover:text-ink hover:bg-ink hover:text-white px-3 py-1.5 rounded-full border border-[#d4d4d8] bg-white transition-all font-medium"
+                    className="text-xs text-[#A1A1AA] hover:text-[#FAFAFA] hover:bg-[#27272A] hover:border-[#FF6B35]/30 px-3 py-1.5 rounded-full border border-[rgba(255,255,255,0.1)] bg-[#18181B] transition-all font-medium"
                   >
                     {city}
                   </button>
@@ -204,28 +203,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 /* Real Property Card */
                 <div
                   onClick={() => onSelectProperty(heroProperty.id)}
-                  className="bg-white rounded-[36px] border border-border-subtle shadow-[0_24px_50px_rgba(15,23,42,0.06)] p-6 space-y-5 relative overflow-hidden group cursor-pointer"
+                  className="bg-[#18181B] rounded-[36px] border border-[rgba(255,255,255,0.08)] shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_8px_32px_rgba(0,0,0,0.4)] p-6 space-y-5 relative overflow-hidden group cursor-pointer"
                 >
                   {/* Header */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ink opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-ink"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B35]"></span>
                       </span>
-                      <span className="text-sm font-semibold text-body">{heroProperty.name}</span>
+                      <span className="text-sm font-semibold text-[#FAFAFA]">{heroProperty.name}</span>
                     </div>
                     <AwesomicBadge variant="filled-dark">GPS OK</AwesomicBadge>
                   </div>
 
                   {/* Image */}
-                  <div className="relative aspect-[4/3] rounded-[28px] bg-canvas overflow-hidden">
+                  <div className="relative aspect-[4/3] rounded-[28px] bg-[#27272A] overflow-hidden">
                     <img
                       src={heroProperty.media[0]?.url_medium || heroProperty.media[0]?.url_thumbnail || heroProperty.media[0]?.url_original}
                       alt={heroProperty.name}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute top-4 right-4 bg-ink/80 backdrop-blur-sm text-white text-[10px] font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                    <div className="absolute top-4 right-4 bg-[#18181B]/80 backdrop-blur-sm text-[#FAFAFA] text-[10px] font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-[rgba(255,255,255,0.1)]">
                       <Shield className="w-3.5 h-3.5" />
                       Verified Media
                     </div>
@@ -235,50 +234,50 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   <div className="space-y-3">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-xs font-semibold text-muted">{heroProperty.location.city}</h3>
-                        <p className="text-sm font-medium text-muted mt-0.5">{heroProperty.location.address}</p>
+                        <h3 className="text-xs font-semibold text-[#A1A1AA]">{heroProperty.location.city}</h3>
+                        <p className="text-sm font-medium text-[#71717A] mt-0.5">{heroProperty.location.address}</p>
                       </div>
-                      <span className="text-xs font-medium text-ink bg-canvas px-2.5 py-1 rounded-full">
+                      <span className="text-xs font-medium text-[#FAFAFA] bg-[#27272A] px-2.5 py-1 rounded-full border border-[rgba(255,255,255,0.1)]">
                         {heroProperty.rooms.filter(r => r.status === 'available').length} Tersedia
                       </span>
                     </div>
 
-                    <div className="pt-3 border-t border-canvas flex items-center justify-between">
-                      <span className="text-base font-bold text-body">
-                        {formatPrice(Math.min(...heroProperty.rooms.map(r => r.price_monthly)))} <span className="text-xs text-muted font-normal">/bln</span>
+                    <div className="pt-3 border-t border-[rgba(255,255,255,0.06)] flex items-center justify-between">
+                      <span className="text-base font-bold text-[#FAFAFA]">
+                        {formatPrice(Math.min(...heroProperty.rooms.map(r => r.price_monthly)))} <span className="text-xs text-[#71717A] font-normal">/bln</span>
                       </span>
-                      <button className="text-xs font-semibold text-ink hover:underline flex items-center gap-0.5">
+                      <button className="text-xs font-semibold text-[#FF6B35] hover:underline flex items-center gap-0.5">
                         Lihat Detail <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   </div>
                 </div>
               ) : (
-                /* Empty State - Intentional placeholder */
-                <div className="bg-white rounded-[36px] border border-border-subtle shadow-[0_24px_50px_rgba(15,23,42,0.06)] p-6 space-y-5 relative overflow-hidden">
+                /* Empty State */
+                <div className="bg-[#18181B] rounded-[36px] border border-[rgba(255,255,255,0.08)] shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_8px_32px_rgba(0,0,0,0.4)] p-6 space-y-5 relative overflow-hidden">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ink opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-ink"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B35]"></span>
                       </span>
-                      <span className="text-sm font-semibold text-body">Segera Hadir</span>
+                      <span className="text-sm font-semibold text-[#FAFAFA]">Segera Hadir</span>
                     </div>
                     <AwesomicBadge variant="filled-dark">Coming Soon</AwesomicBadge>
                   </div>
 
-                  <div className="aspect-[4/3] rounded-[28px] bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
+                  <div className="aspect-[4/3] rounded-[28px] bg-gradient-to-br from-[#FF6B35]/10 to-[#FF6B35]/5 flex items-center justify-center border border-[rgba(255,107,53,0.2)]">
                     <div className="text-center">
-                      <Building2 className="w-12 h-12 text-primary/30 mx-auto mb-2" />
-                      <p className="text-sm font-medium text-muted">100+ Kost Terverifikasi</p>
+                      <Building2 className="w-12 h-12 text-[#FF6B35]/30 mx-auto mb-2" />
+                      <p className="text-sm font-medium text-[#71717A]">100+ Kost Terverifikasi</p>
                     </div>
                   </div>
 
                   <div className="text-center py-4">
-                    <p className="text-muted text-sm">Mulai cari kost di kotamu</p>
+                    <p className="text-[#71717A] text-sm">Mulai cari kost di kotamu</p>
                     <button
                       onClick={() => onStartSearching()}
-                      className="mt-2 text-primary text-sm font-semibold hover:underline"
+                      className="mt-2 text-[#FF6B35] text-sm font-semibold hover:underline"
                     >
                       Jelajahi Kost
                     </button>
@@ -288,13 +287,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
               {/* Stats Row */}
               <div className="grid grid-cols-2 gap-3 mt-4">
-                <div className="bg-white rounded-[28px] border border-border-subtle p-4 text-left">
-                  <span className="text-[10px] font-medium text-muted uppercase tracking-wider block">Akurasi</span>
-                  <span className="text-sm font-bold text-body">98% Match</span>
+                <div className="bg-[#18181B] rounded-[28px] border border-[rgba(255,255,255,0.08)] p-4 text-left">
+                  <span className="text-[10px] font-medium text-[#71717A] uppercase tracking-wider block">Akurasi</span>
+                  <span className="text-sm font-bold text-[#FAFAFA]">98% Match</span>
                 </div>
-                <div className="bg-white rounded-[28px] border border-border-subtle p-4 text-left">
-                  <span className="text-[10px] font-medium text-muted uppercase tracking-wider block">Status</span>
-                  <span className="text-sm font-bold text-[#047e4a]">Terverifikasi</span>
+                <div className="bg-[#18181B] rounded-[28px] border border-[rgba(255,255,255,0.08)] p-4 text-left">
+                  <span className="text-[10px] font-medium text-[#71717A] uppercase tracking-wider block">Status</span>
+                  <span className="text-sm font-bold text-[#10B981]">Terverifikasi</span>
                 </div>
               </div>
             </motion.div>
@@ -305,12 +304,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <section className="py-12 md:py-16">
           <DarkPanel padding="lg" className="max-w-full">
             <div className="max-w-3xl mx-auto text-center space-y-6">
-              <h2 className="text-[32px] md:text-[40px] font-semibold leading-[1.2] text-white">
-                <span className="font-light text-[#a1a1aa]">Takut</span> foto menipu.{' '}
-                <span className="font-light text-[#a1a1aa]">Capek</span> survei sana-sini.{' '}
-                <span className="font-light text-[#a1a1aa]">Bingung</span> harga asli.
+              <h2 className="text-[32px] md:text-[40px] font-semibold leading-[1.2] text-[#FAFAFA]">
+                <span className="font-light text-[#71717A]">Takut</span> foto menipu.{' '}
+                <span className="font-light text-[#71717A]">Capek</span> survei sana-sini.{' '}
+                <span className="font-light text-[#71717A]">Bingung</span> harga asli.
               </h2>
-              <p className="text-muted text-base">
+              <p className="text-[#A1A1AA] text-base">
                 Kami memastikan setiap listingan kost diverifikasi dengan GPS dan media asli dari kamera.
               </p>
             </div>
@@ -327,7 +326,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </section>
 
-        {/* 4. CITY DISCOVERY GRID - Minimalist */}
+        {/* 4. CITY DISCOVERY GRID */}
         <section className="py-12 md:py-20">
           <div className="space-y-10">
             <SectionHeader
@@ -344,10 +343,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: index * 0.03 }}
                   onClick={() => handleQuickSearch(city.name)}
-                  className="group bg-white rounded-[16px] border border-border-subtle p-4 hover:border-primary/30 hover:shadow-md transition-all duration-200 text-left"
+                  className="group bg-[#18181B] rounded-[16px] border border-[rgba(255,255,255,0.08)] p-4 hover:border-[#FF6B35]/30 hover:shadow-[0_0_24px_rgba(255,107,53,0.1)] transition-all duration-200 text-left"
                 >
-                  <h3 className="font-semibold text-body text-sm mb-1">{city.name}</h3>
-                  <p className="text-muted text-xs">{city.count}+ kost</p>
+                  <h3 className="font-semibold text-[#FAFAFA] text-sm mb-1">{city.name}</h3>
+                  <p className="text-[#71717A] text-xs">{city.count}+ kost</p>
                 </motion.button>
               ))}
             </div>
@@ -356,7 +355,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="text-center">
               <button
                 onClick={() => onStartSearching()}
-                className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-hover transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#FF6B35] hover:text-[#E85A28] transition-colors"
               >
                 Lihat semua kota
                 <ArrowRight className="w-4 h-4" />
@@ -365,7 +364,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </section>
 
-        {/* 5. HOW IT WORKS - Narrative instead of feature cards */}
+        {/* 5. HOW IT WORKS */}
         <section className="py-16 md:py-24">
           <div className="max-w-3xl mx-auto">
             <SectionHeader
@@ -373,7 +372,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               subtext="Cari kost dalam 3 langkah sederhana."
             />
 
-            {/* Process Steps - Vertical Timeline */}
+            {/* Process Steps */}
             <div className="mt-12 space-y-8">
               {/* Step 1 */}
               <motion.div
@@ -384,11 +383,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 className="flex gap-6"
               >
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-primary text-white font-bold text-lg flex items-center justify-center">1</div>
+                  <div className="w-12 h-12 rounded-full bg-[#FF6B35] text-white font-bold text-lg flex items-center justify-center">1</div>
                 </div>
                 <div className="pt-2">
-                  <h3 className="text-lg font-semibold text-body mb-2">Cari di Peta</h3>
-                  <p className="text-muted text-sm leading-relaxed">
+                  <h3 className="text-lg font-semibold text-[#FAFAFA] mb-2">Cari di Peta</h3>
+                  <p className="text-[#A1A1AA] text-sm leading-relaxed">
                     Masukkan lokasi atau pilih kota. Lihat kost yang terverifikasi GPS di sekitar areamu.
                   </p>
                 </div>
@@ -403,11 +402,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 className="flex gap-6"
               >
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-primary text-white font-bold text-lg flex items-center justify-center">2</div>
+                  <div className="w-12 h-12 rounded-full bg-[#FF6B35] text-white font-bold text-lg flex items-center justify-center">2</div>
                 </div>
                 <div className="pt-2">
-                  <h3 className="text-lg font-semibold text-body mb-2">Cek Ketersediaan</h3>
-                  <p className="text-muted text-sm leading-relaxed">
+                  <h3 className="text-lg font-semibold text-[#FAFAFA] mb-2">Cek Ketersediaan</h3>
+                  <p className="text-[#A1A1AA] text-sm leading-relaxed">
                     Stok kamar diupdate real-time. Tidak perlu telepon untuk tanya kosong atau tidak.
                   </p>
                 </div>
@@ -422,11 +421,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 className="flex gap-6"
               >
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-primary text-white font-bold text-lg flex items-center justify-center">3</div>
+                  <div className="w-12 h-12 rounded-full bg-[#FF6B35] text-white font-bold text-lg flex items-center justify-center">3</div>
                 </div>
                 <div className="pt-2">
-                  <h3 className="text-lg font-semibold text-body mb-2">Hubungi Pemilik</h3>
-                  <p className="text-muted text-sm leading-relaxed">
+                  <h3 className="text-lg font-semibold text-[#FAFAFA] mb-2">Hubungi Pemilik</h3>
+                  <p className="text-[#A1A1AA] text-sm leading-relaxed">
                     Langsung chat via WhatsApp. Tidak ada biaya tambahan atau perantara.
                   </p>
                 </div>
@@ -435,21 +434,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </section>
 
-        {/* 6. SOCIAL PROOF - Story instead of comparison table */}
+        {/* 6. SOCIAL PROOF */}
         <section className="py-16 md:py-24">
           <DarkPanel padding="lg" className="max-w-full">
             <div className="max-w-2xl mx-auto text-center space-y-6">
-              <h2 className="text-[28px] md:text-[36px] font-bold text-white leading-tight">
+              <h2 className="text-[28px] md:text-[36px] font-bold text-[#FAFAFA] leading-tight">
                 Kenapa GPS verification penting?
               </h2>
-              <p className="text-muted text-base leading-relaxed">
+              <p className="text-[#A1A1AA] text-base leading-relaxed">
                 Karena 7 dari 10 listingan kost online pakai foto yang tidak sesuai realita.
                 KostFind menyelesaikan masalah ini dengan wajibkan verifikasi lokasi GPS pada setiap media.
               </p>
               <div className="pt-4">
                 <button
                   onClick={() => onStartSearching()}
-                  className="inline-flex items-center gap-2 bg-white text-ink font-semibold px-6 py-3 rounded-full hover:bg-canvas transition-colors"
+                  className="inline-flex items-center gap-2 bg-[#FF6B35] text-white font-semibold px-6 py-3 rounded-full hover:bg-[#E85A28] transition-colors shadow-[0_0_24px_rgba(255,107,53,0.3)]"
                 >
                   Mulai Cari Kost
                   <ArrowRight className="w-4 h-4" />
@@ -459,7 +458,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </DarkPanel>
         </section>
 
-        {/* 7. TESTIMONIALS - Authentic with Initials */}
+        {/* 7. TESTIMONIALS */}
         <section className="py-12 md:py-20">
           <div className="space-y-10">
             <SectionHeader
@@ -476,29 +475,29 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white rounded-[24px] border border-border-subtle p-6 space-y-4 hover:shadow-lg transition-shadow"
+                  className="bg-[#18181B] rounded-[24px] border border-[rgba(255,255,255,0.08)] p-6 space-y-4 hover:border-[rgba(255,255,255,0.12)] transition-all"
                 >
-                  {/* Initials Avatar - Authentic */}
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center text-white font-bold text-lg">
+                  {/* Avatar */}
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#FF6B35] to-[#E85A28] flex items-center justify-center text-white font-bold text-lg">
                     {testimonial.initials}
                   </div>
 
-                  {/* Rating - simple dots */}
+                  {/* Rating */}
                   <div className="flex gap-1">
                     {[1, 2, 3, 4, 5].map((i) => (
-                      <div key={i} className="w-2 h-2 rounded-full bg-[#fcbe11]" />
+                      <div key={i} className="w-2 h-2 rounded-full bg-[#F59E0B]" />
                     ))}
                   </div>
 
                   {/* Quote */}
-                  <p className="text-body text-sm leading-relaxed">
+                  <p className="text-[#E5E5E5] text-sm leading-relaxed">
                     "{testimonial.quote}"
                   </p>
 
                   {/* Author */}
-                  <div className="pt-4 border-t border-canvas">
-                    <p className="font-semibold text-ink text-sm">{testimonial.name}</p>
-                    <p className="text-muted text-xs">{testimonial.role}</p>
+                  <div className="pt-4 border-t border-[rgba(255,255,255,0.06)]">
+                    <p className="font-semibold text-[#FAFAFA] text-sm">{testimonial.name}</p>
+                    <p className="text-[#71717A] text-xs">{testimonial.role}</p>
                   </div>
                 </motion.div>
               ))}
@@ -506,7 +505,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </section>
 
-        {/* 8. PROPERTY PREVIEW - Horizontal Scroll */}
+        {/* 8. PROPERTY PREVIEW */}
         <section className="py-12 md:py-20">
           <div className="space-y-8">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
@@ -519,7 +518,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </AwesomicButton>
             </div>
 
-            {/* Horizontal Scroll Tiles */}
+            {/* Horizontal Scroll */}
             <div className="flex gap-5 overflow-x-auto pb-4 -mx-6 px-6 scrollbar-none">
               {featuredProperties.slice(0, 5).map((property) => {
                 const lowestPrice =
@@ -538,10 +537,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
                     onClick={() => onSelectProperty(property.id)}
-                    className="flex-shrink-0 w-[300px] bg-white rounded-[36px] overflow-hidden border border-border-subtle cursor-pointer group hover:-translate-y-1 transition-transform duration-200"
+                    className="flex-shrink-0 w-[300px] bg-[#18181B] rounded-[36px] overflow-hidden border border-[rgba(255,255,255,0.08)] cursor-pointer group hover:-translate-y-1 hover:border-[rgba(255,255,255,0.15)] transition-all duration-200"
                   >
                     {/* Image */}
-                    <div className="relative aspect-[4/3] bg-canvas overflow-hidden">
+                    <div className="relative aspect-[4/3] bg-[#27272A] overflow-hidden">
                       <img
                         src={property.media[0]?.url_medium || property.media[0]?.url_thumbnail || property.media[0]?.url_original}
                         alt={property.name}
@@ -549,16 +548,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                       />
                       {/* GPS Badge */}
                       <div className="absolute top-3 left-3">
-                        <span className="flex items-center gap-1.5 bg-white/90 backdrop-blur-sm text-body text-[10px] font-medium py-1.5 px-3 rounded-full border border-border-subtle">
+                        <span className="flex items-center gap-1.5 bg-[#18181B]/90 backdrop-blur-sm text-[#FAFAFA] text-[10px] font-medium py-1.5 px-3 rounded-full border border-[rgba(255,255,255,0.1)]">
                           <span className="relative flex h-1.5 w-1.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ink opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-ink"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#FF6B35]"></span>
                           </span>
                           GPS
                         </span>
                       </div>
                       {/* Price */}
-                      <div className="absolute bottom-3 right-3 bg-ink text-white text-xs font-semibold px-3 py-1.5 rounded-full">
+                      <div className="absolute bottom-3 right-3 bg-[#18181B] text-[#FAFAFA] text-xs font-semibold px-3 py-1.5 rounded-full border border-[rgba(255,255,255,0.1)]">
                         {formatPrice(lowestPrice)}/bln
                       </div>
                     </div>
@@ -574,15 +573,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                               : 'Putri'}
                         </AwesomicBadge>
                         <span className={`text-[10px] font-medium ${
-                          availableRooms > 0 ? 'text-[#047e4a]' : 'text-[#ba1a1a]'
+                          availableRooms > 0 ? 'text-[#10B981]' : 'text-[#EF4444]'
                         }`}>
                           {availableRooms > 0 ? `${availableRooms} Tersedia` : 'Penuh'}
                         </span>
                       </div>
-                      <h4 className="text-sm font-semibold text-body line-clamp-1 mb-1">
+                      <h4 className="text-sm font-semibold text-[#FAFAFA] line-clamp-1 mb-1">
                         {property.name}
                       </h4>
-                      <p className="text-xs text-muted flex items-center gap-1">
+                      <p className="text-xs text-[#71717A] flex items-center gap-1">
                         <MapPin className="w-3 h-3" />
                         <span className="line-clamp-1">{property.location.address}</span>
                       </p>
@@ -598,10 +597,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <section className="py-12 md:py-20">
           <DarkPanel padding="xl" className="text-center">
             <div className="max-w-xl mx-auto space-y-6">
-              <h2 className="text-[32px] md:text-[40px] font-semibold leading-[1.2] text-white">
+              <h2 className="text-[32px] md:text-[40px] font-semibold leading-[1.2] text-[#FAFAFA]">
                 Siap cari kost impian?
               </h2>
-              <p className="text-muted text-base">
+              <p className="text-[#A1A1AA] text-base">
                 Masukkan email untuk menerima update listingan kost terbaru di kotamu.
               </p>
               <AwesomicInput
@@ -610,7 +609,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 onSubmit={(email) => console.log('Email submitted:', email)}
                 className="max-w-md mx-auto"
               />
-              <p className="text-muted text-xs">
+              <p className="text-[#71717A] text-xs">
                 Gratis, tanpa komitmen. Unsubscribe kapan saja.
               </p>
             </div>
@@ -619,9 +618,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
         {/* 10. TRUST INDICATORS */}
         <section className="py-12 pb-8">
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 text-muted">
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 text-[#A1A1AA]">
             <div className="flex items-center gap-2">
-              <Star className="w-4 h-4 fill-ink text-ink" />
+              <Star className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />
               <span className="text-sm font-medium">4.9 rating pengguna</span>
             </div>
             <div className="flex items-center gap-2">

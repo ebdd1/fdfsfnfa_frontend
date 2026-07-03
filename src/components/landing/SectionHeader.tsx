@@ -23,15 +23,15 @@ export function SectionHeader({
   return (
     <div className={`max-w-2xl ${alignStyles[align]} ${className}`}>
       {eyebrow && (
-        <span className="inline-block text-xs font-medium uppercase tracking-wider text-muted mb-4">
+        <span className="inline-block text-xs font-medium uppercase tracking-wider text-[#FF6B35] mb-4">
           {eyebrow}
         </span>
       )}
-      <h2 className="text-3xl md:text-4xl font-semibold text-body leading-tight">
+      <h2 className="text-3xl md:text-4xl font-semibold text-[#FAFAFA] leading-tight">
         {headline}
       </h2>
       {subtext && (
-        <p className="mt-4 text-base md:text-lg text-muted leading-relaxed max-w-2xl">
+        <p className="mt-4 text-base md:text-lg text-[#A1A1AA] leading-relaxed max-w-2xl">
           {subtext}
         </p>
       )}
