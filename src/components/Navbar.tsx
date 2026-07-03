@@ -60,7 +60,7 @@ export const Navbar: React.FC = () => {
                 : 'text-on-surface-variant'
             }`}
           >
-            Discover
+            Jelajahi
           </Link>
           <Link
             to="/search"
@@ -70,7 +70,7 @@ export const Navbar: React.FC = () => {
                 : 'text-on-surface-variant'
             }`}
           >
-            Verified
+            Terverifikasi
           </Link>
           <Link
             to="/search?filter=promo"
@@ -80,7 +80,7 @@ export const Navbar: React.FC = () => {
                 : 'text-on-surface-variant'
             }`}
           >
-            Offers
+            Penawaran
           </Link>
         </nav>
 
@@ -255,7 +255,7 @@ export const Navbar: React.FC = () => {
                 pathname === '/' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
               }`}
             >
-              Discover
+              Jelajahi
             </Link>
             <Link
               to="/search"
@@ -264,7 +264,7 @@ export const Navbar: React.FC = () => {
                 pathname.startsWith('/search') ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
               }`}
             >
-              Verified
+              Terverifikasi
             </Link>
             <Link
               to="/search?filter=promo"
@@ -273,7 +273,7 @@ export const Navbar: React.FC = () => {
                 pathname === '/offers' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
               }`}
             >
-              Offers
+              Penawaran
             </Link>
 
             <hr className="border-surface-container-high my-2" />
