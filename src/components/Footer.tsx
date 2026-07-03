@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-surface-container border-t border-surface-container mt-auto safe-bottom">
+    <footer className="w-full bg-surface-container border-t border-surface-container mt-auto safe-bottom">
       {/* Full-width Main Footer Content */}
       <div className="w-full px-margin-mobile md:px-margin-desktop py-stack-lg">
         <div className="max-w-container-max mx-auto">
