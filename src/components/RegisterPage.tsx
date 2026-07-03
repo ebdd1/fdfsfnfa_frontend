@@ -326,7 +326,7 @@ export const RegisterPage = () => {
 
           {/* Copyright */}
           <p className="mt-6 text-center text-xs text-[text-muted] font-medium">
-            &copy; 2026 KostFind Platform
+            &copy; {new Date().getFullYear()} {settings.site_name}
           </p>
         </motion.div>
       </div>

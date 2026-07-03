@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
+import { useSettingsStore } from '../stores/settingsStore';
 import { authService } from '../services/api/auth.service';
 import { useRateLimit } from '../hooks/useRateLimit';
 import { securityLogger } from '../lib/securityLogger';
@@ -26,6 +27,7 @@ export const LoginPage = () => {
 
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
+  const siteName = useSettingsStore((s) => s.settings.site_name) || 'KostFind';
 
   // Account lockout after 5 failed attempts in 1 min, locked for 5 min [F-005, F-017]
   const loginRateLimit = useRateLimit({
@@ -232,7 +234,7 @@ export const LoginPage = () => {
 
           {/* Copyright */}
           <p className="mt-6 text-center text-xs text-[text-muted] font-medium">
-            &copy; 2026 KostFind Platform
+            &copy; {new Date().getFullYear()} {siteName}
           </p>
         </motion.div>
       </div>

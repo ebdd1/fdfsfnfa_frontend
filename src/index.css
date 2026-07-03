@@ -463,6 +463,199 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================
+   NAVBAR MOTION SYSTEM - Professional SaaS
+   ============================================ */
+
+/* Duration tokens */
+:root {
+  --nav-duration-fast: 150ms;
+  --nav-duration-normal: 250ms;
+  --nav-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --nav-ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --nav-ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Nav link transitions */
+.nav-link {
+  position: relative;
+  transition:
+    color var(--nav-duration-fast) var(--nav-ease-out);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--nav-duration-fast) var(--nav-ease-out);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+/* CTA Button - Professional lift effect */
+.nav-cta {
+  transition:
+    transform var(--nav-duration-fast) var(--nav-ease-out),
+    box-shadow var(--nav-duration-fast) var(--nav-ease-out),
+    filter var(--nav-duration-fast) var(--nav-ease-out);
+  box-shadow: 0 4px 14px rgba(0, 53, 148, 0.25);
+}
+
+.nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 53, 148, 0.3);
+}
+
+.nav-cta:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 8px rgba(0, 53, 148, 0.2);
+}
+
+/* Logo hover scale */
+.nav-logo {
+  transition: transform var(--nav-duration-fast) var(--nav-ease-out);
+}
+
+.nav-logo:hover {
+  transform: scale(1.02);
+}
+
+/* Avatar ring hover */
+.nav-avatar {
+  transition:
+    transform var(--nav-duration-fast) var(--nav-ease-out),
+    border-color var(--nav-duration-fast) var(--nav-ease-out),
+    box-shadow var(--nav-duration-fast) var(--nav-ease-out);
+}
+
+.nav-avatar:hover {
+  transform: scale(1.05);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* Dropdown entrance animation */
+@keyframes dropdownEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.nav-dropdown {
+  animation: dropdownEnter var(--nav-duration-normal) var(--nav-ease-out) forwards;
+  transform-origin: top right;
+}
+
+/* Mobile menu stagger animation */
+@keyframes mobileItemEnter {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.mobile-nav-item {
+  animation: mobileItemEnter var(--nav-duration-normal) var(--nav-ease-out) forwards;
+  opacity: 0;
+}
+
+.mobile-nav-item:nth-child(1) { animation-delay: 0ms; }
+.mobile-nav-item:nth-child(2) { animation-delay: 50ms; }
+.mobile-nav-item:nth-child(3) { animation-delay: 100ms; }
+.mobile-nav-item:nth-child(4) { animation-delay: 150ms; }
+.mobile-nav-item:nth-child(5) { animation-delay: 200ms; }
+.mobile-nav-item:nth-child(6) { animation-delay: 250ms; }
+
+/* Notification icon hover */
+.nav-icon-btn {
+  transition:
+    background-color var(--nav-duration-fast) var(--nav-ease-out),
+    color var(--nav-duration-fast) var(--nav-ease-out);
+}
+
+.nav-icon-btn:hover {
+  background-color: var(--surface-container-high);
+}
+
+/* Mobile menu button */
+.nav-menu-btn {
+  transition:
+    background-color var(--nav-duration-fast) var(--nav-ease-out),
+    transform var(--nav-duration-fast) var(--nav-ease-out);
+}
+
+.nav-menu-btn:hover {
+  background-color: var(--surface-container-low);
+}
+
+/* Menu icon animation */
+@keyframes menuToClose {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(90deg); }
+}
+
+@keyframes closeToMenu {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-90deg); }
+}
+
+.menu-icon-open {
+  animation: menuToClose var(--nav-duration-fast) var(--nav-ease-out) forwards;
+}
+
+.menu-icon-close {
+  animation: closeToMenu var(--nav-duration-fast) var(--nav-ease-out) forwards;
+}
+
+/* Reduced motion - disable navbar animations */
+@media (prefers-reduced-motion: reduce) {
+  .nav-link::after,
+  .nav-cta,
+  .nav-logo,
+  .nav-avatar,
+  .nav-dropdown,
+  .mobile-nav-item,
+  .nav-icon-btn,
+  .nav-menu-btn {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .nav-cta:hover {
+    transform: none;
+  }
+
+  .nav-avatar:hover {
+    transform: none;
+  }
+
+  .mobile-nav-item {
+    opacity: 1;
+  }
+}
+
+/* ============================================
    ANIMATIONS
    ============================================ */
 

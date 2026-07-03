@@ -1,12 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
+import { useSettingsStore } from '../stores/settingsStore';
 import { Shield, LayoutDashboard, LogOut, Plus, Menu } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuthStore();
+  const siteName = useSettingsStore((s) => s.settings.site_name) || 'KostFind';
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -33,16 +35,18 @@ export const Navbar: React.FC = () => {
   }
 
   return (
-    <header className="w-full top-0 sticky bg-surface dark:bg-surface-dim shadow-sm z-40 transition-shadow duration-300">
+    <header className="w-full top-0 sticky bg-surface dark:bg-surface-dim z-40 transition-all duration-300 border-b border-surface-container">
+      {/* Subtle top border for depth */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       {/* Full width navbar - no max-width constraint */}
       <div className="w-full px-margin-mobile md:px-margin-desktop py-stack-sm flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 cursor-pointer">
+        <Link to="/" className="nav-logo flex items-center gap-2 cursor-pointer">
           <span className="material-symbols-outlined text-primary font-bold text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>
             domain
           </span>
           <h1 className="font-headline-md text-headline-md font-bold text-primary tracking-tight">
-            KostFind
+            {siteName}
           </h1>
         </Link>
 
@@ -50,30 +54,30 @@ export const Navbar: React.FC = () => {
         <nav className="hidden md:flex items-center gap-stack-lg">
           <Link
             to="/"
-            className={`text-label-md font-label-md transition-colors ${
+            className={`nav-link text-label-md font-label-md ${
               pathname === '/'
-                ? 'text-primary border-b-2 border-primary pb-1'
-                : 'text-on-surface-variant hover:text-primary'
+                ? 'text-primary active'
+                : 'text-on-surface-variant'
             }`}
           >
             Discover
           </Link>
           <Link
             to="/search"
-            className={`text-label-md font-label-md transition-colors ${
+            className={`nav-link text-label-md font-label-md ${
               pathname.startsWith('/search')
-                ? 'text-primary border-b-2 border-primary pb-1'
-                : 'text-on-surface-variant hover:text-primary'
+                ? 'text-primary active'
+                : 'text-on-surface-variant'
             }`}
           >
             Verified
           </Link>
           <Link
             to="/search?filter=promo"
-            className={`text-label-md font-label-md transition-colors ${
+            className={`nav-link text-label-md font-label-md ${
               pathname === '/offers'
-                ? 'text-primary border-b-2 border-primary pb-1'
-                : 'text-on-surface-variant hover:text-primary'
+                ? 'text-primary active'
+                : 'text-on-surface-variant'
             }`}
           >
             Offers
@@ -88,7 +92,8 @@ export const Navbar: React.FC = () => {
               {/* Notifications */}
               <Link
                 to="/chat"
-                className="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant relative"
+                aria-label="Notifikasi"
+                className="nav-icon-btn hidden md:flex items-center justify-center w-10 h-10 rounded-full text-on-surface-variant relative"
               >
                 <span className="material-symbols-outlined">notifications</span>
                 {/* Notification badge */}
@@ -101,7 +106,11 @@ export const Navbar: React.FC = () => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                <button className="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container hover:border-primary transition-colors cursor-pointer">
+                <button
+                  aria-label="Menu profil pengguna"
+                  aria-expanded={dropdownOpen}
+                  className="nav-avatar w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container cursor-pointer"
+                >
                   {user.avatar_url ? (
                     <img src={user.avatar_url} alt="Profile" className="w-full h-full object-cover" />
                   ) : (
@@ -112,7 +121,7 @@ export const Navbar: React.FC = () => {
                 </button>
 
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-3 w-64 bg-surface-container-lowest rounded-xl shadow-elevation-hover border border-surface-container overflow-hidden z-50 animate-slideUp">
+                  <div className="nav-dropdown absolute right-0 mt-3 w-64 bg-surface-container-lowest rounded-xl shadow-elevation-hover border border-surface-container overflow-hidden z-50">
                     {/* User Info Header */}
                     <div className="px-stack-md py-stack-md border-b border-surface-container-high flex items-center gap-3">
                       {user.avatar_url ? (
@@ -211,7 +220,7 @@ export const Navbar: React.FC = () => {
               </Link>
               <Link
                 to="/register?role=owner"
-                className="hidden md:flex items-center gap-2 px-stack-md py-2.5 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:brightness-90 active:scale-[0.98] transition-all shadow-[0_4px_10px_rgba(0,53,148,0.2)]"
+                className="nav-cta hidden md:flex items-center gap-2 px-stack-md py-2.5 bg-primary text-on-primary rounded-lg text-label-md font-label-md"
               >
                 <Plus className="w-4 h-4" />
                 Pasang Iklan
@@ -222,7 +231,9 @@ export const Navbar: React.FC = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-container-low transition-colors"
+            aria-label={mobileMenuOpen ? 'Tutup menu' : 'Buka menu'}
+            aria-expanded={mobileMenuOpen}
+            className="nav-menu-btn md:hidden flex items-center justify-center w-10 h-10 rounded-lg"
           >
             {mobileMenuOpen ? (
               <span className="material-symbols-outlined text-2xl">close</span>
@@ -235,12 +246,12 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-surface border-t border-surface-container shadow-elevation-2 animate-slideUp">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-surface border-t border-surface-container shadow-elevation-2 z-50">
           <nav className="px-margin-mobile py-stack-md flex flex-col gap-2">
             <Link
               to="/"
               onClick={() => setMobileMenuOpen(false)}
-              className={`px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
+              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
                 pathname === '/' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
               }`}
             >
@@ -249,7 +260,7 @@ export const Navbar: React.FC = () => {
             <Link
               to="/search"
               onClick={() => setMobileMenuOpen(false)}
-              className={`px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
+              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
                 pathname.startsWith('/search') ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
               }`}
             >
@@ -258,7 +269,7 @@ export const Navbar: React.FC = () => {
             <Link
               to="/search?filter=promo"
               onClick={() => setMobileMenuOpen(false)}
-              className={`px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
+              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
                 pathname === '/offers' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
               }`}
             >
@@ -272,14 +283,14 @@ export const Navbar: React.FC = () => {
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-3 rounded-lg text-body-md font-label-md text-on-surface hover:bg-surface-container-low transition-colors text-center"
+                  className="mobile-nav-item px-4 py-3 rounded-lg text-body-md font-label-md text-on-surface hover:bg-surface-container-low transition-colors text-center"
                 >
                   Masuk
                 </Link>
                 <Link
                   to="/register?role=owner"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-3 rounded-lg bg-primary text-on-primary text-body-md font-label-md text-center shadow-[0_4px_10px_rgba(0,53,148,0.2)]"
+                  className="mobile-nav-item nav-cta px-4 py-3 rounded-lg bg-primary text-on-primary text-body-md font-label-md text-center"
                 >
                   Pasang Iklan
                 </Link>

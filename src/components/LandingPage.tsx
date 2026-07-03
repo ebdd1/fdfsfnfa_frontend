@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import type { Property } from '../types';
 
 interface LandingPageProps {
+  siteName: string;
   featuredProperties: Property[];
   onStartSearching: (city?: string, query?: string) => void;
 }
@@ -65,12 +66,12 @@ const HOW_IT_WORKS = [
   },
 ];
 
-const TESTIMONIALS = [
+const getTestimonials = (siteName: string) => [
   {
     name: 'Rina Marlina',
     role: 'Mahasiswa',
     city: 'Jakarta',
-    text: 'Dulu cari kost ribet banget, tapi sejak pakai KostFind semuanya jadi lebih mudah. Kost-nya juga berkualitas!',
+    text: `Dulu cari kost ribet banget, tapi sejak pakai ${siteName} semuanya jadi lebih mudah. Kost-nya juga berkualitas!`,
     rating: 5,
     avatar: 'RM',
   },
@@ -86,13 +87,14 @@ const TESTIMONIALS = [
     name: 'Siti Nurhaliza',
     role: 'Freelancer',
     city: 'Yogyakarta',
-    text: 'Fitur map-nya sangat membantu saya menemukan kost di lokasi strategis. Thank you KostFind!',
+    text: `Fitur map-nya sangat membantu saya menemukan kost di lokasi strategis. Thank you ${siteName}!`,
     rating: 5,
     avatar: 'SN',
   },
 ];
 
 export const LandingPage: React.FC<LandingPageProps> = ({
+  siteName,
   featuredProperties,
   onStartSearching,
 }) => {
@@ -315,7 +317,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="max-w-container-max mx-auto">
             <div className="text-center max-w-2xl mx-auto mb-16">
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold mb-4">
-                Kenapa KostFind?
+                Kenapa {siteName}?
               </span>
               <h2 className="font-display text-3xl md:text-5xl text-on-background mb-4">
                 Platform Kost yang <span className="italic font-normal">Terpercaya</span>
@@ -402,7 +404,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 Simpel & Mudah
               </span>
               <h2 className="font-display text-3xl md:text-5xl text-on-background mb-4">
-                Cara Kerja KostFind
+                Cara Kerja {siteName}
               </h2>
               <p className="font-body text-on-surface-variant/70">
                 Hanya 3 langkah mudah untuk menemukan dan memesan kost impian Anda.
@@ -457,7 +459,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {TESTIMONIALS.map((testimonial, index) => (
+              {getTestimonials(siteName).map((testimonial, index) => (
                 <div
                   key={index}
                   className="p-8 rounded-2xl bg-surface-container-lowest border border-outline-variant/50 hover:border-primary/30 transition-all"
@@ -506,7 +508,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               Siap Menemukan Kost Impian?
             </h2>
             <p className="font-body text-lg text-white/80 mb-12 max-w-2xl mx-auto">
-              Bergabung dengan ribuan pengguna yang sudah menemukan tempat tinggal ideal mereka bersama KostFind.
+              Bergabung dengan ribuan pengguna yang sudah menemukan tempat tinggal ideal mereka bersama {siteName}.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button

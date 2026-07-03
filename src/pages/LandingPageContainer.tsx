@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { LandingPage } from '../components/LandingPage';
 import { Footer } from '../components/Footer';
 import { useProperties } from '../hooks/useProperties';
+import { useSettingsStore } from '../stores/settingsStore';
 
 /**
  * Route container for /.
@@ -11,6 +12,7 @@ import { useProperties } from '../hooks/useProperties';
 export const LandingPageContainer = () => {
   const navigate = useNavigate();
   const { properties } = useProperties({ take: 6 });
+  const siteName = useSettingsStore((s) => s.settings.site_name) || 'KostFind';
 
   const goToSearch = (city?: string, query?: string) => {
     const params = new URLSearchParams();
@@ -24,6 +26,7 @@ export const LandingPageContainer = () => {
     <div className="min-h-screen flex flex-col">
       <div className="flex-1">
         <LandingPage
+          siteName={siteName}
           featuredProperties={properties}
           onStartSearching={goToSearch}
         />

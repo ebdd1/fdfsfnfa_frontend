@@ -23,7 +23,7 @@ export const Footer: React.FC = () => {
                 domain
               </span>
               <span className="font-headline-md text-headline-md font-bold text-primary">
-                KostFind
+                {settings.site_name || 'KostFind'}
               </span>
             </Link>
             <p className="text-body-sm text-on-surface-variant max-w-xs leading-relaxed">
