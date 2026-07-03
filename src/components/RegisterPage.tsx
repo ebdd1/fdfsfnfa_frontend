@@ -121,9 +121,9 @@ export const RegisterPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col relative">
+    <div className="min-h-screen flex flex-col bg-background">
       {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -134,7 +134,7 @@ export const RegisterPage = () => {
       </div>
 
       {/* Main Content - Navbar is already shown by App.tsx */}
-      <main className="relative z-10 flex-grow flex items-center justify-center px-4 py-12 md:py-24">
+      <main className="relative z-10 flex-grow flex items-center justify-center px-4 py-12 md:py-16">
         {/* Register Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
