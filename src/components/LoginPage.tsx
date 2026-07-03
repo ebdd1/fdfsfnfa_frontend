@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
-import { useSettingsStore } from '../stores/settingsStore';
 import { authService } from '../services/api/auth.service';
 import { useRateLimit } from '../hooks/useRateLimit';
 import { securityLogger } from '../lib/securityLogger';
 import { AlertCircle, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useToastStore } from '../stores/toastStore';
+import { Footer } from './Footer';
 
 const comingSoon = (provider: string) =>
   useToastStore.getState().push({
@@ -26,7 +26,6 @@ export const LoginPage = () => {
 
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth);
-  const siteName = useSettingsStore((s) => s.settings.site_name) || 'KostFind';
 
   // Account lockout after 5 failed attempts in 1 min, locked for 5 min [F-005, F-017]
   const loginRateLimit = useRateLimit({
@@ -70,7 +69,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden">
+    <div className="min-h-screen flex flex-col relative">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <div
@@ -79,23 +78,10 @@ export const LoginPage = () => {
             backgroundImage: `url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1920&q=80')`
           }}
         />
-        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-surface/80 via-surface/60 to-surface/90" />
       </div>
 
-      {/* Minimal Header */}
-      <header className="relative z-10 w-full bg-surface-container-lowest/80 backdrop-blur-md border-b border-outline-variant/30">
-        <div className="flex justify-between items-center max-w-7xl mx-auto px-6 py-4">
-          <Link to="/" className="font-headline text-headline-md font-bold text-primary">
-            {siteName}
-          </Link>
-          <a href="#" className="text-body-sm font-medium text-on-surface-variant hover:text-primary transition-colors">
-            Help
-          </a>
-        </div>
-      </header>
-
-      {/* Main Content */}
+      {/* Main Content - Navbar is already shown by App.tsx */}
       <main className="relative z-10 flex-grow flex items-center justify-center px-4 py-12 md:py-24">
         {/* Login Card */}
         <motion.div
@@ -244,21 +230,8 @@ export const LoginPage = () => {
         </motion.div>
       </main>
 
-      {/* Footer */}
-      <footer className="relative z-10 bg-surface-container py-12 px-10 border-t border-outline-variant/20">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-stack-md">
-          <div className="font-headline text-headline-sm font-bold text-on-surface">{siteName}</div>
-          <div className="flex gap-6 font-body text-body-sm">
-            <a href="#" className="text-on-surface-variant hover:text-primary transition-colors">Privacy Policy</a>
-            <a href="#" className="text-on-surface-variant hover:text-primary transition-colors">Terms of Service</a>
-            <a href="#" className="text-on-surface-variant hover:text-primary transition-colors">Cookie Policy</a>
-            <a href="#" className="text-on-surface-variant hover:text-primary transition-colors">Contact Support</a>
-          </div>
-          <div className="font-body text-body-sm text-on-surface-variant">
-            © {new Date().getFullYear()} {siteName}. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      {/* Footer - uses shared Footer component for consistency with landing page */}
+      <Footer />
     </div>
   );
 };
