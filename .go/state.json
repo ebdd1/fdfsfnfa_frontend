@@ -1,8 +1,8 @@
 {
   "session": {
-    "id": null,
-    "started_at": null,
-    "user_intent": null,
+    "id": "session-2026-07-03-gorisetini-001",
+    "started_at": "2026-07-03T20:15:00Z",
+    "user_intent": "Audit project untuk understand kondisi teknis",
     "current_skill": null,
     "plan": []
   },
@@ -11,7 +11,7 @@
     "name": "kostfind_web",
     "stack": "react-vite-ts",
     "phase": "growth",
-    "last_audit": null,
+    "last_audit": "2026-07-03",
     "last_deploy": null
   }
 }
