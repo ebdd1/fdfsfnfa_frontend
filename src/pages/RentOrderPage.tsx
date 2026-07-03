@@ -11,7 +11,7 @@ const formatIDR = (n: number) =>
 export const RentOrderPage: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const { data: properties } = useProperties();
+  const { properties } = useProperties();
   const property = properties?.find((p) => p.id === id);
 
   const availableRooms = useMemo(
@@ -93,7 +93,7 @@ export const RentOrderPage: React.FC = () => {
               </div>
               <div>
                 <p className="font-bold text-slate-800">{property.name}</p>
-                <p className="text-xs text-slate-400">{property.city}</p>
+                <p className="text-xs text-slate-400">{property.location?.city}</p>
               </div>
             </div>
 
@@ -206,15 +206,15 @@ export const RentOrderPage: React.FC = () => {
         {/* Property preview card */}
         <div className="bg-white rounded-2xl border border-slate-200 p-4 mb-6 flex items-center gap-3">
           <div className="w-14 h-14 bg-[var(--primary-50)] rounded-xl flex items-center justify-center overflow-hidden">
-            {property.photos?.[0] ? (
-              <img src={property.photos[0]} alt={property.name} className="w-full h-full object-cover" />
+            {property.media?.[0] ? (
+              <img src={property.media[0].url_medium} alt={property.name} className="w-full h-full object-cover" />
             ) : (
               <Home className="w-6 h-6 text-[var(--primary-400)]" />
             )}
           </div>
           <div className="flex-1 min-w-0">
             <p className="font-bold text-slate-800 truncate">{property.name}</p>
-            <p className="text-xs text-slate-400 truncate">{property.address}</p>
+            <p className="text-xs text-slate-400 truncate">{property.location?.address}</p>
           </div>
         </div>
 
@@ -236,6 +236,7 @@ export const RentOrderPage: React.FC = () => {
                   {availableRooms.map((room: Room) => (
                     <label
                       key={room.id}
+                      onClick={() => setRoomId(room.id)}
                       className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${
                         roomId === room.id
                           ? 'border-[var(--primary-500)] bg-[var(--primary-50)]'
@@ -252,7 +253,6 @@ export const RentOrderPage: React.FC = () => {
                         </div>
                         <div>
                           <p className="text-sm font-bold text-slate-800">Kamar {room.room_number || room.id.slice(0, 4)}</p>
-                          <p className="text-xs text-slate-400">{room.square_feet || '-'} m²</p>
                         </div>
                       </div>
                       <span className="text-sm font-black text-[var(--primary-700)]">
