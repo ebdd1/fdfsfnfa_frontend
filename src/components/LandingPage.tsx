@@ -115,10 +115,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen relative bg-background">
+    <div className="min-h-screen relative bg-background overflow-hidden">
       {/* Pattern Background */}
       <div
-        className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
+        className="absolute inset-0 pointer-events-none opacity-[0.03] z-0"
         style={{
           backgroundImage: 'radial-gradient(#003594 0.5px, transparent 0.5px)',
           backgroundSize: '24px 24px',
