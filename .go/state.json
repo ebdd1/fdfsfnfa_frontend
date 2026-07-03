@@ -1,0 +1,17 @@
+{
+  "session": {
+    "id": null,
+    "started_at": null,
+    "user_intent": null,
+    "current_skill": null,
+    "plan": []
+  },
+  "project": {
+    "type": "existing",
+    "name": "kostfind_web",
+    "stack": "react-vite-ts",
+    "phase": "growth",
+    "last_audit": null,
+    "last_deploy": null
+  }
+}

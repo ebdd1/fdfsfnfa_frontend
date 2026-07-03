@@ -1,0 +1,34 @@
+{
+  "stack": "react-vite-ts",
+  "name": "kostfind_web",
+  "description": "KostFind - Real-time property platform frontend",
+  "test_command": "npm test",
+  "lint_command": "npm run lint",
+  "type_check_command": "npm run type-check",
+  "build_command": "npm run build",
+  "dev_command": "npm run dev",
+  "preview_command": "npm run preview",
+  "technologies": {
+    "framework": "React",
+    "framework_version": "19",
+    "language": "TypeScript",
+    "language_version": "5.x",
+    "build_tool": "Vite",
+    "styling": "Tailwind CSS 4.3.1",
+    "icons": "Lucide React",
+    "animation": "Framer Motion",
+    "state_management": "Zustand",
+    "api_client": "Axios",
+    "realtime": "Socket.IO Client",
+    "auth": "JWT Bearer Token"
+  },
+  "related_projects": {
+    "backend": {
+      "name": "kostfind_api",
+      "path": "../kostfind_api",
+      "stack": "NestJS + Prisma",
+      "database": "PostgreSQL (Railway)",
+      "auth": "JWT + Passport"
+    }
+  }
+}
