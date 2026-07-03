@@ -8,7 +8,7 @@ import { useAuthStore } from '../stores/authStore';
 import { uploadService } from '../services/api/upload.service';
 import { OrderTimeline } from '../components/OrderTimeline';
 import { OrderStatusBadge, OrderEmptyState } from '../components/order';
-import type { RentalOrder, OrderStatus } from '../types';
+import type { RentalOrder } from '../types';
 
 const fmtIDR = (n: number) =>
   new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(n);
