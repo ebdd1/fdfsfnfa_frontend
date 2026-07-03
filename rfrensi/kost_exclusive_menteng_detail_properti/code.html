@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kost Exclusive Menteng - KostFind</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#4648d4",
+                      "on-tertiary-fixed": "#00201d",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "on-error-container": "#93000a",
+                      "on-primary-container": "#b8c8ff",
+                      "surface-container-highest": "#d3e4fe",
+                      "secondary-fixed": "#e1e0ff",
+                      "primary-container": "#004ac6",
+                      "secondary-container": "#6063ee",
+                      "primary": "#003594",
+                      "surface-dim": "#cbdbf5",
+                      "on-background": "#0b1c30",
+                      "error-container": "#ffdad6",
+                      "outline-variant": "#c3c6d6",
+                      "primary-fixed": "#dbe1ff",
+                      "on-error": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#b4c5ff",
+                      "on-surface-variant": "#434654",
+                      "outline": "#737685",
+                      "on-surface": "#0b1c30",
+                      "surface-container": "#e5eeff",
+                      "surface-container-high": "#dce9ff",
+                      "surface": "#f8f9ff",
+                      "surface-container-low": "#eff4ff",
+                      "on-secondary-container": "#fffbff",
+                      "on-secondary": "#ffffff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "tertiary": "#004640",
+                      "tertiary-container": "#006058",
+                      "on-secondary-fixed-variant": "#2f2ebe",
+                      "surface-bright": "#f8f9ff",
+                      "inverse-surface": "#213145",
+                      "surface-tint": "#1b55d0",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#005049",
+                      "secondary-fixed-dim": "#c0c1ff",
+                      "tertiary-fixed": "#89f5e7",
+                      "surface-variant": "#d3e4fe",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "on-primary-fixed": "#00174b",
+                      "error": "#ba1a1a",
+                      "on-secondary-fixed": "#07006c",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-container": "#6fdcce",
+                      "tertiary-fixed-dim": "#6bd8cb",
+                      "background": "#f8f9ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1280px",
+                      "gutter": "24px",
+                      "stack-md": "16px",
+                      "stack-sm": "8px",
+                      "margin-mobile": "20px",
+                      "margin-desktop": "40px",
+                      "stack-lg": "24px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "60px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar (Destination: Hide on this linear property page if strict, but requested in prompt) -->
+<header class="sticky top-0 z-50 flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 bg-surface shadow-sm max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<span class="text-headline-md font-headline-md font-bold text-primary">KostFind</span>
+</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-on-surface-variant text-label-md font-label-md hover:text-primary transition-colors" href="#">Discover</a>
+<a class="text-on-surface-variant text-label-md font-label-md hover:text-primary transition-colors" href="#">Verified</a>
+<a class="text-on-surface-variant text-label-md font-label-md hover:text-primary transition-colors" href="#">Offers</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex gap-4">
+<button class="text-primary text-label-md font-label-md">List Property</button>
+<button class="bg-primary text-on-primary text-label-md font-label-md px-4 py-2 rounded-lg hover:scale-102 transition-transform duration-200">Sign In</button>
+</div>
+<div class="flex gap-4">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">notifications</span></button>
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">chat_bubble</span></button>
+</div>
+</div>
+</header>
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<!-- Breadcrumb & Header -->
+<div class="mb-stack-lg">
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-on-surface-variant mb-2">
+<a class="hover:text-primary" href="#">Home</a>
+<span class="material-symbols-outlined" style="font-size: 14px;">chevron_right</span>
+<a class="hover:text-primary" href="#">Jakarta Pusat</a>
+<span class="material-symbols-outlined" style="font-size: 14px;">chevron_right</span>
+<span class="text-on-surface">Menteng</span>
+</div>
+<div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+<div>
+<h1 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg mb-2">Kost Exclusive Menteng</h1>
+<div class="flex items-center gap-4 text-label-md font-label-md text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-on-surface font-bold">4.9</span>
+<span>(128 reviews)</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined">location_on</span>
+<span>Menteng, Jakarta Pusat</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-outline-variant hover:bg-surface-container transition-colors text-label-md font-label-md">
+<span class="material-symbols-outlined">ios_share</span>
+                        Share
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-outline-variant hover:bg-surface-container transition-colors text-label-md font-label-md">
+<span class="material-symbols-outlined">favorite_border</span>
+                        Save
+                    </button>
+</div>
+</div>
+</div>
+<!-- High-fidelity gallery grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-2 h-[400px] md:h-[500px] rounded-xl overflow-hidden mb-stack-lg">
+<div class="md:col-span-2 md:row-span-2 relative group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A brightly lit, modern bedroom interior in a premium Indonesian coliving space. The room features a plush double bed with crisp white linens, a minimalist wooden desk, and a large window letting in natural sunlight. The aesthetic is clean, professional, and inviting, utilizing a palette of soft whites, warm woods, and subtle blue accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxq9nGTNN1ZrJGcJ4pl4dOJQKACz5Bv9YKE1GI8cbMzFl1yj2K2-qBVcDdyl4Y9GJvM7PZ72UemHBm8wfxAfEEAgKw226J7Tqfrx7zilNjp9apwDNOiBKrkgVdO_SiMa3I51aTwC_yCxAbUy5KWG2X8b9nnMTZoECBtS6Ui3hv8zQgyWzmYUBwOOj1PnopEcXfAN2dsGCpSXHalne0z5HQWwX0G3d3eCi_ILxfgCFjzOEwW74DFSF4xJSFu_SrHPs1k8kIvIrWYTo"/>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+</div>
+<div class="hidden md:block relative group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern, pristine en-suite bathroom in a luxury rental property. Features include a glass walk-in shower with rainfall showerhead, sleek white vanity, and warm recessed lighting. The styling is minimalist and high-end, emphasizing cleanliness and premium quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx48tm8eHYmJ1y_oL4WTRUCxHoXDfdddX1pWAejbg2bEejFvWXeg-J5kti2kqZk3Kj_MrxSB6iwNqV28MfenPyCXG2b4zNQ62kTfp82cLLGGGGyabB0-V8WGyymZqaDF2uGW5sk7HEHLnWII7W5kyo_G4RCUZ61XCeNJ9SakIJa3f4nTfAqwi1s5rGHT824odtx4Ssw5tAwY_l8Qboy378tJa-N7OmZE7CEnnHxyQJnnvEqq7UZkQgeNTjtffkJSV2rdiW41DSYYs"/>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+</div>
+<div class="hidden md:block relative group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A stylish communal living area in an exclusive boarding house. The space includes comfortable modular seating, a sleek flat-screen TV mounted on a textured wall, and tasteful indoor plants. The atmosphere is relaxed yet sophisticated, with soft natural lighting and a modern corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkQZZGLmJTYz4V3bhP4Jh4PMcKvtTDlpeVunCRaPeFKFNIROxFveQP1KAxb82RkiuG6VmZbhYUj6zVoBhRkGfqxSGvbkhBtqcp2qg-IwLdL5NoKad-7lU45a18C52uCZBe8hY59e4__XJ5EzurOKng6VIt7U0kV6UFnKEW1b4LAp7DTy9mNPS0jvgPhKTkNylkaksr4bav6QH10NC2uGEBmMEPoLPbbXN92gsYbrlv6PBMEdGrdlhJm9nNnJcK2MFpSlPY3epPDwg"/>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+</div>
+<div class="hidden md:block relative group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A fully equipped shared kitchen area in a premium coliving environment. The kitchen boasts modern stainless steel appliances, pristine white countertops, and minimalist cabinetry. Bright, even lighting highlights the clean surfaces and professional-grade amenities." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMC36xc2if7EzhF3rlGS7ekAM826M7Qd7cIKmRFa4Nkvckl_bx3domBRvWmdisEZC6p_h3Tpwfy64ECfDjOHJiTN5HsqKcVnVvCQTcMm6Tdn0fHUL3KuVIPPZ9dQBMz8tro7UEc6Gr30DqsMTpz8idwJjaIMa3tQKKlCfcBC_creX1GZnd2OL3NW_osXX_P9TFvPoZeJSmm13oF5uwKu2g6065uJR4jm1sw0aNoXYHaudcX_a-huBKcz49-K_nC1X1FJRrYw2vcto"/>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+</div>
+<div class="hidden md:block relative group cursor-pointer">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up detail shot of high-quality amenities provided in a modern rental room, such as a sleek work desk with a designer lamp, high-speed internet router, and a neatly folded stack of fresh towels. The lighting is soft and focused, emphasizing the premium attention to detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYV-yPHP-7HZVg0zErB_EW8_632CzpvYj__c9BHcKiUipMI91fYyhsxSj6z8c6-0WOcmEnBW1-U5pXcFQjPGZLoipkpYKt7M-rqaDY5MsqE886topohxHJDQ_d7iHIV4TK5Zlxu2RdAt-Vau65SqBpjSH_VcEBu5oVJwKyE_-zHzXgvDdWv0HD3i6hD8QSHJg61gJIly-5YivKTKMFu1K-u61pBUojWs0CBEcyK0OYiOycnuwuTLaojRseEAJPla1mBcBvZ3VgYUM"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center transition-colors duration-300 hover:bg-black/50">
+<span class="text-white text-label-md font-label-md font-bold flex items-center gap-2">
+<span class="material-symbols-outlined">grid_view</span>
+                         Show all 24 photos
+                     </span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter relative">
+<!-- Main Content Area -->
+<div class="lg:col-span-2 flex flex-col gap-stack-lg">
+<!-- Description -->
+<section class="bg-surface-container-lowest p-stack-lg rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] border border-outline-variant/30">
+<h2 class="text-headline-sm font-headline-sm mb-4">About this property</h2>
+<p class="text-body-md font-body-md text-on-surface-variant leading-relaxed">
+                        Experience premium living in the heart of Menteng. Kost Exclusive Menteng offers fully furnished, high-end private rooms designed for professionals and expatriates who value comfort, privacy, and convenience. 
+                        <br/><br/>
+                        Our property is meticulously maintained with daily cleaning services and round-the-clock security. Located just minutes away from major corporate offices, fine dining restaurants, and cultural landmarks, it provides the perfect balance of work and lifestyle in Jakarta.
+                    </p>
+<button class="text-primary font-label-md text-label-md mt-4 flex items-center gap-1 hover:underline">
+                        Read more <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+</button>
+</section>
+<!-- Facilities -->
+<section class="bg-surface-container-lowest p-stack-lg rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] border border-outline-variant/30">
+<h2 class="text-headline-sm font-headline-sm mb-4">Premium Facilities</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="flex flex-col items-center justify-center p-4 rounded-lg bg-surface-container-low gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">wifi</span>
+<span class="text-label-sm font-label-sm text-center">High-Speed WiFi</span>
+</div>
+<div class="flex flex-col items-center justify-center p-4 rounded-lg bg-surface-container-low gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">ac_unit</span>
+<span class="text-label-sm font-label-sm text-center">Air Conditioning</span>
+</div>
+<div class="flex flex-col items-center justify-center p-4 rounded-lg bg-surface-container-low gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">local_laundry_service</span>
+<span class="text-label-sm font-label-sm text-center">Laundry Service</span>
+</div>
+<div class="flex flex-col items-center justify-center p-4 rounded-lg bg-surface-container-low gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">local_parking</span>
+<span class="text-label-sm font-label-sm text-center">Secure Parking</span>
+</div>
+</div>
+<button class="mt-6 w-full py-3 rounded-lg border border-outline-variant text-label-md font-label-md hover:bg-surface-container transition-colors">
+                        Show all 32 amenities
+                    </button>
+</section>
+<!-- Room Selection -->
+<section class="bg-surface-container-lowest p-stack-lg rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] border border-outline-variant/30">
+<h2 class="text-headline-sm font-headline-sm mb-4">Available Room Types</h2>
+<div class="flex flex-col gap-4">
+<!-- Standard Room Card -->
+<div class="flex flex-col md:flex-row gap-4 p-4 border border-outline-variant/50 rounded-lg hover:shadow-[0_10px_25px_rgba(0,53,148,0.08)] transition-all bg-surface">
+<div class="w-full md:w-1/3 h-32 md:h-auto rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A standard single bedroom in a premium boarding house. The room is compact but efficiently designed, featuring a single bed, a small desk by the window, and a modern wardrobe. The lighting is bright and clean, emphasizing the pristine white and light wood decor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcXh39Lh-TOhrXJVGfGZTeVPJMUQXgJMxdhvATAOkJVAw3oZBg0_LqC8QKsZ5rAsTEak07KJpCypYaRBS4vD4LLGHQUAvcOAzhcssKICoZnwf1ywE-AmEgu9lwwbtb-vwVym5cFyGpOZU5v-VubVAOuOZnAUZN6AOJZk1OZ2qpaYhXV1of6PaDz0UzEYLhL1rbkVYgZJxAqlgmKjSxzSF8NMPvYyVzZ9GS6rCNVhra9TIA-SEFQdprGB8VJYdT-OxRODByxRSoiWE"/>
+</div>
+<div class="flex flex-col justify-between flex-grow">
+<div>
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-body-lg font-headline-sm font-bold">Standard Room</h3>
+<span class="bg-surface-variant text-primary-fixed-dim px-2 py-1 rounded text-label-sm font-label-sm">3 Left</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-2">3x4 meters • Single Bed • En-suite Bathroom</p>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined" style="font-size: 14px;">check</span> AC</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined" style="font-size: 14px;">check</span> WiFi</span>
+</div>
+</div>
+<div class="flex justify-between items-end mt-4">
+<div>
+<span class="text-headline-sm font-headline-sm text-primary font-bold">Rp 3.500.000</span><span class="text-body-sm text-on-surface-variant">/month</span>
+</div>
+<button class="px-4 py-2 bg-surface text-primary border border-primary rounded-lg text-label-md font-label-md hover:bg-surface-container transition-colors">Select</button>
+</div>
+</div>
+</div>
+<!-- Deluxe Room Card -->
+<div class="flex flex-col md:flex-row gap-4 p-4 border border-primary/50 rounded-lg shadow-[0_10px_25px_rgba(0,53,148,0.08)] bg-surface relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-primary text-on-primary px-3 py-1 text-label-sm font-label-sm rounded-bl-lg">Popular</div>
+<div class="w-full md:w-1/3 h-32 md:h-auto rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A spacious deluxe bedroom in a high-end rental property. The room features a queen-sized bed, a dedicated workspace, a comfortable reading chair, and large floor-to-ceiling windows. The aesthetic is luxurious and modern, with soft ambient lighting and a sophisticated color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRP402z0S4EL9jFGVL4VkrA4iWx2r-TH5hcQ3KEu2MKzO0GAQ_GhjA0WydI7hcY4Mr66XN11dNOhct9h8SsEkUbrfVQYuzprh7MKbFWv8R_lLY_AasmPhAt19_9FcwgGmHQ3ZmIvCSjlMpvcR1QrnY6-aEQDH4FURZFXRoNDhIHLGCyAocaGSJ3_oqF0tRNYnFDjoapzN0B814AONNVqLgiiOG8dVFeaNFzfBiz4xlrw1iPtTU6bi2KIZQTySIkAwXYYMuXUDvdhk"/>
+</div>
+<div class="flex flex-col justify-between flex-grow">
+<div>
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-body-lg font-headline-sm font-bold">Deluxe Room</h3>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-2">4x5 meters • Queen Bed • En-suite Bathroom • City View</p>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined" style="font-size: 14px;">check</span> Smart TV</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined" style="font-size: 14px;">check</span> Mini Fridge</span>
+</div>
+</div>
+<div class="flex justify-between items-end mt-4">
+<div>
+<span class="text-headline-sm font-headline-sm text-primary font-bold">Rp 5.000.000</span><span class="text-body-sm text-on-surface-variant">/month</span>
+</div>
+<button class="px-4 py-2 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:scale-102 transition-transform">Selected</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Reviews -->
+<section class="bg-surface-container-lowest p-stack-lg rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] border border-outline-variant/30">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-headline-sm font-headline-sm">Reviews</h2>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-headline-sm font-headline-sm font-bold">4.9</span>
+<span class="text-body-md text-on-surface-variant">(128)</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Review 1 -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A small, circular avatar portrait of a young professional in a modern urban setting. The lighting is bright and flattering, consistent with a clean, trustworthy digital platform identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTSXKzngriXKtUeDE_-nWGA2BlTrAyGZT5DUECaaqNEYPxao8i2qbjzm5PkK9c_B-7NNi_CITBmWut63Y47cIxqE9MzOcdKd9M2cMuK4RTOIEPFkM5n4n-_shKRhgSHGKX3qKQ6Z4sN3hbxWC1DmWz_Hj2d4GsnyT2NSuxMQdo9vONk1v_ZYtnzsUOjAR1Nr-GDLic7oViARhKRv8Et7xunp22n5LENvlgTJEkVPG3qpNauSk1zBaCr3MWeeXkFh3371XjjXbk-Xs"/>
+</div>
+<div>
+<div class="text-label-md font-label-md font-bold">Budi Santoso</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">Oct 2023</div>
+</div>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                                Clean, quiet, and very strategic location. The management is responsive and the internet speed is surprisingly good for a kost. Highly recommended for young professionals.
+                            </p>
+</div>
+<!-- Review 2 -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A small, circular avatar portrait of a young professional in a modern urban setting. The lighting is bright and flattering, consistent with a clean, trustworthy digital platform identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7tWqlPCc2G8Z6KmGErlGi5jrBX18GbrLrFBDAGV5vh-nx2QedTy9nMb0oHPZLmLuQQVgQZi5PQiYDIm1PG_1yOsqMr4ljyEWMTsifef03FPlJFek-FEPK3_TX3wcvyRq_yrgD9Ie3CbSwFTk2AneDbYh45WZVxbcFifzYoB_DZhQ1iJdagBEvt4dsWJTMMxdNMLZho1VzccHVzf4rkt2cgRg9fxD1E6zfV8ojnoFU84tAz1D7Wmtb-BWCJXL_fCLwdm110hyXyXg"/>
+</div>
+<div>
+<div class="text-label-md font-label-md font-bold">Siti Aminah</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">Sep 2023</div>
+</div>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                                Love the deluxe room! The view is nice and the room feels spacious. Laundry service is prompt and reliable.
+                            </p>
+</div>
+</div>
+<button class="mt-6 px-6 py-2 rounded-lg border border-outline-variant text-label-md font-label-md hover:bg-surface-container transition-colors">
+                        Show all 128 reviews
+                    </button>
+</section>
+</div>
+<!-- Sticky Booking Sidebar -->
+<div class="lg:col-span-1">
+<div class="sticky top-24 bg-surface-container-lowest p-stack-lg rounded-xl shadow-[0_20px_50px_rgba(0,53,148,0.1)] border border-outline-variant/30 flex flex-col gap-6">
+<div>
+<div class="text-headline-md font-headline-md font-bold text-primary mb-1">Rp 5.000.000 <span class="text-body-sm text-on-surface-variant font-normal">/month</span></div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">Deluxe Room Selected</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center p-3 border border-outline-variant rounded-lg cursor-pointer hover:border-primary">
+<div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">Move-in Date</div>
+<div class="text-label-md font-label-md">15 Nov 2023</div>
+</div>
+<span class="material-symbols-outlined">calendar_today</span>
+</div>
+<div class="flex justify-between items-center p-3 border border-outline-variant rounded-lg cursor-pointer hover:border-primary">
+<div>
+<div class="text-label-sm font-label-sm text-on-surface-variant">Duration</div>
+<div class="text-label-md font-label-md">6 Months</div>
+</div>
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-2 pt-4 border-t border-outline-variant/30">
+<div class="flex justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Rp 5.000.000 x 6 months</span>
+<span>Rp 30.000.000</span>
+</div>
+<div class="flex justify-between text-body-sm font-body-sm">
+<span class="text-on-surface-variant underline">Service Fee</span>
+<span>Rp 500.000</span>
+</div>
+<div class="flex justify-between text-label-md font-label-md font-bold pt-2 mt-2 border-t border-outline-variant/30">
+<span>Total Due</span>
+<span class="text-primary">Rp 30.500.000</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full py-3 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:scale-102 transition-transform duration-200 shadow-md">
+                            Booking Sekarang
+                        </button>
+<button class="w-full py-3 bg-surface text-primary border border-primary rounded-lg text-label-md font-label-md hover:bg-surface-container transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">chat</span>
+                            Chat Owner
+                        </button>
+</div>
+<div class="text-center text-label-sm font-label-sm text-on-surface-variant">
+                        You won't be charged yet.
+                    </div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-stack-lg px-margin-desktop mt-auto bg-surface-container-lowest border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="text-headline-sm font-headline-sm font-bold text-primary">KostFind</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">About Us</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Partner with Us</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Help Center</a>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant">
+            © 2024 KostFind Indonesia. All rights reserved.
+        </div>
+</footer>
+</body></html>

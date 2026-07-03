@@ -1,8 +1,7 @@
 import React, { useState, useMemo, useCallback, Suspense } from 'react';
 import type { Property, Room } from '../types';
-import { Search, MapPin, Heart, SlidersHorizontal, X, Map as MapIcon } from 'lucide-react';
-import { useSettings } from '../hooks/useSettings';
 import { MapboxMapView } from './MapboxMapView';
+import { Loader2 } from 'lucide-react';
 
 interface SearchPageProps {
   properties: Property[];
@@ -17,50 +16,29 @@ interface SearchPageProps {
 export const SearchPage: React.FC<SearchPageProps> = ({
   properties,
   rooms,
-  watchlist,
-  onToggleWatchlist,
   onSelectProperty,
   initialCity = '',
   initialQuery = '',
 }) => {
-  const { settings } = useSettings();
   const [query, setQuery] = useState(initialQuery);
   const [selectedCity, setSelectedCity] = useState(initialCity);
-  const [selectedType, setSelectedType] = useState('');
-  const [maxPrice, setMaxPrice] = useState(5000000);
-  const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
   const [hoveredPropertyId, setHoveredPropertyId] = useState<string | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const toggleFacility = (fac: string) => {
-    setSelectedFacilities((prev) =>
-      prev.includes(fac) ? prev.filter((f) => f !== fac) : [...prev, fac]
-    );
-  };
-
-  // Memoized room lookup to avoid recreating function on each render
   const getPropertyRooms = useCallback((propId: string) => {
     return rooms.filter((r) => r.property_id === propId);
   }, [rooms]);
 
-  // Filter listings based on selections - memoized to prevent recalc on every render
   const filteredProperties = useMemo(() => {
     return properties.filter((p) => {
-      const propRooms = getPropertyRooms(p.id);
-      const lowestPrice = propRooms.length > 0 ? Math.min(...propRooms.map((r) => r.price_monthly)) : 0;
-
       const matchesQuery = p.name.toLowerCase().includes(query.toLowerCase()) ||
                            p.location.address.toLowerCase().includes(query.toLowerCase());
       const matchesCity = selectedCity ? p.location.city === selectedCity : true;
-      const matchesType = selectedType ? p.type === selectedType : true;
-      const matchesPrice = lowestPrice <= maxPrice;
-      const matchesFacilities = selectedFacilities.every((fac) => p.facilities.includes(fac));
 
-      return matchesQuery && matchesCity && matchesType && matchesPrice && matchesFacilities;
+      return matchesQuery && matchesCity;
     });
-  }, [properties, query, selectedCity, selectedType, maxPrice, selectedFacilities, getPropertyRooms]);
+  }, [properties, query, selectedCity]);
 
-  // Memoized property list for Mapbox - only recomputes when filtered data changes
   const propertyMarkers = useMemo(() => {
     return filteredProperties.map((p) => ({
       property: p,
@@ -68,292 +46,141 @@ export const SearchPage: React.FC<SearchPageProps> = ({
     }));
   }, [filteredProperties, getPropertyRooms]);
 
+  const formatPrice = (price: number) => {
+    if (price >= 1000000) {
+      return `Rp ${(price / 1000000).toFixed(1)}M`;
+    }
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
+  };
+
   return (
-    <div className="flex h-[calc(100vh-64px)] overflow-hidden relative">
-      
+    <div className="flex h-[calc(100vh-64px)] overflow-hidden">
       {/* Mobile Filter Backdrop */}
       {isFilterOpen && (
-        <div 
-          className="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-40 md:hidden"
+        <div
+          className="fixed inset-0 bg-on-surface/40 backdrop-blur-sm z-40 md:hidden"
           onClick={() => setIsFilterOpen(false)}
         />
       )}
-      
-      {/* 1. Left Sidebar - Filters */}
-      <aside className={`
-        fixed inset-y-0 left-0 z-50 w-80 bg-white p-6 border-r border-slate-200/80 overflow-y-auto flex-shrink-0 transition-transform duration-300 ease-in-out
-        ${isFilterOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}
-        md:relative md:translate-x-0 md:flex md:flex-col md:w-80 md:z-30
-      `}>
-        
-        {/* Header Title */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2 text-left">
-            <div className="p-2.5 bg-[var(--primary-50)]] text-[var(--primary-600)]] rounded-2xl">
-              <SlidersHorizontal className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="text-base font-black text-slate-900 leading-tight">Filter Pencarian</h2>
-              <p className="text-[10px] text-slate-400">Temukan kost terverifikasi</p>
-            </div>
-          </div>
-          <button 
-            onClick={() => setIsFilterOpen(false)}
-            className="md:hidden p-2 hover:bg-slate-100 rounded-xl text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
 
-        {/* City Filter */}
-        <div className="mb-6 text-left space-y-1.5">
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">Kota</label>
-          <select 
-            value={selectedCity} 
-            onChange={(e) => setSelectedCity(e.target.value)}
-            className="w-full rounded-xl border-slate-200 text-xs font-semibold text-slate-700 bg-white focus:ring-4 focus:ring-[var(--primary-500)]]/10 focus:border-[var(--primary-500)]] outline-none transition-all py-2.5 px-3"
-          >
-            <option value="">Semua Kota</option>
-            {settings.cities.map((city) => (
-              <option key={city} value={city}>{city}</option>
-            ))}
-          </select>
-        </div>
-
-        {/* Tipe Properti */}
-        <div className="mb-6 text-left space-y-1.5">
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">Tipe Kost</label>
-          <select 
-            value={selectedType} 
-            onChange={(e) => setSelectedType(e.target.value)}
-            className="w-full rounded-xl border-slate-200 text-xs font-semibold text-slate-700 bg-white focus:ring-4 focus:ring-[var(--primary-500)]]/10 focus:border-[var(--primary-500)]] outline-none transition-all py-2.5 px-3"
-          >
-            <option value="">Semua Tipe</option>
-            <option value="kost_campur">Campur</option>
-            <option value="kost_putra">Putra</option>
-            <option value="kost_putri">Putri</option>
-          </select>
-        </div>
-
-        {/* Rentang Harga Slider */}
-        <div className="mb-6 text-left space-y-2">
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">Maksimum Sewa</label>
-          <div className="space-y-1">
-            <input 
-              type="range" 
-              min={500000} 
-              max={10000000} 
-              step={250000}
-              value={maxPrice} 
-              onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[var(--primary-600)]] focus:outline-none"
-            />
-            <div className="flex justify-between items-center text-[10px] font-bold text-slate-600">
-              <span>Rp 500rb</span>
-              <span className="text-[var(--primary-700)]] bg-[var(--primary-50)]] px-2 py-0.5 rounded">Maks: Rp {(maxPrice / 1000000).toFixed(1)}jt</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Fasilitas Grid Pills */}
-        <div className="mb-6 text-left space-y-2">
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">Fasilitas</label>
-          <div className="grid grid-cols-2 gap-2">
-            {['WiFi', 'AC', 'Parking', 'Bathroom', 'Security', 'Laundry'].map((fac) => {
-              const isChecked = selectedFacilities.includes(fac);
-              return (
-                <button
-                  key={fac}
-                  onClick={() => toggleFacility(fac)}
-                  className={`py-2 px-3 rounded-xl border text-[11px] font-semibold text-center transition-all cursor-pointer ${
-                    isChecked 
-                      ? 'border-[var(--primary-500)]] bg-[var(--primary-50)]]/50 text-[var(--primary-800)]] ring-2 ring-[var(--primary-500)]]/5' 
-                      : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
-                  }`}
-                >
-                  {fac}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <button 
-          onClick={() => {
-            setSelectedCity('');
-            setSelectedType('');
-            setMaxPrice(5000000);
-            setSelectedFacilities([]);
-          }}
-          className="w-full py-3 border border-slate-200 rounded-xl text-xs font-extrabold text-slate-500 hover:text-slate-800 hover:bg-slate-50 active:scale-98 transition-all duration-200 cursor-pointer"
-        >
-          Reset Filter
-        </button>
-      </aside>
-
-      {/* 2. Middle - Search Input & Listing Cards Grid */}
-      <main className="flex-1 bg-slate-50 p-4 sm:p-6 md:p-8 overflow-y-auto flex flex-col">
-        {/* Search header bar */}
-        <div className="flex gap-3 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-            <input
-              type="text"
-              placeholder="Mau ngekost di mana? Cari jalan, kota, atau nama kost..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-slate-200/80 bg-white text-xs font-medium focus:ring-4 focus:ring-[var(--primary-500)]]/5 focus:border-[var(--primary-500)]] shadow-sm transition-all outline-none"
-            />
-          </div>
-          <button
-            onClick={() => setIsFilterOpen(true)}
-            className="md:hidden flex items-center justify-center p-3 bg-white border border-slate-200 rounded-2xl text-slate-600 hover:bg-slate-50 transition-colors shadow-sm cursor-pointer"
-          >
-            <SlidersHorizontal className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Results title */}
-        <div className="flex justify-between items-center mb-6 text-left">
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-            Menampilkan <span className="font-extrabold text-slate-800">{filteredProperties.length} kost</span> terbaik
+      {/* 1. Left Panel - Filters & Horizontal List (40%) */}
+      <section className="w-full md:w-[40%] h-full flex flex-col border-r border-outline-variant bg-surface-bright relative z-10">
+        {/* Filters Header */}
+        <div className="px-margin-desktop py-stack-md border-b border-outline-variant bg-surface-bright sticky top-0 z-20">
+          <h1 className="font-headline-sm font-headline-sm mb-stack-sm text-on-surface">
+            {selectedCity || 'Semua Lokasi'}
+          </h1>
+          <p className="text-body-sm text-body-sm text-on-surface-variant mb-stack-md">
+            {filteredProperties.length} kost ditemukan
           </p>
-        </div>
 
-        {/* Grid Feed */}
-        {filteredProperties.length === 0 ? (
-          <div className="py-20 flex flex-col items-center justify-center text-center">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-              <Search className="w-7 h-7 text-slate-300" />
-            </div>
-            <p className="text-sm font-bold text-slate-700 mb-1">Tidak ada kost yang cocok</p>
-            <p className="text-xs text-slate-400">Coba ubah filter kota, harga, atau kata kunci pencarian Anda.</p>
+          {/* Filter Chips - Reference Style */}
+          <div className="flex items-center gap-stack-sm overflow-x-auto pb-2 -mx-margin-desktop px-margin-desktop no-scrollbar">
+            <button
+              onClick={() => setIsFilterOpen(true)}
+              className="flex items-center gap-2 px-4 py-1.5 bg-surface-container-lowest border border-outline-variant rounded-full text-label-sm whitespace-nowrap hover:border-primary transition-colors cursor-pointer"
+            >
+              Semua Harga <span className="material-symbols-outlined text-base">expand_more</span>
+            </button>
+            <button
+              onClick={() => setSelectedCity(selectedCity === 'Jakarta' ? '' : 'Jakarta')}
+              className={`flex items-center gap-2 px-4 py-1.5 bg-surface-container-lowest border rounded-full text-label-sm whitespace-nowrap transition-colors cursor-pointer ${
+                selectedCity === 'Jakarta' ? 'border-primary text-primary' : 'border-outline-variant hover:border-primary'
+              }`}
+            >
+              {selectedCity || 'Jakarta'}
+            </button>
+            <button
+              onClick={() => setIsFilterOpen(true)}
+              className="flex items-center gap-2 px-4 py-1.5 bg-surface-container-lowest border border-outline-variant rounded-full text-label-sm whitespace-nowrap hover:border-primary transition-colors cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-base">tune</span> Filters
+            </button>
           </div>
-        ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-6">
-          {filteredProperties.map((p) => {
-            const propRooms = getPropertyRooms(p.id);
-            const total = propRooms.length;
-            const available = propRooms.filter((r) => r.status === 'available').length;
-            const isWatched = watchlist.includes(p.id);
-
-            const lowestPrice = total > 0 ? Math.min(...propRooms.map((r) => r.price_monthly)) : 0;
-            const formatPrice = (price: number) => {
-              return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
-            };
-
-            const isHovered = hoveredPropertyId === p.id;
-
-            return (
-              <div 
-                key={p.id} 
-                onClick={() => onSelectProperty(p.id)}
-                onMouseEnter={() => setHoveredPropertyId(p.id)}
-                onMouseLeave={() => setHoveredPropertyId(null)}
-                className={`bg-white rounded-[28px] overflow-hidden border transition-all duration-300 cursor-pointer group flex flex-col relative ${
-                  isHovered ? 'border-[var(--primary-500)]] shadow-xl shadow-slate-100/60 y-[-4px]' : 'border-slate-200/80 shadow-sm'
-                }`}
-              >
-                {/* Image & badging */}
-                <div className="relative aspect-[4/3] bg-slate-100 overflow-hidden">
-                  <img 
-                    src={p.media[0]?.url_medium} 
-                    alt={p.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                  />
-                  
-                  {/* Verified badge */}
-                  <div className="absolute top-4 left-4">
-                    <span className="flex items-center gap-1.5 bg-white/95 text-slate-800 text-[10px] font-bold py-1.5 px-3 rounded-full border border-slate-200 shadow-sm">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--primary-400)]] opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--primary-500)]]"></span>
-                      </span>
-                      GPS Terverifikasi
-                    </span>
-                  </div>
-
-                  {/* Watchlist toggle */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onToggleWatchlist(p.id);
-                    }}
-                    className="absolute top-4 right-4 p-2.5 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200/50 text-slate-400 hover:text-red-500 shadow-md transition-all active:scale-95 z-20"
-                  >
-                    <Heart className={`w-4 h-4 ${isWatched ? 'fill-red-500 text-red-500' : ''}`} />
-                  </button>
-
-                  {/* Available count label */}
-                  <div className="absolute bottom-4 right-4">
-                    <span className={`text-[10px] font-extrabold px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm ${
-                      available > 0 ? 'bg-white/90 text-[var(--primary-800)]]' : 'bg-red-50 text-red-700'
-                    }`}>
-                      {available === 0 ? 'Penuh' : `Sisa ${available} Kamar`}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content info */}
-                <div className="p-6 flex-1 flex flex-col text-left justify-between space-y-4">
-                  <div className="space-y-2">
-                    <span className={`inline-block text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded ${
-                      p.type === 'kost_campur' 
-                        ? 'bg-[var(--primary-50)]] text-[var(--primary-800)]]' 
-                        : p.type === 'kost_putra' 
-                          ? 'bg-blue-50 text-blue-800' 
-                          : 'bg-pink-50 text-pink-800'
-                    }`}>
-                      {p.type === 'kost_campur' ? 'Campur' : p.type === 'kost_putra' ? 'Putra' : 'Putri'}
-                    </span>
-
-                    <h3 className="text-base font-extrabold text-slate-800 group-hover:text-[var(--primary-600)]] transition-colors line-clamp-1">{p.name}</h3>
-                    
-                    <div className="flex items-center gap-1 text-slate-400 text-xs">
-                      <MapPin className="w-3.5 h-3.5 text-slate-300 flex-shrink-0" />
-                      <span className="truncate">{p.location.address}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap gap-1.5">
-                    {p.facilities.slice(0, 3).map((f) => (
-                      <span key={f} className="text-[10px] font-semibold text-slate-500 bg-slate-50 border border-slate-200/50 py-1 px-2.5 rounded-lg">
-                        {f}
-                      </span>
-                    ))}
-                    {p.facilities.length > 3 && (
-                      <span className="text-[10px] font-bold text-[var(--primary-600)]] bg-[var(--primary-50)]] py-1 px-2.5 rounded-lg">
-                        +{p.facilities.length - 3} Lainnya
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="border-t border-slate-100 pt-4 mt-auto flex justify-between items-center">
-                    <div className="flex items-baseline">
-                      <span className="text-lg font-black text-slate-900">{formatPrice(lowestPrice)}</span>
-                      <span className="text-slate-400 text-xs ml-0.5">/bln</span>
-                    </div>
-                    <span className="text-xs font-extrabold text-[var(--primary-600)]] group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
-                      Detail Kost &rarr;
-                    </span>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
         </div>
-        )}
-      </main>
 
-      {/* 3. Right Panel - Mapbox Map (Lazy loaded) */}
-      <section className="w-96 border-l border-slate-200/80 overflow-hidden flex-shrink-0 relative hidden lg:flex flex-col">
-        <Suspense fallback={
-          <div className="h-full w-full bg-slate-100 flex items-center justify-center">
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-                <MapIcon className="w-8 h-8 text-slate-400" />
+        {/* Horizontal Scroll Listing Cards - Reference Style */}
+        <div className="flex-1 overflow-y-auto px-margin-desktop py-stack-lg flex flex-col gap-stack-lg bg-surface hide-scrollbar">
+          {filteredProperties.length === 0 ? (
+            <div className="py-20 flex flex-col items-center justify-center text-center">
+              <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-4">
+                <span className="material-symbols-outlined text-3xl text-outline">search_off</span>
               </div>
-              <p className="text-sm font-semibold text-slate-500">Memuat peta...</p>
+              <p className="text-body-md font-semibold text-on-surface mb-2">Tidak ada kost yang cocok</p>
+              <p className="text-body-sm text-outline">Coba ubah filter atau kata kunci pencarian.</p>
+            </div>
+          ) : (
+            filteredProperties.map((p) => {
+              const propRooms = getPropertyRooms(p.id);
+              const lowestPrice = propRooms.length > 0 ? Math.min(...propRooms.map((r) => r.price_monthly)) : 0;
+
+              return (
+                <article
+                  key={p.id}
+                  onClick={() => onSelectProperty(p.id)}
+                  onMouseEnter={() => setHoveredPropertyId(p.id)}
+                  onMouseLeave={() => setHoveredPropertyId(null)}
+                  className={`bg-surface-container-lowest rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_25px_rgba(0,0,0,0.1)] transition-all duration-300 overflow-hidden group cursor-pointer border border-transparent hover:border-primary/20`}
+                >
+                  {/* Card Image - Reference Style */}
+                  <div className="relative h-48 w-full overflow-hidden">
+                    <img
+                      src={p.media[0]?.url_medium || 'https://via.placeholder.com/400x300'}
+                      alt={p.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+
+                    {/* Verified Badge - Reference Style */}
+                    <div className="absolute top-3 left-3 bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[10px] font-label-md font-bold uppercase tracking-wider flex items-center gap-1">
+                      <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span> Verified
+                    </div>
+
+                    {/* Rating Badge - Reference Style */}
+                    <div className="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur-sm text-on-surface px-2 py-1 rounded-lg text-label-sm flex items-center gap-1 shadow-sm">
+                      <span className="material-symbols-outlined text-sm text-yellow-500" style={{ fontVariationSettings: "'FILL' 1" }}>star</span> 4.9
+                    </div>
+                  </div>
+
+                  {/* Card Content - Reference Style */}
+                  <div className="p-stack-md flex flex-col gap-stack-sm">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h2 className="text-body-lg font-body-lg font-semibold text-on-surface line-clamp-1">{p.name}</h2>
+                        <div className="flex items-center gap-1 text-on-surface-variant text-body-sm mt-1">
+                          <span className="material-symbols-outlined text-base">location_on</span> {p.location.address}, {p.location.city}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Facilities Icons - Reference Style */}
+                    <div className="flex items-center gap-stack-md text-outline py-2">
+                      {p.facilities.slice(0, 4).map((f) => (
+                        <div key={f} className="flex items-center gap-1" title={f}>
+                          <span className="material-symbols-outlined text-base">{getFacilityIcon(f)}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Price - Reference Style */}
+                    <div className="mt-auto pt-2 border-t border-outline-variant flex justify-between items-end">
+                      <div className="text-label-sm text-on-surface-variant">per bulan</div>
+                      <div className="text-headline-sm text-primary font-bold">{formatPrice(lowestPrice)}</div>
+                    </div>
+                  </div>
+                </article>
+              );
+            })
+          )}
+        </div>
+      </section>
+
+      {/* 2. Right Panel - Mapbox Map (60%) - Reference Style */}
+      <section className="hidden md:flex w-[60%] h-full relative bg-surface-container-highest overflow-hidden flex-col">
+        <Suspense fallback={
+          <div className="h-full w-full bg-surface-container-highest flex items-center justify-center">
+            <div className="text-center p-6">
+              <Loader2 className="w-12 h-12 text-primary mx-auto mb-4 animate-spin" />
+              <p className="text-body-sm font-semibold text-on-surface-variant">Memuat peta...</p>
             </div>
           </div>
         }>
@@ -363,12 +190,37 @@ export const SearchPage: React.FC<SearchPageProps> = ({
             onSelectProperty={onSelectProperty}
             onHoverProperty={setHoveredPropertyId}
             selectedCity={selectedCity}
-            accessToken={import.meta.env.VITE_MAPBOX_TOKEN}
+            accessToken={import.meta.env.VITE_MAPBOX_TOKEN || ''}
           />
         </Suspense>
       </section>
 
+      {/* Mobile Search Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant p-margin-mobile py-3 md:hidden z-30">
+        <div className="relative">
+          <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline text-xl">search</span>
+          <input
+            type="text"
+            placeholder="Cari kost..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="w-full pl-12 pr-4 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest text-body-sm text-on-surface"
+          />
+        </div>
+      </div>
     </div>
   );
 };
 
+// Helper function to get icon name for facilities
+function getFacilityIcon(facility: string): string {
+  const icons: Record<string, string> = {
+    'WiFi': 'wifi',
+    'AC': 'ac_unit',
+    'Parking': 'local_parking',
+    'Bathroom': 'bathtub',
+    'Security': 'security',
+    'Laundry': 'local_laundry_service',
+  };
+  return icons[facility] || 'check_circle';
+}

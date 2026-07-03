@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KostFind - Search Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#4648d4",
+                        "on-tertiary-fixed": "#00201d",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#b8c8ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed": "#e1e0ff",
+                        "primary-container": "#004ac6",
+                        "secondary-container": "#6063ee",
+                        "primary": "#003594",
+                        "surface-dim": "#cbdbf5",
+                        "on-background": "#0b1c30",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c3c6d6",
+                        "primary-fixed": "#dbe1ff",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b4c5ff",
+                        "on-surface-variant": "#434654",
+                        "outline": "#737685",
+                        "on-surface": "#0b1c30",
+                        "surface-container": "#e5eeff",
+                        "surface-container-high": "#dce9ff",
+                        "surface": "#f8f9ff",
+                        "surface-container-low": "#eff4ff",
+                        "on-secondary-container": "#fffbff",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary": "#004640",
+                        "tertiary-container": "#006058",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "surface-bright": "#f8f9ff",
+                        "inverse-surface": "#213145",
+                        "surface-tint": "#1b55d0",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "tertiary-fixed": "#89f5e7",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-primary-fixed": "#00174b",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#07006c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#6fdcce",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "background": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "stack-lg": "24px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Custom scrollbar for listing panel */
+        .listing-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .listing-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .listing-scroll::-webkit-scrollbar-thumb {
+            background-color: #c3c6d6;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar (Shared Component) -->
+<header class="sticky top-0 z-50 flex justify-between items-center w-full px-margin-desktop py-4 bg-surface dark:bg-inverse-surface max-w-container-max mx-auto shadow-sm docked full-width top-0">
+<div class="flex items-center gap-stack-lg">
+<div class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">KostFind</div>
+<div class="relative hidden md:block w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-body-sm font-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Search locations..." type="text"/>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-stack-lg">
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 text-label-md font-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-colors scale-102 transition-transform duration-200" href="#">Discover</a>
+<a class="text-on-surface-variant dark:text-outline-variant text-label-md font-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-colors scale-102 transition-transform duration-200" href="#">Verified</a>
+<a class="text-on-surface-variant dark:text-outline-variant text-label-md font-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-colors scale-102 transition-transform duration-200" href="#">Offers</a>
+</nav>
+<div class="flex items-center gap-stack-md">
+<button class="hidden lg:flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hidden lg:flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<button class="bg-surface-container-lowest text-primary border border-primary px-4 py-2 rounded-lg text-label-md font-label-md hover:bg-surface-container-low transition-colors hidden md:block">List Property</button>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-label-md font-label-md hover:bg-primary-container transition-colors shadow-[0_2px_4px_rgba(0,0,0,0.05)]">Sign In</button>
+</div>
+</header>
+<!-- Main Content: Split Layout -->
+<main class="flex-1 flex overflow-hidden w-full max-w-container-max mx-auto bg-surface-bright">
+<!-- Left Panel: Filters & List (40%) -->
+<section class="w-full md:w-[40%] h-full flex flex-col border-r border-outline-variant bg-surface-bright relative z-10">
+<!-- Filters Header -->
+<div class="px-margin-desktop py-stack-md border-b border-outline-variant bg-surface-bright sticky top-0 z-20">
+<h1 class="text-headline-sm font-headline-sm mb-stack-sm text-on-surface">Properties in South Jakarta</h1>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-stack-md">24 verified properties found</p>
+<div class="flex items-center gap-stack-sm overflow-x-auto pb-2 -mx-margin-desktop px-margin-desktop no-scrollbar">
+<button class="flex items-center gap-2 px-4 py-1.5 bg-surface-container-lowest border border-outline-variant rounded-full text-label-sm font-label-sm whitespace-nowrap hover:border-primary transition-colors">
+                        Price Range <span class="material-symbols-outlined text-[16px]" data-icon="expand_more">expand_more</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-1.5 bg-surface-container-lowest border border-outline-variant rounded-full text-label-sm font-label-sm whitespace-nowrap hover:border-primary transition-colors">
+                        Gender: All <span class="material-symbols-outlined text-[16px]" data-icon="expand_more">expand_more</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-1.5 bg-surface-container-lowest border border-outline-variant rounded-full text-label-sm font-label-sm whitespace-nowrap hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="tune">tune</span> Filters
+                    </button>
+</div>
+</div>
+<!-- Listing Cards Scroll Area -->
+<div class="flex-1 overflow-y-auto listing-scroll px-margin-desktop py-stack-lg flex flex-col gap-stack-lg bg-surface">
+<!-- Card 1 -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_25px_rgba(0,0,0,0.1)] transition-all duration-300 overflow-hidden group cursor-pointer border border-transparent hover:border-primary/20">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="bg-cover bg-center w-full h-full group-hover:scale-105 transition-transform duration-500" data-alt="A modern, high-end bedroom in a luxury Indonesian kost. The room features a plush queen-sized bed with crisp white linens, a minimalist wooden desk, and a large window letting in bright, natural daylight. The walls are painted in a soft, clean white, complemented by warm wooden flooring. The atmosphere is serene, professional, and immaculately clean, reflecting a premium rental property standard." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA2eXj6PV0QXrVCQWo2_OA7GVc0AekIvwz2wAJS4BbagdzvwlgzKoXJh_PlWUl6OCfrRXp9Bw1R6GVQv7R64DIHb_YFWp9IbKG5lAjdiC2eJ3-27ZhcswBH9FcbVTeEmBjZSk6Yxe4vKGlr15R0t5Dt30ZadkEXncRglteQJqNqN9KOYhwQ6MhDxyxs1PYOEuKaewE7SqfiOI7xOCqQmDpjVlTkMc1RDrDT1aVY9y0PemOkHKLRcZqBYOCrinrHpfSqh_2gPcgNJSM')"></div>
+<div class="absolute top-3 left-3 bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[10px] font-label-md font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="verified" data-weight="fill">verified</span> Verified
+                        </div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur-sm text-on-surface px-2 py-1 rounded-lg text-label-sm font-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-yellow-500" data-icon="star" data-weight="fill">star</span> 4.9
+                        </div>
+</div>
+<div class="p-stack-md flex flex-col gap-stack-sm">
+<div class="flex justify-between items-start">
+<div>
+<h2 class="text-body-lg font-body-lg font-semibold text-on-surface line-clamp-1">The Grand Kemang Executive</h2>
+<div class="flex items-center gap-1 text-on-surface-variant text-body-sm font-body-sm mt-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span> Kemang, South Jakarta
+                                </div>
+</div>
+</div>
+<div class="flex items-center gap-stack-md text-outline py-2">
+<div class="flex items-center gap-1 text-label-sm font-label-sm" title="Air Conditioning">
+<span class="material-symbols-outlined text-[18px]" data-icon="ac_unit">ac_unit</span>
+</div>
+<div class="flex items-center gap-1 text-label-sm font-label-sm" title="High-Speed WiFi">
+<span class="material-symbols-outlined text-[18px]" data-icon="wifi">wifi</span>
+</div>
+<div class="flex items-center gap-1 text-label-sm font-label-sm" title="En-suite Bathroom">
+<span class="material-symbols-outlined text-[18px]" data-icon="shower">shower</span>
+</div>
+<div class="flex items-center gap-1 text-label-sm font-label-sm" title="Laundry Service">
+<span class="material-symbols-outlined text-[18px]" data-icon="local_laundry_service">local_laundry_service</span>
+</div>
+</div>
+<div class="mt-auto pt-2 border-t border-outline-variant flex justify-between items-end">
+<div class="text-label-sm font-label-sm text-on-surface-variant">Monthly</div>
+<div class="text-headline-sm font-headline-sm text-primary">Rp 4.5M</div>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_25px_rgba(0,0,0,0.1)] transition-all duration-300 overflow-hidden group cursor-pointer border border-transparent hover:border-primary/20">
+<div class="relative h-48 w-full overflow-hidden">
+<div class="bg-cover bg-center w-full h-full group-hover:scale-105 transition-transform duration-500" data-alt="A stylish, compact studio apartment interior suitable for a premium urban professional in Jakarta. The space features modern minimalist furniture, including a comfortable single bed, a sleek workspace by a floor-to-ceiling window, and subtle ambient lighting. The color palette is composed of cool grays, pristine whites, and warm oak accents. The mood is calm, efficient, and sophisticated." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB9YgvHo3bBEFP9VU-qPavJJmgAVuLp0nKEzstRZsa6ie9NNl2mkxG9e8cZu95_Ir1RxWbXTYGQ4r53fj_95n-CgUfrjnbBe7FjCLUZPT7rBDuAaOKLR98cizr3Gx12ye_X5DRxupE1iVuKkNzmtGf3UZ28pW9LrK-sIdnahiNFen4p6NgiOxE0yeBlqnssfO5CHx3LvGc_S8fEtonv8Gd-Q0VUqnPNU2-xDY6m6M_8xlIXRAcuXdzRpw7JGYgare0flG3tcWRLnmA')"></div>
+<div class="absolute top-3 left-3 bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-1 rounded text-[10px] font-label-md font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="verified" data-weight="fill">verified</span> Verified
+                        </div>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur-sm text-on-surface px-2 py-1 rounded-lg text-label-sm font-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-yellow-500" data-icon="star" data-weight="fill">star</span> 4.8
+                        </div>
+</div>
+<div class="p-stack-md flex flex-col gap-stack-sm">
+<div class="flex justify-between items-start">
+<div>
+<h2 class="text-body-lg font-body-lg font-semibold text-on-surface line-clamp-1">Senopati Suites Coliving</h2>
+<div class="flex items-center gap-1 text-on-surface-variant text-body-sm font-body-sm mt-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span> Senopati, South Jakarta
+                                </div>
+</div>
+</div>
+<div class="flex items-center gap-stack-md text-outline py-2">
+<div class="flex items-center gap-1 text-label-sm font-label-sm" title="Air Conditioning">
+<span class="material-symbols-outlined text-[18px]" data-icon="ac_unit">ac_unit</span>
+</div>
+<div class="flex items-center gap-1 text-label-sm font-label-sm" title="High-Speed WiFi">
+<span class="material-symbols-outlined text-[18px]" data-icon="wifi">wifi</span>
+</div>
+<div class="flex items-center gap-1 text-label-sm font-label-sm" title="Fitness Center">
+<span class="material-symbols-outlined text-[18px]" data-icon="fitness_center">fitness_center</span>
+</div>
+</div>
+<div class="mt-auto pt-2 border-t border-outline-variant flex justify-between items-end">
+<div class="text-label-sm font-label-sm text-on-surface-variant">Monthly</div>
+<div class="text-headline-sm font-headline-sm text-primary">Rp 6.2M</div>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- Right Panel: Interactive Map (60%) -->
+<section class="hidden md:block w-[60%] h-full relative bg-surface-container-highest">
+<!-- Simulated Map Background -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A clean, minimalist digital map interface showing the street layout of South Jakarta. The map style is similar to a premium ride-hailing or property app map, featuring soft gray roads, subtle blue water features, and pale green parks. The overall aesthetic is light-mode, uncluttered, and highly legible, serving as a functional background for interactive property markers." data-location="Jakarta" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAOQaZd5DSMZsoKozy4Gt6EKigh5H_RpTkAJmleUhesCF1KcGJtZbaR0Kv6637ap3CEyZbYrfeoZq-byiqn5aOZ3bX9oKG-FKwaBJkCSRrfpdkFmAl6ZQAWGtVda_4ISwakrsmx0qK07e5lMjS76OJqSEM5V3w9lFwCOOEqqqXLLBhFVRj35ASyo5fNQRYb-u7ZHJ03VQs-pkmWnWOdfjFQWSKo191tJ_Mv43kAfTaFixcoABTyBh3h-T193PApNt3idJb5ErKGCU4')"></div>
+<!-- Map Overlay Controls -->
+<div class="absolute top-stack-md right-stack-md flex flex-col gap-stack-sm z-10">
+<button class="w-10 h-10 bg-surface-container-lowest rounded-lg shadow-md flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<button class="w-10 h-10 bg-surface-container-lowest rounded-lg shadow-md flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="remove">remove</span>
+</button>
+<button class="w-10 h-10 bg-surface-container-lowest rounded-lg shadow-md flex items-center justify-center text-on-surface hover:text-primary transition-colors mt-2">
+<span class="material-symbols-outlined" data-icon="my_location">my_location</span>
+</button>
+</div>
+<!-- Map Markers (Simulated) -->
+<!-- Marker Active -->
+<div class="absolute top-[40%] left-[30%] z-20 group cursor-pointer transform -translate-x-1/2 -translate-y-1/2">
+<div class="bg-primary text-on-primary px-3 py-1.5 rounded-full font-label-md text-label-md shadow-lg border-2 border-surface-container-lowest relative z-10 scale-110">
+                    Rp 4.5M
+                </div>
+<div class="absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-primary z-0"></div>
+</div>
+<!-- Marker Inactive 1 -->
+<div class="absolute top-[25%] left-[55%] z-10 group cursor-pointer transform -translate-x-1/2 -translate-y-1/2 transition-transform hover:z-20 hover:scale-105">
+<div class="bg-surface-container-lowest text-primary px-3 py-1.5 rounded-full font-label-md text-label-md shadow-md border border-outline-variant relative z-10">
+                    Rp 6.2M
+                </div>
+</div>
+<!-- Marker Inactive 2 -->
+<div class="absolute top-[60%] left-[65%] z-10 group cursor-pointer transform -translate-x-1/2 -translate-y-1/2 transition-transform hover:z-20 hover:scale-105">
+<div class="bg-surface-container-lowest text-primary px-3 py-1.5 rounded-full font-label-md text-label-md shadow-md border border-outline-variant relative z-10">
+                    Rp 3.8M
+                </div>
+</div>
+<!-- Marker Inactive 3 -->
+<div class="absolute top-[75%] left-[40%] z-10 group cursor-pointer transform -translate-x-1/2 -translate-y-1/2 transition-transform hover:z-20 hover:scale-105">
+<div class="bg-surface-container-lowest text-primary px-3 py-1.5 rounded-full font-label-md text-label-md shadow-md border border-outline-variant relative z-10">
+                    Rp 5.1M
+                </div>
+</div>
+</section>
+</main>
+</body></html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KostFind - Mobile Search</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#00174b",
+                    "tertiary-container": "#006058",
+                    "inverse-primary": "#b4c5ff",
+                    "secondary": "#4648d4",
+                    "outline-variant": "#c3c6d6",
+                    "surface-container-high": "#dce9ff",
+                    "secondary-fixed-dim": "#c0c1ff",
+                    "primary": "#003594",
+                    "inverse-surface": "#213145",
+                    "surface-tint": "#1b55d0",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-surface-variant": "#434654",
+                    "surface-container-low": "#eff4ff",
+                    "surface-dim": "#cbdbf5",
+                    "on-tertiary-fixed-variant": "#005049",
+                    "on-background": "#0b1c30",
+                    "outline": "#737685",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-surface": "#0b1c30",
+                    "tertiary": "#004640",
+                    "surface-container": "#e5eeff",
+                    "surface": "#f8f9ff",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#dbe1ff",
+                    "primary-container": "#004ac6",
+                    "on-secondary-fixed": "#07006c",
+                    "background": "#f8f9ff",
+                    "on-tertiary-container": "#6fdcce",
+                    "on-primary-container": "#b8c8ff",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#e1e0ff",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed": "#89f5e7",
+                    "tertiary-fixed-dim": "#6bd8cb",
+                    "surface-variant": "#d3e4fe",
+                    "secondary-container": "#6063ee",
+                    "surface-bright": "#f8f9ff",
+                    "on-secondary-container": "#fffbff",
+                    "on-tertiary-fixed": "#00201d",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#2f2ebe",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px",
+                    "2xl": "1rem",
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "margin-desktop": "40px",
+                    "gutter": "24px",
+                    "margin-mobile": "20px",
+                    "stack-md": "16px",
+                    "stack-lg": "24px",
+                    "base": "4px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "display-lg-mobile": ["Plus Jakarta Sans"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-sm": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["30px", {"lineHeight": "38px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Custom styles for map integration simulation */
+        .map-bg {
+            background-color: #e5e9ea; /* Typical map base color */
+            background-image: 
+                radial-gradient(#d3dbdd 1px, transparent 1px),
+                radial-gradient(#d3dbdd 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+        
+        /* Hide scrollbar for horizontal list */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md h-screen w-full flex flex-col overflow-hidden relative selection:bg-primary/20">
+<!-- Background Map Layer -->
+<div class="absolute inset-0 z-0 map-bg" data-location="Jakarta Selatan" style="">
+<!-- Map Markers -->
+<button class="absolute top-[30%] left-[25%] bg-surface text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full shadow-md flex items-center gap-1 active:scale-95 transition-transform">
+<span>Rp 3.2M</span>
+</button>
+<button class="absolute top-[45%] left-[55%] bg-primary text-on-primary font-label-md text-label-md px-3 py-1.5 rounded-full shadow-[0_10px_25px_rgba(0,53,148,0.3)] flex items-center gap-1 z-10 scale-110 transition-transform">
+<span>Rp 4.5M</span>
+<div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-primary rotate-45"></div>
+</button>
+<button class="absolute top-[60%] left-[30%] bg-surface text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full shadow-md flex items-center gap-1 active:scale-95 transition-transform">
+<span>Rp 2.8M</span>
+</button>
+<button class="absolute top-[20%] left-[65%] bg-surface text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full shadow-md flex items-center gap-1 active:scale-95 transition-transform">
+<span>Rp 5.1M</span>
+</button>
+</div>
+<!-- Top Search Header -->
+<header class="absolute top-0 left-0 w-full z-40 px-margin-mobile py-4 bg-gradient-to-b from-surface/90 to-transparent pt-8">
+<div class="flex items-center gap-3 w-full">
+<!-- Back Button -->
+<button class="w-10 h-10 flex items-center justify-center bg-surface rounded-full shadow-sm text-on-surface border border-outline-variant/30 active:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<!-- Search Input -->
+<div class="flex-1 flex items-center bg-surface rounded-full shadow-sm border border-outline-variant/30 px-4 py-2 h-12 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
+<span class="material-symbols-outlined text-outline mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none outline-none w-full text-body-md font-body-md text-on-surface p-0 focus:ring-0 truncate" placeholder="Search location..." type="text" value="Jakarta Selatan"/>
+<button class="ml-2 w-6 h-6 flex items-center justify-center text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="close">close</span>
+</button>
+</div>
+<!-- Filter Button -->
+<button class="w-12 h-12 flex items-center justify-center bg-surface rounded-full shadow-sm text-primary border border-outline-variant/30 active:bg-surface-container transition-colors relative">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+<span class="absolute top-2 right-2 w-2.5 h-2.5 bg-error rounded-full border-2 border-surface"></span>
+</button>
+</div>
+<!-- Quick Filters -->
+<div class="flex items-center gap-2 mt-4 overflow-x-auto no-scrollbar pb-2">
+<button class="whitespace-nowrap px-4 py-1.5 bg-surface text-on-surface border border-outline-variant/50 rounded-full font-label-sm text-label-sm shadow-sm active:bg-surface-container transition-colors">Kost</button>
+<button class="whitespace-nowrap px-4 py-1.5 bg-primary/10 text-primary border border-primary/30 rounded-full font-label-sm text-label-sm font-semibold flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="check">check</span> Exclusive
+            </button>
+<button class="whitespace-nowrap px-4 py-1.5 bg-surface text-on-surface border border-outline-variant/50 rounded-full font-label-sm text-label-sm shadow-sm active:bg-surface-container transition-colors">Coliving</button>
+<button class="whitespace-nowrap px-4 py-1.5 bg-surface text-on-surface border border-outline-variant/50 rounded-full font-label-sm text-label-sm shadow-sm active:bg-surface-container transition-colors">&lt; Rp 4M</button>
+</div>
+</header>
+<!-- Bottom Sheet / Horizontal Card List -->
+<div class="absolute bottom-[88px] left-0 w-full z-30 pb-4">
+<!-- Floating Actions above cards -->
+<div class="flex justify-between items-end px-margin-mobile mb-4 pointer-events-none">
+<div class="pointer-events-auto">
+<button class="w-10 h-10 bg-surface rounded-full shadow-md flex items-center justify-center text-on-surface active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="my_location">my_location</span>
+</button>
+</div>
+<div class="pointer-events-auto">
+<button class="bg-surface text-primary font-label-md text-label-md px-4 py-2 rounded-full shadow-md flex items-center gap-2 active:scale-95 transition-transform border border-outline-variant/20">
+<span class="material-symbols-outlined text-[20px]" data-icon="format_list_bulleted">format_list_bulleted</span>
+                    List View
+                </button>
+</div>
+</div>
+<!-- Horizontal Scrolling Cards Container -->
+<div class="flex overflow-x-auto snap-x snap-mandatory px-margin-mobile gap-stack-md no-scrollbar">
+<!-- Active Property Card -->
+<div class="snap-center shrink-0 w-[85%] sm:w-[320px] bg-surface rounded-2xl shadow-[0_10px_25px_rgba(0,0,0,0.1)] border border-outline-variant/20 p-3 flex gap-3 cursor-pointer">
+<!-- Image -->
+<div class="relative w-[100px] h-[100px] shrink-0 rounded-lg overflow-hidden">
+<div class="w-full h-full bg-cover bg-center" data-alt="A high-end, luxury studio apartment interior in Jakarta. The room is flooded with natural light from floor-to-ceiling windows, highlighting sleek, minimalist modern furniture, warm wooden flooring, and a neutral color palette with subtle blue accents. The aesthetic is clean, professional, and inviting, reflecting a premium real estate listing." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuChMlyfRb3bjdEOsiDbSRmCZKH5eudo1eZ5L4LZlh6zfPZYnGNCHnjMCTSLUhtytQ9Et_1WmbHtZOA0mNqRjgHjrX2AA6FqxHm9bNnDWJxbkVYlyMsijtslmIToVVlH7p8RN3jE9uQWQUeB4bTVu7i703aqHGQBhomKdcFaQHwkcLRBO6pVQbZhufgRlR12-6arJF0VwmOibggFoJ7mXJ3CvDlTAwNlWfi2_FwvTN3Gn6_kxHSST93qD3XYdnLAh51bwxUjzXrqMYw')"></div>
+<button class="absolute top-1.5 right-1.5 w-7 h-7 bg-surface/80 backdrop-blur-sm rounded-full flex items-center justify-center text-outline">
+<span class="material-symbols-outlined text-[16px]" data-icon="favorite_border">favorite</span>
+</button>
+</div>
+<!-- Details -->
+<div class="flex flex-col justify-between py-0.5 flex-1 min-w-0">
+<div>
+<div class="flex items-start justify-between gap-1 mb-1">
+<h3 class="font-headline-sm text-[16px] leading-[22px] text-on-surface font-semibold truncate">KostFind Residence Kemang</h3>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant mb-1.5">
+<span class="material-symbols-outlined text-[14px]" data-icon="location_on">location_on</span>
+<span class="font-label-sm text-label-sm truncate">Jakarta Selatan</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-0.5 bg-surface-container-high text-primary px-1.5 py-0.5 rounded text-[10px] font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[12px]" data-icon="verified">verified</span> Verified
+                            </span>
+<div class="flex items-center gap-0.5 text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-[#F59E0B]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-[12px] font-bold">4.8</span>
+</div>
+</div>
+</div>
+<div>
+<p class="font-label-md text-[14px] text-primary font-bold">Rp 4.5M<span class="text-on-surface-variant font-normal text-[12px]">/mo</span></p>
+</div>
+</div>
+</div>
+<!-- Inactive Property Card (Peek) -->
+<div class="snap-center shrink-0 w-[85%] sm:w-[320px] bg-surface rounded-2xl shadow-sm border border-outline-variant/30 p-3 flex gap-3 opacity-90 scale-[0.98] cursor-pointer">
+<!-- Image -->
+<div class="relative w-[100px] h-[100px] shrink-0 rounded-lg overflow-hidden">
+<div class="w-full h-full bg-cover bg-center" data-alt="A beautifully designed modern coliving space communal area. Featuring plush, contemporary seating, a designer coffee table, and lush indoor plants. The lighting is soft and warm, creating a welcoming, high-quality atmosphere. The style is strictly modern corporate minimal, emphasizing cleanliness, trust, and premium urban living." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAz5H24_tnkO6A5qltDkeJAq78_B6ujjwQCYYQ1bn1DevdKX4EFMMWwZaI9Wtv3h9ZYqrk1SdhSzOB8Dfg7zIfvFAlvOE2wdFh-o7lTypJoF4_PzW_5R3tzPRqo8D_4fkzt4xqporvFW2U1oIj3vQKX2EPr2-dW_j9buvZxtuusagRf0tn1vH3niF9ynJUIz-P8_Fpdk0fz1Cja5U9gctzfQqtcTLzbRbJ7yJHHOzpVEYkFRGv-w6GBA9s9dAljIcoopCKtWtZlz0I')"></div>
+</div>
+<!-- Details -->
+<div class="flex flex-col justify-between py-0.5 flex-1 min-w-0">
+<div>
+<h3 class="font-headline-sm text-[16px] leading-[22px] text-on-surface font-semibold truncate mb-1">Cipete Executive Suites</h3>
+<div class="flex items-center gap-1 text-on-surface-variant mb-1.5">
+<span class="material-symbols-outlined text-[14px]" data-icon="location_on">location_on</span>
+<span class="font-label-sm text-label-sm truncate">Jakarta Selatan</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-0.5 bg-surface-container-high text-primary px-1.5 py-0.5 rounded text-[10px] font-semibold tracking-wide">
+<span class="material-symbols-outlined text-[12px]" data-icon="verified">verified</span> Verified
+                            </span>
+</div>
+</div>
+<div>
+<p class="font-label-md text-[14px] text-on-surface font-bold">Rp 3.2M<span class="text-on-surface-variant font-normal text-[12px]">/mo</span></p>
+</div>
+</div>
+</div>
+<!-- Spacer for last item scroll alignment -->
+<div class="snap-center shrink-0 w-4"></div>
+</div>
+</div>
+<!-- BottomNavBar (Shared Component implementation) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 md:hidden bg-surface shadow-[0_-2px_10px_rgba(0,0,0,0.05)] rounded-t-xl border-none">
+<!-- Active: Explore -->
+<a class="flex flex-col items-center justify-center text-primary font-bold scale-95 transition-transform w-[64px]" href="#">
+<div class="w-16 h-8 bg-surface-container rounded-full flex items-center justify-center mb-1">
+<span class="material-symbols-outlined" data-icon="search" style="font-variation-settings: 'FILL' 1;">search</span>
+</div>
+<span class="text-label-sm-mobile font-label-sm text-primary">Explore</span>
+</a>
+<!-- Inactive: Watchlist -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant scale-95 transition-transform hover:text-on-surface w-[64px]" href="#">
+<div class="w-16 h-8 flex items-center justify-center mb-1">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</div>
+<span class="text-label-sm-mobile font-label-sm">Watchlist</span>
+</a>
+<!-- Inactive: Inbox -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant scale-95 transition-transform hover:text-on-surface w-[64px] relative" href="#">
+<div class="w-16 h-8 flex items-center justify-center mb-1 relative">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+<!-- Notification dot indicator -->
+<span class="absolute top-1 right-4 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</div>
+<span class="text-label-sm-mobile font-label-sm">Inbox</span>
+</a>
+<!-- Inactive: Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant scale-95 transition-transform hover:text-on-surface w-[64px]" href="#">
+<div class="w-16 h-8 flex items-center justify-center mb-1">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</div>
+<span class="text-label-sm-mobile font-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Map Pan Script (Cosmetic enhancement for preview) -->
+<script>
+        // Simple script to allow subtle dragging of the map background for a better prototype feel
+        const mapBg = document.querySelector('.map-bg');
+        let isDown = false;
+        let startX;
+        let startY;
+        let bgPosX = 0;
+        let bgPosY = 0;
+
+        mapBg.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - mapBg.offsetLeft;
+            startY = e.pageY - mapBg.offsetTop;
+            mapBg.style.cursor = 'grabbing';
+        });
+        mapBg.addEventListener('mouseleave', () => {
+            isDown = false;
+            mapBg.style.cursor = 'grab';
+        });
+        mapBg.addEventListener('mouseup', () => {
+            isDown = false;
+            mapBg.style.cursor = 'grab';
+        });
+        mapBg.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - mapBg.offsetLeft;
+            const y = e.pageY - mapBg.offsetTop;
+            const walkX = (x - startX) * 1; 
+            const walkY = (y - startY) * 1;
+            
+            bgPosX += walkX;
+            bgPosY += walkY;
+            
+            mapBg.style.backgroundPosition = `${bgPosX}px ${bgPosY}px, ${bgPosX + 20}px ${bgPosY + 20}px`;
+            
+            startX = x;
+            startY = y;
+        });
+
+        // Touch support
+        mapBg.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - mapBg.offsetLeft;
+            startY = e.touches[0].pageY - mapBg.offsetTop;
+        });
+        mapBg.addEventListener('touchend', () => {
+            isDown = false;
+        });
+        mapBg.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX - mapBg.offsetLeft;
+            const y = e.touches[0].pageY - mapBg.offsetTop;
+            const walkX = (x - startX) * 1;
+            const walkY = (y - startY) * 1;
+            
+            bgPosX += walkX;
+            bgPosY += walkY;
+            
+            mapBg.style.backgroundPosition = `${bgPosX}px ${bgPosY}px, ${bgPosX + 20}px ${bgPosY + 20}px`;
+            
+            startX = x;
+            startY = y;
+        });
+    </script>
+</body></html>

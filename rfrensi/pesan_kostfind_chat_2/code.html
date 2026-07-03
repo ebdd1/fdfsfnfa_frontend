@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Inbox - Budi Santoso | KostPremium</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#b4c5ff",
+                    "outline-variant": "#c3c6d6",
+                    "on-tertiary-container": "#6fdcce",
+                    "on-tertiary-fixed": "#00201d",
+                    "tertiary-fixed": "#89f5e7",
+                    "primary": "#003594",
+                    "secondary": "#4648d4",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#eff4ff",
+                    "secondary-fixed-dim": "#c0c1ff",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "primary-container": "#004ac6",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#f8f9ff",
+                    "inverse-surface": "#213145",
+                    "surface-container-high": "#dce9ff",
+                    "surface-bright": "#f8f9ff",
+                    "inverse-primary": "#b4c5ff",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#eaf1ff",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#004640",
+                    "secondary-fixed": "#e1e0ff",
+                    "on-secondary-container": "#fffbff",
+                    "on-surface": "#0b1c30",
+                    "on-primary-container": "#b8c8ff",
+                    "on-secondary-fixed": "#07006c",
+                    "secondary-container": "#6063ee",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#cbdbf5",
+                    "outline": "#737685",
+                    "tertiary-container": "#006058",
+                    "surface-tint": "#1b55d0",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#dbe1ff",
+                    "background": "#f8f9ff",
+                    "on-primary-fixed": "#00174b",
+                    "on-secondary-fixed-variant": "#2f2ebe",
+                    "on-primary": "#ffffff",
+                    "on-background": "#0b1c30",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#e5eeff",
+                    "tertiary-fixed-dim": "#6bd8cb",
+                    "on-tertiary-fixed-variant": "#005049",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-surface-variant": "#434654",
+                    "surface-variant": "#d3e4fe"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "margin-mobile": "20px",
+                    "base": "4px",
+                    "stack-lg": "24px",
+                    "stack-sm": "8px",
+                    "margin-desktop": "40px",
+                    "gutter": "24px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "display-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["30px", {"lineHeight": "38px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { -webkit-tap-highlight-color: transparent; }
+        .message-bubble-received { border-radius: 16px 16px 16px 4px; }
+        .message-bubble-sent { border-radius: 16px 16px 4px 16px; }
+        .chat-container { height: calc(100dvh - 144px - 72px); } /* Header + Context + Bottom Nav padding */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d3e4fe; border-radius: 10px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body-md text-on-surface">
+<!-- Top AppBar (Mobile Navigation Logic) -->
+<header class="bg-surface sticky top-0 z-50 shadow-sm transition-colors w-full">
+<div class="flex justify-between items-center px-margin-mobile py-stack-sm w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-3">
+<button class="active:scale-95 duration-200 hover:bg-surface-container-low p-1 rounded-full">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<div class="flex items-center gap-2">
+<div class="relative">
+<img class="w-10 h-10 rounded-full border-2 border-surface-container-high object-cover" data-alt="A professional headshot of a middle-aged Indonesian man named Budi Santoso, wearing a neat polo shirt, smiling warmly against a blurred office background. The lighting is bright and airy, following a corporate modern aesthetic with soft shadows and clean lines. High-end portrait photography style, shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKRHvviPc56vKtL4vaZzoyASarvKKV9ec3W0AZG-x_61mLrsrT6n-oTP2_d2l6ob8WGFU2G4I5FLVb7Bh25m_t0aspzHHcnJO6YgIneOuesIqVHw-qp2GUZ-HDY9MgJ-kLuSHTgVsqFwpkZVjG4D8ag5lPJmgSRXpzI4jzVSEiXeO4ns8wpddm8_FUUI7nWPmDYVeiOTkzpyzKDurGz5XNTgeNEsgqNA-FwbBo4xTqM3L-kdbuCjDnhtbugIvUi8iLnxebeniJCbs"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-surface rounded-full"></span>
+</div>
+<div>
+<h1 class="font-headline-sm text-[16px] text-on-surface leading-tight">Budi Santoso</h1>
+<p class="font-label-sm text-label-sm-mobile text-green-600">Online</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="material-symbols-outlined text-on-surface-variant p-2 hover:bg-surface-container-low rounded-full transition-colors">call</button>
+<button class="material-symbols-outlined text-on-surface-variant p-2 hover:bg-surface-container-low rounded-full transition-colors">more_vert</button>
+</div>
+</div>
+</header>
+<main class="flex flex-col h-[calc(100dvh-132px)]"> <!-- Account for header and nav -->
+<!-- Property Context Mini-Card -->
+<div class="px-margin-mobile pt-stack-sm">
+<div class="bg-surface-container-lowest rounded-xl p-3 shadow-[0_2px_4px_rgba(0,0,0,0.05)] border border-surface-variant/30 flex items-center gap-3">
+<img class="w-16 h-16 rounded-lg object-cover" data-alt="Exterior shot of a luxury modern apartment building in Setiabudi, Jakarta. The architecture features clean white walls, glass balconies, and lush tropical landscaping under a bright clear morning sky. High-end real estate photography style, emphasizing pristine surfaces and minimalist aesthetic with primary blue accents in the sky." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9AkcjyKTIVoWn-OeaT5st0Hb2KyrYX16pNOOgVnnpD62w6m-UZLXlPO7vOrLggrXagQCsAf8hPQmxJz2fp5i0Hkx9gAx53V8rnI3-Zpp-Bu8OXmbOa7dg5th30ut2fJqPanCi1UM3vxRDEnQs08NGl4QYiEEvocbD9fXfbN9EeubWXDgRp_89YSlo_6-aed8cRkAhnop1e8iiL5oGwyrOETwI7uzhdqhpql2MB-xvLh0Kp-o13YPRt228jdLbzgGHtyyYtvbC3Qk"/>
+<div class="flex-1 min-w-0">
+<h2 class="font-label-md text-on-surface truncate">Kost Exclusive Setiabudi</h2>
+<p class="font-label-sm text-primary font-bold">Rp 4.500.000 <span class="font-normal text-on-surface-variant">/month</span></p>
+<button class="text-primary font-label-sm text-[12px] flex items-center gap-1 mt-1 hover:underline">
+                        View Details <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</button>
+</div>
+<button class="bg-surface-container-high p-2 rounded-lg text-primary material-symbols-outlined">info</button>
+</div>
+</div>
+<!-- Chat Area -->
+<div class="flex-1 overflow-y-auto px-margin-mobile py-stack-md space-y-stack-md flex flex-col">
+<!-- Date Divider -->
+<div class="flex justify-center my-stack-sm">
+<span class="bg-surface-container text-on-surface-variant text-[11px] px-3 py-1 rounded-full font-label-sm">Today</span>
+</div>
+<!-- Received Message -->
+<div class="flex flex-col items-start max-w-[85%]">
+<div class="bg-surface-container-highest text-on-surface-variant p-3 message-bubble-received font-body-md text-sm">
+                    Selamat siang. Apakah kamar Tipe A masih tersedia untuk bulan depan?
+                </div>
+<span class="text-[10px] text-outline mt-1 px-1">11:05 AM</span>
+</div>
+<!-- Sent Message -->
+<div class="flex flex-col items-end self-end max-w-[85%]">
+<div class="bg-primary text-on-primary p-3 message-bubble-sent font-body-md text-sm">
+                    Selamat siang, Pak Budi. Masih ada 2 unit lagi untuk Tipe A. Mau dijadwalkan survey unitnya?
+                </div>
+<div class="flex items-center gap-1 mt-1 px-1">
+<span class="text-[10px] text-outline">11:08 AM</span>
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">done_all</span>
+</div>
+</div>
+<!-- Received Message -->
+<div class="flex flex-col items-start max-w-[85%]">
+<div class="bg-surface-container-highest text-on-surface-variant p-3 message-bubble-received font-body-md text-sm">
+                    Boleh, besok jam 10 pagi apakah bisa? Saya ingin melihat fasilitas fitnessnya juga.
+                </div>
+<span class="text-[10px] text-outline mt-1 px-1">11:12 AM</span>
+</div>
+<!-- Sent Message (Typing State simulation) -->
+<div class="flex flex-col items-end self-end max-w-[85%]">
+<div class="bg-primary text-on-primary p-3 message-bubble-sent font-body-md text-sm shadow-sm">
+                    Tentu bisa. Saya siapkan kuncinya besok. Lokasi fitness ada di lantai rooftop ya Pak.
+                </div>
+<div class="flex items-center gap-1 mt-1 px-1">
+<span class="text-[10px] text-outline">11:15 AM</span>
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">done_all</span>
+</div>
+</div>
+</div>
+<!-- Input Area (Bottom Fixed above Nav) -->
+<div class="bg-surface px-margin-mobile py-stack-sm pb-stack-lg border-t border-surface-variant/20">
+<div class="flex items-center gap-2">
+<button class="bg-surface-container-high p-2 rounded-full text-on-surface-variant material-symbols-outlined active:scale-90 transition-transform">add</button>
+<div class="flex-1 relative flex items-center">
+<input class="w-full bg-surface-container-low border-none rounded-full py-2.5 px-4 pr-10 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-outline/70 font-body-md" placeholder="Type a message..." type="text"/>
+<button class="absolute right-3 text-on-surface-variant material-symbols-outlined text-[20px]">image</button>
+</div>
+<button class="bg-primary text-on-primary p-2.5 rounded-full flex items-center justify-center active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined text-[22px]">send</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface shadow-[0_-4px_12px_rgba(0,0,0,0.05)] rounded-t-xl">
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-sm text-label-sm-mobile">Explore</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-sm text-label-sm-mobile">Saved</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm-mobile">Bookings</span>
+</button>
+<!-- Active Tab: Inbox -->
+<button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mail</span>
+<span class="font-label-sm text-label-sm-mobile">Inbox</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant opacity-70 hover:opacity-100 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm-mobile">Account</span>
+</button>
+</nav>
+<script>
+        // Micro-interaction: Scroll to bottom of chat on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const chatArea = document.querySelector('.flex-1.overflow-y-auto');
+            chatArea.scrollTop = chatArea.scrollHeight;
+        });
+
+        // Simple input focus behavior
+        const inputField = document.querySelector('input');
+        inputField.addEventListener('focus', () => {
+            // Potential adjustment for keyboard on mobile if needed
+        });
+    </script>
+</body></html>

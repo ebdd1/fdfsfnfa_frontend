@@ -1,16 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
-import { useSettingsStore } from '../stores/settingsStore';
-import { LogoText } from './LogoText';
-import { Shield, User, LayoutDashboard, LogOut, Plus } from 'lucide-react';
+import { Shield, LayoutDashboard, LogOut, Plus, Menu } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuthStore();
-  const { settings } = useSettingsStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleMouseEnter = () => {
@@ -35,101 +33,112 @@ export const Navbar: React.FC = () => {
   }
 
   return (
-    <div className="w-full sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/50">
-      <header className="max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        
+    <header className="w-full top-0 sticky bg-surface dark:bg-surface-dim shadow-sm z-40 transition-shadow duration-300">
+      {/* Full width navbar - no max-width constraint */}
+      <div className="w-full px-margin-mobile md:px-margin-desktop py-stack-sm flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2.5 cursor-pointer group">
-          {settings.logo_url ? (
-            <img
-              src={settings.logo_url}
-              alt={settings.site_name || 'Logo'}
-              className="h-9 w-auto object-contain rounded-xl"
-            />
-          ) : (
-            <LogoText />
-          )}
+        <Link to="/" className="flex items-center gap-2 cursor-pointer">
+          <span className="material-symbols-outlined text-primary font-bold text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+            domain
+          </span>
+          <h1 className="font-headline-md text-headline-md font-bold text-primary tracking-tight">
+            KostFind
+          </h1>
         </Link>
 
-        {/* Center Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8">
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-stack-lg">
           <Link
             to="/"
-            className={`text-[13px] font-bold transition-all duration-200 cursor-pointer ${
-              pathname === '/' ? 'text-slate-900' : 'text-slate-400 hover:text-slate-950'
+            className={`text-label-md font-label-md transition-colors ${
+              pathname === '/'
+                ? 'text-primary border-b-2 border-primary pb-1'
+                : 'text-on-surface-variant hover:text-primary'
             }`}
           >
-            Beranda
+            Discover
           </Link>
           <Link
             to="/search"
-            className={`text-[13px] font-bold transition-all duration-200 cursor-pointer ${
-              pathname.startsWith('/search') ? 'text-slate-900' : 'text-slate-400 hover:text-slate-950'
+            className={`text-label-md font-label-md transition-colors ${
+              pathname.startsWith('/search')
+                ? 'text-primary border-b-2 border-primary pb-1'
+                : 'text-on-surface-variant hover:text-primary'
             }`}
           >
-            Cari Kost
+            Verified
           </Link>
           <Link
-            to={isAuthenticated ? "/watchlist" : "/login"}
-            className={`text-[13px] font-bold transition-all duration-200 cursor-pointer ${
-              pathname.startsWith('/watchlist') ? 'text-slate-900' : 'text-slate-400 hover:text-slate-950'
+            to="/search?filter=promo"
+            className={`text-label-md font-label-md transition-colors ${
+              pathname === '/offers'
+                ? 'text-primary border-b-2 border-primary pb-1'
+                : 'text-on-surface-variant hover:text-primary'
             }`}
           >
-            Watchlist
-          </Link>
-          <Link
-            to={isAuthenticated ? "/chat" : "/login"}
-            className={`text-[13px] font-bold transition-all duration-200 cursor-pointer ${
-              pathname.startsWith('/chat') ? 'text-slate-900' : 'text-slate-400 hover:text-slate-950'
-            }`}
-          >
-            Pesan Masuk
+            Offers
           </Link>
         </nav>
 
         {/* Right Section */}
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-stack-md">
+          {/* Desktop Actions */}
           {isAuthenticated && user ? (
             <>
-              <div 
+              {/* Notifications */}
+              <Link
+                to="/chat"
+                className="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant relative"
+              >
+                <span className="material-symbols-outlined">notifications</span>
+                {/* Notification badge */}
+                <span className="absolute top-1 right-1 w-2 h-2 bg-error rounded-full" />
+              </Link>
+
+              {/* User Dropdown */}
+              <div
                 className="relative"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                <div className="w-9 h-9 rounded-xl bg-slate-200 overflow-hidden border border-slate-200 cursor-pointer flex-shrink-0 transition-transform active:scale-95 flex items-center justify-center text-slate-400">
+                <button className="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container hover:border-primary transition-colors cursor-pointer">
                   {user.avatar_url ? (
                     <img src={user.avatar_url} alt="Profile" className="w-full h-full object-cover" />
                   ) : (
-                    <User className="w-5 h-5" />
+                    <div className="w-full h-full bg-surface-container flex items-center justify-center text-on-surface-variant font-semibold text-sm">
+                      {user.name?.charAt(0).toUpperCase()}
+                    </div>
                   )}
-                </div>
-                
+                </button>
+
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-2.5 w-56 bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] py-2.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-3">
+                  <div className="absolute right-0 mt-3 w-64 bg-surface-container-lowest rounded-xl shadow-elevation-hover border border-surface-container overflow-hidden z-50 animate-slideUp">
+                    {/* User Info Header */}
+                    <div className="px-stack-md py-stack-md border-b border-surface-container-high flex items-center gap-3">
                       {user.avatar_url ? (
-                        <img src={user.avatar_url} alt={user.name} className="w-8 h-8 rounded-lg object-cover shrink-0" />
+                        <img src={user.avatar_url} alt={user.name} className="w-12 h-12 rounded-lg object-cover" />
                       ) : (
-                        <div className="w-8 h-8 rounded-lg bg-[var(--primary-50)] text-[var(--primary-600)] flex items-center justify-center font-bold text-sm shrink-0">
+                        <div className="w-12 h-12 rounded-lg bg-primary-fixed flex items-center justify-center text-primary font-bold text-lg">
                           {user.name?.charAt(0).toUpperCase()}
-                      </div>
+                        </div>
                       )}
-                      <div className="min-w-0">
-                        <p className="text-xs font-black text-slate-800 truncate leading-none">{user.name}</p>
-                        <p className="text-[10px] font-semibold text-slate-400 mt-1 uppercase tracking-wider leading-none">
+                      <div className="min-w-0 flex-1">
+                        <p className="font-label-md text-label-md font-semibold text-on-surface truncate">{user.name}</p>
+                        <p className="text-label-sm text-on-surface-variant capitalize">
                           {user.role === 'admin' ? 'Administrator' : user.role === 'owner' ? 'Pemilik Kost' : 'Pencari Kost'}
                         </p>
                       </div>
                     </div>
-                    
-                    <div className="mt-2 space-y-0.5">
+
+                    {/* Menu Items */}
+                    <div className="py-2">
                       {user.role === 'seeker' && (
                         <Link
                           to="/anda/home"
                           onClick={() => setDropdownOpen(false)}
-                          className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] transition-colors"
+                          className="flex items-center gap-3 px-stack-md py-2.5 text-body-sm text-on-surface hover:bg-surface-container-low transition-colors"
                         >
-                          <LayoutDashboard className="h-4 w-4 text-slate-400 group-hover:text-[var(--primary-600)] transition-colors" />
+                          <LayoutDashboard className="w-5 h-5 text-on-surface-variant" />
                           <span>Dasbor Saya</span>
                         </Link>
                       )}
@@ -138,9 +147,9 @@ export const Navbar: React.FC = () => {
                         <Link
                           to="/dashboard"
                           onClick={() => setDropdownOpen(false)}
-                          className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] transition-colors"
+                          className="flex items-center gap-3 px-stack-md py-2.5 text-body-sm text-on-surface hover:bg-surface-container-low transition-colors"
                         >
-                          <LayoutDashboard className="h-4 w-4 text-slate-400 group-hover:text-[var(--primary-600)] transition-colors" />
+                          <LayoutDashboard className="w-5 h-5 text-on-surface-variant" />
                           <span>Dasbor Pemilik</span>
                         </Link>
                       )}
@@ -149,23 +158,41 @@ export const Navbar: React.FC = () => {
                         <Link
                           to="/admin"
                           onClick={() => setDropdownOpen(false)}
-                          className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                          className="flex items-center gap-3 px-stack-md py-2.5 text-body-sm text-on-surface hover:bg-surface-container-low transition-colors"
                         >
-                          <Shield className="h-4 w-4 text-slate-400 group-hover:text-slate-900 transition-colors" />
+                          <Shield className="w-5 h-5 text-on-surface-variant" />
                           <span>Mode Admin</span>
                         </Link>
                       )}
-                      
-                      <hr className="border-slate-100 my-1 mx-2" />
-                      
+
+                      <Link
+                        to="/watchlist"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-3 px-stack-md py-2.5 text-body-sm text-on-surface hover:bg-surface-container-low transition-colors"
+                      >
+                        <span className="material-symbols-outlined text-on-surface-variant">bookmark</span>
+                        <span>Watchlist</span>
+                      </Link>
+
+                      <Link
+                        to="/chat"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-3 px-stack-md py-2.5 text-body-sm text-on-surface hover:bg-surface-container-low transition-colors"
+                      >
+                        <span className="material-symbols-outlined text-on-surface-variant">chat</span>
+                        <span>Pesan</span>
+                      </Link>
+
+                      {/* Logout */}
+                      <hr className="my-2 border-surface-container-high" />
                       <button
                         onClick={() => {
                           setDropdownOpen(false);
                           handleLogout();
                         }}
-                        className="group flex w-[calc(100%-16px)] mx-2 items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-red-500 hover:bg-rose-50 hover:text-red-700 transition-colors"
+                        className="flex items-center gap-3 px-stack-md py-2.5 text-body-sm text-error w-full hover:bg-error-container transition-colors"
                       >
-                        <LogOut className="h-4 w-4 text-rose-400 group-hover:text-red-650 transition-colors" />
+                        <LogOut className="w-5 h-5" />
                         <span>Keluar</span>
                       </button>
                     </div>
@@ -175,24 +202,92 @@ export const Navbar: React.FC = () => {
             </>
           ) : (
             <>
+              {/* Desktop Auth Buttons */}
               <Link
                 to="/login"
-                className="hidden sm:block text-xs font-bold text-slate-500 hover:text-slate-950 px-2 py-2 transition-colors cursor-pointer"
+                className="hidden md:block text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors px-stack-sm py-2"
               >
                 Masuk
               </Link>
               <Link
                 to="/register?role=owner"
-                className="border border-[var(--color-primary)] text-[var(--color-primary)] font-bold text-xs px-4 py-2.5 rounded-full hover:bg-[var(--color-primary)] hover:text-white transition-all duration-200 active:scale-95 cursor-pointer flex items-center gap-1.5"
+                className="hidden md:flex items-center gap-2 px-stack-md py-2.5 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:brightness-90 active:scale-[0.98] transition-all shadow-[0_4px_10px_rgba(0,53,148,0.2)]"
               >
-                <Plus className="w-3.5 h-3.5" />
+                <Plus className="w-4 h-4" />
                 Pasang Iklan
               </Link>
             </>
           )}
-        </div>
 
-      </header>
-    </div>
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-surface-container-low transition-colors"
+          >
+            {mobileMenuOpen ? (
+              <span className="material-symbols-outlined text-2xl">close</span>
+            ) : (
+              <Menu className="w-6 h-6 text-on-surface-variant" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 bg-surface border-t border-surface-container shadow-elevation-2 animate-slideUp">
+          <nav className="px-margin-mobile py-stack-md flex flex-col gap-2">
+            <Link
+              to="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
+                pathname === '/' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
+              }`}
+            >
+              Discover
+            </Link>
+            <Link
+              to="/search"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
+                pathname.startsWith('/search') ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
+              }`}
+            >
+              Verified
+            </Link>
+            <Link
+              to="/search?filter=promo"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
+                pathname === '/offers' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
+              }`}
+            >
+              Offers
+            </Link>
+
+            <hr className="border-surface-container-high my-2" />
+
+            {!isAuthenticated && (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-4 py-3 rounded-lg text-body-md font-label-md text-on-surface hover:bg-surface-container-low transition-colors text-center"
+                >
+                  Masuk
+                </Link>
+                <Link
+                  to="/register?role=owner"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-4 py-3 rounded-lg bg-primary text-on-primary text-body-md font-label-md text-center shadow-[0_4px_10px_rgba(0,53,148,0.2)]"
+                >
+                  Pasang Iklan
+                </Link>
+              </>
+            )}
+          </nav>
+        </div>
+      )}
+    </header>
   );
 };

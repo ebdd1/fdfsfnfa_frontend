@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { LandingPage } from '../components/LandingPage';
+import { Footer } from '../components/Footer';
 import { useProperties } from '../hooks/useProperties';
 
 /**
- * Route container for /. Feeds the landing page a small set of real featured
- * listings and wires its search CTAs to the /search route.
+ * Route container for /.
+ * Feeds real featured listings from API and wires search CTAs to /search route.
+ * Includes Footer for full page experience.
  */
 export const LandingPageContainer = () => {
   const navigate = useNavigate();
@@ -19,10 +21,14 @@ export const LandingPageContainer = () => {
   };
 
   return (
-    <LandingPage
-      featuredProperties={properties}
-      onStartSearching={goToSearch}
-      onSelectProperty={(id) => navigate(`/property/${id}`)}
-    />
+    <div className="min-h-screen flex flex-col">
+      <div className="flex-1">
+        <LandingPage
+          featuredProperties={properties}
+          onStartSearching={goToSearch}
+        />
+      </div>
+      <Footer />
+    </div>
   );
 };

@@ -2,151 +2,303 @@
 @config "../tailwind.config.js";
 
 /* ============================================
-   KOSTFIND DESIGN TOKENS — Dark Premium Theme
-   Midnight Black, Orange Accent, Premium Feel
+   KOSTFIND PREMIUM DESIGN SYSTEM
+   Based on stitch_kostfind_premium_marketplace_experience
+   Trust Blue Theme - Corporate Modern Minimalist
    ============================================ */
 
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
 :root {
-  /* Brand Primary (Mamikos Orange - tetap dipertahankan) */
-  --color-primary: #FF6B35;
-  --color-primary-hover: #E85A28;
-  --color-primary-light: #FFF4EF;
-  --color-primary-dark: #CC5529;
+  /* ============================================
+     SURFACE SYSTEM - Elevation Levels
+     ============================================ */
+  --surface-background: #f8f9ff;
+  --surface-default: #f8f9ff;
+  --surface-dim: #cbdbf5;
+  --surface-bright: #f8f9ff;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #eff4ff;
+  --surface-container: #e5eeff;
+  --surface-container-high: #dce9ff;
+  --surface-container-highest: #d3e4fe;
+  --surface-variant: #d3e4fe;
+  --surface-tint: #1b55d0;
 
-  /* Brand Success (Matcha - tetap untuk status indicators) */
-  --color-success: #10B981;
-  --color-success-light: rgba(16, 185, 129, 0.15);
+  /* ============================================
+     PRIMARY - Trust Blue
+     ============================================ */
+  --color-primary: #003594;
+  --color-primary-container: #004ac6;
+  --color-primary-fixed: #dbe1ff;
+  --color-primary-fixed-dim: #b4c5ff;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #b8c8ff;
+  --color-on-primary-fixed: #00174b;
+  --color-on-primary-fixed-variant: #003ea8;
 
-  /* Brand Warning (Amber) */
-  --color-warning: #F59E0B;
-  --color-warning-light: rgba(245, 158, 11, 0.15);
+  /* ============================================
+     SECONDARY - Sophisticated Indigo
+     ============================================ */
+  --color-secondary: #4648d4;
+  --color-secondary-container: #6063ee;
+  --color-secondary-fixed: #e1e0ff;
+  --color-secondary-fixed-dim: #c0c1ff;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #fffbff;
+  --color-on-secondary-fixed: #07006c;
+  --color-on-secondary-fixed-variant: #2f2ebe;
 
-  /* Brand Danger (Red) */
-  --color-danger: #EF4444;
-  --color-danger-light: rgba(239, 68, 68, 0.15);
+  /* ============================================
+     TERTIARY - Professional Green
+     ============================================ */
+  --color-tertiary: #004640;
+  --color-tertiary-container: #006058;
+  --color-tertiary-fixed: #89f5e7;
+  --color-tertiary-fixed-dim: #6bd8cb;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #6fdcce;
+  --color-on-tertiary-fixed: #00201d;
+  --color-on-tertiary-fixed-variant: #005049;
 
-  /* Dark Premium Text Scale */
-  --text-ink: #FAFAFA;
-  --text-body: #E5E5E5;
-  --text-muted: #A1A1AA;
-  --text-placeholder: #71717A;
+  /* ============================================
+     ON COLORS - Text on Surfaces
+     ============================================ */
+  --color-on-surface: #0b1c30;
+  --color-on-surface-variant: #434654;
+  --color-on-background: #0b1c30;
 
-  /* Dark Premium Background Scale */
-  --bg-canvas: #09090B;
-  --bg-elevated: #18181B;
-  --bg-card: #27272A;
-  --bg-card-hover: #3F3F46;
-  --bg-surface: #1C1C1E;
+  /* ============================================
+     INVERSE COLORS - Dark Surfaces
+     ============================================ */
+  --color-inverse-surface: #213145;
+  --color-inverse-on-surface: #eaf1ff;
+  --color-inverse-primary: #b4c5ff;
 
-  /* Borders */
-  --border-default: rgba(255, 255, 255, 0.1);
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-warm: rgba(255, 107, 53, 0.3);
+  /* ============================================
+     OUTLINE & BORDERS
+     ============================================ */
+  --color-outline: #737685;
+  --color-outline-variant: #c3c6d6;
 
-  /* Dark Premium Shadows */
-  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 4px 24px rgba(0, 0, 0, 0.4);
-  --shadow-elevated: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 24px rgba(255, 107, 53, 0.25);
+  /* ============================================
+     ERROR COLORS
+     ============================================ */
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #93000a;
 
-  /* Border Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* ============================================
+     SUCCESS (maps to tertiary)
+     ============================================ */
+  --color-success: #004640;
+  --color-success-light: rgba(0, 70, 64, 0.1);
+  --color-success-container: #89f5e7;
+
+  /* ============================================
+     WARNING
+     ============================================ */
+  --color-warning: #f59e0b;
+  --color-warning-light: rgba(245, 158, 11, 0.1);
+  --color-warning-container: #fef3c7;
+
+  /* ============================================
+     SHADOWS - Elevation with blue tint
+     ============================================ */
+  --shadow-elevation-1: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-elevation-2: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-elevation-3: 0 8px 16px rgba(0, 0, 0, 0.1);
+  --shadow-elevation-hover: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --shadow-elevation-modal: 0 20px 50px rgba(0, 0, 0, 0.15);
+  --shadow-card: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+  /* ============================================
+     BORDER RADIUS
+     ============================================ */
+  --radius-sm: 0.25rem;  /* 4px */
+  --radius-default: 0.5rem; /* 8px */
+  --radius-lg: 0.75rem;  /* 12px */
+  --radius-xl: 1rem;     /* 16px */
+  --radius-2xl: 1.5rem;  /* 24px */
   --radius-pill: 9999px;
 
-  /* Motion */
+  /* ============================================
+     SPACING
+     ============================================ */
+  --spacing-base: 4px;
+  --spacing-stack-sm: 8px;
+  --spacing-stack-md: 16px;
+  --spacing-stack-lg: 24px;
+  --spacing-gutter: 24px;
+  --spacing-margin-mobile: 20px;
+  --spacing-margin-desktop: 40px;
+  --spacing-container-max: 1280px;
+
+  /* ============================================
+     MOTION
+     ============================================ */
   --transition-fast: 0.2s ease;
   --transition-base: 0.3s ease;
 }
 
 /* ============================================
-   TAILWIND THEME EXTENSION — Dark Premium
+   TAILWIND THEME EXTENSION
    ============================================ */
 
 @theme {
-  /* Colors - Mamikos Orange palette (kept for brand) */
-  --color-primary: #FF6B35;
-  --color-primary-hover: #E85A28;
-  --color-primary-light: rgba(255, 107, 53, 0.15);
+  /* Primary */
+  --color-primary: #003594;
+  --color-primary-container: #004ac6;
+  --color-primary-fixed: #dbe1ff;
+  --color-primary-fixed-dim: #b4c5ff;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #b8c8ff;
+  --color-on-primary-fixed: #00174b;
+  --color-on-primary-fixed-variant: #003ea8;
 
-  --color-success: #10B981;
-  --color-success-light: rgba(16, 185, 129, 0.15);
+  /* Secondary */
+  --color-secondary: #4648d4;
+  --color-secondary-container: #6063ee;
+  --color-secondary-fixed: #e1e0ff;
+  --color-secondary-fixed-dim: #c0c1ff;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #fffbff;
+  --color-on-secondary-fixed: #07006c;
+  --color-on-secondary-fixed-variant: #2f2ebe;
 
-  --color-warning: #F59E0B;
-  --color-warning-light: rgba(245, 158, 11, 0.15);
+  /* Tertiary */
+  --color-tertiary: #004640;
+  --color-tertiary-container: #006058;
+  --color-tertiary-fixed: #89f5e7;
+  --color-tertiary-fixed-dim: #6bd8cb;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #6fdcce;
+  --color-on-tertiary-fixed: #00201d;
+  --color-on-tertiary-fixed-variant: #005049;
 
-  --color-danger: #EF4444;
-  --color-danger-light: rgba(239, 68, 68, 0.15);
+  /* Surface */
+  --color-surface: #f8f9ff;
+  --color-surface-dim: #cbdbf5;
+  --color-surface-bright: #f8f9ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #eff4ff;
+  --color-surface-container: #e5eeff;
+  --color-surface-container-high: #dce9ff;
+  --color-surface-container-highest: #d3e4fe;
+  --color-surface-variant: #d3e4fe;
+  --color-surface-tint: #1b55d0;
 
-  --color-info: #FF6B35;
-  --color-info-light: rgba(255, 107, 53, 0.15);
+  /* On */
+  --color-on-surface: #0b1c30;
+  --color-on-surface-variant: #434654;
+  --color-on-background: #0b1c30;
+  --color-on-primary: #ffffff;
+  --color-on-secondary: #ffffff;
+  --color-on-tertiary: #ffffff;
 
-  /* Dark Premium Text */
-  --text-ink: #FAFAFA;
-  --text-body: #E5E5E5;
-  --text-muted: #A1A1AA;
-  --text-placeholder: #71717A;
+  /* Inverse */
+  --color-inverse-surface: #213145;
+  --color-inverse-on-surface: #eaf1ff;
+  --color-inverse-primary: #b4c5ff;
 
-  /* Dark Premium Backgrounds */
-  --bg-canvas: #09090B;
-  --bg-elevated: #18181B;
-  --bg-card: #27272A;
-  --bg-card-hover: #3F3F46;
+  /* Outline */
+  --color-outline: #737685;
+  --color-outline-variant: #c3c6d6;
 
-  /* Dark Premium Borders */
-  --border-default: rgba(255, 255, 255, 0.1);
-  --border-subtle: rgba(255, 255, 255, 0.06);
+  /* Error */
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #93000a;
 
-  /* Border Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-pill: 9999px;
+  /* Background */
+  --color-background: #f8f9ff;
+  --color-on-background: #0b1c30;
+
+  /* Success */
+  --color-success: #004640;
+  --color-success-light: rgba(0, 70, 64, 0.1);
+  --color-success-container: #89f5e7;
+
+  /* Warning */
+  --color-warning: #f59e0b;
+  --color-warning-light: rgba(245, 158, 11, 0.1);
+  --color-warning-container: #fef3c7;
+
+  /* Font Families */
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-headline: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-label: 'Inter', sans-serif;
 }
 
 /* ============================================
-   BASE STYLES — Dark Premium
+   BASE STYLES - Premium Light Theme
    ============================================ */
 
 body {
   margin: 0;
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  background-color: var(--bg-canvas);
-  color: var(--text-body);
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--surface-background);
+  color: var(--color-on-surface);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+/* Typography defaults */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--color-on-surface);
 }
 
-/* Selection styling */
+/* ============================================
+   SELECTION STYLING
+   ============================================ */
+
 ::selection {
-  background-color: rgba(255, 107, 53, 0.3);
-  color: #FAFAFA;
+  background-color: var(--color-primary-fixed);
+  color: var(--color-on-primary-fixed);
 }
 
-/* Custom scrollbar for dark theme */
+/* ============================================
+   SCROLLBAR - Premium Light Theme
+   ============================================ */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #18181B;
+  background: var(--surface-container-low);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3F3F46;
+  background: var(--color-outline-variant);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #52525B;
+  background: var(--color-outline);
+}
+
+/* Thin scrollbar variant */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--color-outline-variant);
+  border-radius: 3px;
 }
 
 /* ============================================
@@ -155,17 +307,18 @@ html {
 
 .mapbox-popup-kostfind .mapboxgl-popup-content {
   padding: 0 !important;
-  border-radius: var(--radius-md) !important;
+  border-radius: var(--radius-lg) !important;
   overflow: hidden !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
-  border: 1px solid var(--border-default) !important;
+  box-shadow: var(--shadow-elevation-hover) !important;
+  border: 1px solid var(--color-outline-variant) !important;
+  background: var(--color-surface-container-lowest) !important;
 }
 
 .mapbox-popup-kostfind .mapboxgl-popup-close-button {
   font-size: 20px !important;
   padding: 4px 8px !important;
-  color: white !important;
-  background: rgba(0, 0, 0, 0.4) !important;
+  color: var(--color-on-surface) !important;
+  background: rgba(0, 0, 0, 0.05) !important;
   border-radius: 50% !important;
   right: 8px !important;
   top: 8px !important;
@@ -177,44 +330,22 @@ html {
 }
 
 .mapbox-popup-kostfind .mapboxgl-popup-close-button:hover {
-  background: rgba(0, 0, 0, 0.6) !important;
+  background: rgba(0, 0, 0, 0.1) !important;
 }
 
 .mapbox-popup-kostfind .mapboxgl-popup-tip {
-  border-top-color: white !important;
+  border-top-color: var(--color-surface-container-lowest) !important;
 }
 
-/* Mapbox controls — Google Maps style */
+/* Mapbox controls */
 .mapboxgl-ctrl-group {
-  border-radius: var(--radius-md) !important;
+  border-radius: var(--radius-lg) !important;
   overflow: hidden !important;
-  box-shadow: 0 2px 8px rgba(61,57,41,0.12) !important;
+  box-shadow: var(--shadow-elevation-2) !important;
 }
 
 /* ============================================
-   SCROLLBAR CUSTOMIZATION
-   ============================================ */
-
-.scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background: var(--border-default);
-  border-radius: 3px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
-}
-
-/* ============================================
-   TRANSITIONS.DEV — Modal Animations
+   MODAL ANIMATIONS
    ============================================ */
 
 :root {
@@ -232,7 +363,7 @@ html {
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(11, 28, 48, 0.4);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
@@ -243,8 +374,9 @@ html {
   max-width: 32rem;
   max-height: 90vh;
   overflow: hidden;
-  border-radius: var(--radius-xl);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: var(--radius-2xl);
+  background: var(--color-surface-container-lowest);
+  box-shadow: var(--shadow-elevation-modal);
   transform-origin: center center;
 }
 
@@ -290,23 +422,83 @@ html {
 }
 
 /* ============================================
-   CLAY NEVER RULES ENFORCEMENT
+   UTILITY CLASSES
    ============================================ */
 
-/* These classes enforce Clay design rules */
+/* Surface utility classes */
+.surface-lowest { background-color: var(--surface-container-lowest); }
+.surface-low { background-color: var(--surface-container-low); }
+.surface { background-color: var(--surface-container); }
+.surface-high { background-color: var(--surface-container-high); }
+.surface-highest { background-color: var(--surface-container-highest); }
 
-.clay-button {
-  border-radius: var(--radius-md) !important; /* Never > 12px per Clay rules */
+/* Custom shadow utilities */
+.shadow-elevation-1 { box-shadow: var(--shadow-elevation-1); }
+.shadow-elevation-2 { box-shadow: var(--shadow-elevation-2); }
+.shadow-elevation-3 { box-shadow: var(--shadow-elevation-3); }
+.shadow-card { box-shadow: var(--shadow-card); }
+.shadow-card-hover { box-shadow: var(--shadow-card-hover); }
+
+/* Material Symbols Outlined */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-.clay-text-primary {
-  color: var(--text-ink) !important;
+.material-symbols-outlined.fill-icon {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-.clay-text-secondary {
-  color: var(--text-body) !important;
+/* Safe area for mobile */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
-.clay-border {
-  border-color: var(--border-default) !important;
+/* ============================================
+   FOCUS STATES - Accessibility
+   ============================================ */
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Slide up animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* ============================================
+   UTILITY CLASSES - Landing Page
+   ============================================ */
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }

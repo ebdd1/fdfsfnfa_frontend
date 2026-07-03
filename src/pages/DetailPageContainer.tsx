@@ -1,5 +1,4 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { Loader2, AlertCircle } from 'lucide-react';
 import { DetailPage } from '../components/DetailPage';
 import { useProperty, useProperties } from '../hooks/useProperties';
 import { useAuthStore } from '../stores/authStore';
@@ -7,8 +6,7 @@ import { conversationService } from '../services/api/conversation.service';
 
 /**
  * Route container for /property/:id.
- * GET /listings/:id is JWT-guarded on the backend, so an unauthenticated user
- * hitting this route will be redirected to /login by the axios 401 interceptor.
+ * GET /listings/:id is JWT-guarded on the backend.
  */
 export const DetailPageContainer = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,35 +31,40 @@ export const DetailPageContainer = () => {
       });
       navigate(`/chat?c=${conversation.id}`);
     } catch {
-      // Surface failure without a fake success; keep the user on the page.
       alert('Gagal memulai percakapan. Silakan coba lagi.');
     }
   };
 
   if (isLoading) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center py-32 text-slate-400">
-        <Loader2 className="w-8 h-8 animate-spin mb-3" />
-        <p className="text-sm font-semibold">Memuat detail kost...</p>
+      <div className="flex-1 flex flex-col items-center justify-center py-32 bg-surface min-h-screen">
+        <div className="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mb-4 animate-pulse">
+          <span className="material-symbols-outlined text-3xl text-primary">search</span>
+        </div>
+        <p className="text-body-md font-semibold text-on-surface">Memuat detail kost...</p>
+        <p className="text-body-sm text-outline mt-2">Mohon tunggu sebentar</p>
       </div>
     );
   }
 
   if (isError || !property) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center py-32 text-slate-500">
-        <AlertCircle className="w-8 h-8 text-red-400 mb-3" />
-        <p className="text-sm font-semibold mb-4">Kost tidak ditemukan atau gagal dimuat.</p>
+      <div className="flex-1 flex flex-col items-center justify-center py-32 bg-surface min-h-screen">
+        <div className="w-16 h-16 bg-error-container rounded-full flex items-center justify-center mb-4">
+          <span className="material-symbols-outlined text-3xl text-error">error</span>
+        </div>
+        <p className="text-body-md font-semibold text-on-surface mb-2">Kost tidak ditemukan</p>
+        <p className="text-body-sm text-outline mb-4">Terjadi kesalahan saat mengambil data</p>
         <div className="flex gap-3">
           <button
             onClick={() => refetch()}
-            className="text-xs font-bold bg-[var(--primary-600)] text-white px-5 py-2.5 rounded-full hover:bg-[var(--primary-700)] active:scale-95 transition-all cursor-pointer"
+            className="bg-primary text-on-primary px-6 py-3 rounded-lg text-label-md font-label-md hover:brightness-90 transition-all shadow-[0_4px_10px_rgba(0,53,148,0.2)]"
           >
             Coba Lagi
           </button>
           <button
             onClick={() => navigate('/search')}
-            className="text-xs font-bold border border-slate-300 text-slate-700 px-5 py-2.5 rounded-full hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
+            className="border border-outline text-on-surface px-6 py-3 rounded-lg text-label-md font-label-md hover:bg-surface-container transition-all"
           >
             Kembali ke Pencarian
           </button>

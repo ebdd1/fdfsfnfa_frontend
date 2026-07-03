@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Owner Dashboard - KostFind</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#4648d4",
+                      "on-tertiary-fixed": "#00201d",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "on-error-container": "#93000a",
+                      "on-primary-container": "#b8c8ff",
+                      "surface-container-highest": "#d3e4fe",
+                      "secondary-fixed": "#e1e0ff",
+                      "primary-container": "#004ac6",
+                      "secondary-container": "#6063ee",
+                      "primary": "#003594",
+                      "surface-dim": "#cbdbf5",
+                      "on-background": "#0b1c30",
+                      "error-container": "#ffdad6",
+                      "outline-variant": "#c3c6d6",
+                      "primary-fixed": "#dbe1ff",
+                      "on-error": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#b4c5ff",
+                      "on-surface-variant": "#434654",
+                      "outline": "#737685",
+                      "on-surface": "#0b1c30",
+                      "surface-container": "#e5eeff",
+                      "surface-container-high": "#dce9ff",
+                      "surface": "#f8f9ff",
+                      "surface-container-low": "#eff4ff",
+                      "on-secondary-container": "#fffbff",
+                      "on-secondary": "#ffffff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "tertiary": "#004640",
+                      "tertiary-container": "#006058",
+                      "on-secondary-fixed-variant": "#2f2ebe",
+                      "surface-bright": "#f8f9ff",
+                      "inverse-surface": "#213145",
+                      "surface-tint": "#1b55d0",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#005049",
+                      "secondary-fixed-dim": "#c0c1ff",
+                      "tertiary-fixed": "#89f5e7",
+                      "surface-variant": "#d3e4fe",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "on-primary-fixed": "#00174b",
+                      "error": "#ba1a1a",
+                      "on-secondary-fixed": "#07006c",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-container": "#6fdcce",
+                      "tertiary-fixed-dim": "#6bd8cb",
+                      "background": "#f8f9ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1280px",
+                      "gutter": "24px",
+                      "stack-md": "16px",
+                      "stack-sm": "8px",
+                      "margin-mobile": "20px",
+                      "margin-desktop": "40px",
+                      "stack-lg": "24px",
+                      "base": "4px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "60px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-surface font-body-md flex antialiased">
+<!-- SideNavBar (Shared Component) -->
+<nav class="hidden md:flex flex-col h-screen fixed left-0 top-0 p-stack-lg border-r border-outline-variant dark:border-outline bg-surface-container-low dark:bg-inverse-surface shadow-md docked left-0 h-full w-64 z-50">
+<div class="flex items-center gap-3 mb-10">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary flex-shrink-0">
+<img alt="Owner profile" class="w-full h-full object-cover" data-alt="A professional headshot of a property owner or real estate manager. The lighting is bright and even, conveying trust and competence. The background is a subtle, modern office environment. High-quality corporate aesthetic, 8k resolution, photorealistic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4HH6VMIDsvrsqgHj6awwDy_AeDGe-MkzOYP0XKx6vu9uBiNeBq6onIT7UxrP7sTxmNoQ0qoXqvz32i1jA_zNQvg31bYdggiM48HZ_2Bwe2GQzzp0-viyuPSbV2W6n_0h2SVKIlvuULfobJoM4tLrC66nzmxLyB2ryFzcP3B5jpATCCMcK2xLY89IP3SE6Xj8c5rNJR9pXEpLU1H8e3QCRh5icQKC4y6inrdANbn48bJCk4WCWp_yBPnq1qLRz7QPkMVpa59UhlLU"/>
+</div>
+<div>
+<h2 class="text-headline-sm font-headline-sm font-bold text-primary dark:text-primary-fixed-dim">Owner Portal</h2>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Manage your listings</p>
+</div>
+</div>
+<ul class="flex flex-col gap-2 flex-grow">
+<!-- Active: Dashboard -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-lg text-label-md font-label-md hover:scale-102 transition-all scale-98" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                    Dashboard
+                </a>
+</li>
+<!-- Inactive: Properties -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg text-label-md font-label-md hover:scale-102 transition-all" href="#">
+<span class="material-symbols-outlined">home_work</span>
+                    Properties
+                </a>
+</li>
+<!-- Inactive: Bookings -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg text-label-md font-label-md hover:scale-102 transition-all" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+                    Bookings
+                </a>
+</li>
+<!-- Inactive: Inbox -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg text-label-md font-label-md hover:scale-102 transition-all" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+                    Inbox
+                </a>
+</li>
+<!-- Inactive: Settings -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-lg text-label-md font-label-md hover:scale-102 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+<button class="mt-auto flex items-center justify-center gap-2 w-full py-3 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:brightness-90 hover:scale-102 transition-all shadow-[0_4px_14px_0_rgba(0,53,148,0.25)]">
+<span class="material-symbols-outlined">add</span>
+            Add New Kost
+        </button>
+</nav>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 md:hidden bg-surface dark:bg-inverse-surface shadow-lg docked full-width bottom-0 rounded-t-xl border-t border-outline-variant/20">
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold text-label-sm font-label-sm active:bg-surface-container transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+            Dashboard
+        </a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant text-label-sm font-label-sm active:bg-surface-container transition-transform" href="#">
+<span class="material-symbols-outlined">home_work</span>
+            Properties
+        </a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant text-label-sm font-label-sm active:bg-surface-container transition-transform" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+            Inbox
+        </a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant text-label-sm font-label-sm active:bg-surface-container transition-transform" href="#">
+<span class="material-symbols-outlined">person</span>
+            Profile
+        </a>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-0 md:ml-64 p-margin-mobile md:p-margin-desktop min-h-screen pb-24 md:pb-margin-desktop flex flex-col gap-stack-lg max-w-container-max">
+<!-- Header -->
+<header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<h1 class="text-headline-lg md:text-display-lg-mobile font-headline-lg font-bold text-on-surface tracking-tight">Dashboard Overview</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Here is what's happening with your properties today.</p>
+</div>
+<button class="hidden md:flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:brightness-90 hover:scale-102 transition-all shadow-[0_4px_14px_0_rgba(0,53,148,0.25)] whitespace-nowrap">
+<span class="material-symbols-outlined">add</span>
+                Tambah Properti Baru
+            </button>
+</header>
+<!-- Stats Grid (Bento Style) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-outline-variant/30 flex flex-col gap-4 relative overflow-hidden group hover:shadow-[0_10px_25px_rgba(0,53,148,0.05)] transition-shadow">
+<div class="flex justify-between items-center z-10">
+<span class="text-label-md font-label-md text-on-surface-variant">Total Revenue (This Month)</span>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+</div>
+<div class="z-10">
+<span class="text-headline-lg font-headline-lg font-bold text-on-surface">Rp 45.200.000</span>
+<div class="flex items-center gap-1 mt-1 text-tertiary">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="text-label-sm font-label-sm">+12.5% vs last month</span>
+</div>
+</div>
+<!-- Subtle decorative background element -->
+<div class="absolute -bottom-6 -right-6 w-32 h-32 bg-primary/5 rounded-full blur-xl group-hover:scale-110 transition-transform"></div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-outline-variant/30 flex flex-col gap-4 relative overflow-hidden group hover:shadow-[0_10px_25px_rgba(0,53,148,0.05)] transition-shadow">
+<div class="flex justify-between items-center z-10">
+<span class="text-label-md font-label-md text-on-surface-variant">Active Bookings</span>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">key</span>
+</div>
+</div>
+<div class="z-10">
+<span class="text-headline-lg font-headline-lg font-bold text-on-surface">124</span>
+<div class="flex items-center gap-1 mt-1 text-on-surface-variant">
+<span class="text-label-sm font-label-sm">85% Occupancy Rate</span>
+</div>
+</div>
+<div class="absolute -bottom-6 -right-6 w-32 h-32 bg-secondary/5 rounded-full blur-xl group-hover:scale-110 transition-transform"></div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-outline-variant/30 flex flex-col gap-4 relative overflow-hidden group hover:shadow-[0_10px_25px_rgba(0,53,148,0.05)] transition-shadow">
+<div class="flex justify-between items-center z-10">
+<span class="text-label-md font-label-md text-on-surface-variant">New Inquiries</span>
+<div class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined">mark_email_unread</span>
+</div>
+</div>
+<div class="z-10">
+<span class="text-headline-lg font-headline-lg font-bold text-on-surface">18</span>
+<div class="flex items-center gap-1 mt-1 text-error">
+<span class="text-label-sm font-label-sm">Requires attention</span>
+</div>
+</div>
+<div class="absolute -bottom-6 -right-6 w-32 h-32 bg-error/5 rounded-full blur-xl group-hover:scale-110 transition-transform"></div>
+</div>
+</section>
+<!-- Properties Grid -->
+<section class="flex flex-col gap-stack-md mt-4">
+<div class="flex justify-between items-center border-b border-outline-variant/30 pb-4">
+<h2 class="text-headline-md font-headline-md font-semibold text-on-surface">My Properties</h2>
+<div class="flex gap-2">
+<button class="p-2 bg-surface-container rounded-lg text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+</button>
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="pl-9 pr-4 py-2 bg-surface-container border-none rounded-lg text-body-sm focus:ring-1 focus:ring-primary w-64 transition-all" placeholder="Search properties..." type="text"/>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Property Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-outline-variant/20 hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] transition-all flex flex-col group">
+<div class="h-48 relative overflow-hidden">
+<img alt="Kost Residence Kebayoran" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A bright, modern exterior shot of a premium apartment building in Jakarta. The architecture is clean with large glass windows and subtle greenery. Photorealistic, sunny day lighting, high-end real estate photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi0Phu6sMhmEntG-vrHCj1cs3RifCzsqWPJtCkgkhji1eRmvsBLwg0lxao10h8rGm5SoWRzEsd7adrvng2c3KSS5lSfn-WcAusTLRqH_jKT6AYn3GfEkBDxQ55prVI_MbEtxHIGYrmEzE8WFQ5IdMl3EMABHsWy1iv9Bivp03Agv9H97APDbvizA-VL7WCbsYBXhBqp4eP_dgL5XOPWHCxkokVE3G7zw5vgRjITrpRYh-HKyIE_pS_rB4vJYlfCwmsINLjFF9fi5c"/>
+<div class="absolute top-3 left-3 px-2 py-1 bg-tertiary-container/90 backdrop-blur-sm text-on-tertiary-container rounded text-[10px] font-bold uppercase tracking-wider">
+                            Active
+                        </div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface mb-1">Kost Residence Kebayoran</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1 mb-4">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                            South Jakarta
+                        </p>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface p-3 rounded-lg flex flex-col items-center justify-center border border-outline-variant/20">
+<span class="text-headline-sm font-headline-sm font-semibold text-primary">24/30</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Rooms Occupied</span>
+</div>
+<div class="bg-surface p-3 rounded-lg flex flex-col items-center justify-center border border-outline-variant/20">
+<span class="text-headline-sm font-headline-sm font-semibold text-on-surface">1.2k</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Views this week</span>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant/20 flex gap-3">
+<button class="flex-1 py-2.5 bg-surface text-primary border border-primary rounded-lg text-label-md font-label-md hover:bg-surface-container transition-colors font-medium">
+                                Manage Rooms
+                            </button>
+<button class="p-2.5 bg-surface text-on-surface-variant border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Property Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-outline-variant/20 hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] transition-all flex flex-col group">
+<div class="h-48 relative overflow-hidden">
+<img alt="Setiabudi Premium Coliving" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Interior view of a luxurious, minimalist living room in a co-living space. Features warm wood accents, comfortable modern furniture, and ample natural light pouring through large windows. High-end, inviting aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlv6jhdNhABOd3muuc9CcWW0DHDz045K00p9VOU27YcXTEAEQAzJtYyOSBxCdGF31J8ducwvmwROiXzogI6__cubtHIHPfSbgDhIbAvCHBu6AAvryNprMsGCj9jdlz16nofmCMTWhp0JkRsYV8hUMXab0VoWaK3uWXJ9mKewTvwpz3JTIY8JBujtJQkxiD4Mnwkq1wDSBbpHVpe9L8IKDpWggmFcWk3HXM56-b1vVNIy5-x6fl0L-W8h83D1lw2FJkY8RI-jdeh2M"/>
+<div class="absolute top-3 left-3 px-2 py-1 bg-tertiary-container/90 backdrop-blur-sm text-on-tertiary-container rounded text-[10px] font-bold uppercase tracking-wider">
+                            Active
+                        </div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface mb-1">Setiabudi Premium Coliving</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1 mb-4">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                            Central Jakarta
+                        </p>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface p-3 rounded-lg flex flex-col items-center justify-center border border-outline-variant/20">
+<span class="text-headline-sm font-headline-sm font-semibold text-primary">15/15</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Rooms Occupied</span>
+</div>
+<div class="bg-surface p-3 rounded-lg flex flex-col items-center justify-center border border-outline-variant/20">
+<span class="text-headline-sm font-headline-sm font-semibold text-on-surface">850</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Views this week</span>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant/20 flex gap-3">
+<button class="flex-1 py-2.5 bg-surface text-primary border border-primary rounded-lg text-label-md font-label-md hover:bg-surface-container transition-colors font-medium">
+                                Manage Rooms
+                            </button>
+<button class="p-2.5 bg-surface text-on-surface-variant border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Property Card 3 (Inactive) -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-outline-variant/20 hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] transition-all flex flex-col group opacity-80">
+<div class="h-48 relative overflow-hidden grayscale-[50%]">
+<img alt="Kost Depok Student Hub" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A well-maintained facade of a classic Indonesian boarding house (Kost). Clean lines, simple gate, slightly overcast lighting conveying a more subdued, functional aesthetic compared to premium listings." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB283Jzd_1GhOCJ-e-PRNFUn0bQMQi96chB6GJJJmcIl1du9YpWC_UCJQjOAqvfW5sn5KTYUDPmTX7lzEeJx1_BazEyvM-huiGv4f4uk0Ztf-rrLrlau1jVG4zYHRh7SZDQZ59uY3Q0cYWKz14PA2I1kypbigLWPVmQ94gQzocV8jmnlYZLoNWnmyKjnNeFjxHNnsKOIf7ynYcHtPbO7Srmrt-xxnYcNTXZkLtC6IBDI1ARBBCpkvAjgmfNlKfGAjqemdOV1PtvYeY"/>
+<div class="absolute top-3 left-3 px-2 py-1 bg-surface-variant/90 backdrop-blur-sm text-on-surface-variant rounded text-[10px] font-bold uppercase tracking-wider border border-outline-variant/50">
+                            Inactive (Renovation)
+                        </div>
+</div>
+<div class="p-5 flex flex-col flex-grow">
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-surface mb-1 text-on-surface-variant">Kost Depok Student Hub</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1 mb-4">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                            Depok
+                        </p>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface-variant/50 p-3 rounded-lg flex flex-col items-center justify-center border border-outline-variant/10">
+<span class="text-headline-sm font-headline-sm font-semibold text-outline">0/40</span>
+<span class="text-label-sm font-label-sm text-outline">Rooms Occupied</span>
+</div>
+<div class="bg-surface-variant/50 p-3 rounded-lg flex flex-col items-center justify-center border border-outline-variant/10">
+<span class="text-headline-sm font-headline-sm font-semibold text-outline">0</span>
+<span class="text-label-sm font-label-sm text-outline">Views this week</span>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-outline-variant/20 flex gap-3">
+<button class="flex-1 py-2.5 bg-surface text-on-surface-variant border border-outline-variant rounded-lg text-label-md font-label-md hover:bg-surface-container transition-colors font-medium cursor-not-allowed">
+                                Manage Rooms
+                            </button>
+<button class="p-2.5 bg-surface text-on-surface-variant border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Floating Action Button (Mobile Only for primary action) -->
+<button class="md:hidden fixed bottom-20 right-4 w-14 h-14 bg-primary text-on-primary rounded-full shadow-[0_8px_20px_rgba(0,53,148,0.4)] flex items-center justify-center z-40 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">add</span>
+</button>
+</main>
+</body></html>

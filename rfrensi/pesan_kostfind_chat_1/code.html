@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KostFind - Inbox</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#4648d4",
+                        "on-tertiary-fixed": "#00201d",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#b8c8ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "secondary-fixed": "#e1e0ff",
+                        "primary-container": "#004ac6",
+                        "secondary-container": "#6063ee",
+                        "primary": "#003594",
+                        "surface-dim": "#cbdbf5",
+                        "on-background": "#0b1c30",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c3c6d6",
+                        "primary-fixed": "#dbe1ff",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#b4c5ff",
+                        "on-surface-variant": "#434654",
+                        "outline": "#737685",
+                        "on-surface": "#0b1c30",
+                        "surface-container": "#e5eeff",
+                        "surface-container-high": "#dce9ff",
+                        "surface": "#f8f9ff",
+                        "surface-container-low": "#eff4ff",
+                        "on-secondary-container": "#fffbff",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary": "#004640",
+                        "tertiary-container": "#006058",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "surface-bright": "#f8f9ff",
+                        "inverse-surface": "#213145",
+                        "surface-tint": "#1b55d0",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "tertiary-fixed": "#89f5e7",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-primary-fixed": "#00174b",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#07006c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#6fdcce",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "background": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "40px",
+                        "stack-lg": "24px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Hide scrollbar for cleaner UI */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar Built from JSON Anchor -->
+<nav class="sticky top-0 z-50 flex justify-between items-center w-full px-margin-desktop py-4 bg-surface dark:bg-inverse-surface max-w-container-max mx-auto shadow-sm">
+<div class="flex items-center gap-8">
+<a class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim" href="#">KostFind</a>
+<div class="hidden md:flex items-center gap-6">
+<!-- Navigation Items. None active as intent is Inbox -->
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors scale-102 transition-transform duration-200" href="#">
+                    Discover
+                </a>
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors scale-102 transition-transform duration-200" href="#">
+                    Verified
+                </a>
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors scale-102 transition-transform duration-200" href="#">
+                    Offers
+                </a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Trailing Actions -->
+<button class="hidden md:flex text-label-md font-label-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors scale-102 transition-transform duration-200">
+                List Property
+            </button>
+<button class="hidden md:flex px-4 py-2 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors scale-102 transition-transform duration-200">
+                Sign In
+            </button>
+<div class="flex items-center gap-2 text-primary dark:text-primary-fixed-dim">
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+</div>
+<img alt="User profile" class="w-10 h-10 rounded-full object-cover border border-outline-variant cursor-pointer ml-2" data-alt="A professional, modern headshot of a young professional in bright, soft lighting, suitable for a premium application profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp8L0egL7v3MjyfRxcCDeExpb-tUeux336fS_kJ6yaGb9IDtlAUiJmPlU1tPnJp3YFyh5aeaVJ2YQ3G0WaDxHzaoPdnqEYr52K3ksqMWMC3BflaAbHat9zqxDdgbGOtgbSIb2SJHJr4sRkhETlbX7CtrDgaiOxglY559_17-RUTyZvr5IdtJTu_t7K9NdamRjtG1lY2o3ohb0QoSLwXgxQzV7LhGfWAIE9N_pu7-DAiwBY23VCeQQHa-YtbOluG0R0HCVslEivbL0"/>
+</div>
+</nav>
+<!-- Main Layout Container -->
+<main class="flex flex-1 overflow-hidden mx-auto max-w-container-max w-full px-margin-mobile md:px-margin-desktop py-stack-lg gap-gutter h-[calc(100vh-80px)]">
+<!-- Left Column: Conversation List -->
+<aside class="w-full md:w-[360px] flex flex-col bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden flex-shrink-0 h-full">
+<!-- List Header -->
+<div class="p-stack-md border-b border-outline-variant flex flex-col gap-stack-sm bg-surface">
+<h1 class="text-headline-sm font-headline-sm text-on-surface">Messages</h1>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low text-body-sm font-body-sm text-on-surface placeholder-outline rounded-lg pl-10 pr-4 py-2 border-none focus:ring-1 focus:ring-primary outline-none transition-shadow" placeholder="Search messages..." type="text"/>
+</div>
+</div>
+<!-- Scrollable List -->
+<div class="flex-1 overflow-y-auto no-scrollbar bg-surface-container-lowest">
+<!-- Active Conversation Item -->
+<div class="flex items-start gap-3 p-stack-md bg-surface-container-high border-l-4 border-primary cursor-pointer hover:bg-surface-container transition-colors">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover shadow-sm" data-alt="A welcoming headshot of an Indonesian property owner in a bright, modern setting, wearing professional casual attire." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFSQVfF4ILXM6HnAuR9zgeyvAHzyQvrsz6F9RIOwOc-QO-qHUQsg9SI9zwCybpnQkB9GO_ifjrGN4vPPCueKrJbkDi_D0Ep4yVthiJ71ya32n7ZXhqWRi8fToJQl0iYmmL75ZKbj909FieB8a7FIa-V1MLRYwA9tfF8HE2fecqU_VNJfThaS9_hF5RFmwkQDmxNOMvQNNwUQ7_s9Qa1FBoCY-dHYobkzugTBRXvCfwnJYS9IYBBZDhTKPvn12QX6YULuYsnZ0WI4M"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-[#10B981] border-2 border-surface-container-lowest rounded-full"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="text-label-md font-label-md text-on-surface truncate">Budi Santoso</h3>
+<span class="text-label-sm font-label-sm text-primary">Just now</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant truncate">Yes, the room is still available for viewing tomorrow.</p>
+<p class="text-label-sm font-label-sm text-outline mt-1 truncate">Re: Kost Exclusive Setiabudi</p>
+</div>
+</div>
+<!-- Inactive Conversation Item -->
+<div class="flex items-start gap-3 p-stack-md border-b border-outline-variant cursor-pointer hover:bg-surface-container transition-colors">
+<div class="relative flex-shrink-0">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-headline-sm">A</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="text-label-md font-label-md text-on-surface truncate">Anita Wijaya</h3>
+<span class="text-label-sm font-label-sm text-outline">Yesterday</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant truncate">Thanks for the information.</p>
+</div>
+</div>
+<!-- Inactive Conversation Item -->
+<div class="flex items-start gap-3 p-stack-md border-b border-outline-variant cursor-pointer hover:bg-surface-container transition-colors">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover shadow-sm" data-alt="A friendly profile picture of a property manager in a well-lit office environment, conveying trust and professionalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPvXmpQs_RyHQPaSz25MvYyjX837lBV5a_kW7UHtx4oUiOZevXN4-a_btnHsckfL8opMmNmRjBczZbKPU_GRupfw4vmoXDGE_iMxQLkzyJM6ZTU2OeDXTch2Ej5ijCa5HmYRfgHKWV5G3-qkEaFCR8U-Zu6pvmZPkYUVfb6enokktIxg7EB-gO6-1XmIYOAY2kag1e2axVX6aH4KRIhNM3gUw5OSLhJ6BySkCXvWTAZIW6zimJZ0WBYxrwEUNB_NcAvtXiMs7Jotc"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="text-label-md font-label-md text-on-surface truncate">Kemang Residence Management</h3>
+<span class="text-label-sm font-label-sm text-outline">Tuesday</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant truncate font-medium text-on-surface">Please find the contract attached.</p>
+<div class="mt-2 inline-flex items-center justify-center bg-primary text-on-primary text-label-sm font-label-sm rounded-full w-5 h-5">1</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Right Column: Active Chat Area -->
+<section class="hidden md:flex flex-1 flex-col bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-outline-variant overflow-hidden h-full relative">
+<!-- Chat Header -->
+<header class="p-stack-md border-b border-outline-variant flex justify-between items-center bg-surface">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="A welcoming headshot of an Indonesian property owner in a bright, modern setting, wearing professional casual attire." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyi_leiiOUqsLm9ZbgWcMe4gDz6jnQ7hia3YlgDml7kxr8SORbbGLz9n603iL0XfqwCyJjqAA_YLegbQOEzok1rioKv9tSR1pyiKhRQfshXJZlEnwViXEkLGGNdXXZ_CpsJtbboZkCtZGJSqS1yRWOEMvHEvfCmqnCevMsHTVQSREEdLj_ah2PmoxzIle1REVi_cd8R3dfW4vY7psBgDrBQBmxmq6n8fIybzWq3GvwiWHsyVSxDezWbh6HrVNSYt-RA5I0NyO6c2Q"/>
+<div>
+<h2 class="text-headline-sm font-headline-sm text-on-surface leading-tight">Budi Santoso</h2>
+<span class="text-label-sm font-label-sm text-outline flex items-center gap-1">
+<div class="w-2 h-2 bg-[#10B981] rounded-full"></div> Online
+                        </span>
+</div>
+</div>
+<div class="flex gap-2 text-outline">
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</div>
+</header>
+<!-- Pinned Property Context Card -->
+<div class="bg-surface-container-low p-stack-sm border-b border-outline-variant flex items-center justify-between shadow-sm z-10">
+<div class="flex items-center gap-4">
+<img class="w-16 h-12 object-cover rounded-md shadow-sm" data-alt="A high-quality, bright photograph of a modern, clean bedroom in an Indonesian Kost, featuring white linens, natural light, and minimalist wood furniture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjSUUpIL7pxUPGq3ORLl_IzabOCSrnrpoqzySRTzKQCFGd2dFIoP_6czP94Fp49wINpxAhXM8MDGfa4TAqpCm91JNiR--daNPxyjqugFj7qrUEfyURJPiKIOEwUxT8ESY0DXH0n9VKKRCx2zHEx-Vj1ns8nhPpF_OTJBR3zx7qewdknhq7EFKg0PqOd4ObLdn8mHF1oO_psY8udRmjZ8pQJ05DgY9nWE6ET0xtiAlr0esWI-p_93_KN8pSbeYQA0W2lCGl4VcevSw"/>
+<div>
+<h4 class="text-label-md font-label-md text-on-surface">Kost Exclusive Setiabudi</h4>
+<p class="text-body-sm font-body-sm text-primary font-bold">Rp 3.500.000 <span class="text-label-sm font-label-sm text-outline font-normal">/ month</span></p>
+</div>
+</div>
+<button class="text-label-sm font-label-sm text-primary hover:bg-surface-container px-3 py-1.5 rounded-md transition-colors border border-primary/20">View Details</button>
+</div>
+<!-- Message Area -->
+<div class="flex-1 overflow-y-auto p-stack-lg flex flex-col gap-stack-md bg-surface-bright">
+<!-- Date Divider -->
+<div class="flex justify-center my-2">
+<span class="bg-surface-container text-outline text-label-sm font-label-sm px-3 py-1 rounded-full">Today</span>
+</div>
+<!-- User Message (Right) -->
+<div class="flex flex-col items-end gap-1">
+<div class="bg-primary text-on-primary rounded-2xl rounded-tr-sm p-3 max-w-[70%] shadow-sm">
+<p class="text-body-md font-body-md">Hi Pak Budi, I saw your listing for the Setiabudi property. Is it still available for a viewing tomorrow around 2 PM?</p>
+</div>
+<div class="flex items-center gap-1 text-label-sm font-label-sm text-outline">
+<span>10:42 AM</span>
+<span class="material-symbols-outlined text-[16px] text-[#10B981]" data-icon="done_all" data-weight="fill">done_all</span>
+</div>
+</div>
+<!-- Owner Message (Left) -->
+<div class="flex items-end gap-2">
+<img class="w-8 h-8 rounded-full object-cover mb-6" data-alt="A welcoming headshot of an Indonesian property owner in a bright, modern setting, wearing professional casual attire." src="https://lh3.googleusercontent.com/aida-public/AB6AXuArXHTP9CB9RcTFFJdO-sffijQam_5QX_UXTiV-CRbMdgIiLarYluHKafrgwHyzQOnvP316cmul35kTxwPucEC23zqP4OHkzgUwqeQjhnwZC6kWgsTg-bLbOuAe5VIrTvpX4_xCInUAbQPygg7o1HFnkjRWrj1icz4OojzYP8UE3kA8PBB2ORvqMN-LqdPyBArIHxtGmPDtBS_uweta25OQEcwspEDIEtEzAlvYI4FnZ-x0h3IlmiE_pkIy5zHr3pz0U3QD8jei48M"/>
+<div class="flex flex-col items-start gap-1">
+<div class="bg-surface-container text-on-surface rounded-2xl rounded-tl-sm p-3 max-w-[70%] border border-outline-variant shadow-sm">
+<p class="text-body-md font-body-md">Hello! Yes, the room is still available for viewing tomorrow.</p>
+</div>
+<span class="text-label-sm font-label-sm text-outline">10:45 AM</span>
+</div>
+</div>
+<!-- Owner Message (Left) -->
+<div class="flex items-end gap-2">
+<div class="w-8 h-8 rounded-full mb-6 flex-shrink-0"></div> <!-- Spacer for alignment -->
+<div class="flex flex-col items-start gap-1">
+<div class="bg-surface-container text-on-surface rounded-2xl rounded-tl-sm p-3 max-w-[70%] border border-outline-variant shadow-sm">
+<p class="text-body-md font-body-md">2 PM works perfectly for me. I will wait at the front gate. Please let me know when you arrive.</p>
+</div>
+<span class="text-label-sm font-label-sm text-outline">10:46 AM</span>
+</div>
+</div>
+<!-- User Message (Right) - Unread/Sent state -->
+<div class="flex flex-col items-end gap-1 mt-4">
+<div class="bg-primary text-on-primary rounded-2xl rounded-tr-sm p-3 max-w-[70%] shadow-sm">
+<p class="text-body-md font-body-md">Great, see you tomorrow at 2 PM. Thanks!</p>
+</div>
+<div class="flex items-center gap-1 text-label-sm font-label-sm text-outline">
+<span>Just now</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="check">check</span>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-stack-md bg-surface border-t border-outline-variant flex items-end gap-3 shadow-[0_-4px_10px_rgba(0,0,0,0.02)]">
+<button class="p-2 text-outline hover:bg-surface-container hover:text-primary rounded-full transition-colors flex-shrink-0 mb-1">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+</button>
+<div class="flex-1 bg-surface-container-lowest border border-outline-variant rounded-xl flex items-center px-4 py-2 focus-within:ring-2 focus-within:ring-primary/30 focus-within:border-primary transition-all shadow-sm">
+<textarea class="w-full bg-transparent border-none focus:ring-0 text-body-md font-body-md text-on-surface placeholder-outline resize-none max-h-32 overflow-y-auto py-1" placeholder="Type a message..." rows="1"></textarea>
+</div>
+<button class="p-3 bg-primary text-on-primary rounded-xl hover:bg-primary-container transition-colors shadow-sm hover:scale-105 active:scale-95 duration-200 flex-shrink-0">
+<span class="material-symbols-outlined" data-icon="send" data-weight="fill">send</span>
+</button>
+</div>
+</section>
+</main>
+</body></html>

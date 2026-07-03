@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .premium-shadow {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .active-dot {
+            width: 24px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#213145",
+                    "on-primary": "#ffffff",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-background": "#0b1c30",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "primary": "#003594",
+                    "inverse-on-surface": "#eaf1ff",
+                    "tertiary": "#004640",
+                    "on-secondary-fixed-variant": "#2f2ebe",
+                    "on-primary-container": "#b8c8ff",
+                    "outline": "#737685",
+                    "on-tertiary-fixed-variant": "#005049",
+                    "primary-fixed": "#dbe1ff",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#eff4ff",
+                    "secondary-fixed": "#e1e0ff",
+                    "primary-container": "#004ac6",
+                    "error-container": "#ffdad6",
+                    "surface-dim": "#cbdbf5",
+                    "surface-container-high": "#dce9ff",
+                    "tertiary-fixed-dim": "#6bd8cb",
+                    "secondary-container": "#6063ee",
+                    "on-surface-variant": "#434654",
+                    "on-secondary-fixed": "#07006c",
+                    "surface-container": "#e5eeff",
+                    "error": "#ba1a1a",
+                    "on-secondary-container": "#fffbff",
+                    "outline-variant": "#c3c6d6",
+                    "surface-tint": "#1b55d0",
+                    "inverse-primary": "#b4c5ff",
+                    "tertiary-fixed": "#89f5e7",
+                    "surface-variant": "#d3e4fe",
+                    "surface-bright": "#f8f9ff",
+                    "secondary": "#4648d4",
+                    "on-tertiary-container": "#6fdcce",
+                    "surface": "#f8f9ff",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#006058",
+                    "on-surface": "#0b1c30",
+                    "secondary-fixed-dim": "#c0c1ff",
+                    "background": "#f8f9ff",
+                    "on-primary-fixed": "#00174b",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#00201d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "margin-mobile": "20px",
+                    "margin-desktop": "40px",
+                    "stack-lg": "24px",
+                    "base": "4px",
+                    "container-max": "1280px",
+                    "stack-sm": "8px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "display-lg-mobile": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["30px", {"lineHeight": "38px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Hero Image Gallery -->
+<header class="relative w-full h-[397px] overflow-hidden">
+<div class="flex h-full w-full overflow-x-auto snap-x snap-mandatory hide-scrollbar" id="gallery-container">
+<div class="flex-shrink-0 w-full h-full snap-center">
+<img class="w-full h-full object-cover" data-alt="High-resolution architectural photograph of a luxurious modern apartment building in Menteng, Jakarta. The exterior features minimalist glass balconies, warm wooden accents, and lush tropical landscaping under a clear blue sky. The lighting is soft morning sun, emphasizing the premium and corporate aesthetic of the real estate development." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEXExiTizFKPP2iRye-bapTV2m0FDKwcH32WO6uHN8qfr3KCeBZ3_jo0WFAGA0ot3GJfL27UojcH4Avgv8-AujL58zx172zS_Zxi_hm9PzUhTmkTLzsZJNgYUyeU4fvu1spVC3e1unnFdzArC-aubrkRjzjLpM2uj1yjK-u69cEPy5PssI_414YEv7Zj9lwTmXsaSSUWIHA_jq73FtwqP5YK4ejGorDr3L454up4lJSic2E6CxbKtzPC1O9pFQRf15Aqt9-ZPMnRw"/>
+</div>
+<div class="flex-shrink-0 w-full h-full snap-center">
+<img class="w-full h-full object-cover" data-alt="A spacious and elegant bedroom interior with high ceilings and floor-to-ceiling windows overlooking a cityscape. The room is styled with premium neutral fabrics, a king-sized bed with crisp white linens, and modern designer furniture. Soft, warm ambient lighting creates an inviting and professional atmosphere suitable for high-end living." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWep4ibSWoJ07ZWuQJ4jiTJf21OC8cbNrnNkS8OkFI4jKn9nDIwxx0Bc9aJ21i9_iP7-kWkPbULwKdnQjs_suVqRwP5K_muRo-00liIQJEnM7DuHK6Rbt-mO5X5sEFLa89uzkSfae2mp2AcYalHiW7am6EmMCW6pa88canyaOK4JV0zNdR18_G1dgCRxZ4UKY8wvXQej1mU1Ffe1IHmWZ9PkrV-HxPU0sGdLua8U1jZ_rkKXNtLwO7D1pCa1VV-dGZlqqB00MztxU"/>
+</div>
+<div class="flex-shrink-0 w-full h-full snap-center">
+<img class="w-full h-full object-cover" data-alt="An upscale communal lounge area for a premium residence, featuring mid-century modern chairs, marble coffee tables, and a minimalist library wall. The space is illuminated by warm recessed lighting and large windows, conveying a sense of community, trust, and sophisticated professional living in a corporate modern style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd1OacrvtUYSRRsKBjlnr3dsP3TZ-PHhI6FMryJZ0haqcqCIZie05rSZCvRpzdl_dbMgAD7qmg4e6kja5Zv8EbP4xuP3eZWPtjbtx5WF4SArH80qO20hJAfUKYXtg-fHV9I24SMOuIE23Jfzware5bbMBTeqAtReRWbGI4eF7SOy8wt7WTDnquNY6VAc-OZtgwoGomENUwAsKB6oMJqjjTF5VZ1KW201BLKrtH4CyfZcqX8WkusDDXNFTDn1M9v9HzYB1RQyukNww"/>
+</div>
+</div>
+<!-- Overlays -->
+<nav class="absolute top-0 left-0 w-full flex justify-between items-center p-margin-mobile z-10">
+<button aria-label="Back" class="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary block">arrow_back</span>
+</button>
+<div class="flex gap-2">
+<button aria-label="Share" class="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary block">share</span>
+</button>
+<button aria-label="Save" class="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary block">favorite</span>
+</button>
+</div>
+</nav>
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+<div class="active-dot h-1.5 rounded-full bg-white shadow-sm"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-white/50 shadow-sm"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-white/50 shadow-sm"></div>
+</div>
+</header>
+<main class="relative -mt-6 bg-background rounded-t-3xl pt-8 pb-32 px-margin-mobile">
+<!-- Title Section -->
+<section class="mb-stack-lg">
+<div class="flex justify-between items-start mb-base">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Kost Exclusive Menteng</h1>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant mb-2">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="font-body-sm text-body-sm">Menteng, Jakarta Pusat</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-amber-500 text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.9</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">(128 reviews)</span>
+</div>
+</section>
+<!-- About Section -->
+<section class="mb-stack-lg">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-stack-sm">About this property</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                Experience premium living in the heart of Jakarta's most prestigious district. Designed specifically for working professionals, Kost Exclusive Menteng offers a perfect blend of luxury, privacy, and convenience with world-class management and security.
+            </p>
+</section>
+<!-- Facilities Grid -->
+<section class="mb-stack-lg">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-stack-sm">Premium Facilities</h2>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-3 premium-shadow">
+<div class="bg-primary-container/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary">wifi</span>
+</div>
+<span class="font-label-md text-label-md">High-Speed WiFi</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-3 premium-shadow">
+<div class="bg-primary-container/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary">ac_unit</span>
+</div>
+<span class="font-label-md text-label-md">AC</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-3 premium-shadow">
+<div class="bg-primary-container/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary">local_laundry_service</span>
+</div>
+<span class="font-label-md text-label-md">Laundry</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-3 premium-shadow">
+<div class="bg-primary-container/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary">local_parking</span>
+</div>
+<span class="font-label-md text-label-md">Secure Parking</span>
+</div>
+</div>
+</section>
+<!-- Room Types -->
+<section class="mb-stack-lg">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-stack-sm">Available Room Types</h2>
+<div class="space-y-4">
+<!-- Standard Card -->
+<div class="border border-outline-variant p-4 rounded-xl bg-white premium-shadow">
+<div class="flex justify-between items-center mb-2">
+<h3 class="font-label-md text-label-md text-on-surface">Standard Room</h3>
+<span class="font-label-sm text-label-sm text-primary">Rp 3.500.000/mo</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-3">Single bed, private bathroom, smart desk setup.</p>
+<button class="w-full py-2 border border-primary text-primary font-label-md rounded-lg active:bg-primary/5 transition-colors">Lihat Detail</button>
+</div>
+<!-- Deluxe Card (Popular) -->
+<div class="border-2 border-primary p-4 rounded-xl bg-white premium-shadow relative">
+<div class="absolute -top-3 right-4 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        Popular
+                    </div>
+<div class="flex justify-between items-center mb-2">
+<h3 class="font-label-md text-label-md text-on-surface">Deluxe Room</h3>
+<span class="font-label-sm text-label-sm text-primary">Rp 5.000.000/mo</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-3">Queen bed, spacious layout, private balcony, premium toiletries.</p>
+<button class="w-full py-2 bg-primary text-white font-label-md rounded-lg active:scale-[0.98] transition-transform">Pilih Kamar</button>
+</div>
+</div>
+</section>
+<!-- Reviews -->
+<section class="mb-stack-lg">
+<div class="flex justify-between items-center mb-stack-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Reviews</h2>
+<button class="text-primary font-label-md text-label-md">See All</button>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl premium-shadow">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a friendly Indonesian man in his late 20s, wearing a clean business casual shirt. He is smiling warmly at the camera against a soft, blurred modern office background. High-key professional lighting, crisp detail, minimalist portrait style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxVsqBRyWXgKTiZ1ESPr8rIr3zBURHok4iM-oRCQgKMHI73NLbDolyZyAFuXpHZfH8-PVURR2MbHQDS_z-bAk_Qv7VswexgMEPUs7lFaYCyv6fg-wCDddrvWP576MYzDDShLyB_J3RUuAS4h4MTjgpnzrEc0z1L2N1VY9prKGILHpvvnefQON-9RhhjGaFeirVPlbcgUV3uzfgno7J1YOv89n8lmiwgOD3gNh5W3XfBC5NFhvrr9Uk_wREiP2BaJyF-sksMdH06qo"/>
+</div>
+<div>
+<div class="font-label-md text-label-md">Budi Santoso</div>
+<div class="flex text-amber-500 text-[12px]">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">
+                    "Tempatnya sangat strategis dan bersih. Fasilitasnya bener-bener premium, cocok buat yang butuh ketenangan setelah pulang kerja."
+                </p>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom CTA -->
+<footer class="fixed bottom-0 left-0 w-full bg-white border-t border-outline-variant/30 px-margin-mobile py-4 flex items-center justify-between z-50">
+<div>
+<div class="text-[10px] text-on-surface-variant uppercase font-bold tracking-widest">Mulai Dari</div>
+<div class="font-headline-sm text-headline-sm text-primary">Rp 5.000.000<span class="text-body-sm text-on-surface-variant font-normal">/bulan</span></div>
+</div>
+<button class="bg-primary text-white px-8 py-4 rounded-xl font-label-md text-label-md shadow-lg shadow-primary/20 active:scale-95 transition-all">
+            Booking Sekarang
+        </button>
+</footer>
+<script>
+        // Micro-interaction for gallery dots
+        const container = document.getElementById('gallery-container');
+        const dots = document.querySelectorAll('.absolute.bottom-6 > div');
+
+        container.addEventListener('scroll', () => {
+            const index = Math.round(container.scrollLeft / container.clientWidth);
+            dots.forEach((dot, i) => {
+                if(i === index) {
+                    dot.classList.add('active-dot');
+                    dot.classList.remove('w-1.5', 'bg-white/50');
+                    dot.classList.add('bg-white');
+                } else {
+                    dot.classList.remove('active-dot');
+                    dot.classList.add('w-1.5', 'bg-white/50');
+                    dot.classList.remove('bg-white');
+                }
+            });
+        });
+
+        // Simple smooth entrance
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('main').style.opacity = '0';
+            document.querySelector('main').style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                document.querySelector('main').style.transition = 'all 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+                document.querySelector('main').style.opacity = '1';
+                document.querySelector('main').style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body></html>

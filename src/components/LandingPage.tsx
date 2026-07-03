@@ -1,88 +1,106 @@
-// Dark Premium Landing Page - No white backgrounds
-// Theme: Midnight Premium - Black canvas with orange accents
-// DESIGN_VARIANCE: 9, MOTION_INTENSITY: 6, VISUAL_DENSITY: 5
+// Premium Luxury Landing Page
+// Hero dengan gambar background + 4 section baru
 
 "use client";
 
 import React, { useState } from 'react';
-import { motion, useReducedMotion } from "framer-motion";
 import type { Property } from '../types';
-import { useSettings } from '../hooks/useSettings';
-import { Footer } from './Footer';
-import {
-  AwesomicButton,
-  AwesomicBadge,
-  AwesomicInput,
-  SectionHeader,
-  StatBlock,
-  DarkPanel,
-} from './landing';
-import {
-  MapPin,
-  Shield,
-  ArrowRight,
-  Star,
-  Users,
-  Building2,
-  Home,
-} from 'lucide-react';
 
 interface LandingPageProps {
   featuredProperties: Property[];
   onStartSearching: (city?: string, query?: string) => void;
-  onSelectProperty: (id: string) => void;
 }
 
-// City data
-const CITIES = [
-  { name: 'Palopo', count: 342 },
-  { name: 'Makassar', count: 891 },
-  { name: 'Jakarta', count: 2341 },
-  { name: 'Bandung', count: 756 },
-  { name: 'Yogyakarta', count: 534 },
-  { name: 'Surabaya', count: 678 },
+// Data untuk sections
+const WHY_CHOOSE_US = [
+  {
+    icon: 'verified',
+    title: 'Verified Properties',
+    description: 'Setiap kost diverifikasi langsung oleh tim kami sebelum dipublikasikan.',
+  },
+  {
+    icon: 'shield',
+    title: 'Transaksi Aman',
+    description: 'Pembayaran terjamin melalui sistem escrow yang aman dan terpercaya.',
+  },
+  {
+    icon: 'support_agent',
+    title: 'Support 24/7',
+    description: 'Tim customer service siap membantu Anda kapan saja.',
+  },
+  {
+    icon: 'location_on',
+    title: 'Lokasi Strategis',
+    description: 'Kost di lokasi strategis dekat kampus, kantor, dan transportasi.',
+  },
 ];
 
-// Testimonial data
+const POPULAR_CITIES = [
+  { name: 'Jakarta', count: 2341, image: 'https://images.unsplash.com/photo-1555834959-0a8858ca0dc0?w=600' },
+  { name: 'Bandung', count: 756, image: 'https://images.unsplash.com/photo-1528164344705-47542687000d?w=600' },
+  { name: 'Surabaya', count: 678, image: 'https://images.unsplash.com/photo-1565610222536-ef125e59ef4e?w=600' },
+  { name: 'Yogyakarta', count: 534, image: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?w=600' },
+  { name: 'Makassar', count: 891, image: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600' },
+  { name: 'Semarang', count: 423, image: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=600' },
+];
+
+const HOW_IT_WORKS = [
+  {
+    step: '01',
+    icon: 'search',
+    title: 'Cari Kost',
+    description: 'Gunakan filter untuk menemukan kost sesuai lokasi, budget, dan fasilitas yang Anda butuhkan.',
+  },
+  {
+    step: '02',
+    icon: 'visibility',
+    title: 'Kunjugi Properti',
+    description: 'Schedule kunjungan langsung ke kost yang Anda pilih dan lihat kondisi sebenarnya.',
+  },
+  {
+    step: '03',
+    icon: 'home',
+    title: 'Pindah & Huni',
+    description: 'Booking online, signing kontrak, dan mulai tinggal di kost baru Anda.',
+  },
+];
+
 const TESTIMONIALS = [
   {
-    name: 'Rina Andriani',
-    initials: 'RA',
-    role: 'Mahasiswi S2 UGM',
-    quote: 'Akhirnya nemu kost yang fotonya sesuai realita. GPS verificationnya beneran akurat.',
+    name: 'Rina Marlina',
+    role: 'Mahasiswa',
+    city: 'Jakarta',
+    text: 'Dulu cari kost ribet banget, tapi sejak pakai KostFind semuanya jadi lebih mudah. Kost-nya juga berkualitas!',
+    rating: 5,
+    avatar: 'RM',
   },
   {
     name: 'Budi Santoso',
-    initials: 'BS',
-    role: 'Pemilik Kost, Palopo',
-    quote: 'Listingan saya langsung naik rank karena badge verified. Penyewa percaya karena ada GPS.',
+    role: 'Pekerja Swasta',
+    city: 'Bandung',
+    text: 'Aplikasi yang sangat membantu. Proses booking cepat dan transparent. Recommended!',
+    rating: 5,
+    avatar: 'BS',
   },
   {
     name: 'Siti Nurhaliza',
-    initials: 'SN',
-    role: 'Mahasiswi Semester 4 UNHAS',
-    quote: 'Features real-time availability sangat membantu. Tidak perlu tanya-tanya lagi.',
+    role: 'Freelancer',
+    city: 'Yogyakarta',
+    text: 'Fitur map-nya sangat membantu saya menemukan kost di lokasi strategis. Thank you KostFind!',
+    rating: 5,
+    avatar: 'SN',
   },
 ];
 
 export const LandingPage: React.FC<LandingPageProps> = ({
   featuredProperties,
   onStartSearching,
-  onSelectProperty,
 }) => {
-  const { settings } = useSettings();
   const [searchQuery, setSearchQuery] = useState('');
-  const reduce = useReducedMotion();
-
-  const heroProperty = featuredProperties.length > 0 ? featuredProperties[0] : null;
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onStartSearching(undefined, searchQuery || undefined);
-  };
-
-  const handleQuickSearch = (city: string) => {
-    onStartSearching(city, undefined);
   };
 
   const formatPrice = (price: number) => {
@@ -95,548 +113,415 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   };
 
   return (
-    <div className="bg-[#09090B] min-h-screen font-sans text-[#E5E5E5] antialiased">
-      {/* Subtle gradient background */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#FF6B35]/5 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#FF6B35]/3 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-[#FF6B35]/2 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '2s' }} />
-      </div>
+    <div className="min-h-screen relative bg-background">
+      {/* Pattern Background */}
+      <div
+        className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
+        style={{
+          backgroundImage: 'radial-gradient(#003594 0.5px, transparent 0.5px)',
+          backgroundSize: '24px 24px',
+        }}
+      />
 
-      <div className="max-w-[1200px] mx-auto px-6">
+      <main className="relative z-10">
+        {/* 1. HERO SECTION - Gambar Background dengan Overlay */}
+        <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+          {/* Background Image dengan Overlay Gradient */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1920&q=80"
+              alt="Kost premium interior"
+              className="w-full h-full object-cover"
+            />
+            {/* Overlay gradient - transparant sehingga gambar visible tapi teks tetap readable */}
+            <div className="absolute inset-0 bg-gradient-to-r from-on-surface/90 via-on-surface/70 to-on-surface/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-on-surface/60 via-transparent to-transparent" />
+          </div>
 
-        {/* 1. HERO */}
-        <section className="py-16 md:py-24 lg:py-28 overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          {/* Decorative Elements */}
+          <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[150px] pointer-events-none" />
+          <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-secondary/10 rounded-full blur-[100px] pointer-events-none" />
 
-            {/* Hero Left - Text Content */}
-            <div className="lg:col-span-7 space-y-8">
-              {/* Eyebrow */}
-              <motion.div
-                initial={reduce ? undefined : { opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4 }}
-              >
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#27272A] border border-[rgba(255,255,255,0.1)] text-[#A1A1AA] text-xs font-medium">
-                  <Home className="w-3.5 h-3.5 text-[#FF6B35]" />
-                  <span>{settings.tagline || 'Kost Terverifikasi GPS'}</span>
-                </span>
-              </motion.div>
+          <div className="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-32 w-full">
+            <div className="max-w-3xl">
+              {/* Badge */}
+              <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md text-white/90 text-xs font-bold mb-8 border border-white/20">
+                <span className="material-symbols-outlined text-base text-white" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                Platform Kost #1 di Indonesia
+              </span>
 
               {/* Headline */}
-              <motion.h1
-                initial={reduce ? undefined : { opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-[40px] md:text-[56px] lg:text-[64px] font-bold tracking-tight leading-[1.05] text-[#FAFAFA]"
-              >
-                Cari kost tanpa{' '}
-                <span className="text-[#FF6B35]">takut</span>{' '}
-                foto menipu
-              </motion.h1>
+              <h1 className="font-display text-4xl md:text-6xl lg:text-7xl text-white mb-8 leading-[1.1]">
+                Temukan Kost Impian Anda dengan{' '}
+                <span className="text-primary-light">Mudah & Aman</span>
+              </h1>
 
-              {/* Subtext */}
-              <motion.p
-                initial={reduce ? undefined : { opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-[#A1A1AA] text-base md:text-lg leading-relaxed max-w-xl"
-              >
-                {settings.site_name} memverifikasi media listing secara ketat dengan koordinat GPS dan penanda waktu.
-              </motion.p>
+              {/* Subtitle */}
+              <p className="font-body text-lg md:text-xl text-white/80 max-w-2xl mb-14 leading-relaxed">
+                Ribuan kost berkualitas di seluruh Indonesia. Diverifikasi, aman, dan langsung bisa dipesan online.
+              </p>
 
-              {/* Search Form */}
-              <motion.div
-                initial={reduce ? undefined : { opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg">
-                  <input
-                    type="text"
-                    placeholder="Cari daerah, kampus, atau jalan..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-1 bg-[#18181B] text-[#E5E5E5] placeholder-[#71717A] rounded-[14px] px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#FF6B35]/30 transition-all border border-[rgba(255,255,255,0.1)] focus:border-[#FF6B35]/50"
-                  />
-                  <AwesomicButton type="submit" size="md">
-                    Cari Kost
-                  </AwesomicButton>
-                </form>
-              </motion.div>
-
-              {/* Popular Searches */}
-              <motion.div
-                initial={reduce ? undefined : { opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.4 }}
-                className="flex flex-wrap items-center gap-2"
-              >
-                <span className="text-xs text-[#71717A] font-medium">Populer:</span>
-                {settings.cities.slice(0, 3).map((city) => (
-                  <button
-                    key={city}
-                    type="button"
-                    onClick={() => handleQuickSearch(city)}
-                    className="text-xs text-[#A1A1AA] hover:text-[#FAFAFA] hover:bg-[#27272A] hover:border-[#FF6B35]/30 px-3 py-1.5 rounded-full border border-[rgba(255,255,255,0.1)] bg-[#18181B] transition-all font-medium"
-                  >
-                    {city}
-                  </button>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Hero Right - Real Property Preview */}
-            <motion.div
-              initial={reduce ? undefined : { opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="lg:col-span-5 relative hidden lg:block"
-            >
-              {heroProperty ? (
-                /* Real Property Card */
-                <div
-                  onClick={() => onSelectProperty(heroProperty.id)}
-                  className="bg-[#18181B] rounded-[36px] border border-[rgba(255,255,255,0.08)] shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_8px_32px_rgba(0,0,0,0.4)] p-6 space-y-5 relative overflow-hidden group cursor-pointer"
-                >
-                  {/* Header */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B35]"></span>
-                      </span>
-                      <span className="text-sm font-semibold text-[#FAFAFA]">{heroProperty.name}</span>
-                    </div>
-                    <AwesomicBadge variant="filled-dark">GPS OK</AwesomicBadge>
-                  </div>
-
-                  {/* Image */}
-                  <div className="relative aspect-[4/3] rounded-[28px] bg-[#27272A] overflow-hidden">
-                    <img
-                      src={heroProperty.media[0]?.url_medium || heroProperty.media[0]?.url_thumbnail || heroProperty.media[0]?.url_original}
-                      alt={heroProperty.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              {/* Search Bar - Glass Card */}
+              <div className="glass-card rounded-2xl p-3 flex flex-col md:flex-row gap-2 max-w-5xl backdrop-blur-xl bg-white/10 border border-white/20">
+                {/* Lokasi Input */}
+                <div className="flex-1 relative flex items-center hover:bg-white/10 rounded-xl p-4 transition-all cursor-text group">
+                  <span className="material-symbols-outlined text-base text-white/60 group-focus-within:text-white mr-4 scale-110">location_on</span>
+                  <div className="flex flex-col flex-1 text-left">
+                    <label className="text-[10px] uppercase font-bold text-white/60 tracking-widest">Lokasi</label>
+                    <input
+                      className="bg-transparent border-none p-0 text-base font-body font-semibold text-white w-full placeholder:text-white/40 outline-none focus:ring-0"
+                      placeholder="Cari kota atau area..."
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                    <div className="absolute top-4 right-4 bg-[#18181B]/80 backdrop-blur-sm text-[#FAFAFA] text-[10px] font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-[rgba(255,255,255,0.1)]">
-                      <Shield className="w-3.5 h-3.5" />
-                      Verified Media
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="text-xs font-semibold text-[#A1A1AA]">{heroProperty.location.city}</h3>
-                        <p className="text-sm font-medium text-[#71717A] mt-0.5">{heroProperty.location.address}</p>
-                      </div>
-                      <span className="text-xs font-medium text-[#FAFAFA] bg-[#27272A] px-2.5 py-1 rounded-full border border-[rgba(255,255,255,0.1)]">
-                        {heroProperty.rooms.filter(r => r.status === 'available').length} Tersedia
-                      </span>
-                    </div>
-
-                    <div className="pt-3 border-t border-[rgba(255,255,255,0.06)] flex items-center justify-between">
-                      <span className="text-base font-bold text-[#FAFAFA]">
-                        {formatPrice(Math.min(...heroProperty.rooms.map(r => r.price_monthly)))} <span className="text-xs text-[#71717A] font-normal">/bln</span>
-                      </span>
-                      <button className="text-xs font-semibold text-[#FF6B35] hover:underline flex items-center gap-0.5">
-                        Lihat Detail <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
                   </div>
                 </div>
-              ) : (
-                /* Empty State */
-                <div className="bg-[#18181B] rounded-[36px] border border-[rgba(255,255,255,0.08)] shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_8px_32px_rgba(0,0,0,0.4)] p-6 space-y-5 relative overflow-hidden">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B35]"></span>
-                      </span>
-                      <span className="text-sm font-semibold text-[#FAFAFA]">Segera Hadir</span>
-                    </div>
-                    <AwesomicBadge variant="filled-dark">Coming Soon</AwesomicBadge>
-                  </div>
 
-                  <div className="aspect-[4/3] rounded-[28px] bg-gradient-to-br from-[#FF6B35]/10 to-[#FF6B35]/5 flex items-center justify-center border border-[rgba(255,107,53,0.2)]">
-                    <div className="text-center">
-                      <Building2 className="w-12 h-12 text-[#FF6B35]/30 mx-auto mb-2" />
-                      <p className="text-sm font-medium text-[#71717A]">100+ Kost Terverifikasi</p>
-                    </div>
-                  </div>
+                <div className="hidden md:block w-px bg-white/20 my-4" />
 
-                  <div className="text-center py-4">
-                    <p className="text-[#71717A] text-sm">Mulai cari kost di kotamu</p>
-                    <button
-                      onClick={() => onStartSearching()}
-                      className="mt-2 text-[#FF6B35] text-sm font-semibold hover:underline"
-                    >
-                      Jelajahi Kost
-                    </button>
+                {/* Check-in Input */}
+                <div className="flex-1 relative flex items-center hover:bg-white/10 rounded-xl p-4 transition-all cursor-text group">
+                  <span className="material-symbols-outlined text-base text-white/60 group-focus-within:text-white mr-4 scale-110">calendar_today</span>
+                  <div className="flex flex-col flex-1 text-left">
+                    <label className="text-[10px] uppercase font-bold text-white/60 tracking-widest">Check-in</label>
+                    <span className="text-base font-body font-semibold text-white/40">Pilih Tanggal</span>
                   </div>
                 </div>
-              )}
 
-              {/* Stats Row */}
-              <div className="grid grid-cols-2 gap-3 mt-4">
-                <div className="bg-[#18181B] rounded-[28px] border border-[rgba(255,255,255,0.08)] p-4 text-left">
-                  <span className="text-[10px] font-medium text-[#71717A] uppercase tracking-wider block">Akurasi</span>
-                  <span className="text-sm font-bold text-[#FAFAFA]">98% Match</span>
+                <div className="hidden md:block w-px bg-white/20 my-4" />
+
+                {/* Penghuni Input */}
+                <div className="flex-1 relative flex items-center hover:bg-white/10 rounded-xl p-4 transition-all cursor-text group">
+                  <span className="material-symbols-outlined text-base text-white/60 group-focus-within:text-white mr-4 scale-110">group</span>
+                  <div className="flex flex-col flex-1 text-left">
+                    <label className="text-[10px] uppercase font-bold text-white/60 tracking-widest">Penghuni</label>
+                    <span className="text-base font-body font-semibold text-white/40">1 Orang</span>
+                  </div>
                 </div>
-                <div className="bg-[#18181B] rounded-[28px] border border-[rgba(255,255,255,0.08)] p-4 text-left">
-                  <span className="text-[10px] font-medium text-[#71717A] uppercase tracking-wider block">Status</span>
-                  <span className="text-sm font-bold text-[#10B981]">Terverifikasi</span>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
 
-        {/* 2. PROBLEM PANEL */}
-        <section className="py-12 md:py-16">
-          <DarkPanel padding="lg" className="max-w-full">
-            <div className="max-w-3xl mx-auto text-center space-y-6">
-              <h2 className="text-[32px] md:text-[40px] font-semibold leading-[1.2] text-[#FAFAFA]">
-                <span className="font-light text-[#71717A]">Takut</span> foto menipu.{' '}
-                <span className="font-light text-[#71717A]">Capek</span> survei sana-sini.{' '}
-                <span className="font-light text-[#71717A]">Bingung</span> harga asli.
-              </h2>
-              <p className="text-[#A1A1AA] text-base">
-                Kami memastikan setiap listingan kost diverifikasi dengan GPS dan media asli dari kamera.
-              </p>
-            </div>
-          </DarkPanel>
-        </section>
-
-        {/* 3. STATS ROW */}
-        <section className="py-12 md:py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            <StatBlock value="2,500+" label="Kost Terverifikasi" />
-            <StatBlock value="98%" label="Akurasi Geotag" />
-            <StatBlock value="15K+" label="Pencari Kos Aktif" />
-            <StatBlock value="50+" label="Kota Tersedia" />
-          </div>
-        </section>
-
-        {/* 4. CITY DISCOVERY GRID */}
-        <section className="py-12 md:py-20">
-          <div className="space-y-10">
-            <SectionHeader
-              headline="Temukan di Kota Terdekat"
-              subtext="Pilihan kost terverifikasi di berbagai kota di Indonesia."
-            />
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-              {CITIES.map((city, index) => (
-                <motion.button
-                  key={city.name}
-                  initial={reduce ? undefined : { opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: index * 0.03 }}
-                  onClick={() => handleQuickSearch(city.name)}
-                  className="group bg-[#18181B] rounded-[16px] border border-[rgba(255,255,255,0.08)] p-4 hover:border-[#FF6B35]/30 hover:shadow-[0_0_24px_rgba(255,107,53,0.1)] transition-all duration-200 text-left"
-                >
-                  <h3 className="font-semibold text-[#FAFAFA] text-sm mb-1">{city.name}</h3>
-                  <p className="text-[#71717A] text-xs">{city.count}+ kost</p>
-                </motion.button>
-              ))}
-            </div>
-
-            {/* View All Link */}
-            <div className="text-center">
-              <button
-                onClick={() => onStartSearching()}
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[#FF6B35] hover:text-[#E85A28] transition-colors"
-              >
-                Lihat semua kota
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* 5. HOW IT WORKS */}
-        <section className="py-16 md:py-24">
-          <div className="max-w-3xl mx-auto">
-            <SectionHeader
-              headline="Cara Kerja KostFind"
-              subtext="Cari kost dalam 3 langkah sederhana."
-            />
-
-            {/* Process Steps */}
-            <div className="mt-12 space-y-8">
-              {/* Step 1 */}
-              <motion.div
-                initial={reduce ? undefined : { opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="flex gap-6"
-              >
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-[#FF6B35] text-white font-bold text-lg flex items-center justify-center">1</div>
-                </div>
-                <div className="pt-2">
-                  <h3 className="text-lg font-semibold text-[#FAFAFA] mb-2">Cari di Peta</h3>
-                  <p className="text-[#A1A1AA] text-sm leading-relaxed">
-                    Masukkan lokasi atau pilih kota. Lihat kost yang terverifikasi GPS di sekitar areamu.
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* Step 2 */}
-              <motion.div
-                initial={reduce ? undefined : { opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="flex gap-6"
-              >
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-[#FF6B35] text-white font-bold text-lg flex items-center justify-center">2</div>
-                </div>
-                <div className="pt-2">
-                  <h3 className="text-lg font-semibold text-[#FAFAFA] mb-2">Cek Ketersediaan</h3>
-                  <p className="text-[#A1A1AA] text-sm leading-relaxed">
-                    Stok kamar diupdate real-time. Tidak perlu telepon untuk tanya kosong atau tidak.
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* Step 3 */}
-              <motion.div
-                initial={reduce ? undefined : { opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="flex gap-6"
-              >
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-[#FF6B35] text-white font-bold text-lg flex items-center justify-center">3</div>
-                </div>
-                <div className="pt-2">
-                  <h3 className="text-lg font-semibold text-[#FAFAFA] mb-2">Hubungi Pemilik</h3>
-                  <p className="text-[#A1A1AA] text-sm leading-relaxed">
-                    Langsung chat via WhatsApp. Tidak ada biaya tambahan atau perantara.
-                  </p>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* 6. SOCIAL PROOF */}
-        <section className="py-16 md:py-24">
-          <DarkPanel padding="lg" className="max-w-full">
-            <div className="max-w-2xl mx-auto text-center space-y-6">
-              <h2 className="text-[28px] md:text-[36px] font-bold text-[#FAFAFA] leading-tight">
-                Kenapa GPS verification penting?
-              </h2>
-              <p className="text-[#A1A1AA] text-base leading-relaxed">
-                Karena 7 dari 10 listingan kost online pakai foto yang tidak sesuai realita.
-                KostFind menyelesaikan masalah ini dengan wajibkan verifikasi lokasi GPS pada setiap media.
-              </p>
-              <div className="pt-4">
+                {/* Search Button */}
                 <button
-                  onClick={() => onStartSearching()}
-                  className="inline-flex items-center gap-2 bg-[#FF6B35] text-white font-semibold px-6 py-3 rounded-full hover:bg-[#E85A28] transition-colors shadow-[0_0_24px_rgba(255,107,53,0.3)]"
+                  onClick={handleSearchSubmit}
+                  className="bg-primary hover:bg-primary/95 text-white rounded-xl px-8 py-4 flex items-center justify-center font-body text-sm font-semibold shadow-lg hover:shadow-xl transition-all active:scale-95"
                 >
-                  Mulai Cari Kost
-                  <ArrowRight className="w-4 h-4" />
+                  <span className="material-symbols-outlined text-base mr-2">search</span>
+                  Cari
                 </button>
               </div>
-            </div>
-          </DarkPanel>
-        </section>
 
-        {/* 7. TESTIMONIALS */}
-        <section className="py-12 md:py-20">
-          <div className="space-y-10">
-            <SectionHeader
-              headline="Apa Kata Pengguna Kami"
-              subtext="Ribuan pencari kost dan pemilik telah mempercayai KostFind."
-              align="center"
-            />
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {TESTIMONIALS.map((testimonial, index) => (
-                <motion.div
-                  key={testimonial.name}
-                  initial={reduce ? undefined : { opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-[#18181B] rounded-[24px] border border-[rgba(255,255,255,0.08)] p-6 space-y-4 hover:border-[rgba(255,255,255,0.12)] transition-all"
-                >
-                  {/* Avatar */}
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#FF6B35] to-[#E85A28] flex items-center justify-center text-white font-bold text-lg">
-                    {testimonial.initials}
-                  </div>
-
-                  {/* Rating */}
-                  <div className="flex gap-1">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <div key={i} className="w-2 h-2 rounded-full bg-[#F59E0B]" />
-                    ))}
-                  </div>
-
-                  {/* Quote */}
-                  <p className="text-[#E5E5E5] text-sm leading-relaxed">
-                    "{testimonial.quote}"
-                  </p>
-
-                  {/* Author */}
-                  <div className="pt-4 border-t border-[rgba(255,255,255,0.06)]">
-                    <p className="font-semibold text-[#FAFAFA] text-sm">{testimonial.name}</p>
-                    <p className="text-[#71717A] text-xs">{testimonial.role}</p>
-                  </div>
-                </motion.div>
-              ))}
+              {/* Quick Stats */}
+              <div className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-white/20">
+                <div>
+                  <p className="font-display text-3xl md:text-4xl text-white font-bold">15K+</p>
+                  <p className="font-body text-sm text-white/60">Kost Tersedia</p>
+                </div>
+                <div>
+                  <p className="font-display text-3xl md:text-4xl text-white font-bold">50+</p>
+                  <p className="font-body text-sm text-white/60">Kota Covered</p>
+                </div>
+                <div>
+                  <p className="font-display text-3xl md:text-4xl text-white font-bold">98%</p>
+                  <p className="font-body text-sm text-white/60">User Puas</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* 8. PROPERTY PREVIEW */}
-        <section className="py-12 md:py-20">
-          <div className="space-y-8">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
-              <SectionHeader
-                headline="Kost Terverifikasi"
-                subtext="Pilihan kost dengan GPS dan media diverifikasi."
-              />
-              <AwesomicButton variant="secondary" size="sm" onClick={() => onStartSearching()}>
-                Lihat Semua
-              </AwesomicButton>
+        {/* FEATURED PROPERTIES - Property Cards */}
+        <section className="py-24 px-margin-mobile md:px-margin-desktop">
+          <div className="max-w-container-max mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
+              <div className="max-w-xl mb-6 md:mb-0">
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold mb-4">
+                  Kost Pilihan
+                </span>
+                <h2 className="font-display text-3xl md:text-5xl text-on-background mb-3">
+                  Properti <span className="italic font-normal">Terpopuler</span>
+                </h2>
+                <p className="font-body text-on-surface-variant/70">
+                  Pilihan kost terbaik yang paling banyak dilihat pengguna kami.
+                </p>
+              </div>
+              <button className="flex items-center gap-2 text-primary font-body font-semibold text-sm hover:gap-3 transition-all">
+                Lihat Semua <span className="material-symbols-outlined text-xl">arrow_forward</span>
+              </button>
             </div>
 
-            {/* Horizontal Scroll */}
-            <div className="flex gap-5 overflow-x-auto pb-4 -mx-6 px-6 scrollbar-none">
-              {featuredProperties.slice(0, 5).map((property) => {
-                const lowestPrice =
-                  property.rooms.length > 0
-                    ? Math.min(...property.rooms.map((r) => r.price_monthly))
-                    : 2200000;
-                const availableRooms = property.rooms.filter(
-                  (r) => r.status === 'available'
-                ).length;
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featuredProperties.slice(0, 6).map((property) => {
+                const lowestPrice = property.rooms.length > 0 ? Math.min(...property.rooms.map((r) => r.price_monthly)) : 0;
 
                 return (
-                  <motion.div
-                    key={property.id}
-                    initial={reduce ? undefined : { opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    onClick={() => onSelectProperty(property.id)}
-                    className="flex-shrink-0 w-[300px] bg-[#18181B] rounded-[36px] overflow-hidden border border-[rgba(255,255,255,0.08)] cursor-pointer group hover:-translate-y-1 hover:border-[rgba(255,255,255,0.15)] transition-all duration-200"
-                  >
+                  <div key={property.id} className="group relative rounded-2xl overflow-hidden bg-surface-container-lowest border border-outline-variant/50 hover:border-primary/30 hover:shadow-[0_20px_40px_-15px_rgba(0,53,148,0.12)] transition-all duration-500">
                     {/* Image */}
-                    <div className="relative aspect-[4/3] bg-[#27272A] overflow-hidden">
+                    <div className="relative h-[200px] overflow-hidden">
                       <img
-                        src={property.media[0]?.url_medium || property.media[0]?.url_thumbnail || property.media[0]?.url_original}
                         alt={property.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        src={property.media?.[0]?.url_medium || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600'}
                       />
-                      {/* GPS Badge */}
-                      <div className="absolute top-3 left-3">
-                        <span className="flex items-center gap-1.5 bg-[#18181B]/90 backdrop-blur-sm text-[#FAFAFA] text-[10px] font-medium py-1.5 px-3 rounded-full border border-[rgba(255,255,255,0.1)]">
-                          <span className="relative flex h-1.5 w-1.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#FF6B35]"></span>
-                          </span>
-                          GPS
-                        </span>
+                      <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
+                        <span className="material-symbols-outlined text-xs text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                        <span className="font-body text-[10px] font-bold text-on-surface uppercase tracking-wider">Verified</span>
                       </div>
-                      {/* Price */}
-                      <div className="absolute bottom-3 right-3 bg-[#18181B] text-[#FAFAFA] text-xs font-semibold px-3 py-1.5 rounded-full border border-[rgba(255,255,255,0.1)]">
-                        {formatPrice(lowestPrice)}/bln
+                      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+                        <span className="material-symbols-outlined text-sm text-warning" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                        <span className="font-body text-xs font-bold">4.9</span>
                       </div>
                     </div>
 
                     {/* Content */}
-                    <div className="p-5 text-left">
-                      <div className="flex items-center gap-2 mb-2">
-                        <AwesomicBadge variant="filled-dark">
-                          {property.type === 'kost_campur'
-                            ? 'Campur'
-                            : property.type === 'kost_putra'
-                              ? 'Putra'
-                              : 'Putri'}
-                        </AwesomicBadge>
-                        <span className={`text-[10px] font-medium ${
-                          availableRooms > 0 ? 'text-[#10B981]' : 'text-[#EF4444]'
-                        }`}>
-                          {availableRooms > 0 ? `${availableRooms} Tersedia` : 'Penuh'}
-                        </span>
+                    <div className="p-5">
+                      <h3 className="font-display text-lg text-on-surface mb-2 group-hover:text-primary transition-colors line-clamp-1">{property.name}</h3>
+                      <div className="flex items-center gap-1.5 text-on-surface-variant/70 font-body text-sm mb-4">
+                        <span className="material-symbols-outlined text-base">location_on</span>
+                        <span className="line-clamp-1">{property.location.address}, {property.location.city}</span>
                       </div>
-                      <h4 className="text-sm font-semibold text-[#FAFAFA] line-clamp-1 mb-1">
-                        {property.name}
-                      </h4>
-                      <p className="text-xs text-[#71717A] flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
-                        <span className="line-clamp-1">{property.location.address}</span>
-                      </p>
+
+                      {/* Facilities */}
+                      <div className="flex items-center gap-4 text-outline mb-4">
+                        <div className="flex items-center gap-1">
+                          <span className="material-symbols-outlined text-lg">ac_unit</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="material-symbols-outlined text-lg">wifi</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="material-symbols-outlined text-lg">local_parking</span>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between items-center pt-4 border-t border-outline-variant/30">
+                        <div>
+                          <p className="font-body text-[10px] uppercase font-bold text-on-surface-variant tracking-wider">per bulan</p>
+                          <p className="font-display text-xl text-primary font-bold">{formatPrice(lowestPrice)}</p>
+                        </div>
+                        <button className="p-2.5 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all">
+                          <span className="material-symbols-outlined text-lg">arrow_outward</span>
+                        </button>
+                      </div>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
           </div>
         </section>
 
-        {/* 9. CTA SECTION */}
-        <section className="py-12 md:py-20">
-          <DarkPanel padding="xl" className="text-center">
-            <div className="max-w-xl mx-auto space-y-6">
-              <h2 className="text-[32px] md:text-[40px] font-semibold leading-[1.2] text-[#FAFAFA]">
-                Siap cari kost impian?
+        {/* 2. WHY CHOOSE US - Keunggulan KostFind */}
+        <section className="py-24 px-margin-mobile md:px-margin-desktop bg-surface-container-lowest">
+          <div className="max-w-container-max mx-auto">
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold mb-4">
+                Kenapa KostFind?
+              </span>
+              <h2 className="font-display text-3xl md:text-5xl text-on-background mb-4">
+                Platform Kost yang <span className="italic font-normal">Terpercaya</span>
               </h2>
-              <p className="text-[#A1A1AA] text-base">
-                Masukkan email untuk menerima update listingan kost terbaru di kotamu.
-              </p>
-              <AwesomicInput
-                placeholder="email@example.com"
-                buttonText="Daftar Gratis"
-                onSubmit={(email) => console.log('Email submitted:', email)}
-                className="max-w-md mx-auto"
-              />
-              <p className="text-[#71717A] text-xs">
-                Gratis, tanpa komitmen. Unsubscribe kapan saja.
+              <p className="font-body text-on-surface-variant/70">
+                Kami memberikan pengalaman mencari kost terbaik dengan jaminan kualitas dan keamanan.
               </p>
             </div>
-          </DarkPanel>
-        </section>
 
-        {/* 10. TRUST INDICATORS */}
-        <section className="py-12 pb-8">
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 text-[#A1A1AA]">
-            <div className="flex items-center gap-2">
-              <Star className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />
-              <span className="text-sm font-medium">4.9 rating pengguna</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4" />
-              <span className="text-sm font-medium">15,000+ pengguna aktif</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Building2 className="w-4 h-4" />
-              <span className="text-sm font-medium">2,500+ kost terverifikasi</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {WHY_CHOOSE_US.map((item, index) => (
+                <div
+                  key={index}
+                  className="group p-8 rounded-2xl bg-surface-container-lowest border border-outline-variant/50 hover:border-primary/30 hover:shadow-[0_20px_40px_-15px_rgba(0,53,148,0.1)] transition-all duration-500"
+                >
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+                    <span className="material-symbols-outlined text-2xl text-primary group-hover:text-white transition-colors" style={{ fontVariationSettings: "'FILL' 1" }}>
+                      {item.icon}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-xl text-on-background mb-3">{item.title}</h3>
+                  <p className="font-body text-sm text-on-surface-variant/70 leading-relaxed">{item.description}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
-      </div>
 
-      {/* FOOTER */}
-      <Footer />
+        {/* 3. POPULAR CITIES - Lokasi Populer */}
+        <section className="py-24 px-margin-mobile md:px-margin-desktop">
+          <div className="max-w-container-max mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
+              <div className="max-w-xl mb-6 md:mb-0">
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-xs font-bold mb-4">
+                  Lokasi Populer
+                </span>
+                <h2 className="font-display text-3xl md:text-5xl text-on-background mb-3">
+                  Kost di <span className="italic font-normal">Kota Besar</span>
+                </h2>
+                <p className="font-body text-on-surface-variant/70">
+                  Temukan kost berkualitas di kota-kota besar favorit Anda.
+                </p>
+              </div>
+              <button className="flex items-center gap-2 text-primary font-body font-semibold text-sm hover:gap-3 transition-all">
+                Lihat Semua Kota <span className="material-symbols-outlined text-xl">arrow_forward</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+              {POPULAR_CITIES.map((city, index) => (
+                <div
+                  key={index}
+                  className={`group relative rounded-2xl overflow-hidden cursor-pointer ${
+                    index === 0 ? 'md:col-span-2 md:row-span-2' : ''
+                  }`}
+                >
+                  <div className={`relative ${index === 0 ? 'h-[320px] md:h-[440px]' : 'h-[160px] md:h-[200px]'}`}>
+                    <img
+                      src={city.image}
+                      alt={city.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-on-surface/20 to-transparent" />
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+                    <h3 className={`font-display text-white mb-1 ${index === 0 ? 'text-2xl md:text-3xl' : 'text-lg'}`}>
+                      {city.name}
+                    </h3>
+                    <p className="font-body text-sm text-white/70">
+                      {city.count.toLocaleString()} kost tersedia
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 4. HOW IT WORKS - Cara Kerja */}
+        <section className="py-24 px-margin-mobile md:px-margin-desktop bg-gradient-to-b from-surface-container-lowest to-background">
+          <div className="max-w-container-max mx-auto">
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-tertiary/10 text-tertiary text-xs font-bold mb-4">
+                Simpel & Mudah
+              </span>
+              <h2 className="font-display text-3xl md:text-5xl text-on-background mb-4">
+                Cara Kerja KostFind
+              </h2>
+              <p className="font-body text-on-surface-variant/70">
+                Hanya 3 langkah mudah untuk menemukan dan memesan kost impian Anda.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+              {/* Connecting Line */}
+              <div className="hidden md:block absolute top-[60px] left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-primary via-secondary to-tertiary opacity-30" />
+
+              {HOW_IT_WORKS.map((item, index) => (
+                <div key={index} className="relative text-center">
+                  <div className="relative z-10 w-[120px] h-[120px] mx-auto mb-8 rounded-full bg-surface-container-lowest border-2 border-primary/20 flex items-center justify-center">
+                    <span className="material-symbols-outlined text-5xl text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>
+                      {item.icon}
+                    </span>
+                    <span className="absolute -top-2 -right-2 w-10 h-10 rounded-full bg-primary text-white font-display text-sm font-bold flex items-center justify-center">
+                      {item.step}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-xl md:text-2xl text-on-background mb-4">{item.title}</h3>
+                  <p className="font-body text-sm text-on-surface-variant/70 max-w-xs mx-auto leading-relaxed">{item.description}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA inside section */}
+            <div className="text-center mt-16">
+              <button
+                onClick={() => onStartSearching()}
+                className="bg-primary hover:bg-primary/95 text-white font-body font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-2"
+              >
+                Mulai Cari Kost <span className="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. TESTIMONIALS - Testimoni User */}
+        <section className="py-24 px-margin-mobile md:px-margin-desktop">
+          <div className="max-w-container-max mx-auto">
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-warning/10 text-warning text-xs font-bold mb-4">
+                Testimoni
+              </span>
+              <h2 className="font-display text-3xl md:text-5xl text-on-background mb-4">
+                Kata <span className="italic font-normal">Mereka</span>
+              </h2>
+              <p className="font-body text-on-surface-variant/70">
+                Dengarkan pengalaman пользователи kami yang sudah menemukan kost impian.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {TESTIMONIALS.map((testimonial, index) => (
+                <div
+                  key={index}
+                  className="p-8 rounded-2xl bg-surface-container-lowest border border-outline-variant/50 hover:border-primary/30 transition-all"
+                >
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <span key={i} className="material-symbols-outlined text-warning text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        star
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Quote */}
+                  <p className="font-body text-on-surface-variant/80 mb-6 leading-relaxed italic">
+                    "{testimonial.text}"
+                  </p>
+
+                  {/* Author */}
+                  <div className="flex items-center gap-4 pt-4 border-t border-outline-variant/30">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                      <span className="font-display text-sm font-bold text-primary">{testimonial.avatar}</span>
+                    </div>
+                    <div>
+                      <p className="font-body font-semibold text-on-background">{testimonial.name}</p>
+                      <p className="font-body text-xs text-on-surface-variant/60">{testimonial.role} • {testimonial.city}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 6. FINAL CTA - Call to Action */}
+        <section className="py-32 px-margin-mobile md:px-margin-desktop relative overflow-hidden">
+          {/* Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-secondary" />
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: 'radial-gradient(#ffffff 0.5px, transparent 0.5px)',
+            backgroundSize: '24px 24px',
+          }} />
+
+          <div className="relative z-10 max-w-container-max mx-auto text-center">
+            <h2 className="font-display text-4xl md:text-6xl text-white mb-6">
+              Siap Menemukan Kost Impian?
+            </h2>
+            <p className="font-body text-lg text-white/80 mb-12 max-w-2xl mx-auto">
+              Bergabung dengan ribuan pengguna yang sudah menemukan tempat tinggal ideal mereka bersama KostFind.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => onStartSearching()}
+                className="bg-white text-primary font-body font-bold px-10 py-4 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+              >
+                Cari Kost Sekarang
+              </button>
+              <button className="bg-transparent border-2 border-white text-white font-body font-semibold px-10 py-4 rounded-xl hover:bg-white/10 transition-all">
+                Pelajari Lebih Lanjut
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 };

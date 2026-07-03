@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>KostPremium - Temukan Kost Nyaman</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#003ea8",
+                    "error": "#ba1a1a",
+                    "surface-container": "#e5eeff",
+                    "on-surface": "#0b1c30",
+                    "outline": "#737685",
+                    "on-tertiary-container": "#6fdcce",
+                    "on-surface-variant": "#434654",
+                    "on-secondary-fixed-variant": "#2f2ebe",
+                    "surface-dim": "#cbdbf5",
+                    "on-primary-container": "#b8c8ff",
+                    "primary": "#003594",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "primary-container": "#004ac6",
+                    "surface-container-low": "#eff4ff",
+                    "tertiary-fixed-dim": "#6bd8cb",
+                    "tertiary": "#004640",
+                    "on-primary-fixed": "#00174b",
+                    "inverse-primary": "#b4c5ff",
+                    "inverse-surface": "#213145",
+                    "tertiary-container": "#006058",
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#6063ee",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-secondary-container": "#fffbff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary-fixed-dim": "#c0c1ff",
+                    "background": "#f8f9ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-secondary-fixed": "#07006c",
+                    "surface-container-high": "#dce9ff",
+                    "tertiary-fixed": "#89f5e7",
+                    "secondary": "#4648d4",
+                    "on-tertiary-fixed-variant": "#005049",
+                    "on-error-container": "#93000a",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-fixed": "#00201d",
+                    "outline-variant": "#c3c6d6",
+                    "primary-fixed": "#dbe1ff",
+                    "secondary-fixed": "#e1e0ff",
+                    "surface": "#f8f9ff",
+                    "on-background": "#0b1c30",
+                    "surface-tint": "#1b55d0",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "surface-variant": "#d3e4fe"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "margin-mobile": "20px",
+                    "base": "4px",
+                    "margin-desktop": "40px",
+                    "stack-lg": "24px",
+                    "gutter": "24px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "display-lg-mobile": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "label-sm": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "headline-sm": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "headline-md": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "display-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "headline-lg-mobile": [
+                            "Plus Jakarta Sans"
+                    ]
+            },
+            "fontSize": {
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "30px",
+                            {
+                                    "lineHeight": "38px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg-mobile": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-sm": [
+                            "20px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "60px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        /* Hide scrollbar for horizontal scrolling containers */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased min-h-screen pb-[80px]">
+<!-- TopAppBar Component -->
+<header class="w-full top-0 sticky bg-surface dark:bg-surface-dim shadow-sm dark:shadow-none z-40 transition-shadow duration-300" id="topAppBar">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-stack-sm w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary font-headline-md text-headline-md" style='font-variation-settings: "FILL" 1;'>domain</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary tracking-tight">KostPremium</h1>
+</div>
+<button aria-label="User Profile" class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant hover:bg-surface-container-low transition-colors active:scale-95 duration-200">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close-up, brightly lit portrait of a young Indonesian professional in their 20s, looking approachable and trustworthy. The image serves as a user avatar for a premium real estate app. The background is a soft, out-of-focus modern office or home setting with cool daylight, matching the app's professional corporate minimalist style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLGVsiMnL-E7wIppH-BfKMU7DQWVF2363smnL89xXuC1Am03qqPylrFhv_KrbU0-kFk3JqnYIR0OjUJKPxkg1EfbN5Sw_yGfHRWbPLmkydywnCYUVJqO6hevPRy7mtBns24UYO-Lew7wOySllr9NnFAc9C7w34W990870XDlmA094dMdHoxYhL9EZ9OJT9LRvP4Ri4-nRvNM5bu-0VWoF7tDYEqdn5p5z0Y4WoXDKxVARnXGE8eHaaGhSKTbGNNc3-SiHOC4fCdug"/>
+</button>
+</div>
+</header>
+<main class="max-w-container-max mx-auto md:px-margin-desktop">
+<!-- Hero Section -->
+<section class="px-margin-mobile pt-stack-lg pb-stack-md flex flex-col gap-stack-sm">
+<h2 class="font-display-lg-mobile text-display-lg-mobile text-on-surface">Temukan Kost Nyaman di Seluruh Indonesia</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[90%]">Koleksi kost premium terverifikasi untuk kenyamanan dan keamanan Anda. Booking mudah tanpa ribet.</p>
+</section>
+<!-- Search Card (Glassmorphism inspired) -->
+<section class="px-margin-mobile pb-stack-lg">
+<div class="bg-surface-container-lowest rounded-xl p-stack-md shadow-[0_2px_4px_rgba(0,0,0,0.05)] border border-surface-container-high relative overflow-hidden">
+<!-- Subtle gradient background element for premium feel -->
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary-container opacity-5 rounded-full blur-2xl pointer-events-none"></div>
+<form class="flex flex-col gap-stack-sm relative z-10" onsubmit="event.preventDefault();">
+<!-- Location Input -->
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" style='font-variation-settings: "FILL" 0;'>location_on</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-bright border-none rounded-lg font-body-sm text-body-sm focus:ring-1 focus:ring-primary focus:shadow-[0_0_0_4px_rgba(0,53,148,0.1)] transition-all placeholder:text-outline-variant text-on-surface" placeholder="Cari area atau nama kost..." type="text"/>
+</div>
+<div class="flex gap-stack-sm">
+<!-- Date Select (Simplified for UI) -->
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]" style='font-variation-settings: "FILL" 0;'>calendar_month</span>
+<button class="w-full pl-9 pr-2 py-3 bg-surface-bright border-none rounded-lg font-body-sm text-body-sm text-left text-on-surface-variant flex items-center justify-between" type="button">
+<span class="truncate">Kapan saja</span>
+</button>
+</div>
+<!-- Occupants Select -->
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]" style='font-variation-settings: "FILL" 0;'>person</span>
+<button class="w-full pl-9 pr-2 py-3 bg-surface-bright border-none rounded-lg font-body-sm text-body-sm text-left text-on-surface-variant flex items-center justify-between" type="button">
+<span class="truncate">1 Penghuni</span>
+</button>
+</div>
+</div>
+<button class="w-full mt-2 bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md hover:brightness-90 active:scale-[0.98] transition-all flex justify-center items-center gap-2 shadow-[0_4px_10px_rgba(0,53,148,0.2)]" type="button">
+<span class="material-symbols-outlined text-[20px]" style='font-variation-settings: "FILL" 0;'>search</span>
+                        Cari Kost
+                    </button>
+</form>
+</div>
+</section>
+<!-- Trust Signals Banner -->
+<section class="px-margin-mobile pb-stack-lg">
+<div class="bg-surface-container-low rounded-lg py-3 px-4 flex items-center justify-center gap-3 border border-surface-container">
+<span class="material-symbols-outlined text-secondary" style='font-variation-settings: "FILL" 1;'>verified_user</span>
+<p class="font-label-md text-label-md text-on-surface-variant">Dipercaya oleh <span class="text-primary font-bold">100K+</span> Penyewa</p>
+</div>
+</section>
+<!-- Featured Collections -->
+<section class="pb-stack-lg">
+<div class="px-margin-mobile mb-stack-sm flex justify-between items-end">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Kost Terpopuler di Jakarta</h3>
+<button class="font-label-sm text-label-sm text-primary hover:underline">Lihat Semua</button>
+</div>
+<!-- Horizontal Scroll Container -->
+<div class="flex overflow-x-auto hide-scrollbar px-margin-mobile gap-4 pb-4 snap-x snap-mandatory">
+<!-- Card 1 -->
+<article class="min-w-[280px] w-[85vw] md:w-[320px] bg-surface-container-lowest rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] border border-surface-container hover:shadow-[0_10px_25px_rgba(0,0,0,0.1)] transition-shadow duration-300 snap-center flex flex-col overflow-hidden">
+<div class="relative h-48 w-full">
+<img alt="Kost Menteng Residence" class="w-full h-full object-cover rounded-t-xl" data-alt="A high-quality architectural photo of a modern, premium dormitory room interior in Jakarta. The room features minimalist wooden furniture, a clean white bed with crisp linens, warm ambient lighting, and a large window letting in natural light. The style is bright, clean, and aspirational, reflecting high-end rental property standards." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhNPfnJkyCUiObGLYhV_9uQCp9lJWzFSnJXfFbdWhyInHAaOMYji2-1pnphwAZ1YlEvKg4aGxqbw-cvAPxkPlRiKzWmUXcdBz7e86nVtt6VrLWgq1kH4uuWL5XlNtzC-w62qKIAUcDW9hZPYddtwE7X7gqbWApwlOxURArvL7NgI5OjpXbQJDONAQX2L0VKDjWMZD2u5qdtb4DVnrt525s6LLHcsbjdwLDbn6tRd-C3pbwLnzlDt7wtoykWoiFEeK21CghODHNUvg"/>
+<!-- Badges -->
+<div class="absolute top-3 left-3 bg-secondary text-on-secondary px-2 py-1 rounded-md font-label-sm text-label-sm flex items-center gap-1 shadow-sm backdrop-blur-md bg-opacity-90">
+<span class="material-symbols-outlined text-[14px]" style='font-variation-settings: "FILL" 1;'>verified</span>
+                            Verified
+                        </div>
+<div class="absolute bottom-3 right-3 bg-surface-container-lowest text-on-surface px-2 py-1 rounded-md font-label-sm text-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-[#F59E0B]" style='font-variation-settings: "FILL" 1;'>star</span>
+                            4.9
+                        </div>
+</div>
+<div class="p-4 flex flex-col gap-1 flex-1">
+<h4 class="font-headline-md text-[18px] leading-6 text-on-surface font-semibold truncate">Kost Menteng Residence</h4>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]" style='font-variation-settings: "FILL" 0;'>location_on</span>
+<span class="truncate">Menteng, Jakarta Pusat</span>
+</div>
+<div class="mt-auto pt-2 flex items-center justify-between border-t border-surface-container-high">
+<div class="font-headline-sm text-[16px] text-primary font-bold">
+                                Rp 4.500.000<span class="font-body-sm text-body-sm text-outline font-normal">/bln</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="min-w-[280px] w-[85vw] md:w-[320px] bg-surface-container-lowest rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] border border-surface-container hover:shadow-[0_10px_25px_rgba(0,0,0,0.1)] transition-shadow duration-300 snap-center flex flex-col overflow-hidden">
+<div class="relative h-48 w-full">
+<img alt="Kebayoran Suites Exclusive" class="w-full h-full object-cover rounded-t-xl" data-alt="A bright, inviting interior shot of a premium studio apartment in South Jakarta. It features a modern minimalist aesthetic with sleek grey and white tones, a comfortable double bed, a small workspace, and subtle indoor plants. The lighting is soft and natural, emphasizing cleanliness and a premium lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgosS2LN5QJlVWbLC9cifvkk8DRTm3pb84R0_XFidCr1RojRTeGr-KgpGJhe1hX4dxPZ3haIizasrOKEUJAGMHccW3-HDBX7JwJ1m3TJO9fB1lXhdUR3m_oRR0uMxPFsHzgdauYlXlC-sMiJKd5WRe9bmcXh4N0Kj4tWYakkCwsB0Y3_XY8AYaJVoDQFOFQyf4l-u14v04gX7D8vlNvsoJh7eM1BYSH2m3WGl6j5JbNIic9HRIqtS2R9WY74MgBZisayfPERKwgrY"/>
+<div class="absolute top-3 left-3 bg-secondary text-on-secondary px-2 py-1 rounded-md font-label-sm text-label-sm flex items-center gap-1 shadow-sm backdrop-blur-md bg-opacity-90">
+<span class="material-symbols-outlined text-[14px]" style='font-variation-settings: "FILL" 1;'>verified</span>
+                            Verified
+                        </div>
+<div class="absolute top-3 right-3 bg-error-container text-on-error-container px-2 py-1 rounded-md font-label-sm text-label-sm font-bold shadow-sm backdrop-blur-md bg-opacity-90">
+                            Promo
+                        </div>
+<div class="absolute bottom-3 right-3 bg-surface-container-lowest text-on-surface px-2 py-1 rounded-md font-label-sm text-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-[#F59E0B]" style='font-variation-settings: "FILL" 1;'>star</span>
+                            4.8
+                        </div>
+</div>
+<div class="p-4 flex flex-col gap-1 flex-1">
+<h4 class="font-headline-md text-[18px] leading-6 text-on-surface font-semibold truncate">Kebayoran Suites Exclusive</h4>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]" style='font-variation-settings: "FILL" 0;'>location_on</span>
+<span class="truncate">Kebayoran Baru, Jakarta Selatan</span>
+</div>
+<div class="mt-auto pt-2 flex items-center justify-between border-t border-surface-container-high">
+<div class="font-headline-sm text-[16px] text-primary font-bold">
+                                Rp 3.200.000<span class="font-body-sm text-body-sm text-outline font-normal">/bln</span>
+</div>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- Category Chips -->
+<section class="pb-stack-lg">
+<div class="px-margin-mobile mb-stack-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Pilih Sesuai Kebutuhan</h3>
+</div>
+<div class="flex overflow-x-auto hide-scrollbar px-margin-mobile gap-3 pb-2">
+<button class="whitespace-nowrap px-4 py-2 rounded-full border border-outline-variant bg-surface-bright text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" style='font-variation-settings: "FILL" 0;'>ac_unit</span>
+                    AC
+                </button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full border border-outline-variant bg-surface-bright text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" style='font-variation-settings: "FILL" 0;'>wifi</span>
+                    WiFi Cepat
+                </button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full border border-outline-variant bg-surface-bright text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" style='font-variation-settings: "FILL" 0;'>local_laundry_service</span>
+                    Laundry
+                </button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full border border-outline-variant bg-surface-bright text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" style='font-variation-settings: "FILL" 0;'>bathtub</span>
+                    Kamar Mandi Dalam
+                </button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar Component -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 pb-safe bg-surface/90 backdrop-blur-md border-t border-surface-container-high shadow-[0_-8px_20px_rgba(0,0,0,0.04)] md:hidden">
+<!-- Explore (Active) -->
+<button class="flex flex-col items-center justify-center gap-1 flex-1 active:scale-95 transition-transform">
+<div class="bg-primary/10 text-primary rounded-full px-5 py-1.5 flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">search</span>
+</div>
+<span class="font-headline-sm text-[11px] font-bold text-primary tracking-wide uppercase">Explore</span>
+</button>
+<!-- Saved (Inactive) -->
+<button class="flex flex-col items-center justify-center gap-1 flex-1 text-on-surface-variant/60 hover:text-on-surface active:scale-95 transition-all">
+<div class="px-5 py-1.5 flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 0;">favorite</span>
+</div>
+<span class="font-headline-sm text-[11px] font-semibold tracking-wide uppercase">Saved</span>
+</button>
+<!-- Bookings (Inactive) -->
+<button class="flex flex-col items-center justify-center gap-1 flex-1 text-on-surface-variant/60 hover:text-on-surface active:scale-95 transition-all">
+<div class="px-5 py-1.5 flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+</div>
+<span class="font-headline-sm text-[11px] font-semibold tracking-wide uppercase">Bookings</span>
+</button>
+<!-- Inbox (Inactive) -->
+<button class="flex flex-col items-center justify-center gap-1 flex-1 text-on-surface-variant/60 hover:text-on-surface active:scale-95 transition-all">
+<div class="px-5 py-1.5 flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 0;">mail</span>
+</div>
+<span class="font-headline-sm text-[11px] font-semibold tracking-wide uppercase">Inbox</span>
+</button>
+<!-- Account (Inactive) -->
+<button class="flex flex-col items-center justify-center gap-1 flex-1 text-on-surface-variant/60 hover:text-on-surface active:scale-95 transition-all">
+<div class="px-5 py-1.5 flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 0;">person</span>
+</div>
+<span class="font-headline-sm text-[11px] font-semibold tracking-wide uppercase">Account</span>
+</button>
+</nav>
+<script>
+        // Subtle scroll effect for TopAppBar shadow
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('topAppBar');
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-md');
+                header.classList.remove('shadow-sm');
+            } else {
+                header.classList.add('shadow-sm');
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body></html>
