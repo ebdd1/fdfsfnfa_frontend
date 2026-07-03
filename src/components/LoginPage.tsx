@@ -92,8 +92,8 @@ export const LoginPage = () => {
         >
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="font-headline text-headline-lg font-bold text-on-surface mb-2">Welcome Back</h1>
-            <p className="text-body-sm text-on-surface-variant">Please sign in to access your premium dwelling portal.</p>
+            <h1 className="font-headline text-headline-lg font-bold text-on-surface mb-2">Selamat Datang</h1>
+            <p className="text-body-sm text-on-surface-variant">Masuk untuk mengakses portal kost premium.</p>
           </div>
 
           {/* Social Logins */}
@@ -108,7 +108,7 @@ export const LoginPage = () => {
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
               </svg>
-              <span className="font-body text-body-sm font-medium text-on-surface">Continue with Google</span>
+              <span className="font-body text-body-sm font-medium text-on-surface">Lanjutkan dengan Google</span>
             </button>
 
             <button
@@ -118,7 +118,7 @@ export const LoginPage = () => {
               <svg className="w-5 h-5 text-on-surface" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.04-.48-1.99-.52-3.09-.4-.28.03-.65.06-1.19.06-.55 0-1.19-.03-1.85-.1-2.67-.24-4.66-1.3-5.12-4.12-.45-2.76.79-5.38 2.25-7.1 1.43-1.68 3.25-2.5 5.5-2.5.28 0 .67.02 1.17.06.49.04.99.08 1.45.08 1.2 0 2.26-.4 3.22-.9 1.02-.54 1.84-1.3 2.44-2.4.5-.9.85-2.07.85-3.16 0-.85-.22-1.7-.62-2.56-.5-1.07-1.35-2.04-2.42-2.75-.85-.55-1.88-.92-2.85-1.13-.48-.1-.98-.17-1.55-.17-.68 0-1.4.1-2.18.3-2.08.55-4.03 1.6-5.57 3.08-1.37 1.32-2.42 2.96-3.08 4.7-.62 1.63-.78 3.3-.44 4.98.38 1.83 1.25 3.47 2.6 4.82.9.9 2.03 1.6 3.4 2.08 1.3.44 2.67.65 4.2.65.5 0 1-.03 1.45-.1.42-.06.8-.13 1.17-.2 1.1-.2 2.16-.55 3.08-1.08.03-.02.05-.04.07-.06.95-.54 1.84-1.16 2.59-1.85.02-.02.04-.03.06-.05-.03-.01-.06-.03-.1-.03z"/>
               </svg>
-              <span className="font-body text-body-sm font-medium text-on-surface">Continue with Apple</span>
+              <span className="font-body text-body-sm font-medium text-on-surface">Lanjutkan dengan Apple</span>
             </button>
           </div>
 
@@ -141,7 +141,7 @@ export const LoginPage = () => {
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
             {/* Email Input */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="login-email" className="font-label text-label-md text-on-surface">Email Address</label>
+              <label htmlFor="login-email" className="font-label text-label-md text-on-surface">Alamat Email</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline">
                   <span className="material-symbols-outlined text-[20px]">mail</span>
@@ -153,7 +153,7 @@ export const LoginPage = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 bg-surface-container-low border border-transparent rounded-lg text-body-sm text-on-surface placeholder:text-outline focus:bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all"
-                  placeholder="name@example.com"
+                  placeholder="nama@email.com"
                 />
               </div>
             </div>
@@ -161,8 +161,8 @@ export const LoginPage = () => {
             {/* Password Input */}
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between items-center">
-                <label htmlFor="login-password" className="font-label text-label-md text-on-surface">Password</label>
-                <a href="#" className="text-xs font-medium text-primary hover:text-primary-container transition-colors">Forgot Password?</a>
+                <label htmlFor="login-password" className="font-label text-label-md text-on-surface">Kata Sandi</label>
+                <a href="#" className="text-xs font-medium text-primary hover:text-primary-container transition-colors">Lupa Password?</a>
               </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline">
@@ -181,7 +181,7 @@ export const LoginPage = () => {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-outline hover:text-on-surface transition-colors"
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-label={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
                 >
                   <span className="material-symbols-outlined text-[20px]">{showPassword ? 'visibility_off' : 'visibility'}</span>
                 </button>
@@ -198,7 +198,7 @@ export const LoginPage = () => {
                 className="h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary bg-surface-container-low cursor-pointer"
               />
               <label htmlFor="remember-me" className="ml-2 block text-body-sm text-on-surface cursor-pointer">
-                Remember me for 30 days
+                Ingat saya selama 30 hari
               </label>
             </div>
 
@@ -213,7 +213,7 @@ export const LoginPage = () => {
               ) : loginRateLimit.isLocked ? (
                 <span>Coba lagi dalam {loginRateLimit.remainingSeconds}s</span>
               ) : (
-                <span>Sign In</span>
+                <span>Masuk</span>
               )}
             </button>
           </form>
@@ -221,9 +221,9 @@ export const LoginPage = () => {
           {/* Sign Up Link */}
           <div className="mt-8 text-center">
             <p className="text-body-sm text-on-surface-variant">
-              Don't have an account yet?{' '}
+              Belum punya akun?{' '}
               <Link to="/register" className="font-semibold text-primary hover:text-primary-container transition-colors">
-                Sign Up
+                Daftar Sekarang
               </Link>
             </p>
           </div>
