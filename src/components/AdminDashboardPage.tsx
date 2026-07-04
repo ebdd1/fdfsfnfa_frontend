@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 import { useSettingsStore } from '../stores/settingsStore';
 import { useAdminUsers, useAdminListings, useAdminStats } from '../hooks/useAdmin';
+import { useNotifications } from '../hooks/useNotifications';
 import { AdminSettingsPanel } from './admin/AdminSettingsPanel';
 import { AdminOrdersTab } from './admin/AdminOrdersTab';
 import { AdminConversationsTab } from './admin/AdminConversationsTab';
@@ -86,6 +87,7 @@ export const AdminDashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
   const { settings } = useSettingsStore();
+  const { notifications, unreadCount, markRead, markAllRead } = useNotifications();
   const [activeSection, setActiveSection] = useState<Section>('overview');
   const [collapsed, setCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -355,11 +357,35 @@ export const AdminDashboardPage: React.FC = () => {
                   <div className="absolute right-0 mt-3 w-80 bg-white border border-slate-200 rounded-2xl shadow-xl py-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div className="px-4 pb-2 border-b border-slate-100 flex justify-between items-center">
                       <span className="text-[10px] font-black text-slate-800 uppercase tracking-widest font-mono">Notifikasi</span>
+                      {unreadCount > 0 && (
+                        <button
+                          onClick={() => markAllRead()}
+                          className="text-[10px] text-[var(--color-primary-600)] hover:underline font-semibold"
+                        >
+                          Tandai semua baca
+                        </button>
+                      )}
                     </div>
                     <div className="max-h-60 overflow-y-auto mt-2">
-                      <div className="px-4 py-6 text-center text-xs text-slate-400 font-semibold">
-                        Tidak ada notifikasi baru.
-                      </div>
+                      {notifications.length === 0 ? (
+                        <div className="px-4 py-6 text-center text-xs text-slate-400 font-semibold">
+                          Tidak ada notifikasi baru.
+                        </div>
+                      ) : (
+                        notifications.slice(0, 5).map((notif) => (
+                          <div
+                            key={notif.id}
+                            onClick={() => markRead(notif.id)}
+                            className={`px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-slate-50 last:border-0 ${!notif.isRead ? 'bg-[var(--color-primary-50)]/30' : ''}`}
+                          >
+                            <p className="text-xs font-semibold text-slate-800 line-clamp-1">{notif.title}</p>
+                            {notif.body && <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">{notif.body}</p>}
+                            <p className="text-[10px] text-slate-400 mt-1">
+                              {new Date(notif.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                            </p>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
                 </>
@@ -470,7 +496,7 @@ export const AdminDashboardPage: React.FC = () => {
                 <div className={`flex flex-col items-center justify-center w-[58px] h-[48px] rounded-xl transition-all duration-300 ${active ? 'bg-[var(--primary-50)]/90 text-[var(--primary-600)]' : 'text-slate-400 hover:text-slate-600'
                   }`}>
                   <IconComponent className={`h-5 w-5 stroke-[2.2] transition-transform duration-300 ${active ? 'scale-105' : ''}`} />
-                  <span className={`mt-0.5 text-[9px] tracking-tight transition-colors duration-300 ${active ? 'font-black' : 'font-semibold'}`}>
+                  <span className={`mt-0.5 text-[11px] tracking-tight transition-colors duration-300 ${active ? 'font-black' : 'font-semibold'}`}>
                     {label}
                   </span>
                 </div>
