@@ -240,9 +240,9 @@ export const UserDashboardPage: React.FC = () => {
           </button>
 
           <button
-            onClick={() => onSelectProperty(user?.id || '')}
-            className="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-container shrink-0 cursor-pointer"
-            aria-label="Profil"
+            onClick={() => setIsProfileOpen(!isProfileOpen)}
+            className="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-container shrink-0 cursor-pointer hover:ring-2 hover:ring-primary transition-all duration-200"
+            aria-label="Menu Profil"
           >
             {user?.avatar_url ? (
               <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
@@ -303,6 +303,61 @@ export const UserDashboardPage: React.FC = () => {
                 ))}
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* PROFILE DROPDOWN - Desktop & Mobile */}
+      {isProfileOpen && (
+        <div className="fixed inset-0 z-50" onClick={() => setIsProfileOpen(false)}>
+          <div className="absolute top-14 right-3 md:right-4 w-64 bg-surface-container-lowest rounded-2xl shadow-elevation-hover border border-outline-variant/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200" onClick={(e) => e.stopPropagation()}>
+            {/* User Info Header */}
+            <div className="px-4 py-4 border-b border-outline-variant/50">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container overflow-hidden shrink-0">
+                  {user?.avatar_url ? (
+                    <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <User className="w-5 h-5" />
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-body-sm font-semibold text-on-surface truncate">{user?.name || 'Pencari Kost'}</p>
+                  <p className="text-label-sm text-on-surface-variant truncate">{user?.email}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Menu Items */}
+            <div className="py-2">
+              <button
+                onClick={() => {
+                  setIsProfileOpen(false);
+                  setActiveSection('settings');
+                  if (window.innerWidth < 768) setIsMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors text-left cursor-pointer"
+              >
+                <Settings className="w-5 h-5 text-on-surface-variant" />
+                <span className="text-body-sm text-on-surface">Pengaturan</span>
+              </button>
+
+              <button
+                onClick={async () => {
+                  setIsProfileOpen(false);
+                  try {
+                    await logout();
+                    navigate('/login');
+                  } catch {
+                    navigate('/login');
+                  }
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors text-left cursor-pointer"
+              >
+                <LogOut className="w-5 h-5 text-error" />
+                <span className="text-body-sm text-error">Keluar</span>
+              </button>
+            </div>
           </div>
         </div>
       )}
