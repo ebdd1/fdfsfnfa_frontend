@@ -44,13 +44,13 @@ import type { LucideIcon } from 'lucide-react';
 
 type SeekerSection = 'overview' | 'leases' | 'watchlist' | 'chat' | 'search' | 'settings';
 
-// Bottom nav: 5 items for mobile
+// Bottom nav: 5 items for mobile (Indonesian labels)
 const BOTTOM_NAV: { key: SeekerSection; label: string; icon: LucideIcon }[] = [
-  { key: 'search', label: 'Explore', icon: Search },
-  { key: 'watchlist', label: 'Saved', icon: Heart },
-  { key: 'leases', label: 'Bookings', icon: Receipt },
-  { key: 'chat', label: 'Inbox', icon: Mail },
-  { key: 'overview', label: 'Account', icon: User },
+  { key: 'search', label: 'Cari', icon: Search },
+  { key: 'watchlist', label: 'Simpan', icon: Heart },
+  { key: 'leases', label: 'Sewa', icon: Receipt },
+  { key: 'chat', label: 'Pesan', icon: Mail },
+  { key: 'overview', label: 'Akun', icon: User },
 ];
 
 export const UserDashboardPage: React.FC = () => {
