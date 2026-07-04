@@ -173,7 +173,7 @@ export const DashboardPage = () => {
         return <OwnerOrdersSection />;
       case 'chat':
         return (
-          <div className="h-full md:-mx-2 md:rounded-2xl overflow-hidden md:border border-slate-200 bg-white">
+          <div className="h-full md:-mx-2 md:rounded-2xl overflow-hidden md:border border-outline-variant bg-white">
             <InboxPage
               conversations={conversations}
               messages={messages}
@@ -190,7 +190,7 @@ export const DashboardPage = () => {
 
 
   return (
-    <div className="bg-[#F7F8FA] h-screen flex flex-col md:flex-row overflow-hidden font-sans text-slate-800 relative">
+    <div className="bg-[#F7F8FA] h-screen flex flex-col md:flex-row overflow-hidden font-sans text-on-surface relative">
       
       {/* MOBILE TOP BAR - Premium Dwelling Style */}
       <header className="flex md:hidden items-center justify-between px-margin-mobile h-14 bg-surface shrink-0 z-30 border-b border-outline-variant">
@@ -656,26 +656,26 @@ export const DashboardPage = () => {
                   setIsProfileOpen(!isProfileOpen);
                   setIsNotificationsOpen(false);
                 }}
-                className="flex items-center gap-2 p-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition-all duration-200 cursor-pointer group"
+                className="flex items-center gap-2 p-1.5 bg-surface-container-low hover:bg-surface border border-outline-variant rounded-xl transition-all duration-200 cursor-pointer group"
               >
-                <div className="w-7 h-7 rounded-lg bg-[var(--primary-100)] overflow-hidden border border-slate-200 flex-shrink-0 flex items-center justify-center text-[var(--primary-600)] text-xs font-black">
+                <div className="w-7 h-7 rounded-lg bg-[var(--primary-100)] overflow-hidden border border-outline-variant flex-shrink-0 flex items-center justify-center text-[var(--primary-600)] text-xs font-black">
                   {user?.avatar_url ? (
                     <img src={user.avatar_url} alt={user?.name || 'Pemilik Kost'} className="w-full h-full object-cover" />
                   ) : (
                     (user?.name || 'P')[0].toUpperCase()
                   )}
                 </div>
-                <ChevronDown className={`w-3.5 h-3.5 text-slate-400 group-hover:text-slate-600 transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-3.5 h-3.5 text-on-surface-variant group-hover:text-primary transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {isProfileOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsProfileOpen(false)} />
-                  <div className="absolute right-0 mt-3 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <div className="px-4 py-2.5 border-b border-slate-100">
-                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest font-mono">Masuk Sebagai</p>
-                      <p className="text-xs font-black text-slate-800 leading-tight mt-0.5 truncate">{user?.name || 'Pemilik Kost'}</p>
-                      <p className="text-[10px] text-slate-400 font-semibold truncate mt-0.5">{user?.email || ''}</p>
+                  <div className="absolute right-0 mt-3 w-56 bg-white border border-outline-variant rounded-2xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                    <div className="px-4 py-2.5 border-b border-outline">
+                      <p className="text-[9px] font-black text-on-surface-variant uppercase tracking-widest font-mono">Masuk Sebagai</p>
+                      <p className="text-xs font-black text-on-surface leading-tight mt-0.5 truncate">{user?.name || 'Pemilik Kost'}</p>
+                      <p className="text-[10px] text-on-surface-variant font-semibold truncate mt-0.5">{user?.email || ''}</p>
                     </div>
 
                     <div className="py-1">
@@ -684,9 +684,9 @@ export const DashboardPage = () => {
                           setIsProfileOpen(false);
                           setShowProfileEditor(true);
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2 text-xs font-bold text-on-surface-variant hover:bg-surface-container-low hover:text-primary flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
-                        <User className="w-4 h-4 text-slate-400" />
+                        <User className="w-4 h-4 text-on-surface-variant" />
                         <span>Edit Profil Saya</span>
                       </button>
                       <button
@@ -694,7 +694,7 @@ export const DashboardPage = () => {
                           setIsProfileOpen(false);
                           navigate('/anda/home');
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2 text-xs font-bold text-on-surface-variant hover:bg-surface-container-low hover:text-primary flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
                         <Sparkles className="w-4 h-4 text-[var(--primary-500)]" />
                         <span>Beralih ke Dasbor Pencari</span>
@@ -704,14 +704,14 @@ export const DashboardPage = () => {
                           setIsProfileOpen(false);
                           navigate('/');
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2 text-xs font-bold text-on-surface-variant hover:bg-surface-container-low hover:text-primary flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
-                        <ArrowLeft className="w-4 h-4 text-slate-400" />
+                        <ArrowLeft className="w-4 h-4 text-on-surface-variant" />
                         <span>Kembali ke Beranda</span>
                       </button>
                     </div>
 
-                    <div className="border-t border-slate-100 pt-1 mt-1">
+                    <div className="border-t border-outline pt-1 mt-1">
                       <button
                         onClick={() => {
                           setIsProfileOpen(false);
