@@ -538,11 +538,12 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
       if (!latitude || !longitude) return false;
 
       const [sw, ne] = PALOPO_VALID_BOUNDS;
+      // Mapbox uses [longitude, latitude] order
       return (
-        longitude >= sw[0] &&
-        longitude <= ne[0] &&
-        latitude >= sw[1] &&
-        latitude <= ne[1]
+        longitude >= sw[0] && // sw.lng
+        longitude <= ne[0] && // ne.lng
+        latitude >= sw[1] &&   // sw.lat
+        latitude <= ne[1]     // ne.lat
       );
     });
   }, [properties]);
@@ -696,6 +697,49 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
     });
   }, []);
 
+  // Handle cluster click - zoom into cluster on click
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    if (!map || filteredProperties.length < 50) return;
+
+    const handleClusterClick = (e: mapboxgl.MapMouseEvent) => {
+      const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+      if (!features.length) return;
+
+      const clusterId = features[0].properties?.cluster_id;
+      const source = map.getSource('properties-cluster') as mapboxgl.GeoJSONSource;
+
+      source.getClusterExpansionZoom(clusterId, (err, zoom) => {
+        if (err) return;
+        const geometry = features[0].geometry as GeoJSON.Point;
+        map.flyTo({
+          center: geometry.coordinates as [number, number],
+          zoom: zoom ?? 14,
+          duration: 500,
+        });
+      });
+    };
+
+    const handlePointClick = (e: mapboxgl.MapMouseEvent) => {
+      const features = map.queryRenderedFeatures(e.point, { layers: ['unclustered-point'] });
+      if (!features.length) return;
+
+      const propertyId = features[0].properties?.id;
+      const property = filteredProperties.find((p) => p.property.id === propertyId);
+      if (property) {
+        handleMarkerClick({ property: property.property, rooms: property.rooms });
+      }
+    };
+
+    map.on('click', 'clusters', handleClusterClick);
+    map.on('click', 'unclustered-point', handlePointClick);
+
+    return () => {
+      map.off('click', 'clusters', handleClusterClick);
+      map.off('click', 'unclustered-point', handlePointClick);
+    };
+  }, [filteredProperties, handleMarkerClick]);
+
   // No access token placeholder
   if (!accessToken) {
     return (
@@ -719,7 +763,7 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
     <div className="h-full w-full relative overflow-hidden" style={{ cursor: 'grab' }}>
       {/* Mobile gesture hint - auto-hides after 3 seconds */}
       {showGestureHint && (
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-slate-900/80 text-white text-xs px-3 py-2 rounded-full backdrop-blur-sm z-10 pointer-events-none md:hidden">
+        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-slate-900/80 text-white text-xs px-3 py-2 rounded-lg z-10 pointer-events-none md:hidden">
           Gunakan 2 jari untuk zoom
         </div>
       )}
@@ -784,8 +828,96 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
           </Source>
         )}
 
+        {/* Clustering layer - for 50+ properties, use GPU-accelerated clusters */}
+        {filteredProperties.length >= 50 && (
+          <Source
+            id="properties-cluster"
+            type="geojson"
+            data={{
+              type: 'FeatureCollection',
+              features: filteredProperties.map(({ property }) => ({
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [property.location.longitude, property.location.latitude],
+                },
+                properties: {
+                  id: property.id,
+                  name: property.name,
+                  is_verified: property.is_verified,
+                },
+              })),
+            }}
+            cluster={true}
+            clusterMaxZoom={14}
+            clusterRadius={50}
+          >
+            {/* Clustered circles */}
+            <Layer
+              id="clusters"
+              type="circle"
+              filter={['has', 'point_count']}
+              paint={{
+                'circle-color': [
+                  'step',
+                  ['get', 'point_count'],
+                  '#004ac6', // < 100
+                  100,
+                  '#f59e0b', // 100-500
+                  500,
+                  '#ef4444', // 500+
+                ],
+                'circle-radius': [
+                  'step',
+                  ['get', 'point_count'],
+                  20,
+                  100,
+                  28,
+                  500,
+                  36,
+                ],
+                'circle-stroke-width': 2,
+                'circle-stroke-color': '#ffffff',
+              }}
+            />
+
+            {/* Cluster count labels */}
+            <Layer
+              id="cluster-count"
+              type="symbol"
+              filter={['has', 'point_count']}
+              layout={{
+                'text-field': ['get', 'point_count_abbreviated'],
+                'text-size': 12,
+                'text-font': ['DIN Pro Bold', 'Arial Unicode MS Bold'],
+              }}
+              paint={{
+                'text-color': '#ffffff',
+              }}
+            />
+
+            {/* Individual unclustered points */}
+            <Layer
+              id="unclustered-point"
+              type="circle"
+              filter={['!', ['has', 'point_count']]}
+              paint={{
+                'circle-color': [
+                  'case',
+                  ['get', 'is_verified'],
+                  '#006c49',
+                  '#004ac6',
+                ],
+                'circle-radius': 6,
+                'circle-stroke-width': 2,
+                'circle-stroke-color': '#ffffff',
+              }}
+            />
+          </Source>
+        )}
+
         {/* Property markers — render as compact dot until zoom ≥ PRICE_VISIBLE_ZOOM */}
-        {filteredProperties.map(({ property, rooms }) => (
+        {filteredProperties.length < 50 && filteredProperties.map(({ property, rooms }) => (
           <PriceMarker
             key={property.id}
             property={property}
@@ -935,7 +1067,7 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
 
       {/* Bottom: Zoom level indicator */}
       <div className="absolute bottom-20 right-3 z-[1000]">
-        <div className="bg-white/90 backdrop-blur-sm rounded-lg px-2 py-1 text-xs font-medium text-slate-600 shadow">
+        <div className="bg-white/90 rounded-lg px-2 py-1 text-xs font-medium text-slate-600 shadow">
           {zoom}x
         </div>
       </div>

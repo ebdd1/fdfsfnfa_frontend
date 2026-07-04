@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
@@ -12,41 +12,45 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-// Custom marker icons
-const createMarkerIcon = (isHovered: boolean) => {
-  return L.divIcon({
-    className: 'custom-marker',
-    html: `
-      <div style="
-        background: ${isHovered ? '#059669' : 'white'};
-        color: ${isHovered ? 'white' : '#1e293b'};
-        padding: 6px 10px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 900;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        border: 2px solid ${isHovered ? '#059669' : '#e2e8f0'};
-        white-space: nowrap;
-        transition: all 0.2s ease;
-        transform: scale(${isHovered ? 1.1 : 1});
-      ">
-        <span style="
-          position: absolute;
-          bottom: -6px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 10px;
-          height: 10px;
+// Memoized icon cache - prevents re-creation on every render
+const iconCache: Record<string, L.DivIcon> = {};
+
+const getMarkerIcon = (isHovered: boolean): L.DivIcon => {
+  const key = isHovered ? 'hovered' : 'default';
+  if (!iconCache[key]) {
+    iconCache[key] = L.divIcon({
+      className: 'custom-marker',
+      html: `
+        <div style="
           background: ${isHovered ? '#059669' : 'white'};
-          border-right: 2px solid ${isHovered ? '#059669' : '#e2e8f0'};
-          border-bottom: 2px solid ${isHovered ? '#059669' : '#e2e8f0'};
-          transform: translateX(-50%) rotate(45deg);
-        "></span>
-      </div>
-    `,
-    iconSize: [0, 0],
-    iconAnchor: [0, 0],
-  });
+          color: ${isHovered ? 'white' : '#1e293b'};
+          padding: 6px 10px;
+          border-radius: 20px;
+          font-size: 11px;
+          font-weight: 900;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+          border: 2px solid ${isHovered ? '#059669' : '#e2e8f0'};
+          white-space: nowrap;
+        ">
+          <span style="
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background: ${isHovered ? '#059669' : 'white'};
+            border-right: 2px solid ${isHovered ? '#059669' : '#e2e8f0'};
+            border-bottom: 2px solid ${isHovered ? '#059669' : '#e2e8f0'};
+            transform: translateX(-50%) rotate(45deg);
+          "></span>
+        </div>
+      `,
+      iconSize: [0, 0],
+      iconAnchor: [0, 0],
+    });
+  }
+  return iconCache[key];
 };
 
 interface PropertyMarker {
@@ -101,6 +105,24 @@ export const MapView: React.FC<MapViewProps> = ({
   onHoverProperty,
   selectedCity,
 }) => {
+  // Track hovered icon state for efficient re-renders
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  // Memoized handlers - prevents creating new functions on every render
+  const handleClick = useCallback((id: string) => {
+    onSelectProperty(id);
+  }, [onSelectProperty]);
+
+  const handleMouseOver = useCallback((id: string) => {
+    setHoveredId(id);
+    onHoverProperty(id);
+  }, [onHoverProperty]);
+
+  const handleMouseOut = useCallback(() => {
+    setHoveredId(null);
+    onHoverProperty(null);
+  }, [onHoverProperty]);
+
   // Calculate center from properties or default to Indonesia
   const getDefaultCenter = (): [number, number] => {
     if (properties.length === 0) return [-3.3, 120.2]; // Indonesia center
@@ -151,18 +173,18 @@ export const MapView: React.FC<MapViewProps> = ({
         <MapBounds properties={validProperties} />
 
         {validProperties.map(({ property, rooms }) => {
-          const isHovered = hoveredPropertyId === property.id;
+          const isHovered = hoveredId === property.id || hoveredPropertyId === property.id;
           const lowestPrice = getLowestPrice(rooms);
 
           return (
             <Marker
               key={property.id}
               position={[property.location.latitude, property.location.longitude]}
-              icon={createMarkerIcon(isHovered)}
+              icon={getMarkerIcon(isHovered)}
               eventHandlers={{
-                click: () => onSelectProperty(property.id),
-                mouseover: () => onHoverProperty(property.id),
-                mouseout: () => onHoverProperty(null),
+                click: () => handleClick(property.id),
+                mouseover: () => handleMouseOver(property.id),
+                mouseout: handleMouseOut,
               }}
             >
               <Popup>
