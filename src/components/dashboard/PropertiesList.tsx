@@ -29,7 +29,7 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   // Confirm dialog state
-  const [confirmDelete, setConfirmDelete] = useState<{ id: string; name: string } | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<{ type: 'property' | 'room'; propertyId?: string; roomId?: string; name: string } | null>(null);
 
   // Inline add-room state
   const [addRoomPropertyId, setAddRoomPropertyId] = useState<string | null>(null);
@@ -69,10 +69,10 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
     });
   };
 
-  const handleDelete = async () => {
-    if (!confirmDelete) return;
+  const handleDeleteProperty = async () => {
+    if (!confirmDelete || confirmDelete.type !== 'property') return;
     try {
-      await deleteProperty(confirmDelete.id);
+      await deleteProperty(confirmDelete.propertyId!);
     } finally {
       setConfirmDelete(null);
     }
@@ -100,7 +100,8 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
         </p>
         <button onClick={onAddProperty} className="bg-primary text-on-primary font-label text-[14px] font-semibold px-6 py-3 rounded-xl hover:bg-primary/90 transition-colors shadow-level-1 flex items-center gap-2 cursor-pointer">
           <Plus className="w-5 h-5" />
-          <span>Tambah Kost</span>
+          <span>Tambah Kost
+        </span>
         </button>
       </div>
     );
@@ -227,7 +228,7 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
                     {selectedIds.has(property.id) ? <Check className="w-5 h-5" /> : <div className="w-2.5 h-2.5 rounded-full border-2 border-current" />}
                   </button>
                   <button
-                    onClick={() => setConfirmDelete({ id: property.id, name: property.name })}
+                    onClick={() => setConfirmDelete({ type: 'property', propertyId: property.id, name: property.name })}
                     disabled={isDeletingProperty && deletingId === property.id}
                     className="w-10 h-10 rounded-xl bg-surface border border-outline-variant flex items-center justify-center text-outline hover:text-error hover:border-error transition-colors cursor-pointer"
                   >
@@ -366,7 +367,7 @@ export const PropertiesList: React.FC<PropertiesListProps> = ({
         </>}
         confirmLabel={isDeletingProperty ? 'Menghapus...' : 'Ya, Hapus'}
         loading={isDeletingProperty}
-        onConfirm={handleDelete}
+        onConfirm={handleDeleteProperty}
         onClose={() => setConfirmDelete(null)}
       />
     </div>
