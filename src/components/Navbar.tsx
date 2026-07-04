@@ -120,9 +120,9 @@ export const Navbar: React.FC = () => {
                 <span className="absolute top-1 right-1 w-2 h-2 bg-error rounded-full" />
               </Link>
 
-              {/* User Dropdown */}
+              {/* User Dropdown - Desktop only */}
               <div
-                className="relative"
+                className="relative hidden md:block"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
@@ -264,15 +264,34 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Premium Style */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-surface border-t border-surface-container shadow-elevation-2 z-50">
-          <nav className="px-margin-mobile py-stack-md flex flex-col gap-2">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-surface border-t border-outline-variant shadow-elevation-hover z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+          <nav className="px-margin-mobile py-stack-md flex flex-col gap-1">
+            {/* User Profile (when logged in) */}
+            {isAuthenticated && user && (
+              <div className="flex items-center gap-3 p-3 mb-2 bg-surface-container rounded-xl border border-outline-variant">
+                <div className="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container overflow-hidden shrink-0">
+                  {user.avatar_url ? (
+                    <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-lg font-bold">{user.name?.charAt(0).toUpperCase()}</span>
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-body-sm font-semibold text-on-surface truncate">{user.name}</p>
+                  <p className="text-label-sm text-on-surface-variant capitalize">
+                    {user.role === 'admin' ? 'Administrator' : user.role === 'owner' ? 'Pemilik Kost' : 'Pencari Kost'}
+                  </p>
+                </div>
+              </div>
+            )}
+
             <Link
               to="/"
               onClick={() => setMobileMenuOpen(false)}
-              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
-                pathname === '/' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
+              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-medium transition-colors ${
+                pathname === '/' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface hover:bg-surface-container'
               }`}
             >
               Beranda
@@ -280,8 +299,8 @@ export const Navbar: React.FC = () => {
             <Link
               to="/search"
               onClick={() => setMobileMenuOpen(false)}
-              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
-                pathname.startsWith('/search') ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
+              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-medium transition-colors ${
+                pathname.startsWith('/search') ? 'bg-primary-container text-on-primary-container' : 'text-on-surface hover:bg-surface-container'
               }`}
             >
               Terverifikasi
@@ -289,8 +308,8 @@ export const Navbar: React.FC = () => {
             <Link
               to="/search?filter=promo"
               onClick={() => setMobileMenuOpen(false)}
-              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
-                pathname === '/offers' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
+              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-medium transition-colors ${
+                pathname === '/offers' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface hover:bg-surface-container'
               }`}
             >
               Penawaran
@@ -298,8 +317,8 @@ export const Navbar: React.FC = () => {
             <Link
               to="/about"
               onClick={() => setMobileMenuOpen(false)}
-              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
-                pathname === '/about' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
+              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-medium transition-colors ${
+                pathname === '/about' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface hover:bg-surface-container'
               }`}
             >
               Tentang Kami
@@ -307,28 +326,87 @@ export const Navbar: React.FC = () => {
             <Link
               to="/how-it-works"
               onClick={() => setMobileMenuOpen(false)}
-              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-label-md transition-colors ${
-                pathname === '/how-it-works' ? 'bg-primary text-on-primary' : 'text-on-surface hover:bg-surface-container-low'
+              className={`mobile-nav-item px-4 py-3 rounded-lg text-body-md font-medium transition-colors ${
+                pathname === '/how-it-works' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface hover:bg-surface-container'
               }`}
             >
               Cara Kerja
             </Link>
 
-            <hr className="border-surface-container-high my-2" />
+            <hr className="border-outline-variant my-2" />
+
+            {/* Quick Actions for authenticated users */}
+            {isAuthenticated && user && (
+              <>
+                {user.role === 'seeker' && (
+                  <Link
+                    to="/anda/home"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="mobile-nav-item px-4 py-3 rounded-lg text-body-md font-medium text-on-surface hover:bg-surface-container transition-colors"
+                  >
+                    Dasbor Saya
+                  </Link>
+                )}
+                {user.role === 'owner' && (
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="mobile-nav-item px-4 py-3 rounded-lg text-body-md font-medium text-on-surface hover:bg-surface-container transition-colors"
+                  >
+                    Dasbor Pemilik
+                  </Link>
+                )}
+                {user.role === 'admin' && (
+                  <Link
+                    to="/admin"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="mobile-nav-item px-4 py-3 rounded-lg text-body-md font-medium text-on-surface hover:bg-surface-container transition-colors"
+                  >
+                    Mode Admin
+                  </Link>
+                )}
+                <Link
+                  to="/chat"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mobile-nav-item px-4 py-3 rounded-lg text-body-md font-medium text-on-surface hover:bg-surface-container transition-colors"
+                >
+                  Pesan
+                </Link>
+                <Link
+                  to="/watchlist"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mobile-nav-item px-4 py-3 rounded-lg text-body-md font-medium text-on-surface hover:bg-surface-container transition-colors"
+                >
+                  Watchlist
+                </Link>
+
+                <hr className="border-outline-variant my-2" />
+
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    handleLogout();
+                  }}
+                  className="mobile-nav-item px-4 py-3 rounded-lg text-body-md font-medium text-error hover:bg-error-container transition-colors text-left"
+                >
+                  Keluar
+                </button>
+              </>
+            )}
 
             {!isAuthenticated && (
               <>
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-item px-4 py-3 rounded-lg text-body-md font-label-md text-on-surface hover:bg-surface-container-low transition-colors text-center"
+                  className="mobile-nav-item px-4 py-3 rounded-lg text-body-md font-medium text-on-surface hover:bg-surface-container transition-colors text-center"
                 >
                   Masuk
                 </Link>
                 <Link
                   to="/register?role=owner"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-item nav-cta px-4 py-3 rounded-lg bg-primary text-on-primary text-body-md font-label-md text-center"
+                  className="mobile-nav-item nav-cta px-4 py-3 rounded-lg bg-primary text-on-primary text-body-md font-medium text-center"
                 >
                   Pasang Iklan
                 </Link>
