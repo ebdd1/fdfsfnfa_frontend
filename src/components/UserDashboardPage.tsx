@@ -210,7 +210,7 @@ export const UserDashboardPage: React.FC = () => {
           <button
             onClick={() => setIsMobileMenuOpen(true)}
             aria-label="Buka menu"
-            className="p-2 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-200 cursor-pointer"
+            className="p-2 rounded-full hover:bg-surface-container-low transition-[background-color] active:scale-[0.96] duration-200 cursor-pointer"
           >
             <Menu className="w-5 h-5 text-on-surface" />
           </button>
@@ -231,7 +231,7 @@ export const UserDashboardPage: React.FC = () => {
           <button
             onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
             aria-label="Notifikasi"
-            className="relative p-2 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-200 cursor-pointer"
+            className="relative p-2 rounded-full hover:bg-surface-container-low transition-[background-color] active:scale-[0.96] duration-200 cursor-pointer"
           >
             <Bell className="w-5 h-5 text-on-surface" />
             {notifUnread > 0 && (
@@ -241,7 +241,7 @@ export const UserDashboardPage: React.FC = () => {
 
           <button
             onClick={() => setIsProfileOpen(!isProfileOpen)}
-            className="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-container shrink-0 cursor-pointer hover:ring-2 hover:ring-primary transition-all duration-200"
+            className="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-container shrink-0 cursor-pointer hover:ring-2 hover:ring-primary transition-[ring-color] active:scale-[0.96] duration-200"
             aria-label="Menu Profil"
           >
             {user?.avatar_url ? (
@@ -258,9 +258,9 @@ export const UserDashboardPage: React.FC = () => {
       {/* MOBILE NOTIFICATIONS SHEET - Premium Style */}
       {isNotificationsOpen && (
         <div className="md:hidden fixed inset-0 z-50" onClick={() => setIsNotificationsOpen(false)}>
-          <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm animate-in fade-in duration-200" />
+          <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm animate-in fade-in duration-200 animate-out fade-out duration-150" />
           <div
-            className="absolute top-14 right-3 left-3 bg-surface-container-lowest rounded-2xl shadow-elevation-hover overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+            className="absolute top-14 right-3 left-3 bg-surface-container-lowest rounded-2xl shadow-elevation-hover overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 animate-out fade-out duration-150"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-5 py-4 border-b border-outline-variant flex items-center justify-between">
@@ -380,7 +380,7 @@ export const UserDashboardPage: React.FC = () => {
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Tutup menu"
-                className="p-1.5 text-on-surface-variant hover:bg-surface-container rounded-lg transition-colors cursor-pointer"
+                className="p-1.5 text-on-surface-variant hover:bg-surface-container rounded-lg transition-[background-color] cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -409,7 +409,7 @@ export const UserDashboardPage: React.FC = () => {
                 <button
                   key={key}
                   onClick={() => goToSection(key)}
-                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-colors cursor-pointer ${
+                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-[background-color] cursor-pointer ${
                     activeSection === key ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-container'
                   }`}
                 >
@@ -427,7 +427,7 @@ export const UserDashboardPage: React.FC = () => {
                 <button
                   key={key}
                   onClick={() => goToSection(key)}
-                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-colors cursor-pointer ${
+                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-[background-color] cursor-pointer ${
                     activeSection === key ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-container'
                   }`}
                 >
@@ -445,7 +445,7 @@ export const UserDashboardPage: React.FC = () => {
               <p className="text-label-sm font-semibold text-on-surface-variant uppercase tracking-wider px-3 mb-2 mt-4">Akun</p>
               <button
                 onClick={() => goToSection('settings')}
-                className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-colors cursor-pointer ${
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-[background-color] cursor-pointer ${
                   activeSection === 'settings' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-container'
                 }`}
               >
@@ -913,7 +913,7 @@ export const UserDashboardPage: React.FC = () => {
 
                 {/* ── Header Section - Premium Style ── */}
                 <section>
-                  <h1 className="font-headline text-[28px] md:text-[48px] font-bold tracking-tight text-on-surface">
+                  <h1 className="font-headline text-[28px] md:text-[48px] font-bold tracking-tight text-on-surface text-balance">
                     {greeting}, {firstName}
                   </h1>
                   <p className="font-body text-[14px] text-on-surface-variant mt-1">
@@ -930,26 +930,26 @@ export const UserDashboardPage: React.FC = () => {
                     <div className="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center mb-2 text-on-primary-container">
                       <Home className="w-5 h-5" />
                     </div>
-                    <span className="font-headline text-[18px] font-bold text-on-surface">{activeLeases.length}</span>
+                    <span className="font-headline text-[18px] font-bold text-on-surface tabular-nums">{activeLeases.length}</span>
                     <span className="font-label text-[11px] text-on-surface-variant mt-0.5">Sewa Aktif</span>
                   </div>
 
                   {/* Stat 2: Tersimpan */}
                   <button
                     onClick={() => setActiveSection('watchlist')}
-                    className="bg-surface-container-lowest rounded-lg p-3 shadow-elevation-1 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container transition-colors active:scale-95"
+                    className="bg-surface-container-lowest rounded-lg p-3 shadow-elevation-1 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container transition-[background-color] active:scale-[0.96]"
                   >
                     <div className="w-10 h-10 rounded-lg bg-tertiary-fixed-dim flex items-center justify-center mb-2 text-tertiary">
                       <Heart className="w-5 h-5" />
                     </div>
-                    <span className="font-headline text-[18px] font-bold text-on-surface">{watchlistIds.length}</span>
+                    <span className="font-headline text-[18px] font-bold text-on-surface tabular-nums">{watchlistIds.length}</span>
                     <span className="font-label text-[11px] text-on-surface-variant mt-0.5">Tersimpan</span>
                   </button>
 
                   {/* Stat 3: Pesan Baru */}
                   <button
                     onClick={() => setActiveSection('chat')}
-                    className="bg-surface-container-lowest rounded-lg p-3 shadow-elevation-1 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container transition-colors active:scale-95 relative"
+                    className="bg-surface-container-lowest rounded-lg p-3 shadow-elevation-1 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container transition-[background-color] active:scale-[0.96] relative"
                   >
                     {unreadCount > 0 && (
                       <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-error" />
@@ -957,7 +957,7 @@ export const UserDashboardPage: React.FC = () => {
                     <div className="w-10 h-10 rounded-lg bg-secondary-fixed-dim flex items-center justify-center mb-2 text-secondary-container">
                       <Mail className="w-5 h-5" />
                     </div>
-                    <span className="font-headline text-[18px] font-bold text-on-surface">{unreadCount}</span>
+                    <span className="font-headline text-[18px] font-bold text-on-surface tabular-nums">{unreadCount}</span>
                     <span className="font-label text-[11px] text-on-surface-variant mt-0.5">Pesan Baru</span>
                   </button>
                 </section>
@@ -965,7 +965,7 @@ export const UserDashboardPage: React.FC = () => {
                 {/* ── Active Rent Card - Premium Hero Style ── */}
                 <section>
                   <div className="flex justify-between items-end mb-2">
-                    <h2 className="font-headline text-[20px] font-semibold text-on-surface">Sewa Aktif Kamu</h2>
+                    <h2 className="font-headline text-[20px] font-semibold text-on-surface text-balance">Sewa Aktif Kamu</h2>
                   </div>
 
                   {activeLeases.length === 0 ? (
@@ -978,7 +978,7 @@ export const UserDashboardPage: React.FC = () => {
                         <p className="text-label-sm text-on-surface-variant mb-5 max-w-xs">Cari kost terverifikasi dan ajukan sewa untuk mulai menghuni.</p>
                         <button
                           onClick={() => navigate('/search')}
-                          className="w-full bg-primary-container text-on-primary-container font-label text-[14px] py-3 rounded-lg hover:brightness-95 active:scale-[0.98] transition-all flex justify-center items-center gap-2 cursor-pointer"
+                          className="w-full bg-primary-container text-on-primary-container font-label text-[14px] py-3 rounded-lg hover:brightness-95 active:scale-[0.96] transition-all flex justify-center items-center gap-2 cursor-pointer"
                         >
                           <Search className="w-4 h-4" /> Cari Kost Sekarang
                         </button>
@@ -992,7 +992,7 @@ export const UserDashboardPage: React.FC = () => {
                           <img
                             src={properties.find(p => p.id === activeLeases[0].propertyId)?.media[0].url_original}
                             alt={activeLeases[0].property?.name || 'Kost'}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover outline outline-1 outline-black/10 outline-offset-[-1px]"
                           />
                         ) : (
                           <div className="w-full h-full bg-surface-container flex items-center justify-center">
@@ -1046,17 +1046,17 @@ export const UserDashboardPage: React.FC = () => {
                             </p>
                           </div>
                           <div className="text-right">
-                            <p className="font-headline text-[16px] font-bold text-primary">{fmtIDR(activeLeases[0].priceMonthly)}</p>
+                            <p className="font-headline text-[16px] font-bold text-primary tabular-nums">{fmtIDR(activeLeases[0].priceMonthly)}</p>
                             <p className="text-label-sm text-on-surface-variant">per bulan</p>
                           </div>
                         </div>
 
                         {/* Action Buttons */}
                         <div className="flex gap-2 mt-1">
-                          <button className="flex-1 bg-primary-container text-on-primary-container font-label text-[13px] py-2.5 rounded-lg hover:brightness-95 active:scale-[0.98] transition-all flex justify-center items-center gap-2 cursor-pointer">
+                          <button className="flex-1 bg-primary-container text-on-primary-container font-label text-[13px] py-2.5 rounded-lg hover:brightness-95 active:scale-[0.96] transition-all flex justify-center items-center gap-2 cursor-pointer">
                             <CreditCard className="w-4 h-4" /> Bayar Tagihan
                           </button>
-                          <button className="flex-1 border border-primary-container text-primary-container font-label text-[13px] py-2.5 rounded-lg hover:bg-surface-container-low active:scale-[0.98] transition-all flex justify-center items-center gap-2 cursor-pointer">
+                          <button className="flex-1 border border-primary-container text-primary-container font-label text-[13px] py-2.5 rounded-lg hover:bg-surface-container-low active:scale-[0.96] transition-all flex justify-center items-center gap-2 cursor-pointer">
                             <Phone className="w-4 h-4" /> Hubungi Pemilik
                           </button>
                         </div>
@@ -1069,7 +1069,7 @@ export const UserDashboardPage: React.FC = () => {
                 {recommendations.length > 0 && (
                   <section>
                     <div className="flex justify-between items-end mb-3">
-                      <h2 className="font-headline text-[20px] font-semibold text-on-surface">Rekomendasi Buat Kamu</h2>
+                      <h2 className="font-headline text-[20px] font-semibold text-on-surface text-balance">Rekomendasi Buat Kamu</h2>
                       <button
                         onClick={() => navigate('/search')}
                         className="text-primary font-label text-[13px] hover:underline cursor-pointer"
@@ -1093,7 +1093,7 @@ export const UserDashboardPage: React.FC = () => {
                             {/* Image */}
                             <div className="h-36 w-full relative overflow-hidden">
                               {cover ? (
-                                <img src={cover} alt={p.name} className="w-full h-full object-cover" />
+                                <img src={cover} alt={p.name} className="w-full h-full object-cover outline outline-1 outline-black/10 outline-offset-[-1px]" />
                               ) : (
                                 <div className="w-full h-full bg-surface-container flex items-center justify-center">
                                   <Building2 className="w-10 h-10 text-on-surface-variant" />
@@ -1127,7 +1127,7 @@ export const UserDashboardPage: React.FC = () => {
                               </div>
 
                               <div className="mt-auto">
-                                <p className="font-headline text-[14px] font-bold text-primary">
+                                <p className="font-headline text-[14px] font-bold text-primary tabular-nums">
                                   {price > 0 ? fmtIDR(price) : '—'}
                                   <span className="font-body text-[11px] text-on-surface-variant font-normal ml-1">/ bulan</span>
                                 </p>
@@ -1157,7 +1157,7 @@ export const UserDashboardPage: React.FC = () => {
             <button
               key={key}
               onClick={() => goToSection(key)}
-              className={`flex flex-col items-center justify-center px-3 py-1 cursor-pointer transition-all active:scale-90 ${
+              className={`flex flex-col items-center justify-center px-3 py-1 cursor-pointer transition-all active:scale-[0.96] ${
                 active ? 'text-primary' : 'text-on-surface-variant'
               }`}
             >

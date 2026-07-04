@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, Suspense } from 'react';
 import type { Property, Room } from '../types';
 import { MapboxMapView } from './MapboxMapView';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Map as MapIcon, List } from 'lucide-react';
 
 interface SearchPageProps {
   properties: Property[];
@@ -26,6 +26,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
   const [hoveredPropertyId, setHoveredPropertyId] = useState<string | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [showMap, setShowMap] = useState(true);
 
   const getPropertyRooms = useCallback((propId: string) => {
     return rooms.filter((r) => r.property_id === propId);
@@ -210,6 +211,13 @@ export const SearchPage: React.FC<SearchPageProps> = ({
               className="bg-surface-container-lowest shadow-elevation-2 rounded-full p-3 border border-outline-variant/30 text-on-surface hover:bg-surface-container transition-colors"
             >
               <span className="material-symbols-outlined">tune</span>
+            </button>
+            <button
+              onClick={() => setShowMap(!showMap)}
+              className="bg-surface-container-lowest shadow-elevation-2 rounded-full p-3 border border-outline-variant/30 text-on-surface hover:bg-surface-container transition-colors"
+              aria-label={showMap ? 'Tampilkan daftar' : 'Tampilkan peta'}
+            >
+              {showMap ? <List className="w-5 h-5" /> : <MapIcon className="w-5 h-5" />}
             </button>
           </div>
 
