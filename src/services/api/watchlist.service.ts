@@ -10,13 +10,15 @@ export interface WatchlistRecord {
 }
 
 export const watchlistService = {
-  getBySeeker: async (seekerId: string): Promise<WatchlistRecord[]> => {
-    const response = await api.get('/watchlist', { params: { seekerId } });
+  // FIX: Backend now uses JWT user.id — no need to pass seekerId [SEC-001]
+  getBySeeker: async (): Promise<WatchlistRecord[]> => {
+    const response = await api.get('/watchlist'); // seekerId from JWT automatically
     return response.data;
   },
 
-  add: async (seekerId: string, propertyId: string): Promise<WatchlistRecord> => {
-    const response = await api.post('/watchlist', { seekerId, propertyId });
+  // FIX: Backend now uses JWT user.id — seekerId in body is ignored [SEC-001]
+  add: async (propertyId: string): Promise<WatchlistRecord> => {
+    const response = await api.post('/watchlist', { propertyId }); // seekerId from JWT
     return response.data;
   },
 
