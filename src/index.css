@@ -1,3 +1,6 @@
+/* Google Fonts Import - MUST be first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
@@ -6,9 +9,6 @@
    Based on stitch_kostfind_premium_marketplace_experience
    Trust Blue Theme - Corporate Modern Minimalist
    ============================================ */
-
-/* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
   /* ============================================
