@@ -156,7 +156,7 @@ const statusConfig: Record<string, { bg: string; text: string; label: string }> 
   completed: { bg: 'bg-surface-container-highest', text: 'text-on-surface-variant', label: 'Selesai' },
 };
 
-/* ── Progress Stepper Component ── */
+/* ── Progress Stepper Component (Premium Style) ── */
 const OrderProgressStepper: React.FC<{ status: RentalOrder['status'] }> = ({ status }) => {
   // Step definitions: Ajukan → Persetujuan → Bayar → Aktif
   const steps = [
@@ -178,10 +178,9 @@ const OrderProgressStepper: React.FC<{ status: RentalOrder['status'] }> = ({ sta
       completed: 4,
     };
     const currentStep = statusOrder[status] ?? 0;
-
     const stepIndex = steps.findIndex(s => s.key === stepKey);
 
-    if (currentStep === -1) return 'upcoming'; // rejected/cancelled
+    if (currentStep === -1) return 'upcoming';
     if (stepIndex < currentStep) return 'completed';
     if (stepIndex === currentStep) return 'current';
     return 'upcoming';
@@ -200,37 +199,40 @@ const OrderProgressStepper: React.FC<{ status: RentalOrder['status'] }> = ({ sta
     };
     const currentStep = statusOrder[status] ?? 0;
     if (currentStep <= 0) return 'w-0';
-    if (currentStep >= 4) return 'w-full';
+    if (currentStep >= 3) return 'w-full';
     const percentage = (currentStep / (steps.length - 1)) * 100;
-    return `w-[${percentage}%]`;
+    return `${percentage}%`;
   };
 
   return (
-    <div className="relative flex items-center justify-between px-2 py-3">
+    <div className="relative flex items-center justify-between px-8">
       {/* Background Line */}
-      <div className="absolute left-8 right-8 top-3 h-0.5 bg-surface-variant mx-8" />
+      <div className="absolute left-8 right-8 top-3 h-0.5 bg-surface-variant" />
       {/* Active Progress Line */}
-      <div className={`absolute left-8 top-3 h-0.5 bg-primary transition-all duration-500 ${getProgressWidth()} mx-8`} />
+      <div
+        className="absolute left-8 top-3 h-0.5 bg-primary transition-all duration-500"
+        style={{ width: `calc(${getProgressWidth()} * (100% - 4rem))` }}
+      />
 
       {steps.map((step, idx) => {
         const state = getStepState(step.key);
         return (
           <div key={step.key} className="relative z-10 flex flex-col items-center gap-2">
-            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-label-sm font-bold transition-all ${
+            <div className={`w-6 h-6 rounded-full flex items-center justify-center shadow-sm transition-all ${
               state === 'completed'
-                ? 'bg-primary text-on-primary shadow-sm'
+                ? 'bg-primary text-on-primary'
                 : state === 'current'
-                ? 'bg-surface-container-lowest border-2 border-primary text-primary shadow-sm'
+                ? 'bg-surface-container-lowest border-2 border-primary text-primary'
                 : 'bg-surface-variant text-on-surface-variant'
             }`}>
               {state === 'completed' ? (
-                <Check className="w-3.5 h-3.5" />
+                <Check className="w-4 h-4 font-bold" />
               ) : (
-                <span className="text-[11px]">{idx + 1}</span>
+                <span className="text-[11px] font-bold">{idx + 1}</span>
               )}
             </div>
-            <span className={`text-[10px] font-medium ${
-              state === 'completed' ? 'text-primary font-bold' : state === 'current' ? 'text-on-surface font-bold' : 'text-on-surface-variant'
+            <span className={`text-[10px] font-medium text-center ${
+              state === 'completed' ? 'text-primary font-bold' : state === 'current' ? 'text-on-background font-bold' : 'text-on-surface-variant'
             }`}>
               {step.label}
             </span>
