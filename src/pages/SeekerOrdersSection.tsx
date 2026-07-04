@@ -2,20 +2,16 @@ import React, { useState, useRef } from 'react';
 import {
   Home, Loader2,
   Upload, AlertCircle, X,
-  MapPin, Calendar, Receipt,
+  Receipt, Check,
 } from 'lucide-react';
 import { useMyOrders, useOrderActions } from '../hooks/useOrders';
 import { useAuthStore } from '../stores/authStore';
 import { uploadService } from '../services/api/upload.service';
-import { OrderTimeline } from '../components/OrderTimeline';
 import { useProperties } from '../hooks/useProperties';
 import type { RentalOrder } from '../types';
 
 const fmtIDR = (n: number) =>
   new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(n);
-
-const fmtDate = (d: string) =>
-  new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
 
 /* ── Transfer payment modal ── */
 interface TransferModalProps {
@@ -59,44 +55,44 @@ const TransferModal: React.FC<TransferModalProps> = ({ order, onClose, onSubmit,
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/50 backdrop-blur-sm">
-      <div className="bg-surface-container-lowest rounded-2xl shadow-elevation-modal w-full max-w-sm overflow-hidden">
+      <div className="bg-surface-container-lowest rounded-2xl shadow-level-3 w-full max-w-sm overflow-hidden">
         <div className="flex items-center justify-between p-5 border-b border-outline-variant bg-surface-container-low">
-          <h3 className="font-headline text-[16px] font-semibold text-on-surface">Upload Bukti Transfer</h3>
+          <h3 className="font-headline text-lg font-bold text-on-surface">Upload Bukti Transfer</h3>
           <button onClick={onClose} className="p-1.5 text-on-surface-variant hover:bg-surface-container rounded-xl transition-colors cursor-pointer">
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
         <div className="p-5 space-y-4">
           {/* Rekening tujuan */}
-          <div className="bg-primary-fixed/30 border border-primary-fixed-dim rounded-xl p-4 space-y-1.5">
+          <div className="bg-primary-fixed/20 border border-primary-fixed rounded-2xl p-4 space-y-3">
             <p className="text-[10px] font-bold text-primary uppercase tracking-wider mb-2">Rekening Tujuan Transfer</p>
             {hasBank ? (
               <>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-body-sm">
                   <span className="text-on-surface-variant font-medium">Bank</span>
                   <span className="font-semibold text-on-surface">{owner?.bankName || '—'}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-body-sm">
                   <span className="text-on-surface-variant font-medium">No. Rekening</span>
                   <span className="font-bold text-on-surface tracking-wider">{owner?.bankAccountNumber}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-body-sm">
                   <span className="text-on-surface-variant font-medium">Atas Nama</span>
                   <span className="font-bold text-on-surface">{owner?.bankAccountHolder}</span>
                 </div>
               </>
             ) : (
-              <p className="text-xs text-primary font-medium">Pemilik belum mengisi data rekening. Hubungi via pesan.</p>
+              <p className="text-label-sm text-primary font-medium">Pemilik belum mengisi data rekening. Hubungi via pesan.</p>
             )}
-            <div className="border-t border-primary-fixed-dim pt-2 mt-2 flex justify-between text-sm">
-              <span className="text-on-surface-variant font-bold">Total Transfer</span>
+            <div className="border-t border-primary-fixed-dim pt-3 mt-2 flex justify-between text-body-sm">
+              <span className="font-bold text-on-surface">Total Transfer</span>
               <span className="font-bold text-primary">{fmtIDR(order.totalAmount)}</span>
             </div>
           </div>
 
           {/* Upload area */}
           <div>
-            <p className="text-xs font-bold text-on-surface mb-2">Foto Bukti Transfer</p>
+            <p className="text-label-sm font-bold text-on-surface mb-2">Foto Bukti Transfer</p>
             <div
               onClick={() => fileRef.current?.click()}
               className="cursor-pointer border-2 border-dashed border-outline-variant hover:border-primary rounded-xl transition-colors overflow-hidden"
@@ -106,7 +102,7 @@ const TransferModal: React.FC<TransferModalProps> = ({ order, onClose, onSubmit,
               ) : (
                 <div className="h-28 flex flex-col items-center justify-center gap-2 text-on-surface-variant">
                   <Upload className="w-6 h-6" />
-                  <span className="text-xs font-medium">Klik untuk pilih foto</span>
+                  <span className="text-label-sm font-medium">Klik untuk pilih foto</span>
                 </div>
               )}
             </div>
@@ -114,21 +110,22 @@ const TransferModal: React.FC<TransferModalProps> = ({ order, onClose, onSubmit,
           </div>
 
           {error && (
-            <p className="flex items-center gap-1.5 text-xs font-medium text-error">
-              <AlertCircle className="w-4 h-4" /> {error}
-            </p>
+            <div className="flex items-center gap-2 p-3 bg-error-container rounded-xl border border-error">
+              <AlertCircle className="w-4 h-4 text-error shrink-0" />
+              <span className="text-label-sm font-medium text-error">{error}</span>
+            </div>
           )}
 
           <div className="flex gap-3">
-            <button onClick={onClose} className="flex-1 py-2.5 bg-surface-container hover:bg-surface-container-high text-on-surface font-semibold text-xs rounded-xl transition-all cursor-pointer">
+            <button onClick={onClose} className="flex-1 py-3 bg-surface-container hover:bg-surface-container-high text-on-surface font-semibold text-label-sm rounded-xl transition-all cursor-pointer">
               Batal
             </button>
             <button
               onClick={handleSubmit}
               disabled={uploading || isSubmitting || !file}
-              className="flex-1 py-2.5 bg-primary hover:bg-primary-container disabled:opacity-50 text-on-primary font-semibold text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+              className="flex-1 py-3 bg-primary hover:bg-primary-container disabled:opacity-50 text-on-primary font-semibold text-label-sm rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              {uploading || isSubmitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
+              {uploading || isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
               Kirim Bukti
             </button>
           </div>
@@ -141,25 +138,110 @@ const TransferModal: React.FC<TransferModalProps> = ({ order, onClose, onSubmit,
 /* ── Image lightbox ── */
 const Lightbox: React.FC<{ url: string; onClose: () => void }> = ({ url, onClose }) => (
   <div className="fixed inset-0 z-[60] flex items-center justify-center bg-inverse-surface/80 backdrop-blur-sm" onClick={onClose}>
-    <img src={url} alt="bukti transfer" className="max-w-[90vw] max-h-[85vh] rounded-2xl shadow-elevation-modal" />
+    <img src={url} alt="bukti transfer" className="max-w-[90vw] max-h-[85vh] rounded-2xl shadow-level-3" />
     <button onClick={onClose} className="absolute top-4 right-4 p-2 bg-surface-container-lowest/20 hover:bg-surface-container-lowest/30 rounded-full text-on-surface transition-colors cursor-pointer">
       <X className="w-5 h-5" />
     </button>
   </div>
 );
 
-/* ── Status badge colors ── */
-const statusConfig: Record<string, { bg: string; text: string; border: string; label: string }> = {
-  pending: { bg: 'bg-warning-light', text: 'text-warning', border: 'border-warning', label: 'MENUNGGU' },
-  awaiting_payment: { bg: 'bg-warning-light', text: 'text-warning', border: 'border-warning', label: 'MENUNGGU BAYAR' },
-  awaiting_confirmation: { bg: 'bg-warning-light', text: 'text-warning', border: 'border-warning', label: 'MENUNGGU KONFIRMASI' },
-  active: { bg: 'bg-success-light', text: 'text-success', border: 'border-success', label: 'AKTIF' },
-  rejected: { bg: 'bg-error-container', text: 'text-error', border: 'border-error', label: 'DITOLAK' },
-  cancelled: { bg: 'bg-surface-container', text: 'text-on-surface-variant', border: 'border-outline', label: 'DIBATALKAN' },
-  completed: { bg: 'bg-surface-container', text: 'text-on-surface-variant', border: 'border-outline', label: 'SELESAI' },
+/* ── Status badge colors (Premium Dwelling System) ── */
+const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
+  pending: { bg: 'bg-secondary-container/10', text: 'text-secondary', label: 'Menunggu Persetujuan' },
+  awaiting_payment: { bg: 'bg-warning/10', text: 'text-warning', label: 'Menunggu Pembayaran' },
+  awaiting_confirmation: { bg: 'bg-secondary-container/10', text: 'text-secondary', label: 'Menunggu Konfirmasi' },
+  active: { bg: 'bg-tertiary-container/10', text: 'text-tertiary', label: 'Aktif' },
+  rejected: { bg: 'bg-error-container', text: 'text-error', label: 'Ditolak' },
+  cancelled: { bg: 'bg-surface-container', text: 'text-on-surface-variant', label: 'Dibatalkan' },
+  completed: { bg: 'bg-surface-container-highest', text: 'text-on-surface-variant', label: 'Selesai' },
 };
 
-/* ── Order card ── */
+/* ── Progress Stepper Component ── */
+const OrderProgressStepper: React.FC<{ status: RentalOrder['status'] }> = ({ status }) => {
+  // Step definitions: Ajukan → Persetujuan → Bayar → Aktif
+  const steps = [
+    { label: 'Ajukan', key: 'submitted' },
+    { label: 'Persetujuan', key: 'approved' },
+    { label: 'Bayar', key: 'paid' },
+    { label: 'Aktif', key: 'active' },
+  ];
+
+  // Determine current step based on status
+  const getStepState = (stepKey: string): 'completed' | 'current' | 'upcoming' => {
+    const statusOrder: Record<string, number> = {
+      pending: 0,
+      awaiting_payment: 1,
+      awaiting_confirmation: 1,
+      active: 3,
+      rejected: -1,
+      cancelled: -1,
+      completed: 4,
+    };
+    const currentStep = statusOrder[status] ?? 0;
+
+    const stepIndex = steps.findIndex(s => s.key === stepKey);
+
+    if (currentStep === -1) return 'upcoming'; // rejected/cancelled
+    if (stepIndex < currentStep) return 'completed';
+    if (stepIndex === currentStep) return 'current';
+    return 'upcoming';
+  };
+
+  // Calculate progress line width
+  const getProgressWidth = (): string => {
+    const statusOrder: Record<string, number> = {
+      pending: 0,
+      awaiting_payment: 1,
+      awaiting_confirmation: 1,
+      active: 3,
+      rejected: -1,
+      cancelled: -1,
+      completed: 4,
+    };
+    const currentStep = statusOrder[status] ?? 0;
+    if (currentStep <= 0) return 'w-0';
+    if (currentStep >= 4) return 'w-full';
+    const percentage = (currentStep / (steps.length - 1)) * 100;
+    return `w-[${percentage}%]`;
+  };
+
+  return (
+    <div className="relative flex items-center justify-between px-2 py-3">
+      {/* Background Line */}
+      <div className="absolute left-8 right-8 top-3 h-0.5 bg-surface-variant mx-8" />
+      {/* Active Progress Line */}
+      <div className={`absolute left-8 top-3 h-0.5 bg-primary transition-all duration-500 ${getProgressWidth()} mx-8`} />
+
+      {steps.map((step, idx) => {
+        const state = getStepState(step.key);
+        return (
+          <div key={step.key} className="relative z-10 flex flex-col items-center gap-2">
+            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-label-sm font-bold transition-all ${
+              state === 'completed'
+                ? 'bg-primary text-on-primary shadow-sm'
+                : state === 'current'
+                ? 'bg-surface-container-lowest border-2 border-primary text-primary shadow-sm'
+                : 'bg-surface-variant text-on-surface-variant'
+            }`}>
+              {state === 'completed' ? (
+                <Check className="w-3.5 h-3.5" />
+              ) : (
+                <span className="text-[11px]">{idx + 1}</span>
+              )}
+            </div>
+            <span className={`text-[10px] font-medium ${
+              state === 'completed' ? 'text-primary font-bold' : state === 'current' ? 'text-on-surface font-bold' : 'text-on-surface-variant'
+            }`}>
+              {step.label}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/* ── Order card (Premium Dwelling System) ── */
 const OrderCard: React.FC<{
   order: RentalOrder;
   properties: ReturnType<typeof useProperties>['properties'];
@@ -174,108 +256,92 @@ const OrderCard: React.FC<{
   const propertyData = properties.find(p => p.id === order.propertyId);
   const coverImage = propertyData?.media?.[0]?.url_original;
 
+  const isTerminalStatus = ['rejected', 'cancelled', 'completed'].includes(order.status);
+
   return (
-    <div className="bg-surface-container-lowest rounded-lg shadow-elevation-1 border border-outline-variant/20 overflow-hidden transition-shadow hover:shadow-elevation-hover">
+    <article className="bg-surface-container-lowest rounded-2xl shadow-level-1 overflow-hidden border border-surface-container transition-shadow hover:shadow-level-2">
       {lightbox && <Lightbox url={lightbox} onClose={() => setLightbox('')} />}
 
-      {/* Image header */}
-      <div className="h-48 relative">
-        {coverImage ? (
-          <img src={coverImage} alt={order.property?.name} className="w-full h-full object-cover" />
-        ) : (
-          <div className="w-full h-full bg-surface-container flex items-center justify-center">
-            <Home className="w-12 h-12 text-on-surface-variant" />
-          </div>
-        )}
-        {/* Status badge */}
-        <div className={`absolute top-3 left-3 ${status.bg} ${status.text} ${status.border} px-2.5 py-1 rounded-sm font-label text-[11px] font-semibold tracking-wide border`}>
-          {status.label}
+      {/* Main Content Row */}
+      <div className="flex p-4 gap-4">
+        {/* Property Image */}
+        <div className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
+          {coverImage ? (
+            <img src={coverImage} alt={order.property?.name} className="w-full h-full object-cover" />
+          ) : (
+            <div className="w-full h-full bg-surface-variant flex items-center justify-center">
+              <Home className="w-8 h-8 text-on-surface-variant" />
+            </div>
+          )}
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="p-4 flex flex-col gap-3">
-        {/* Header row */}
-        <div className="flex justify-between items-start gap-4">
+        {/* Property Info */}
+        <div className="flex-1 flex flex-col justify-between">
           <div>
-            <h3 className="font-headline font-semibold text-[18px] text-on-surface">{order.property?.name || 'Kost'}</h3>
-            <div className="flex items-center gap-1 text-outline mt-1">
-              <MapPin className="w-[14px] h-[14px]" />
-              <span className="font-body text-[13px]">{order.property?.city || 'Lokasi'}</span>
+            <div className="flex justify-between items-start mb-1 gap-2">
+              <h3 className="font-headline text-lg font-bold text-on-surface line-clamp-1">{order.property?.name || 'Kost'}</h3>
+              <span className={`${status.bg} ${status.text} font-semibold text-[10px] px-2 py-1 rounded-md whitespace-nowrap shrink-0`}>
+                {status.label}
+              </span>
+            </div>
+            <div className="flex items-center text-on-surface-variant text-xs mb-1">
+              <span className="material-symbols-outlined text-sm mr-1">location_on</span>
+              {order.property?.city || 'Lokasi'}
             </div>
           </div>
-          <div className="text-right">
-            <span className={`font-headline font-bold block ${order.status === 'completed' || order.status === 'cancelled' || order.status === 'rejected' ? 'text-on-surface-variant' : 'text-primary'}`}>
-              {fmtIDR(order.priceMonthly)}
-            </span>
-            <span className="font-body text-[11px] text-on-surface-variant">/ bulan</span>
+          <div className="font-headline font-bold text-primary">
+            {fmtIDR(order.priceMonthly)}
+            <span className="text-xs font-normal text-on-surface-variant"> / bulan</span>
           </div>
-        </div>
-
-        {/* Date info */}
-        <div className="flex items-center gap-2">
-          <Calendar className="w-[16px] h-[16px] text-outline" />
-          <span className="font-body text-[13px] text-on-surface-variant">
-            {order.status === 'completed' || order.status === 'cancelled' ? (
-              <>Selesai pada: <strong className="text-on-surface-variant">{fmtDate(order.createdAt)}</strong></>
-            ) : order.status === 'active' ? (
-              <>Periode: <strong className="text-on-surface">{fmtDate(order.startDate)}</strong></>
-            ) : (
-              <>Mulai: <strong className="text-on-surface">{fmtDate(order.startDate)}</strong></>
-            )}
-          </span>
-        </div>
-
-        {/* Progress indicator - for non-terminal statuses */}
-        {!['rejected', 'cancelled', 'completed'].includes(order.status) && (
-          <div className="mt-2 pt-3 border-t border-outline-variant/30">
-            <OrderTimeline
-              status={order.status}
-              createdAt={order.createdAt}
-              paidAt={order.paidAt}
-            />
-          </div>
-        )}
-
-        {/* Action buttons */}
-        <div className="flex justify-end gap-2 mt-2 pt-2">
-          {/* Cancel button */}
-          {(order.status === 'pending' || order.status === 'awaiting_payment' || order.status === 'awaiting_confirmation') && (
-            <button
-              onClick={() => onCancel?.(order.id)}
-              disabled={isMutating}
-              className="px-4 py-2 font-label text-[13px] font-semibold rounded bg-surface-container-lowest text-error border border-error hover:bg-error-container transition-colors active:scale-[0.98] cursor-pointer"
-            >
-              Batalkan
-            </button>
-          )}
-
-          {/* Pay now button */}
-          {order.status === 'awaiting_payment' && order.paymentMethod === 'transfer' && (
-            <button
-              onClick={() => onTransferPay?.(order)}
-              className="px-4 py-2 font-label text-[13px] font-semibold rounded bg-primary text-on-primary hover:bg-primary-container transition-colors active:scale-[0.98] shadow-sm cursor-pointer"
-            >
-              Bayar Sekarang
-            </button>
-          )}
-
-          {/* View detail button */}
-          {order.status === 'active' && (
-            <button className="px-4 py-2 font-label text-[13px] font-semibold rounded bg-surface-container-lowest text-primary border border-primary hover:bg-surface-container-low transition-colors active:scale-[0.98] cursor-pointer">
-              Lihat Detail
-            </button>
-          )}
-
-          {/* Completed - rent again */}
-          {order.status === 'completed' && (
-            <button className="px-4 py-2 font-label text-[13px] font-semibold rounded text-on-surface-variant hover:bg-surface-container-low transition-colors active:scale-[0.98] cursor-pointer">
-              Sewa Lagi
-            </button>
-          )}
         </div>
       </div>
-    </div>
+
+      {/* Progress Stepper (for non-terminal statuses) */}
+      {!isTerminalStatus && (
+        <div className="px-6 py-4 bg-surface-container-low/50 border-t border-surface-container-low">
+          <OrderProgressStepper status={order.status} />
+        </div>
+      )}
+
+      {/* Action Buttons */}
+      <div className="p-4 flex gap-3">
+        {/* Cancel button */}
+        {(order.status === 'pending' || order.status === 'awaiting_payment' || order.status === 'awaiting_confirmation') && (
+          <button
+            onClick={() => onCancel?.(order.id)}
+            disabled={isMutating}
+            className="flex-1 py-2.5 rounded-lg border border-outline-variant text-on-surface-variant font-semibold text-label-sm hover:bg-surface-container-low transition-colors cursor-pointer"
+          >
+            Batalkan
+          </button>
+        )}
+
+        {/* Pay now button */}
+        {order.status === 'awaiting_payment' && order.paymentMethod === 'transfer' && (
+          <button
+            onClick={() => onTransferPay?.(order)}
+            className="flex-1 py-2.5 rounded-lg bg-surface-container text-on-surface-variant font-semibold text-label-sm opacity-50 cursor-not-allowed"
+            disabled
+          >
+            Bayar Sekarang
+          </button>
+        )}
+
+        {/* Active - View Detail */}
+        {order.status === 'active' && (
+          <button className="w-full py-2.5 rounded-lg bg-primary/5 text-primary border border-primary/20 font-semibold text-label-sm hover:bg-primary/10 transition-colors cursor-pointer">
+            Lihat Detail
+          </button>
+        )}
+
+        {/* Completed - Rent Again */}
+        {order.status === 'completed' && (
+          <button className="px-6 py-2.5 rounded-lg bg-surface-container text-primary font-semibold text-label-sm hover:bg-surface-container-high transition-colors cursor-pointer">
+            Sewa Lagi
+          </button>
+        )}
+      </div>
+    </article>
   );
 };
 
@@ -296,29 +362,28 @@ export const SeekerOrdersSection: React.FC = () => {
     setTransferTarget(null);
   };
 
+  // Premium Dwelling System tabs
   const TABS: { key: typeof tab; label: string }[] = [
     { key: 'all', label: 'Semua' },
     { key: 'pending', label: 'Menunggu' },
-    { key: 'awaiting_payment', label: 'Bayar' },
-    { key: 'awaiting_confirmation', label: 'Konfirmasi' },
     { key: 'active', label: 'Berjalan' },
     { key: 'completed', label: 'Selesai' },
   ];
 
   return (
-    <div className="space-y-5 animate-in fade-in duration-300">
+    <div className="space-y-6 animate-in fade-in duration-300">
       {/* Header */}
-      <section className="flex flex-col gap-1">
-        <h1 className="font-headline text-[28px] md:text-[40px] font-bold tracking-tight text-on-surface">
+      <section>
+        <h1 className="font-headline text-[30px] font-bold leading-tight tracking-tight text-on-background mb-1">
           Riwayat Sewa
         </h1>
-        <p className="font-body text-[14px] text-on-surface-variant">
-          Pantau status pengajuan dan sewa aktif Anda.
+        <p className="text-on-surface-variant text-body-md">
+          Pantau status aplikasi dan hunian aktif Anda.
         </p>
       </section>
 
-      {/* Tabs */}
-      <nav className="flex overflow-x-auto gap-4 pb-2 border-b border-outline-variant/30">
+      {/* Filter Tabs (Premium Style) */}
+      <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
         {TABS.map(({ key, label }) => {
           const count = key === 'all' ? orders.length : orders.filter((o) => o.status === key).length;
           if (key !== 'all' && count === 0) return null;
@@ -327,42 +392,42 @@ export const SeekerOrdersSection: React.FC = () => {
             <button
               key={key}
               onClick={() => setTab(key)}
-              className={`pb-2 border-b-2 font-label text-[13px] font-medium whitespace-nowrap transition-colors cursor-pointer ${
+              className={`px-5 py-2 rounded-full font-semibold text-label-sm whitespace-nowrap transition-all active:scale-95 cursor-pointer ${
                 isActive
-                  ? 'border-primary text-primary font-semibold'
-                  : 'border-transparent text-on-surface-variant hover:text-on-surface'
+                  ? 'bg-primary text-on-primary shadow-sm'
+                  : 'bg-surface-container text-on-surface-variant font-medium hover:bg-surface-container-high'
               }`}
             >
               {label}
             </button>
           );
         })}
-      </nav>
+      </div>
 
       {/* Content */}
       {isLoading ? (
         <div className="flex items-center justify-center py-16">
-          <Loader2 className="w-6 h-6 animate-spin text-primary" />
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </div>
       ) : isError ? (
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-8 text-center">
-          <p className="font-body text-[14px] font-semibold text-error mb-3">Gagal memuat riwayat sewa</p>
-          <button onClick={() => refetch()} className="font-label text-[13px] font-semibold text-primary hover:text-primary/80 underline cursor-pointer">
+        <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant p-8 text-center">
+          <p className="text-body-md font-semibold text-error mb-3">Gagal memuat riwayat sewa</p>
+          <button onClick={() => refetch()} className="text-label-md font-semibold text-primary hover:text-primary/80 underline cursor-pointer">
             Coba lagi
           </button>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="bg-surface-container-lowest rounded-xl border border-outline-variant p-8 flex flex-col items-center text-center">
+        <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant p-8 flex flex-col items-center text-center">
           <div className="w-14 h-14 rounded-xl bg-surface-container flex items-center justify-center mb-4">
             <Receipt className="w-7 h-7 text-on-surface-variant" />
           </div>
-          <p className="font-headline text-[16px] font-semibold text-on-surface mb-2">Belum ada pengajuan sewa</p>
-          <p className="font-body text-[13px] text-on-surface-variant max-w-xs">
+          <p className="font-headline text-lg font-semibold text-on-surface mb-2">Belum ada pengajuan sewa</p>
+          <p className="text-body-sm text-on-surface-variant max-w-xs">
             Ajukan sewa kamar kost yang Anda minati di halaman detail kost.
           </p>
         </div>
       ) : (
-        <div className="flex flex-col gap-4">
+        <div className="space-y-6">
           {filtered.map((order) => (
             <OrderCard
               key={order.id}
