@@ -124,89 +124,78 @@ export const AdminDashboardPage: React.FC = () => {
   ];
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50 font-sans">
+    <div className="bg-background h-screen flex flex-col md:flex-row overflow-hidden font-body relative">
+
       {/* ===================== MOBILE DRAWER ===================== */}
+      {/* MOBILE DRAWER - Premium Dwelling Style */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 flex md:hidden">
-          {/* Backdrop overlay */}
+        <div className="md:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300"
+            className="absolute inset-0 bg-inverse-surface/50 animate-in fade-in duration-200"
             onClick={() => setMobileMenuOpen(false)}
           />
 
           {/* Drawer Content */}
-          <aside className="relative flex w-72 max-w-xs flex-col justify-between bg-white p-4 shadow-xl animate-in slide-in-from-left duration-300">
-            <div className="space-y-6">
-              <div className="flex h-11 items-center justify-between px-2">
-                <div className="flex items-center gap-2.5">
-                  {settings.logo_url ? (
-                    <img
-                      src={settings.logo_url}
-                      alt={settings.site_name || 'Logo'}
-                      className="h-9 w-auto object-contain rounded-xl flex-shrink-0"
-                    />
-                  ) : (
-                    <LogoText />
-                  )}
-                </div>
-                <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-100 text-slate-400 hover:bg-slate-50 hover:text-slate-600 cursor-pointer"
-                >
-                  <X className="h-4 w-4" />
-                </button>
+          <aside className="relative flex flex-col w-[280px] max-w-[82%] h-full bg-surface-container-lowest shadow-elevation-hover animate-in slide-in-from-left duration-250">
+            <div className="flex items-center justify-between px-margin-mobile h-14 border-b border-outline-variant shrink-0">
+              <div className="flex items-center gap-2">
+                {settings.logo_url ? (
+                  <img src={settings.logo_url} alt={settings.site_name || 'Logo'} className="h-9 w-auto object-contain rounded-xl" />
+                ) : (
+                  <LogoText />
+                )}
               </div>
-
-              {/* Nav */}
-              <nav className="space-y-5">
-                {groups.map((g) => (
-                  <div key={g.label} className="space-y-1">
-                    <p className="px-3 pb-1 font-mono text-[9px] font-black uppercase tracking-widest text-slate-300">{g.label}</p>
-                    {g.items.map((item) => {
-                      const active = activeSection === item.key;
-                      return (
-                        <button
-                          key={item.key}
-                          onClick={() => {
-                            setActiveSection(item.key);
-                            setMobileMenuOpen(false);
-                          }}
-                          className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold transition-all duration-200 cursor-pointer ${active
-                              ? 'bg-[var(--primary-50)] text-[var(--primary-700)] shadow-sm border border-[var(--primary-100)]/30'
-                              : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
-                            }`}
-                        >
-                          {item.icon}
-                          <span>{item.label}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                ))}
-              </nav>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-1.5 text-on-surface-variant hover:bg-surface-container rounded-lg transition-[background-color] cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
+            {/* Nav */}
+            <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+              {groups.map((g) => (
+                <div key={g.label} className="space-y-1">
+                  <p className="text-label-sm font-semibold text-on-surface-variant uppercase tracking-wider px-3 mb-2">{g.label}</p>
+                  {g.items.map((item) => {
+                    const active = activeSection === item.key;
+                    return (
+                      <button
+                        key={item.key}
+                        onClick={() => {
+                          setActiveSection(item.key);
+                          setMobileMenuOpen(false);
+                        }}
+                        className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-[background-color] cursor-pointer ${
+                          active ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-container'
+                        }`}
+                      >
+                        {item.icon}
+                        <span>{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              ))}
+            </nav>
+
             {/* Footer */}
-            <div className="space-y-1 border-t border-slate-100 pt-4">
+            <div className="px-3 py-3 border-t border-outline-variant space-y-1 shrink-0">
               <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  navigate('/');
-                }}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 cursor-pointer"
+                onClick={() => { setMobileMenuOpen(false); navigate('/'); }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-sm font-medium text-on-surface-variant hover:bg-surface-container transition-[background-color] cursor-pointer"
               >
-                <ArrowLeft className="h-4 w-4 flex-shrink-0" />
+                <ArrowLeft className="w-[18px] h-[18px] shrink-0" />
                 <span>Kembali ke Beranda</span>
               </button>
               <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  handleLogout();
-                }}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-rose-500 transition-colors hover:bg-rose-50 cursor-pointer"
+                onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-sm font-medium text-error hover:bg-error-container transition-[background-color] cursor-pointer"
               >
-                <LogOut className="h-4 w-4 flex-shrink-0" />
-                <span>Keluar / Logout</span>
+                <LogOut className="w-[18px] h-[18px] shrink-0" />
+                <span>Keluar</span>
               </button>
             </div>
           </aside>
