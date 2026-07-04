@@ -192,18 +192,18 @@ export const DashboardPage = () => {
   return (
     <div className="bg-[#F7F8FA] h-screen flex flex-col md:flex-row overflow-hidden font-sans text-slate-800 relative">
       
-      {/* MOBILE TOP BAR */}
-      <header className="flex md:hidden items-center justify-between px-4 h-14 bg-white shrink-0 z-30 border-b border-slate-100">
+      {/* MOBILE TOP BAR - Premium Dwelling Style */}
+      <header className="flex md:hidden items-center justify-between px-margin-mobile h-14 bg-surface shrink-0 z-30 border-b border-outline-variant">
         <button
           onClick={() => setIsMobileMenuOpen(true)}
           aria-label="Buka menu"
-          className="p-2 -ml-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors active:scale-90 cursor-pointer"
+          className="p-2 -ml-2 text-on-surface hover:bg-surface-container-low rounded-xl transition-[background-color] active:scale-[0.96] cursor-pointer"
         >
           <Menu className="w-6 h-6" />
         </button>
 
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--primary-50)] border border-[var(--primary-100)]/40 text-[var(--primary-600)]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-secondary-container text-on-secondary-container">
             <Sparkles className="w-4 h-4" />
           </div>
           {settings.logo_url ? (
@@ -218,36 +218,36 @@ export const DashboardPage = () => {
             setIsNotificationsOpen(!isNotificationsOpen);
           }}
           aria-label="Notifikasi"
-          className="relative p-2 -mr-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors active:scale-90 cursor-pointer"
+          className="relative p-2 -mr-2 text-on-surface hover:bg-surface-container-low rounded-xl transition-[background-color] active:scale-[0.96] cursor-pointer"
         >
           <Bell className="w-5 h-5" />
-          {notifUnread > 0 && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white" />}
+          {notifUnread > 0 && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-surface" />}
         </button>
       </header>
 
-      {/* MOBILE NOTIFICATIONS SHEET */}
+      {/* MOBILE NOTIFICATIONS SHEET - Premium Style */}
       {isNotificationsOpen && (
         <div className="md:hidden fixed inset-0 z-50" onClick={() => setIsNotificationsOpen(false)}>
-          <div className="absolute inset-0 bg-slate-900/30 backdrop-blur-[2px] animate-in fade-in duration-200" />
+          <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm animate-in fade-in duration-200 animate-out fade-out duration-150" />
           <div
-            className="absolute top-14 right-3 left-3 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+            className="absolute top-14 right-3 left-3 bg-surface-container-lowest rounded-2xl shadow-elevation-hover border border-outline-variant/50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 animate-out fade-out duration-150"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
-              <span className="text-[11px] font-black text-slate-800 uppercase tracking-widest">Notifikasi</span>
+            <div className="px-5 py-4 border-b border-outline-variant flex items-center justify-between">
+              <span className="font-headline text-[18px] font-semibold text-on-surface">Notifikasi</span>
               {notifUnread > 0 && (
-                <button onClick={() => markAllRead()} className="text-[10px] font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)] cursor-pointer">
+                <button onClick={() => markAllRead()} className="text-label-sm font-semibold text-primary hover:text-primary/80 cursor-pointer">
                   Tandai dibaca
                 </button>
               )}
             </div>
             {notifications.length === 0 ? (
               <div className="px-5 py-10 flex flex-col items-center text-center">
-                <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center mb-3 text-slate-300">
+                <div className="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center mb-3 text-on-surface-variant">
                   <Bell className="w-5 h-5" />
                 </div>
-                <p className="text-[13px] font-bold text-slate-600">Tidak ada notifikasi</p>
-                <p className="text-[11px] text-slate-400 mt-0.5">Update permintaan & pembayaran sewa akan muncul di sini.</p>
+                <p className="text-body-sm font-semibold text-on-surface">Tidak ada notifikasi</p>
+                <p className="text-label-sm text-on-surface-variant mt-1">Update permintaan & pembayaran sewa akan muncul di sini.</p>
               </div>
             ) : (
               <div className="max-h-[60vh] overflow-y-auto py-1">
@@ -255,18 +255,18 @@ export const DashboardPage = () => {
                   <button
                     key={n.id}
                     onClick={() => openNotification(n)}
-                    className={`w-full flex items-start gap-3 px-4 py-3 hover:bg-slate-50 active:bg-slate-100 transition-colors text-left cursor-pointer ${n.isRead ? '' : 'bg-[var(--primary-50)]/40'}`}
+                    className={`w-full flex items-start gap-3 px-4 py-4 hover:bg-surface-container transition-[background-color] text-left cursor-pointer ${n.isRead ? '' : 'bg-primary-fixed/20'}`}
                   >
-                    <div className="relative w-10 h-10 rounded-xl bg-[var(--primary-50)] border border-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] shrink-0">
+                    <div className="relative w-11 h-11 rounded-xl bg-primary-fixed-dim flex items-center justify-center text-primary shrink-0">
                       <ClipboardList className="w-5 h-5" />
-                      {!n.isRead && <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-rose-500 border-2 border-white" />}
+                      {!n.isRead && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-error border-2 border-surface-container-lowest" />}
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="text-sm font-bold text-slate-800 truncate">{n.title}</p>
-                        <span className="text-[10px] text-slate-400 shrink-0">{timeAgo(n.createdAt)}</span>
+                        <p className="text-body-sm font-semibold text-on-surface truncate">{n.title}</p>
+                        <span className="text-label-sm text-on-surface-variant shrink-0">{timeAgo(n.createdAt)}</span>
                       </div>
-                      <p className="text-[12px] text-slate-500 leading-snug line-clamp-2">{n.body}</p>
+                      <p className="text-label-sm text-on-surface-variant leading-snug line-clamp-2 mt-1">{n.body}</p>
                     </div>
                   </button>
                 ))}
@@ -276,29 +276,29 @@ export const DashboardPage = () => {
         </div>
       )}
 
-      {/* MOBILE DRAWER */}
+      {/* MOBILE DRAWER - Premium Style */}
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-0 z-50 flex">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200"
+            className="absolute inset-0 bg-inverse-surface/50 animate-in fade-in duration-200"
             onClick={() => setIsMobileMenuOpen(false)}
           />
           {/* Panel */}
-          <aside className="relative flex flex-col w-[280px] max-w-[82%] h-full bg-white shadow-2xl animate-in slide-in-from-left duration-250">
+          <aside className="relative flex flex-col w-[280px] max-w-[82%] h-full bg-surface-container-lowest shadow-elevation-hover animate-in slide-in-from-left duration-250">
             {/* Drawer header */}
-            <div className="flex items-center justify-between px-5 h-14 border-b border-slate-100 shrink-0">
-              <div className="flex items-center gap-2.5">
-                  {settings.logo_url ? (
-                    <img src={settings.logo_url} alt={settings.site_name || 'Logo'} className="h-9 w-9 object-contain rounded-xl" />
-                  ) : (
-                    <LogoText />
-                  )}
-                </div>
+            <div className="flex items-center justify-between px-margin-mobile h-14 border-b border-outline-variant shrink-0">
+              <div className="flex items-center gap-2">
+                {settings.logo_url ? (
+                  <img src={settings.logo_url} alt={settings.site_name || 'Logo'} className="h-9 w-9 object-contain rounded-xl" />
+                ) : (
+                  <LogoText />
+                )}
+              </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Tutup menu"
-                className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                className="p-1.5 text-on-surface-variant hover:bg-surface-container rounded-lg transition-[background-color] cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -306,44 +306,47 @@ export const DashboardPage = () => {
 
             {/* Profile */}
             <div className="px-4 pt-4">
-              <div className="flex items-center gap-3 p-3 bg-[var(--primary-50)]/60 rounded-2xl border border-[var(--primary-100)]/40">
-                <div className="w-11 h-11 rounded-full bg-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] overflow-hidden shrink-0">
+              <div className="flex items-center gap-3 p-4 bg-surface-container rounded-xl border border-outline-variant">
+                <div className="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container overflow-hidden shrink-0">
                   {user?.avatar_url ? <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" /> : <User className="w-5 h-5" />}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-extrabold text-slate-900 truncate">{user?.name || 'Pemilik Kost'}</p>
-                  <span className="text-[10px] font-bold text-[var(--primary-700)] uppercase tracking-wide">Pemilik Kost</span>
+                  <p className="text-body-sm font-semibold text-on-surface truncate">{user?.name || 'Pemilik Kost'}</p>
+                  <span className="text-label-sm font-semibold text-primary">Pemilik Kost</span>
                 </div>
               </div>
             </div>
 
             {/* Nav */}
             <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-1.5">Menu Utama</p>
+              <p className="text-label-sm font-semibold text-on-surface-variant uppercase tracking-wider px-3 mb-2">Menu Utama</p>
               {NAV_ITEMS.map(({ key, label, icon: Icon }) => (
                 <button
                   key={key}
                   onClick={() => goToSection(key)}
-                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
-                    activeSection === key ? 'bg-[var(--primary-50)] text-[var(--primary-700)]' : 'text-slate-600 hover:bg-slate-100'
+                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-[background-color] cursor-pointer ${
+                    activeSection === key ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-container'
                   }`}
                 >
                   <span className="relative shrink-0">
                     <Icon className="w-[18px] h-[18px]" />
-                    {key === 'chat' && hasUnread && <span className="absolute -top-1 -right-1 w-2 h-2 bg-[var(--primary-500)] rounded-full" />}
+                    {key === 'chat' && hasUnread && <span className="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full" />}
                   </span>
                   <span className="flex-1 text-left">{label}</span>
                   {key === 'properties' && properties.length > 0 && (
-                    <span className="text-[10px] font-bold text-slate-400">{properties.length}</span>
+                    <span className="text-label-sm font-semibold text-primary bg-primary-container/20 px-2 py-0.5 rounded-full">{properties.length}</span>
+                  )}
+                  {key === 'chat' && hasUnread && (
+                    <span className="text-label-sm font-semibold bg-primary-container/20 text-primary px-2 py-0.5 rounded-full">Baru</span>
                   )}
                 </button>
               ))}
 
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-1.5 mt-4">Umum</p>
+              <p className="text-label-sm font-semibold text-on-surface-variant uppercase tracking-wider px-3 mb-2 mt-4">Umum</p>
               <button
                 onClick={() => goToSection('settings')}
-                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
-                  activeSection === 'settings' ? 'bg-[var(--primary-50)] text-[var(--primary-700)]' : 'text-slate-600 hover:bg-slate-100'
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-[background-color] cursor-pointer ${
+                  activeSection === 'settings' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-container'
                 }`}
               >
                 <Settings className="w-[18px] h-[18px] shrink-0" />
@@ -352,20 +355,17 @@ export const DashboardPage = () => {
             </nav>
 
             {/* Footer */}
-            <div className="px-3 py-3 border-t border-slate-100 space-y-1 shrink-0">
+            <div className="px-3 py-3 border-t border-outline-variant space-y-1 shrink-0">
               <button
-                onClick={() => navigate('/')}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+                onClick={() => { setIsMobileMenuOpen(false); navigate('/'); }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-sm font-medium text-on-surface-variant hover:bg-surface-container transition-[background-color] cursor-pointer"
               >
                 <ArrowLeft className="w-[18px] h-[18px] shrink-0" />
                 <span>Kembali Beranda</span>
               </button>
               <button
-                onClick={() => {
-                  logout();
-                  navigate('/');
-                }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-rose-500 hover:bg-rose-50 transition-colors cursor-pointer"
+                onClick={() => { setIsMobileMenuOpen(false); logout(); navigate('/'); }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-sm font-medium text-error hover:bg-error-container transition-[background-color] cursor-pointer"
               >
                 <LogOut className="w-[18px] h-[18px] shrink-0" />
                 <span>Keluar</span>
@@ -375,25 +375,25 @@ export const DashboardPage = () => {
         </div>
       )}
 
-      {/* SIDEBAR NAVIGATION (DESKTOP) — styled to match the user dashboard */}
+      {/* DESKTOP SIDEBAR - Premium Dwelling Style */}
       <aside
-        className={`bg-white border-r border-slate-200 hidden md:flex flex-col justify-between shrink-0 h-screen transition-all duration-300 ${
-          isSidebarCollapsed ? 'w-20' : 'w-64'
+        className={`hidden md:flex flex-col justify-between shrink-0 h-screen transition-all duration-300 border-r border-outline-variant bg-surface-container-low ${
+          isSidebarCollapsed ? 'w-20' : 'w-72'
         }`}
       >
-        <div className={`space-y-8 ${isSidebarCollapsed ? 'p-3' : 'p-5'}`}>
+        <div className={`space-y-5 ${isSidebarCollapsed ? 'p-3' : 'p-5'}`}>
           {/* Brand */}
           <div className={`flex items-center ${isSidebarCollapsed ? 'flex-col gap-3 justify-center' : 'justify-between'} px-1`}>
             <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate('/')}>
               {settings.logo_url ? (
-                <img src={settings.logo_url} alt={settings.site_name || 'Logo'} className="h-9 w-9 object-contain rounded-xl" />
+                <img src={settings.logo_url} alt={settings.site_name || 'Logo'} className="h-10 w-auto object-contain rounded-xl" />
               ) : (
                 <LogoText />
               )}
             </div>
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-              className="rounded-lg border border-slate-200/60 p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors cursor-pointer"
+              className="rounded-lg bg-surface-container-high hover:bg-surface-container-lowest p-2 text-on-surface-variant transition-colors cursor-pointer"
               title={isSidebarCollapsed ? 'Tampilkan Sidebar' : 'Sembunyikan Sidebar'}
             >
               {isSidebarCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -402,147 +402,158 @@ export const DashboardPage = () => {
 
           {/* Owner Profile Summary */}
           {!isSidebarCollapsed ? (
-            <div className="flex items-center gap-3 px-3 py-3 bg-[var(--primary-50)]/50 rounded-xl border border-[var(--primary-100)]/30 shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] border border-[var(--primary-200)] shrink-0 overflow-hidden">
-                {user?.avatar_url ? <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" /> : <User className="w-5 h-5" />}
+            <div className="flex items-center gap-3 px-3 py-3.5 bg-surface-container-lowest rounded-2xl border border-outline-variant shadow-level-1">
+              <div className="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center text-on-primary-container border border-outline-variant shrink-0 overflow-hidden">
+                {user?.avatar_url ? <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" /> : <User className="w-6 h-6" />}
               </div>
               <div className="min-w-0 flex-1 text-left">
-                <p className="text-sm font-extrabold text-slate-900 leading-tight truncate">{user?.name || 'Pemilik Kost'}</p>
-                <span className="text-[10px] font-bold text-[var(--primary-700)] uppercase tracking-wide block mt-0.5">Pemilik Kost</span>
+                <p className="text-sm font-bold text-on-surface leading-tight truncate">{user?.name || 'Pemilik Kost'}</p>
+                <span className="text-label-sm font-semibold text-primary uppercase tracking-wide block mt-1">Pemilik Kost</span>
               </div>
             </div>
           ) : (
             <div className="flex justify-center">
-              <div className="w-10 h-10 rounded-full bg-[var(--primary-100)]/50 flex items-center justify-center text-[var(--primary-600)] border border-[var(--primary-200)] overflow-hidden" title={user?.name || 'Pemilik Kost'}>
-                {user?.avatar_url ? <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" /> : <User className="w-5 h-5" />}
+              <div className="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center text-on-primary-container cursor-pointer hover:scale-105 transition-transform" title={user?.name || 'Pemilik Kost'}>
+                {user?.avatar_url ? <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover rounded-xl" /> : <User className="w-6 h-6" />}
               </div>
             </div>
           )}
 
           {/* Menu Items */}
           <nav className="flex flex-col gap-1">
-            {/* CATEGORY 1: MENU UTAMA */}
-            <div className="space-y-1 w-full mb-4">
+            <div className="space-y-1 w-full">
               {!isSidebarCollapsed && (
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-2 font-mono text-left">Menu Utama</p>
+                <p className="text-label-sm font-bold text-on-surface-variant uppercase tracking-wider px-3 mb-2 text-left">Menu Utama</p>
               )}
 
               <button
                 onClick={() => setActiveSection('overview')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
-                } ${activeSection === 'overview' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                className={`group w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                  isSidebarCollapsed ? 'justify-center w-12 h-12 mx-auto p-0' : ''
+                } ${activeSection === 'overview'
+                  ? 'bg-primary-container text-on-primary-container shadow-level-1'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
+                }`}
                 title="Dasbor"
               >
-                <LayoutDashboard className="w-4 h-4 shrink-0" />
-                {!isSidebarCollapsed && <span>Dasbor</span>}
+                <LayoutDashboard className={`w-5 h-5 shrink-0 transition-colors duration-200 ${activeSection === 'overview' ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'}`} />
+                {!isSidebarCollapsed && <span className="text-body-sm font-medium">Dasbor</span>}
               </button>
 
               <button
                 onClick={() => setActiveSection('properties')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
-                } ${activeSection === 'properties' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                className={`group w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                  isSidebarCollapsed ? 'justify-center w-12 h-12 mx-auto p-0' : ''
+                } ${activeSection === 'properties'
+                  ? 'bg-primary-container text-on-primary-container shadow-level-1'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
+                }`}
                 title="Kost"
               >
-                <Building2 className="w-4 h-4 shrink-0" />
+                <Building2 className={`w-5 h-5 shrink-0 transition-colors duration-200 ${activeSection === 'properties' ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'}`} />
                 {!isSidebarCollapsed && (
                   <div className="flex items-center justify-between w-full">
-                    <span>Kost</span>
-                    {properties.length > 0 && <span className="text-[10px] font-bold text-slate-400">{properties.length}</span>}
+                    <span className="text-body-sm font-medium">Kost</span>
+                    {properties.length > 0 && <span className="text-label-sm font-semibold text-primary bg-primary-container/20 px-2 py-0.5 rounded-full">{properties.length}</span>}
                   </div>
                 )}
               </button>
 
               <button
                 onClick={() => setActiveSection('finance')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
-                } ${activeSection === 'finance' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                className={`group w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                  isSidebarCollapsed ? 'justify-center w-12 h-12 mx-auto p-0' : ''
+                } ${activeSection === 'finance'
+                  ? 'bg-primary-container text-on-primary-container shadow-level-1'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
+                }`}
                 title="Keuangan"
               >
-                <Wallet className="w-4 h-4 shrink-0" />
-                {!isSidebarCollapsed && <span>Keuangan</span>}
+                <Wallet className={`w-5 h-5 shrink-0 transition-colors duration-200 ${activeSection === 'finance' ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'}`} />
+                {!isSidebarCollapsed && <span className="text-body-sm font-medium">Keuangan</span>}
               </button>
 
               <button
                 onClick={() => setActiveSection('orders')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
-                } ${activeSection === 'orders' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                className={`group w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                  isSidebarCollapsed ? 'justify-center w-12 h-12 mx-auto p-0' : ''
+                } ${activeSection === 'orders'
+                  ? 'bg-primary-container text-on-primary-container shadow-level-1'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
+                }`}
                 title="Permintaan Sewa"
               >
-                <ClipboardList className="w-4 h-4 shrink-0" />
-                {!isSidebarCollapsed && <span>Permintaan Sewa</span>}
+                <ClipboardList className={`w-5 h-5 shrink-0 transition-colors duration-200 ${activeSection === 'orders' ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'}`} />
+                {!isSidebarCollapsed && <span className="text-body-sm font-medium">Permintaan Sewa</span>}
               </button>
 
               <button
                 onClick={() => setActiveSection('chat')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
-                } ${activeSection === 'chat' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                className={`group w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 cursor-pointer relative ${
+                  isSidebarCollapsed ? 'justify-center w-12 h-12 mx-auto p-0' : ''
+                } ${activeSection === 'chat'
+                  ? 'bg-primary-container text-on-primary-container shadow-level-1'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
+                }`}
                 title="Pesan"
               >
-                <div className="relative shrink-0">
-                  <MessageSquare className="w-4 h-4" />
-                  {conversations.some((c) => c.unread_count > 0) && (
-                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-[var(--primary-500)] rounded-full ring-2 ring-white" />
-                  )}
-                </div>
+                {conversations.some((c) => c.unread_count > 0) && (
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full" />
+                )}
+                <MessageSquare className={`w-5 h-5 shrink-0 transition-colors duration-200 ${activeSection === 'chat' ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'}`} />
                 {!isSidebarCollapsed && (
                   <div className="flex items-center justify-between w-full">
-                    <span>Pesan</span>
+                    <span className="text-body-sm font-medium">Pesan</span>
                     {conversations.some((c) => c.unread_count > 0) && (
-                      <span className="text-[9px] font-black bg-[var(--primary-100)] text-[var(--primary-700)] px-1.5 py-0.5 rounded-full">Baru</span>
+                      <span className="text-label-sm font-semibold bg-primary-container/20 text-primary px-2 py-0.5 rounded-full">Baru</span>
                     )}
                   </div>
                 )}
               </button>
             </div>
 
-            {/* CATEGORY 2: UMUM */}
-            <div className="space-y-1 w-full">
+            <div className="space-y-1 w-full mt-4 pt-4 border-t border-outline-variant">
               {!isSidebarCollapsed && (
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-2 font-mono text-left">Umum</p>
+                <p className="text-label-sm font-bold text-on-surface-variant uppercase tracking-wider px-3 mb-2 text-left">Umum</p>
               )}
 
               <button
                 onClick={() => setActiveSection('settings')}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
-                } ${activeSection === 'settings' ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'}`}
+                className={`group w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                  isSidebarCollapsed ? 'justify-center w-12 h-12 mx-auto p-0' : ''
+                } ${activeSection === 'settings'
+                  ? 'bg-primary-container text-on-primary-container shadow-level-1'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
+                }`}
                 title="Pengaturan"
               >
-                <Settings className="w-4 h-4 shrink-0" />
-                {!isSidebarCollapsed && <span>Pengaturan</span>}
+                <Settings className={`w-5 h-5 shrink-0 transition-colors duration-200 ${activeSection === 'settings' ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'}`} />
+                {!isSidebarCollapsed && <span className="text-body-sm font-medium">Pengaturan</span>}
               </button>
             </div>
           </nav>
         </div>
 
         {/* Sidebar Footer */}
-        <div className={`border-t border-slate-200 hidden md:block ${isSidebarCollapsed ? 'p-3' : 'p-5 pt-4'}`}>
+        <div className={`border-t border-outline-variant hidden md:block ${isSidebarCollapsed ? 'p-3' : 'p-5 pt-4'}`}>
           <button
             onClick={() => navigate('/')}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer ${
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-body-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors cursor-pointer ${
               isSidebarCollapsed ? 'justify-center px-0' : ''
             }`}
             title="Kembali Beranda"
           >
-            <ArrowLeft className="w-4 h-4 shrink-0" />
+            <ArrowLeft className="w-5 h-5 shrink-0" />
             {!isSidebarCollapsed && <span>Kembali Beranda</span>}
           </button>
           <button
-            onClick={() => {
-              logout();
-              navigate('/');
-            }}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-rose-500 hover:bg-rose-50 transition-colors cursor-pointer ${
+            onClick={() => { logout(); navigate('/'); }}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-body-sm font-medium text-error hover:bg-error-container transition-colors cursor-pointer ${
               isSidebarCollapsed ? 'justify-center px-0' : ''
             }`}
             title="Keluar"
           >
-            <LogOut className="w-4 h-4 shrink-0" />
+            <LogOut className="w-5 h-5 shrink-0" />
             {!isSidebarCollapsed && <span>Keluar</span>}
           </button>
         </div>
@@ -550,24 +561,24 @@ export const DashboardPage = () => {
 
       {/* RIGHT PANE WORKSPACE */}
       <div className="flex-1 min-w-0 min-h-0 flex flex-col overflow-hidden">
-        
-        {/* TOP HEADER — styled to match the user dashboard */}
-        <header className="hidden md:flex h-16 border-b border-slate-200 bg-white items-center justify-between px-8 shrink-0 relative z-30">
+
+        {/* TOP HEADER — Premium Dwelling Style */}
+        <header className="hidden md:flex h-16 border-b border-outline-variant bg-surface items-center justify-between px-8 shrink-0 relative z-30">
 
           {/* Breadcrumbs */}
-          <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-400">
+          <div className="flex items-center gap-3 text-label-sm font-medium text-on-surface">
             <button
               onClick={() => navigate('/')}
-              className="hover:text-slate-900 transition-colors flex items-center gap-1 cursor-pointer font-bold"
+              className="hover:text-primary transition-colors flex items-center gap-2 cursor-pointer"
             >
               {settings.logo_url ? (
-                <img src={settings.logo_url} alt={settings.site_name} className="w-5 h-5 object-contain" />
+                <img src={settings.logo_url} alt={settings.site_name} className="h-6 w-auto object-contain" />
               ) : (
-                <LogoText className="text-xs font-black" />
+                <span className="font-headline font-bold text-primary text-lg">KostFind</span>
               )}
             </button>
-            <ChevronRight className="w-3 h-3 text-slate-300" />
-            <span className="text-slate-800 font-extrabold capitalize bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">
+            <span className="text-on-surface-variant">/</span>
+            <span className="font-headline font-bold text-on-surface bg-surface-container px-3 py-1.5 rounded-lg text-body-sm capitalize">
               {sectionLabel[activeSection]}
             </span>
           </div>
@@ -582,22 +593,22 @@ export const DashboardPage = () => {
                   setIsNotificationsOpen(!isNotificationsOpen);
                   setIsProfileOpen(false);
                 }}
-                className="relative p-2.5 text-slate-400 hover:text-slate-800 hover:bg-slate-50 border border-slate-200 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer"
+                className="relative p-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-[background-color] active:scale-[0.96] cursor-pointer"
               >
                 <Bell className="w-4 h-4" />
                 {notifUnread > 0 && (
-                  <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white animate-pulse" />
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-surface animate-pulse" />
                 )}
               </button>
 
               {isNotificationsOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsNotificationsOpen(false)} />
-                  <div className="absolute right-0 mt-3 w-80 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150 overflow-hidden">
-                    <div className="px-4 py-2 border-b border-slate-100 flex justify-between items-center">
-                      <span className="text-[11px] font-black text-slate-800 uppercase tracking-widest">Notifikasi</span>
+                  <div className="absolute right-0 mt-3 w-80 bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-elevation-hover py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150 overflow-hidden">
+                    <div className="px-4 py-2 border-b border-outline-variant flex justify-between items-center">
+                      <span className="font-headline text-[18px] font-semibold text-on-surface">Notifikasi</span>
                       {notifUnread > 0 && (
-                        <button onClick={() => markAllRead()} className="text-[10px] font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)] cursor-pointer">
+                        <button onClick={() => markAllRead()} className="text-label-sm font-semibold text-primary hover:text-primary/80 cursor-pointer">
                           Tandai dibaca
                         </button>
                       )}
@@ -605,29 +616,29 @@ export const DashboardPage = () => {
                     <div className="max-h-72 overflow-y-auto py-1">
                       {notifications.length === 0 ? (
                         <div className="px-4 py-10 flex flex-col items-center text-center">
-                          <div className="w-11 h-11 rounded-2xl bg-slate-50 flex items-center justify-center mb-2.5 text-slate-300">
+                          <div className="w-11 h-11 rounded-2xl bg-surface-container flex items-center justify-center mb-2.5 text-on-surface-variant">
                             <Bell className="w-5 h-5" />
                           </div>
-                          <p className="text-[13px] font-bold text-slate-600">Tidak ada notifikasi</p>
-                          <p className="text-[11px] text-slate-400 mt-0.5">Update permintaan & pembayaran sewa akan muncul di sini.</p>
+                          <p className="text-body-sm font-semibold text-on-surface">Tidak ada notifikasi</p>
+                          <p className="text-label-sm text-on-surface-variant mt-0.5">Update permintaan & pembayaran sewa akan muncul di sini.</p>
                         </div>
                       ) : (
                         notifications.filter(Boolean).map((n) => (
                           <button
                             key={n.id}
                             onClick={() => openNotification(n)}
-                            className={`w-full flex items-start gap-3 px-3 py-2.5 hover:bg-slate-50 transition-colors text-left cursor-pointer ${n.isRead ? '' : 'bg-[var(--primary-50)]/40'}`}
+                            className={`w-full flex items-start gap-3 px-3 py-2.5 hover:bg-surface-container transition-[background-color] text-left cursor-pointer ${n.isRead ? '' : 'bg-primary-fixed/20'}`}
                           >
-                            <div className="relative w-10 h-10 rounded-xl bg-[var(--primary-50)] border border-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] shrink-0">
+                            <div className="relative w-10 h-10 rounded-xl bg-primary-fixed-dim border border-primary-container flex items-center justify-center text-primary shrink-0">
                               <ClipboardList className="w-5 h-5" />
-                              {!n.isRead && <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-rose-500 border-2 border-white" />}
+                              {!n.isRead && <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-error border-2 border-surface-container-lowest" />}
                             </div>
                             <div className="min-w-0 flex-1">
                               <div className="flex items-center justify-between gap-2">
-                                <p className="text-[13px] font-bold text-slate-800 truncate">{n.title}</p>
-                                <span className="text-[10px] text-slate-400 shrink-0">{timeAgo(n.createdAt)}</span>
+                                <p className="text-body-sm font-semibold text-on-surface truncate">{n.title}</p>
+                                <span className="text-label-sm text-on-surface-variant shrink-0">{timeAgo(n.createdAt)}</span>
                               </div>
-                              <p className="text-[11px] text-slate-500 leading-snug line-clamp-2">{n.body}</p>
+                              <p className="text-label-sm text-on-surface-variant leading-snug line-clamp-2 mt-1">{n.body}</p>
                             </div>
                           </button>
                         ))
@@ -746,23 +757,26 @@ export const DashboardPage = () => {
         </main>
       </div>
 
-      {/* MOBILE BOTTOM NAVIGATION */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur border-t border-slate-100 flex items-stretch pb-[env(safe-area-inset-bottom)]">
+      {/* MOBILE BOTTOM NAVIGATION - Premium Style */}
+      <nav className="md:hidden fixed bottom-0 left-0 w-full z-30 flex justify-around items-center px-2 py-2 bg-surface shadow-[0_-4px_12px_rgba(0,0,0,0.05)] rounded-t-xl">
         {BOTTOM_NAV.map(({ key, label, icon: Icon }) => {
           const active = activeSection === key;
           return (
             <button
               key={key}
               onClick={() => goToSection(key)}
-              className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 cursor-pointer transition-colors active:scale-95"
+              className={`flex flex-col items-center justify-center px-3 py-1 cursor-pointer transition-all active:scale-[0.96] ${
+                active ? 'text-primary' : 'text-on-surface-variant'
+              }`}
             >
-              <span className="relative">
-                <Icon className={`w-[22px] h-[22px] transition-colors ${active ? 'text-[var(--primary-600)]' : 'text-slate-400'}`} />
-                {key === 'chat' && hasUnread && (
-                  <span className="absolute -top-1 -right-1.5 w-2 h-2 bg-[var(--primary-500)] rounded-full ring-2 ring-white" />
-                )}
-              </span>
-              <span className={`text-[10px] font-bold transition-colors ${active ? 'text-[var(--primary-600)]' : 'text-slate-400'}`}>
+              {active ? (
+                <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
+                  <Icon className="w-[22px] h-[22px] text-on-secondary-container" />
+                </div>
+              ) : (
+                <Icon className="w-[22px] h-[22px]" />
+              )}
+              <span className={`text-[10px] font-label mt-1 ${active ? 'font-semibold' : ''}`}>
                 {label}
               </span>
             </button>
