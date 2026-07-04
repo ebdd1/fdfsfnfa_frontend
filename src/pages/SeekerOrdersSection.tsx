@@ -145,6 +145,207 @@ const Lightbox: React.FC<{ url: string; onClose: () => void }> = ({ url, onClose
   </div>
 );
 
+/* ── Order Detail Modal (Premium Dwelling Style) ── */
+interface OrderDetailModalProps {
+  order: RentalOrder;
+  properties: ReturnType<typeof useProperties>['properties'];
+  onClose: () => void;
+  onChat?: () => void;
+}
+
+const OrderDetailModal: React.FC<OrderDetailModalProps> = ({ order, properties, onClose, onChat }) => {
+  const propertyData = properties.find(p => p.id === order.propertyId);
+  const coverImage = propertyData?.media?.[0]?.url_original;
+
+  const status = statusConfig[order.status] || statusConfig.pending;
+
+  // Format date
+  const formatDate = (d: string) => {
+    return new Date(d).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+  };
+
+  // Steps based on payment method (COD vs Transfer)
+  const steps = order.paymentMethod === 'cod'
+    ? [
+        { label: 'Menunggu Persetujuan Pemilik', desc: 'Pemilik akan meninjau profil dan permintaan Anda dalam 1x24 jam.' },
+        { label: 'Koordinasi Waktu Check-in', desc: 'Gunakan fitur chat untuk membuat janji temu dengan pengelola properti.' },
+        { label: 'Bayar di Lokasi', desc: 'Lakukan pembayaran penuh saat Anda menerima kunci kamar.' },
+      ]
+    : [
+        { label: 'Menunggu Persetujuan Pemilik', desc: 'Pemilik akan meninjau profil dan permintaan Anda dalam 1x24 jam.' },
+        { label: 'Upload Bukti Bayar', desc: 'Transfer ke rekening yang tertera, lalu upload bukti transfer.' },
+        { label: 'Konfirmasi Pemilik', desc: 'Pemilik akan mengonfirmasi pembayaran Anda.' },
+      ];
+
+  // Get current step based on status
+  const getCurrentStep = (): number => {
+    const statusStep: Record<string, number> = {
+      pending: 0,
+      awaiting_payment: 1,
+      awaiting_confirmation: 2,
+      active: 3,
+    };
+    return statusStep[order.status] ?? 0;
+  };
+
+  const currentStep = getCurrentStep();
+
+  return (
+    <div className="fixed inset-0 z-50 bg-background">
+      {/* Top App Bar */}
+      <header className="fixed top-0 w-full z-50 bg-surface shadow-sm h-16">
+        <div className="flex items-center px-4 h-full max-w-2xl mx-auto">
+          <button
+            onClick={onClose}
+            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95 cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-primary">arrow_back</span>
+          </button>
+          <h1 className="ml-2 font-headline font-semibold text-xl text-primary">Detail Sewa</h1>
+        </div>
+      </header>
+
+      {/* Content */}
+      <main className="pt-24 px-4 max-w-2xl mx-auto space-y-6 pb-24 overflow-y-auto">
+        {/* Success Header */}
+        <section className="text-center space-y-4 py-6">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-primary-container rounded-full" style={{ boxShadow: '0 0 20px rgba(0, 74, 198, 0.2)' }}>
+            <span className="material-symbols-outlined text-on-primary-container text-4xl" style={{ fontVariationSettings: "'wght' 700" }}>check_circle</span>
+          </div>
+          <div className="space-y-1">
+            <h2 className="text-2xl font-bold text-on-surface">Pengajuan Sewa Terkirim</h2>
+            <p className="text-on-surface-variant text-sm">Pesanan Anda telah kami sampaikan ke pengelola properti.</p>
+          </div>
+        </section>
+
+        {/* Payment Info Box */}
+        <section className="bg-surface-container-highest border border-primary/10 rounded-xl p-5 flex gap-4">
+          <div className="flex-shrink-0">
+            <span className="material-symbols-outlined text-primary text-2xl">payments</span>
+          </div>
+          <div className="space-y-1">
+            <h3 className="font-bold text-primary text-sm">
+              {order.paymentMethod === 'cod' ? 'Bayar di Tempat (COD)' : 'Transfer Bank'}
+            </h3>
+            <p className="text-on-surface-variant text-sm leading-relaxed">
+              {order.paymentMethod === 'cod'
+                ? 'Pembayaran sewa dilakukan secara langsung kepada pengelola properti saat Anda tiba di lokasi.'
+                : `Transfer ke rekening pemilik kost. Upload bukti transfer setelah transfer selesai.`}
+            </p>
+          </div>
+        </section>
+
+        {/* Booking Summary Card */}
+        <section className="bg-surface-container-lowest rounded-xl shadow-level-1 overflow-hidden border border-outline-variant/30">
+          {/* Header */}
+          <div className="p-4 border-b border-outline-variant/20 flex justify-between items-center bg-surface-container-low/30">
+            <span className="text-label-sm font-semibold text-on-surface-variant">
+              ORDER ID: {order.id.slice(0, 8).toUpperCase()}
+            </span>
+            <span className={`${status.bg} ${status.text} px-2 py-1 rounded-full text-[10px] font-bold tracking-wider`}>
+              {status.label.toUpperCase()}
+            </span>
+          </div>
+
+          {/* Content */}
+          <div className="p-5 flex gap-4">
+            {/* Property Image */}
+            <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+              {coverImage ? (
+                <img src={coverImage} alt={order.property?.name} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-surface-variant flex items-center justify-center">
+                  <Home className="w-8 h-8 text-on-surface-variant" />
+                </div>
+              )}
+            </div>
+
+            {/* Info */}
+            <div className="flex-grow space-y-1">
+              <h4 className="font-bold text-lg text-on-surface leading-tight">{order.property?.name || 'Kost'}</h4>
+              <p className="text-on-surface-variant text-sm flex items-center gap-1">
+                <span className="material-symbols-outlined text-base">meeting_room</span>
+                Kamar {order.room?.roomNumber || order.room?.id?.slice(0, 4) || '-'}
+              </p>
+              <div className="pt-2 flex flex-wrap gap-2">
+                <span className="bg-surface-container text-primary px-2 py-1 rounded text-[11px] font-semibold">
+                  {order.durationMonths} Bulan
+                </span>
+                <span className="bg-surface-container text-primary px-2 py-1 rounded text-[11px] font-semibold">
+                  Mulai {formatDate(order.startDate)}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Next Steps Timeline */}
+        <section className="space-y-4">
+          <h3 className="font-bold text-on-surface text-lg px-1">Langkah Selanjutnya</h3>
+          <div className="relative pl-8 space-y-8">
+            {/* Vertical line */}
+            <div className="absolute left-[11px] top-0 bottom-0 w-0.5 bg-outline-variant/40" />
+
+            {steps.map((step, idx) => {
+              const isCompleted = idx < currentStep;
+              const isCurrent = idx === currentStep;
+              const isPending = idx > currentStep;
+
+              return (
+                <div key={idx} className="relative">
+                  {/* Circle */}
+                  <div
+                    className={`absolute -left-8 w-6 h-6 rounded-full flex items-center justify-center z-10 border-4 border-background transition-all ${
+                      isCompleted
+                        ? 'bg-primary'
+                        : isCurrent
+                        ? 'bg-primary text-white'
+                        : 'bg-surface-variant border-2 border-outline-variant'
+                    }`}
+                  >
+                    {isCompleted ? (
+                      <Check className="w-3 h-3 text-white" />
+                    ) : (
+                      <span className={`text-[10px] font-bold ${isPending ? 'text-on-surface-variant' : 'text-white'}`}>
+                        {idx + 1}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Content */}
+                  <div className={`space-y-1 ${isPending ? 'opacity-60' : ''}`}>
+                    <h4 className={`font-bold text-sm ${isCurrent ? 'text-primary' : 'text-on-surface'}`}>
+                      {step.label}
+                    </h4>
+                    <p className="text-on-surface-variant text-sm">{step.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Action Buttons */}
+        <section className="pt-6 flex flex-col gap-3">
+          <button
+            onClick={onChat}
+            className="w-full bg-primary hover:bg-primary-container text-white font-bold py-4 rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>chat_bubble</span>
+            Hubungi Pengelola
+          </button>
+          <button
+            onClick={onClose}
+            className="w-full bg-transparent border border-outline-variant text-on-surface-variant font-bold py-4 rounded-xl transition-all hover:bg-surface-container-low active:scale-[0.98] cursor-pointer"
+          >
+            Lihat Riwayat Sewa
+          </button>
+        </section>
+      </main>
+    </div>
+  );
+};
+
 /* ── Status badge colors (Premium Dwelling System) ── */
 const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
   pending: { bg: 'bg-secondary-container/10', text: 'text-secondary', label: 'Menunggu Persetujuan' },
@@ -249,8 +450,9 @@ const OrderCard: React.FC<{
   properties: ReturnType<typeof useProperties>['properties'];
   onTransferPay?: (order: RentalOrder) => void;
   onCancel?: (id: string) => void;
+  onViewDetail?: (order: RentalOrder) => void;
   isMutating: boolean;
-}> = ({ order, properties, onTransferPay, onCancel, isMutating }) => {
+}> = ({ order, properties, onTransferPay, onCancel, onViewDetail, isMutating }) => {
   const [lightbox, setLightbox] = useState('');
   const status = statusConfig[order.status] || statusConfig.pending;
 
@@ -331,7 +533,10 @@ const OrderCard: React.FC<{
 
         {/* Active - View Detail */}
         {order.status === 'active' && (
-          <button className="w-full py-2.5 rounded-lg bg-primary/5 text-primary border border-primary/20 font-semibold text-label-sm hover:bg-primary/10 transition-colors cursor-pointer">
+          <button
+            onClick={() => onViewDetail?.(order)}
+            className="w-full py-2.5 rounded-lg bg-primary/5 text-primary border border-primary/20 font-semibold text-label-sm hover:bg-primary/10 transition-colors cursor-pointer"
+          >
             Lihat Detail
           </button>
         )}
@@ -350,6 +555,7 @@ const OrderCard: React.FC<{
 export const SeekerOrdersSection: React.FC = () => {
   const [tab, setTab] = useState<'all' | 'pending' | 'awaiting_payment' | 'awaiting_confirmation' | 'active' | 'completed'>('all');
   const [transferTarget, setTransferTarget] = useState<RentalOrder | null>(null);
+  const [detailOrder, setDetailOrder] = useState<RentalOrder | null>(null);
   const { user } = useAuthStore();
   const { orders: allOrders, isLoading, isError, refetch } = useMyOrders();
   const { properties } = useProperties();
@@ -437,6 +643,7 @@ export const SeekerOrdersSection: React.FC = () => {
               properties={properties}
               onTransferPay={setTransferTarget}
               onCancel={cancelOrder}
+              onViewDetail={setDetailOrder}
               isMutating={isMutating}
             />
           ))}
@@ -449,6 +656,18 @@ export const SeekerOrdersSection: React.FC = () => {
           onClose={() => setTransferTarget(null)}
           onSubmit={handleTransferSubmit}
           isSubmitting={isSubmittingPayment}
+        />
+      )}
+
+      {detailOrder && (
+        <OrderDetailModal
+          order={detailOrder}
+          properties={properties}
+          onClose={() => setDetailOrder(null)}
+          onChat={() => {
+            // Navigate to chat - close modal first
+            setDetailOrder(null);
+          }}
         />
       )}
     </div>
