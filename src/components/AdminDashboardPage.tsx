@@ -204,7 +204,7 @@ export const AdminDashboardPage: React.FC = () => {
 
       {/* ===================== SIDEBAR ===================== */}
       <aside
-        className={`hidden md:flex flex-col justify-between border-r border-slate-200/80 bg-white transition-all duration-300 ${
+        className={`hidden md:flex flex-col justify-between border-r border-outline-variant bg-surface-container-low transition-all duration-300 ${
           collapsed ? 'w-20' : 'w-64'
         }`}
       >
@@ -224,7 +224,7 @@ export const AdminDashboardPage: React.FC = () => {
             </div>
             <button
               onClick={() => setCollapsed(!collapsed)}
-              className="rounded-lg border border-slate-200/60 p-1.5 text-slate-400 hover:bg-slate-50 hover:text-slate-700 transition-colors cursor-pointer"
+              className="rounded-lg border border-slate-200/60 p-1.5 text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors cursor-pointer"
               title={collapsed ? "Tampilkan Sidebar" : "Sembunyikan Sidebar"}
             >
               {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -235,7 +235,7 @@ export const AdminDashboardPage: React.FC = () => {
           <nav className="space-y-5">
             {groups.map((g) => (
               <div key={g.label} className="space-y-1">
-                {!collapsed && <p className="px-3 pb-1 font-mono text-[9px] font-black uppercase tracking-widest text-slate-300">{g.label}</p>}
+                {!collapsed && <p className="px-3 pb-1 font-mono text-[9px] font-black uppercase tracking-widest text-on-surface-variant">{g.label}</p>}
                 {g.items.map((item) => {
                   const active = activeSection === item.key;
                   return (
@@ -250,7 +250,7 @@ export const AdminDashboardPage: React.FC = () => {
                         collapsed ? 'justify-center px-0' : ''
                       } ${active
                         ? 'bg-[var(--primary-50)] text-[var(--primary-700)] shadow-sm border border-[var(--primary-100)]/30'
-                        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                        : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
                       }`}
                     >
                       {item.icon}
@@ -264,14 +264,14 @@ export const AdminDashboardPage: React.FC = () => {
         </div>
 
         {/* Footer */}
-        <div className={`space-y-1 border-t border-slate-100 ${collapsed ? 'p-3' : 'p-4'}`}>
+        <div className={`space-y-1 border-t border-outline-variant ${collapsed ? 'p-3' : 'p-4'}`}>
           <button
             onClick={() => {
               navigate('/');
               if (collapsed) setCollapsed(false);
             }}
             title="Kembali ke Beranda"
-            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 cursor-pointer ${
+            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold text-on-surface-variant transition-colors hover:bg-slate-100 hover:text-slate-900 cursor-pointer ${
               collapsed ? 'justify-center px-0' : ''
             }`}
           >
@@ -302,7 +302,7 @@ export const AdminDashboardPage: React.FC = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-50 md:hidden cursor-pointer"
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-surface-container md:hidden cursor-pointer"
               aria-label="Open menu"
             >
               <Menu className="h-5 w-5" />
@@ -319,8 +319,8 @@ export const AdminDashboardPage: React.FC = () => {
                   <LogoText className="text-xs font-black" />
                 )}
               </button>
-              <ChevronRight className="w-3 h-3 text-slate-300" />
-              <span className="text-slate-800 font-extrabold capitalize bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">
+              <ChevronRight className="w-3 h-3 text-on-surface-variant" />
+              <span className="text-slate-800 font-extrabold capitalize bg-surface-container px-2.5 py-1 rounded-lg border border-slate-200">
                 {SECTION_TITLE[activeSection]}
               </span>
             </div>
@@ -335,7 +335,7 @@ export const AdminDashboardPage: React.FC = () => {
                   setIsNotificationsOpen(!isNotificationsOpen);
                   setIsProfileOpen(false);
                 }}
-                className="relative p-2.5 text-slate-400 hover:text-slate-800 hover:bg-slate-50 border border-slate-200 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer"
+                className="relative p-2.5 text-slate-400 hover:text-slate-800 hover:bg-surface-container border border-slate-200 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer"
               >
                 <Bell className="w-4 h-4" />
               </button>
@@ -344,7 +344,7 @@ export const AdminDashboardPage: React.FC = () => {
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsNotificationsOpen(false)} />
                   <div className="absolute right-0 mt-3 w-80 bg-white border border-slate-200 rounded-2xl shadow-xl py-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <div className="px-4 pb-2 border-b border-slate-100 flex justify-between items-center">
+                    <div className="px-4 pb-2 border-b border-outline-variant flex justify-between items-center">
                       <span className="text-[10px] font-black text-slate-800 uppercase tracking-widest font-mono">Notifikasi</span>
                       {unreadCount > 0 && (
                         <button
@@ -365,10 +365,10 @@ export const AdminDashboardPage: React.FC = () => {
                           <div
                             key={notif.id}
                             onClick={() => markRead(notif.id)}
-                            className={`px-4 py-3 hover:bg-slate-50 cursor-pointer border-b border-slate-50 last:border-0 ${!notif.isRead ? 'bg-[var(--color-primary-50)]/30' : ''}`}
+                            className={`px-4 py-3 hover:bg-surface-container cursor-pointer border-b border-slate-50 last:border-0 ${!notif.isRead ? 'bg-[var(--color-primary-50)]/30' : ''}`}
                           >
                             <p className="text-xs font-semibold text-slate-800 line-clamp-1">{notif.title}</p>
-                            {notif.body && <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">{notif.body}</p>}
+                            {notif.body && <p className="text-[11px] text-on-surface-variant mt-0.5 line-clamp-2">{notif.body}</p>}
                             <p className="text-[10px] text-slate-400 mt-1">
                               {new Date(notif.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                             </p>
@@ -388,9 +388,9 @@ export const AdminDashboardPage: React.FC = () => {
                   setIsProfileOpen(!isProfileOpen);
                   setIsNotificationsOpen(false);
                 }}
-                className="flex items-center gap-2 p-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition-all duration-200 cursor-pointer group"
+                className="flex items-center gap-2 p-1.5 bg-surface-container hover:bg-slate-100 border border-slate-200 rounded-xl transition-all duration-200 cursor-pointer group"
               >
-                <div className="w-7 h-7 rounded-lg bg-slate-200 overflow-hidden border border-slate-200 flex-shrink-0 flex items-center justify-center text-slate-500">
+                <div className="w-7 h-7 rounded-lg bg-slate-200 overflow-hidden border border-slate-200 flex-shrink-0 flex items-center justify-center text-on-surface-variant">
                   {user?.avatar_url ? (
                     <img src={user.avatar_url} alt={user?.name || 'Admin'} className="w-full h-full object-cover" />
                   ) : (
@@ -404,7 +404,7 @@ export const AdminDashboardPage: React.FC = () => {
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsProfileOpen(false)} />
                   <div className="absolute right-0 mt-3 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <div className="px-4 py-2.5 border-b border-slate-100">
+                    <div className="px-4 py-2.5 border-b border-outline-variant">
                       <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest font-mono">Masuk Sebagai</p>
                       <p className="text-xs font-black text-slate-800 leading-tight mt-0.5 truncate">{user?.name || 'Administrator'}</p>
                       <p className="text-[10px] text-slate-400 font-semibold truncate mt-0.5">{user?.email || 'admin@kostfind.com'}</p>
@@ -416,7 +416,7 @@ export const AdminDashboardPage: React.FC = () => {
                           setIsProfileOpen(false);
                           setShowProfileEditor(true);
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-surface-container hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
                         <User className="w-4 h-4 text-slate-400" />
                         <span>Edit Profil Saya</span>
@@ -426,14 +426,14 @@ export const AdminDashboardPage: React.FC = () => {
                           setIsProfileOpen(false);
                           navigate('/');
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-surface-container hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
                         <Home className="w-4 h-4 text-slate-400" />
                         <span>Kembali ke Beranda</span>
                       </button>
                     </div>
 
-                    <div className="border-t border-slate-100 pt-1 mt-1">
+                    <div className="border-t border-outline-variant pt-1 mt-1">
                       <button
                         onClick={() => {
                           setIsProfileOpen(false);
@@ -576,7 +576,7 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
               ) : (
                 <div className="divide-y divide-slate-50">
                   {pending.map((p) => (
-                    <div key={p.id} className="flex items-center justify-between gap-4 px-6 py-3.5 transition-colors hover:bg-slate-50/60">
+                    <div key={p.id} className="flex items-center justify-between gap-4 px-6 py-3.5 transition-colors hover:bg-surface-container/60">
                       <div className="flex min-w-0 items-center gap-3">
                         <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400">
                           <Home className="h-4 w-4" />
@@ -643,13 +643,13 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
 const QuickAction: React.FC<{ icon: React.ReactNode; label: string; onClick: () => void }> = ({ icon, label, onClick }) => (
   <button
     onClick={onClick}
-    className="group flex w-full items-center justify-between rounded-xl border border-slate-100 px-4 py-3 text-left transition-all hover:border-slate-200 hover:bg-slate-50"
+    className="group flex w-full items-center justify-between rounded-xl border border-outline-variant px-4 py-3 text-left transition-all hover:border-slate-200 hover:bg-surface-container"
   >
     <span className="flex items-center gap-3 text-sm font-bold text-slate-700">
       <span className="text-slate-400 transition-colors group-hover:text-[var(--primary-600)]">{icon}</span>
       {label}
     </span>
-    <ChevronRight className="h-4 w-4 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-slate-500" />
+    <ChevronRight className="h-4 w-4 text-on-surface-variant transition-transform group-hover:translate-x-0.5 group-hover:text-on-surface-variant" />
   </button>
 );
 
@@ -678,7 +678,7 @@ const VerifySection: React.FC = () => {
       </div>
 
       <Panel>
-        <div className="flex flex-col gap-3 border-b border-slate-100 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 border-b border-outline-variant px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
           <h3 className="text-sm font-bold text-slate-800">Daftar Kost</h3>
           <div className="flex flex-col gap-2 sm:flex-row">
             <div className="relative">
@@ -713,7 +713,7 @@ const VerifySection: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/50 text-[10px] uppercase tracking-wider text-slate-400">
+                <tr className="border-b border-outline-variant bg-surface-container/50 text-[10px] uppercase tracking-wider text-slate-400">
                   <th className="px-6 py-3 font-bold">Kost</th>
                   <th className="px-6 py-3 font-bold">Lokasi</th>
                   <th className="px-6 py-3 font-bold">Pemilik</th>
@@ -723,7 +723,7 @@ const VerifySection: React.FC = () => {
               </thead>
               <tbody className="divide-y divide-slate-50 text-xs font-semibold text-slate-700">
                 {filtered.map((p) => (
-                  <tr key={p.id} className="transition-colors hover:bg-slate-50/60">
+                  <tr key={p.id} className="transition-colors hover:bg-surface-container/60">
                     <td className="px-6 py-3.5">
                       <div className="flex items-center gap-3">
                         <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400">
@@ -833,7 +833,7 @@ const UsersSection: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/50 text-[10px] uppercase tracking-wider text-slate-400">
+                <tr className="border-b border-outline-variant bg-surface-container/50 text-[10px] uppercase tracking-wider text-slate-400">
                   <th className="px-6 py-3 font-bold">Pengguna</th>
                   <th className="px-6 py-3 font-bold">Kontak</th>
                   <th className="px-6 py-3 font-bold">Peran</th>
@@ -847,7 +847,7 @@ const UsersSection: React.FC = () => {
                   <tr
                     key={u.id}
                     onClick={() => setViewUser(u)}
-                    className="cursor-pointer transition-colors hover:bg-slate-50/60"
+                    className="cursor-pointer transition-colors hover:bg-surface-container/60"
                   >
                     <td className="px-6 py-3.5">
                       <div className="flex items-center gap-3">
@@ -883,7 +883,7 @@ const UsersSection: React.FC = () => {
                           onClick={() => setViewUser(u)}
                           title="Lihat profil"
                           aria-label="Lihat profil"
-                          className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 transition-all duration-150 hover:-translate-y-px hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700 hover:shadow-sm active:scale-95"
+                          className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant transition-all duration-150 hover:-translate-y-px hover:border-slate-300 hover:bg-surface-container hover:text-slate-700 hover:shadow-sm active:scale-95"
                         >
                           <Eye className="h-3.5 w-3.5" />
                         </button>
@@ -898,7 +898,7 @@ const UsersSection: React.FC = () => {
                         <button
                           disabled={isUpdating || u.role === 'admin'}
                           onClick={() => setPending({ user: u, field: 'isActive', next: !u.isActive })}
-                          className={`${actionBtn} ${u.isActive ? 'border-rose-100 bg-rose-50 text-rose-600 hover:bg-rose-100' : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'}`}
+                          className={`${actionBtn} ${u.isActive ? 'border-rose-100 bg-rose-50 text-rose-600 hover:bg-rose-100' : 'border-slate-200 bg-surface-container text-slate-600 hover:bg-slate-100'}`}
                         >
                           {u.isActive ? 'Nonaktifkan' : 'Aktifkan'}
                         </button>
@@ -958,7 +958,7 @@ const UsersSection: React.FC = () => {
 
             {/* Actions */}
             {viewUser.role !== 'admin' && (
-              <div className="flex items-center justify-end gap-2.5 border-t border-slate-100 bg-slate-50/60 px-6 py-4">
+              <div className="flex items-center justify-end gap-2.5 border-t border-outline-variant bg-surface-container/60 px-6 py-4">
                 <button
                   disabled={isUpdating}
                   onClick={() => setPending({ user: viewUser, field: 'isVerified', next: !viewUser.isVerified })}
@@ -970,7 +970,7 @@ const UsersSection: React.FC = () => {
                 <button
                   disabled={isUpdating}
                   onClick={() => setPending({ user: viewUser, field: 'isActive', next: !viewUser.isActive })}
-                  className={`flex cursor-pointer items-center gap-1.5 rounded-xl border px-3.5 py-2 text-[12px] font-bold transition-all active:scale-95 disabled:opacity-40 ${viewUser.isActive ? 'border-rose-100 bg-rose-50 text-rose-600 hover:bg-rose-100' : 'border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100'}`}
+                  className={`flex cursor-pointer items-center gap-1.5 rounded-xl border px-3.5 py-2 text-[12px] font-bold transition-all active:scale-95 disabled:opacity-40 ${viewUser.isActive ? 'border-rose-100 bg-rose-50 text-rose-600 hover:bg-rose-100' : 'border-slate-200 bg-surface-container text-slate-600 hover:bg-slate-100'}`}
                 >
                   {viewUser.isActive ? 'Nonaktifkan' : 'Aktifkan'}
                 </button>
@@ -996,7 +996,7 @@ const UsersSection: React.FC = () => {
 
 const DetailRow: React.FC<{ icon: React.ReactNode; label: string; value: React.ReactNode }> = ({ icon, label, value }) => (
   <div className="flex items-center gap-3 rounded-xl px-1 py-2">
-    <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-slate-50 text-slate-400">{icon}</span>
+    <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-surface-container text-slate-400">{icon}</span>
     <div className="min-w-0">
       <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</p>
       <p className="truncate text-[13px] font-semibold text-slate-700">{value}</p>
@@ -1037,7 +1037,7 @@ const StatsSection: React.FC = () => {
           <div className="space-y-3.5 p-6 pt-4">
             {Object.keys(stats.cityBreakdown).length === 0 ? (
               <div className="flex flex-col items-center justify-center py-10 text-center">
-                <div className="mb-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-50 text-slate-300">
+                <div className="mb-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-container text-on-surface-variant">
                   <Building2 className="h-5 w-5" />
                 </div>
                 <p className="text-xs font-semibold text-slate-400">Belum ada data kota.</p>
@@ -1049,7 +1049,7 @@ const StatsSection: React.FC = () => {
                   <div key={city} className="space-y-1.5">
                     <div className="flex items-center justify-between text-xs font-bold text-slate-700">
                       <span className="flex items-center gap-1.5">
-                        <Building2 className={`h-3.5 w-3.5 ${i === 0 ? 'text-[var(--primary-500)]' : 'text-slate-300'}`} />
+                        <Building2 className={`h-3.5 w-3.5 ${i === 0 ? 'text-[var(--primary-500)]' : 'text-on-surface-variant'}`} />
                         {city}
                         {i === 0 && (
                           <span className="rounded-md bg-[var(--primary-50)] px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wide text-[var(--primary-600)]">
@@ -1151,7 +1151,7 @@ const UserComposition: React.FC<{ seekers: number; owners: number; admins: numbe
               </span>
               <span className="text-xs font-bold text-slate-700">{s.label}</span>
               <span className="ml-auto text-xs font-bold text-slate-400">
-                {s.value} <span className="text-slate-300">({pct}%)</span>
+                {s.value} <span className="text-on-surface-variant">({pct}%)</span>
               </span>
             </div>
           );
@@ -1170,7 +1170,7 @@ const SectionHeading: React.FC<{ title: string; desc: string }> = ({ title, desc
 );
 
 const RefreshBtn: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-  <button onClick={onClick} title="Muat ulang" className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-[11px] font-bold text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-700">
+  <button onClick={onClick} title="Muat ulang" className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-[11px] font-bold text-on-surface-variant transition-colors hover:bg-surface-container hover:text-slate-700">
     <RefreshCw className="h-3.5 w-3.5" /> Muat ulang
   </button>
 );
