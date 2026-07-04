@@ -354,7 +354,7 @@ const PropertyCard: React.FC<{
 }> = ({ property, rooms, onClose, onViewDetails, isLoadingRoute }) => {
   const lowestPrice = getLowestPrice(rooms);
   const [currentImage, setCurrentImage] = useState(0);
-  const images = property.media.length > 0 ? property.media : [{ url_thumbnail: '/placeholder.jpg', url_medium: '/placeholder.jpg' }];
+  const images = property.media.length > 0 ? property.media : [{ url_thumbnail: '/placeholder.svg', url_medium: '/placeholder.svg' }];
 
   const handleExternalNavigation = () => {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${property.location.latitude},${property.location.longitude}`;
@@ -812,7 +812,7 @@ export const MapboxMapView: React.FC<MapboxMapViewProps> = ({
           >
             <div className="w-full">
               <img
-                src={popupInfo.property.media[0]?.url_thumbnail || '/placeholder.jpg'}
+                src={popupInfo.property.media[0]?.url_thumbnail || '/placeholder.svg'}
                 alt={popupInfo.property.name}
                 className="w-full h-28 object-cover rounded-t-lg"
                 loading="lazy"

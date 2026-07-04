@@ -161,7 +161,7 @@ export const useConversations = () => {
     const socket = getSocket();
 
     const handleReconnect = () => {
-      console.log('[Chat] Reconnected — syncing missed data');
+      // Sync missed data after reconnect
 
       // Invalidate all conversations to fetch unread count updates
       queryClient.invalidateQueries({ queryKey: ['conversations', userId] });
@@ -210,7 +210,6 @@ export const useConversations = () => {
 
     // If offline, queue message instead of sending
     if (connectionState === 'disconnected' || connectionState === 'reconnecting') {
-      console.log('[Chat] Offline — queueing message');
       await enqueue(convId, content, contentType);
       return;
     }
@@ -242,8 +241,8 @@ export const useConversations = () => {
       // Invalidate to fetch real message from server
       queryClient.invalidateQueries({ queryKey: ['messages', convId] });
       queryClient.invalidateQueries({ queryKey: ['conversations', userId] });
-    } catch (err) {
-      console.error('[Chat] Send failed:', err);
+    } catch {
+      // Silent error - optimistic message already marked as failed
 
       // Update optimistic to 'failed'
       setOptimisticMessages((prev) =>

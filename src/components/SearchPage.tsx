@@ -122,7 +122,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                     {/* Image */}
                     <div className="relative h-48 w-full overflow-hidden">
                       <img
-                        src={p.media[0]?.url_medium || 'https://via.placeholder.com/400x300'}
+                        src={p.media[0]?.url_medium || '/placeholder.svg'}
                         alt={p.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -277,7 +277,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                     {/* Image */}
                     <div className="w-32 h-28 relative shrink-0">
                       <img
-                        src={p.media[0]?.url_medium || 'https://via.placeholder.com/200x150'}
+                        src={p.media[0]?.url_medium || '/placeholder.svg'}
                         alt={p.name}
                         className="w-full h-full object-cover"
                       />

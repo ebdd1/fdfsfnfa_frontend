@@ -3,7 +3,7 @@ import { useAuthStore } from '../stores/authStore';
 import { useConnectionStore } from '../stores/connectionStore';
 
 /** API URL — Railway provides HTTPS, so WSS is used automatically */
-const SOCKET_URL = import.meta.env.VITE_API_URL || 'https://api-production-fafbf.up.railway.app';
+const SOCKET_URL = import.meta.env.VITE_API_URL;
 
 let socket: Socket | null = null;
 let joinHandler: (() => void) | null = null;
@@ -23,31 +23,26 @@ export const getSocket = (): Socket => {
     // Track connection state for UI indicator
     socket.on('connect', () => {
       useConnectionStore.getState().setState('connected');
-      console.log('[Socket] Connected');
     });
 
-    socket.on('disconnect', (reason) => {
+    socket.on('disconnect', () => {
       useConnectionStore.getState().setState('disconnected');
-      console.log('[Socket] Disconnected:', reason);
     });
 
     socket.on('reconnect_attempt', () => {
       useConnectionStore.getState().setState('reconnecting');
-      console.log('[Socket] Reconnecting...');
     });
 
-    socket.on('reconnect', (attemptNumber) => {
+    socket.on('reconnect', () => {
       useConnectionStore.getState().setState('connected');
-      console.log('[Socket] Reconnected after', attemptNumber, 'attempts');
     });
 
-    socket.on('reconnect_error', (error) => {
-      console.error('[Socket] Reconnect error:', error);
+    socket.on('reconnect_error', () => {
+      // Log error silently - connection state already managed
     });
 
     socket.on('reconnect_failed', () => {
       useConnectionStore.getState().setState('disconnected');
-      console.error('[Socket] Reconnect failed');
     });
 
     // Set initial state
@@ -72,7 +67,10 @@ export const reconnectSocket = () => {
  * Join personal rooms after connection.
  * JWT is verified at handshake — we emit join for room subscription only.
  */
-export const joinRealtime = (_userId: string, _role: string) => {
+export const joinRealtime = (userId: string, role: string) => {
+  // Intentionally unused: userId/role come from JWT, not parameters
+  void userId;
+  void role;
   const s = getSocket();
   if (joinHandler) s.off('connect', joinHandler);
   joinHandler = () => s.emit('join'); // no userId/role in body — server uses socket.user from JWT [F-014]

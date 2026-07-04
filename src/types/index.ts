@@ -43,6 +43,7 @@ export interface Property {
   facilities: string[];
   description: string;
   is_verified?: boolean;
+  rating?: number;
   media: Media[];
   rooms: Room[];
 }

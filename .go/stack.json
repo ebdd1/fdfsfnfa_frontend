@@ -1,34 +1,54 @@
 {
-  "stack": "react-vite-ts",
-  "name": "kostfind_web",
-  "description": "KostFind - Real-time property platform frontend",
-  "test_command": "npm test",
+  "stack": "react-vite-typescript",
+  "language": "typescript",
+  "language_version": "~6.0.2",
+  "framework": "react",
+  "framework_version": "19.2.6",
+  "build_tool": "vite",
+  "build_tool_version": "8.x",
+  "frontend": "react-router-dom-7-spa",
+  "state_management": "zustand",
+  "server_state": "tanstack-react-query",
+  "styling": "tailwind-css",
+  "styling_version": "4.3.1",
+  "database": "none (frontend-only)",
+  "database_url": "https://api-production-fafbf.up.railway.app",
+  "cache": "none",
+  "queue": "none",
+  "realtime": "socket.io-client",
+  "deployment": "vercel",
+  "test_command": null,
   "lint_command": "npm run lint",
-  "type_check_command": "npm run type-check",
+  "type_check_command": "npm run build (includes tsc -b)",
   "build_command": "npm run build",
   "dev_command": "npm run dev",
-  "preview_command": "npm run preview",
-  "technologies": {
-    "framework": "React",
-    "framework_version": "19",
-    "language": "TypeScript",
-    "language_version": "5.x",
-    "build_tool": "Vite",
-    "styling": "Tailwind CSS 4.3.1",
-    "icons": "Lucide React",
-    "animation": "Framer Motion",
-    "state_management": "Zustand",
-    "api_client": "Axios",
-    "realtime": "Socket.IO Client",
-    "auth": "JWT Bearer Token"
+  "entry_points": [
+    "src/main.tsx",
+    "src/App.tsx"
+  ],
+  "api_client": "axios",
+  "validation": "zod",
+  "maps": ["mapbox-gl", "leaflet", "react-map-gl"],
+  "analytics": ["@vercel/analytics", "@vercel/speed-insights"],
+  "file_counts": {
+    "components": 49,
+    "services": 14,
+    "hooks": 12,
+    "stores": 4,
+    "total": 84
   },
-  "related_projects": {
-    "backend": {
-      "name": "kostfind_api",
-      "path": "../kostfind_api",
-      "stack": "NestJS + Prisma",
-      "database": "PostgreSQL (Railway)",
-      "auth": "JWT + Passport"
-    }
+  "dependencies": {
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "react-router-dom": "7.17.0",
+    "zustand": "5.0.14",
+    "@tanstack/react-query": "5.101.0",
+    "axios": "1.17.0",
+    "socket.io-client": "4.8.3",
+    "framer-motion": "12.42.2",
+    "mapbox-gl": "3.25.0",
+    "leaflet": "1.9.4",
+    "zod": "4.4.3",
+    "lucide-react": "1.18.0"
   }
 }

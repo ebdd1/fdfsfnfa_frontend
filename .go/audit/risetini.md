@@ -1,274 +1,460 @@
-# Project Audit: KostFind Web
-Generated: 2026-07-03
+# Project audit: KostFind Web (Frontend)
+
+Generated: 2026-07-04T00:12:00Z
 Path: /root/KostFind/stitch_kostfind_real_time_property_platform/kostfind_web
+Auditor: gorisetini v2
 
 ---
 
-## Tech Stack
+## Executive summary
 
-| Category | Technology | Version |
-|----------|-----------|---------|
-| Framework | React | 19.2.6 |
-| Language | TypeScript | 5.x (6.0.2) |
-| Build Tool | Vite | 8.0.12 |
-| Styling | Tailwind CSS | 4.3.1 |
-| Icons | Lucide React | 1.18.0 |
-| Animation | Framer Motion | 12.42.2 |
-| State Management | Zustand | 5.0.14 |
-| Data Fetching | TanStack Query | 5.101.0 |
-| API Client | Axios | 1.17.0 |
-| Realtime | Socket.IO Client | 4.8.3 |
-| Maps | Mapbox GL + Leaflet | 3.25.0 / 1.9.4 |
-| Validation | Zod | 4.4.3 |
-| Analytics | Vercel Analytics + Speed Insights | 2.0.1 / 2.0.0 |
+KostFind Web adalah React 19 SPA dengan TypeScript dan Vite, menggunakan Zustand untuk state management dan TanStack React Query untuk server state. Project menunjukkan architecture yang solid dengan code splitting, security headers, dan offline support. Namun ada beberapa area yang perlu perhatian segera: tidak ada test coverage, beberapa lint errors, accessibility issues (aria-label missing), dan HIGH vulnerability di `ws` package. Tech debt terlihat di 3 komponen yang sangat besar (400-1100 lines) yang perlu dipecah.
 
 ---
 
-## Struktur Kode
+## Tech stack
+
+| Category   | Technology         | Version  | Notes                                    |
+|------------|-------------------|----------|------------------------------------------|
+| Framework  | React             | 19.2.6   | SPA, bukan Next.js                       |
+| Language   | TypeScript        | ~6.0.2   | Target ES2023                            |
+| Build      | Vite              | 8.x      | Dev server + bundler                      |
+| Routing    | React Router DOM  | 7.17.0   | Client-side routing dengan React.lazy     |
+| State      | Zustand           | 5.0.14   | Global state (auth, settings, toasts)    |
+| Server State | TanStack Query  | 5.101.0  | Caching, mutations                       |
+| Styling    | Tailwind CSS      | 4.3.1    | Design system dengan brand colors        |
+| Animation  | Framer Motion     | 12.42.2  | Page transitions, modals                 |
+| Maps       | Mapbox GL + Leaflet | various | Property location visualization          |
+| HTTP       | Axios             | 1.17.0   | API client dengan interceptors            |
+| Real-time  | Socket.IO Client  | 4.8.3    | Chat, notifications, presence            |
+| Validation | Zod               | 4.4.3    | Schema validation                         |
+| Icons      | Lucide React      | 1.18.0   | Icon library                             |
+| Deployment | Vercel            | -        | vercel.json configured                   |
+| Analytics  | Vercel Analytics  | latest   | Speed & visitor insights                 |
+
+---
+
+## Struktur
+
+Directory tree (3 level max, exclude node_modules/dist/.git):
 
 ```
-src/
+/src
 ├── main.tsx              # Entry point
-├── App.tsx               # Router setup
-├── components/           # UI components (30+ files)
-│   ├── landing/          # Landing page components (8 files)
-│   ├── dashboard/       # Dashboard components
-│   └── admin/           # Admin components
-├── pages/               # Page containers (7 files)
-├── services/api/        # API services (11 files)
-│   ├── axios.ts         # Axios instance with interceptors
-│   ├── auth.service.ts
-│   ├── property.service.ts
-│   ├── order.service.ts
+├── App.tsx               # Root component, routing, code-splitting
+├── index.css             # Global styles, CSS variables, focus styles
+├── assets/
+├── components/           # 49 TSX files
+│   ├── admin/            # Admin dashboard components
+│   ├── dashboard/        # Dashboard components
+│   ├── landing/          # Landing page sections
+│   ├── Navbar.tsx
+│   ├── LoginPage.tsx
+│   ├── RegisterPage.tsx
+│   ├── SearchPage.tsx
+│   ├── DetailPage.tsx
+│   ├── MapView.tsx
+│   ├── MapboxMapView.tsx (1017 lines!)
 │   └── ...
-├── hooks/               # Custom React hooks (14 files)
-├── stores/              # Zustand stores (5 files)
-│   ├── authStore.ts     # JWT auth state
+├── pages/                # Page containers (5 TSX files)
+├── hooks/                # Custom hooks (12 files)
+│   ├── useSession.ts
+│   ├── useProperties.ts
+│   ├── useOrders.ts
+│   ├── useConversations.ts
+│   ├── useRealtime.ts
+│   ├── useNotifications.ts
+│   ├── useWatchlist.ts
+│   └── ...
+├── services/
+│   ├── api/              # API services (11 files)
+│   │   ├── axios.ts      # Base config, interceptors, auth
+│   │   ├── auth.service.ts
+│   │   ├── property.service.ts
+│   │   ├── order.service.ts
+│   │   ├── conversation.service.ts
+│   │   ├── notification.service.ts
+│   │   ├── watchlist.service.ts
+│   │   ├── settings.service.ts
+│   │   ├── admin.service.ts
+│   │   ├── owner.service.ts
+│   │   └── upload.service.ts
+│   ├── socket.ts         # Socket.IO client
+│   ├── geolocation.service.ts
+│   └── offlineQueue.ts    # IndexedDB offline support
+├── stores/               # Zustand stores (4 files)
+│   ├── authStore.ts
 │   ├── settingsStore.ts
-│   └── ...
-├── types/               # TypeScript types
-├── lib/                 # Utilities
+│   ├── toastStore.ts
+│   └── connectionStore.ts
+├── types/
+│   └── index.ts
+├── lib/
 │   ├── passwordPolicy.ts
 │   └── securityLogger.ts
-├── config/              # Configuration
-└── data/               # Static data
+└── config/
+    └── brandColors.ts
 ```
 
-**Pattern**: Feature-based organization dengan service layer untuk API calls.
+Entry points:
+- `/src/main.tsx` - React app bootstrap
+- `/src/App.tsx` - Router configuration + code splitting
+
+Pattern: Feature-based dengan service layer (API services terpisah dari UI components)
+
+Naming: camelCase untuk files dan functions
+
+File counts:
+- Components (TSX): 49
+- Services (TS): 14
+- Hooks (TS): 12
+- Stores (TS): 4
+- Types (TS): 1
+- Total source files: ~84
 
 ---
 
-## API Services
+## Database
 
-**Total**: 11 service files
+**Frontend-only project** - tidak ada database langsung. Data dari backend API.
 
-| Service | Purpose |
-|---------|---------|
-| `auth.service.ts` | Login, register, logout, profile update |
-| `property.service.ts` | Property CRUD |
-| `order.service.ts` | Booking/order management |
-| `conversation.service.ts` | Chat messaging |
-| `notification.service.ts` | Push notifications |
-| `watchlist.service.ts` | Saved properties |
-| `upload.service.ts` | File uploads |
-| `settings.service.ts` | App settings |
-| `admin.service.ts` | Admin operations |
-| `owner.service.ts` | Owner operations |
+Backend inference (dari API services):
+- PostgreSQL di Railway (api-production-fafbf.up.railway.app)
+- Schema tidak tersedia di project ini
 
-**Auth Method**: JWT Bearer Token via `Authorization` header
-**Base URL**: `https://api-production-fafbf.up.railway.app` (production)
+---
+
+## API
+
+Route count: ~40+ endpoints (dari 11 service files)
+
+Auth method: Bearer JWT token
+- Token di localStorage via authStore
+- Axios interceptor menambahkan `Authorization: Bearer <token>`
+- Auto-logout pada 401 response
+
+Response format: JSON
+
+**API Services Summary:**
+
+| Service | Endpoints | Methods |
+|---------|-----------|---------|
+| auth.service | 5 | login, register, getMe, logout, updateMe |
+| property.service | 9+ | getAll, getById, create, addMedia, getRooms, addRooms, deleteRoom, deleteProperty, deletePropertiesBulk |
+| order.service | 11 | create, mine, accept, reject, submitPayment, confirmPayment, rejectPayment, cancel, complete, all |
+| conversation.service | 6 | getMyConversations, create, getMessages, sendMessage, markRead, markMessageAsRead |
+| notification.service | 3 | mine, markRead, markAllRead |
+| watchlist.service | 3 | getBySeeker, add, remove |
+| admin.service | 10+ | listUsers, updateUser, listListings, updateListing, getStats, listConversations, getConversationMessages, all orders/settings |
+| settings.service | 3 | getPublic, getAdminAll, update |
+| upload.service | 1 | uploadImage |
+| owner.service | 1 | updateRoomStatus |
+
+**Real-time:** Socket.IO untuk chat, typing indicators, presence, notifications push
 
 ---
 
 ## Testing
 
-| Metric | Status |
-|--------|--------|
-| Test Framework | NOT FOUND |
-| Test Files | 0 |
-| Test Coverage | 0% |
-| E2E Tests | None |
+Framework: **NONE** - Tidak ada test framework dikonfigurasi
+Test files: **0** - Tidak ada test files di project
+Coverage: **tidak terukur** - Tidak bisa diukur karena tidak ada test runner
 
-**ISSUE**: Tidak ada test setup. Ini HIGH priority untuk dipertimbangkan.
+**Dependencies untuk test yang tersedia (tidak dikonfigurasi):**
+- `@testing-library/react` - tidak terinstall
+- `vitest` atau `jest` - tidak terinstall
+
+**ASSUMPTION:**
+- Testing tidak dilakukan sama sekali di project ini
+- Rekomendasi: Setup Vitest + React Testing Library untuk unit tests
 
 ---
 
 ## Infrastructure
 
-| Item | Status |
-|------|--------|
-| CI/CD | Vercel (auto-deploy on push) |
-| Docker | No |
-| Environment Config | .env.local, .env.production |
-| .gitignore | ✅ Correct (node_modules, dist, .env) |
-| vercel.json | ✅ Complete with security headers |
+CI/CD: **NOT FOUND**
+- Tidak ada `.github/workflows/`
+- Tidak ada GitLab CI, Jenkins, CircleCI
 
-**vercel.json features**:
-- SPA rewrite
-- Security headers (CSP, HSTS, X-Frame-Options)
-- Cache headers untuk assets
+Docker: **NOT FOUND**
+- Tidak ada Dockerfile
+- Tidak ada docker-compose.yml
 
----
+Deployment target: **Vercel**
+- Build command: `npm run build`
+- Output directory: `dist`
+- Framework detection: vite
 
-## Security Posture
+Environment:
+- `.env.example`: **TIDAK ADA** - tidak ada template untuk env vars
+- `.env` ada dengan VITE_API_URL dan VITE_MAPBOX_TOKEN
+- `.env` di-.gitignore (OK)
 
-### ✅ Yang Sudah Baik
-- JWT Bearer auth dengan axios interceptor
-- Password policy validation (min 8 chars, uppercase, number, special)
-- CSRF protection (via SameSite cookies dari backend)
-- Security logger untuk track login attempts
-- Rate limit hook (5 fails/min → 5min lockout)
-- Security headers di vercel.json
-- Mass assignment protection di auth service (ALLOWED fields whitelist)
-- `.env` di .gitignore
-
-### ⚠️ Yang Perlu Diperhatikan
-- Tidak ada dedicated test suite (vulnerability detection terbatas)
-- Production .env mungkin butuh review (Vercel env vars)
+Health check: tidak ada dedicated endpoint (SPA)
 
 ---
 
-## Code Quality
+## Security posture
 
-### ✅ Yang Sudah Baik
-- ESLint + TypeScript config ada
-- TypeScript strict mode aktif
-- Consistent naming conventions
-- Service layer pattern
-- Zustand stores untuk state management
-- Custom hooks untuk business logic
-- No TODO/FIXME comments
-- No heavy lodash imports (tree-shaking friendly)
+**Findings:**
 
-### ⚠️ ESLint Errors Found (2 files)
+### [HIGH] ws package DoS vulnerability
+- Evidence: `npm audit` output menunjukkan `ws 8.0.0 - 8.20.1` dengan High severity
+- Impact: Memory exhaustion DoS via tiny fragments
+- Cause: `engine.io-client` tergantung pada `ws` versi rentan
+- Recommended: `/gowork --fix` - jalankan `npm audit fix`
 
-**ConnectionBanner.tsx:13**
-```tsx
-// ❌ Calling setState synchronously within an effect
-useEffect(() => {
-  if (state === 'connected') {
-    setHasConnected(true);  // Should use event handlers instead
-  }
-}, [state]);
-```
+### [LOW] Hardcoded Team/Project IDs
+- File: `/vercel-doctor.js:5-6`
+- Evidence: `TEAM_ID` dan `PROJECT_ID` hardcoded
+- Impact: Low - ini infrastructure IDs, bukan secrets
+- Recommended: /gowork --fix jika ingin dynamis
 
-**DashboardPage.tsx:72**
-```tsx
-// ❌ Impure function during render
-const timeAgo = (iso?: string) => {
-  return Date.now();  // Should use useMemo or event handlers
-};
-```
+### [INFO] Local .env files dengan OIDC tokens
+- Files: `.env.local`, `.env.production`
+- Evidence: Vercel CLI created tokens
+- Impact: Tokens tidak di-track git (aman), tapi perlu rotation periodik
+- Recommended: Monitor dan rotate secara berkala
+
+### [PASS] .gitignore configured
+- `.env` dan `.env*` sudah di-.gitignore
+
+### [PASS] Security headers
+- vercel.json dengan CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy
+
+### [PASS] No XSS vectors
+- Tidak ada `eval()`, `innerHTML`, `dangerouslySetInnerHTML` usage
+
+### [PASS] Axios interceptors
+- Bearer token di setiap request
+- Auto-logout pada 401
+
+---
+
+## Code quality
+
+Linting: **ESLint configured** (53 errors ditemukan)
+- Tool: @eslint/js + typescript-eslint + react-hooks
+- Scripts: `npm run lint`
+
+Type safety: **PARTIAL**
+- tsconfig: `verbatimModuleSyntax`, `noUnusedLocals`, `noUnusedParameters` enabled
+- **MISSING: `strict: true`** - strictNullChecks dan noImplicitAny tidak aktif
+
+Prettier: **NOT FOUND** - tidak ada prettier config
+
+TODO/FIXME count: **0** - codebase bersih dari markers
+
+Files > 500 lines: **8 files**
+| File | Lines |
+|------|-------|
+| AdminDashboardPage.tsx | 1161 |
+| UserDashboardPage.tsx | 1105 |
+| MapboxMapView.tsx | 1017 |
+| DashboardPage.tsx | 774 |
+| LandingPage.tsx | 527 |
+| AddPropertyModal.tsx | 523 |
+| AdminSettingsPanel.tsx | 522 |
+| InboxPage.tsx | 510 |
+
+Methods > 100 lines: **7 functions/components**
+| File | Component | Lines |
+|------|-----------|-------|
+| UserDashboardPage.tsx | UserDashboardPage | 1081 |
+| AdminDashboardPage.tsx | AdminDashboardPage | 402 |
+| MapboxMapView.tsx | MapboxMapView | 540 |
+| AdminDashboardPage.tsx | OverviewSection | 141 |
+| AdminDashboardPage.tsx | UsersSection | 205 |
+| MapboxMapView.tsx | LayerPanel | 203 |
+| AdminDashboardPage.tsx | VerifySection | 117 |
+
+**Findings:**
+
+### [HIGH] 3 oversized components perlu dipecah
+- File: `UserDashboardPage.tsx` (1105 lines), `AdminDashboardPage.tsx` (1161 lines), `MapboxMapView.tsx` (1017 lines)
+- Issue: Single component dengan banyak responsibilities
+- Impact: Hard untuk maintain, test, dan understand
+- Recommended: /gowork --refactor untuk extract sub-components
+
+### [MEDIUM] 53 ESLint errors perlu fix
+- Location: Multiple files
+- Issues: `set-state-in-effect` warnings, impure function calls (Date.now() in render)
+- Impact: Potential bugs dan code smells
+- Recommended: /gopolish phase 5a - fix lint errors
+
+### [MEDIUM] Missing `strict: true` di tsconfig
+- File: `tsconfig.app.json`
+- Impact: Type safety tidak maksimal, runtime errors potensial
+- Recommended: /gopolish phase 5a - enable strict mode
+
+### [LOW] No Prettier configuration
+- Impact: Formatting inconsistency possible
+- Recommended: /gopolish phase 5a - add Prettier dengan eslint-config-prettier
+
+### [GOOD] No lodash imports
+- Tree-shaking effective, bundle clean
+
+### [GOOD] Code splitting implemented
+- React.lazy() untuk semua page components
+- Vite manual chunking di vite.config.ts
 
 ---
 
 ## Accessibility
 
-| Aspect | Status |
-|--------|--------|
-| Images with alt | 43/43 ✅ |
-| ARIA labels | 27 found ✅ |
-| Semantic HTML | Generally good |
-| Form labels | Need verification |
-| Color contrast | Need audit |
+Frontend framework: **React 19**
 
-**Observation**: 43 images memiliki alt text, 27 interactive elements memiliki ARIA labels.
+**Findings:**
 
----
+### [CRITICAL] Icon-only buttons missing aria-label
+- Location: LandingPage.tsx (lines 208, 302, 438), Navbar.tsx (lines 233-242, 121)
+- Issue: Icon buttons tidak accessible untuk screen reader
+- Impact: Blind users tidak bisa understand button purpose
+- Recommended: /gopolish phase 5d - add aria-label ke semua icon buttons
 
-## Bundle Size & Performance
+### [HIGH] Form inputs menggunakan outline-none
+- Location: LoginPage.tsx (134, 160), RegisterPage.tsx (183, 202, 221, 241), LandingPage.tsx (172)
+- Issue: focus:outline-none menghilangkan browser focus indicator
+- Impact: Keyboard users kehilangan visual focus feedback
+- Recommended: /gopolish phase 5d - replace outline-none dengan visible focus ring
 
-### Build Output
-| Asset | Size | Gzipped |
-|-------|------|---------|
-| Total dist | 2.9 MB | ~700 KB |
-| Largest chunk | vendor-maps: 1.8 MB | 492 KB |
-| Main bundle | index: 87 KB | 27 KB |
-| Dashboard | 93 KB | 18 KB |
+### [HIGH] Error messages missing aria-describedby
+- Location: LoginPage.tsx (106-115)
+- Issue: Error messages tidak linked ke inputs
+- Impact: Screen reader tidak announce errors
+- Recommended: /gopolish phase 5d - add aria-describedby dan aria-invalid
 
-### ⚠️ WARNING: Chunk > 500KB
-```
-vendor-maps-BphjxlB9.js: 1,799.08 kB (492 KB gzipped)
-```
+### [MEDIUM] Warning color fails contrast
+- Location: tailwind.config.js - `#f59e0b` (amber)
+- Issue: Contrast ratio 1.9:1 dengan white background (target min 3:1)
+- Impact: Low vision users tidak bisa baca warning text
+- Recommended: /gopolish phase 5d - adjust warning color
 
-**Root Cause**: Mapbox GL + Leaflet adalah heavy dependencies.
+### [MEDIUM] Missing skip-to-content link
+- Location: Global
+- Issue: Keyboard users harus tab lewat semua nav items
+- Recommended: /gopolish phase 5d - add skip link
 
-### ✅ Yang Sudah Baik
-- Code splitting aktif (lazy loaded routes)
-- Dynamic imports untuk icons
-- Vendor chunking untuk maps, react, motion
-- Immutable cache headers untuk assets
+### [MEDIUM] Search labels tidak associated
+- Location: LandingPage.tsx (170, 187, 198)
+- Issue: Labels ada tapi tidak programmatically connected via htmlFor/id
+- Recommended: /gopolish phase 5d - add htmlFor/id associations
 
-### Recommendations
-1. Lazy load maps hanya saat diperlukan
-2. Consider lighter map alternative untuk mobile
-3. Preload critical fonts
+### [LOW] Role toggle missing aria-pressed
+- Location: RegisterPage.tsx (146-168)
+- Issue: aria-pressed untuk indicate active state
+- Recommended: /gopolish phase 5d - add aria-pressed
 
----
+### [GOOD] Proper landmark usage
+- header, main, nav, footer properly used
 
-## Deployment
+### [GOOD] Heading hierarchy mostly correct
+- h1 → h2 → h3 structure maintained
 
-| Aspect | Status |
-|--------|--------|
-| Platform | Vercel |
-| Auto-deploy | ✅ On push to main |
-| Preview URLs | ✅ Per PR |
-| Environment | Production |
+### [GOOD] Color contrast untuk primary colors
+- Primary (#003594) on white: 9.0:1 - PASS WCAG AA
 
-**Live URL**: https://kostfindweb.vercel.app
-
----
-
-## Temuan
-
-### ✅ Yang Sudah Bagus
-1. **Security-first approach**: JWT auth, password policy, rate limiting, security headers
-2. **Good component architecture**: Feature-based dengan service layer
-3. **Modern stack**: React 19, TypeScript 5, Vite
-4. **Code splitting**: Lazy loading aktif untuk performance
-5. **Tree-shaking**: No heavy imports (lodash full import not found)
-6. **Type safety**: Full TypeScript dengan strict mode
-7. **Vercel integration**: Proper config dengan security headers
-8. **Accessibility basics**: Alt text dan ARIA labels sudah ada
-
-### ⚠️ Yang Perlu Diperbaiki
-
-| Severity | Issue | Impact |
-|----------|-------|--------|
-| MEDIUM | No test suite | Cannot detect regressions |
-| MEDIUM | ESLint errors (2 files) | Potential runtime issues |
-| MEDIUM | Large map chunk (1.8 MB) | Slow initial load |
-| LOW | Map lazy loading belum optimal | Performance di mobile |
-| LOW | No CI lint check | ESLint errors bisa masuk production |
+### [GOOD] Reduced motion support
+- prefers-reduced-motion respected di index.css
 
 ---
 
-## Rekomendasi
+## Bundle size + performance
 
-### Immediate (Sekarang)
-1. **Fix ESLint errors** di `ConnectionBanner.tsx` dan `DashboardPage.tsx`
-2. **Setup basic CI lint check** untuk prevent errors masuk production
+Total dist folder: **2.9M**
 
-### Short-term (Minggu ini)
-1. **Add basic tests** - minimal smoke tests untuk auth flow
-2. **Lazy load map components** - improve initial load time
-3. **Review map chunk size** - consider lighter alternative
+**Largest bundles:**
+| Bundle | Size |
+|--------|------|
+| DashboardPage | 92K |
+| AdminDashboardPage | 83K |
+| UserDashboardPage | 69K |
+| authStore | 43K |
+| SearchPageContainer | 32K |
+| LandingPageContainer | 22K |
 
-### Long-term (Nanti)
-1. **Test coverage** - aim for 50%+ coverage
-2. **E2E tests** - Playwright/Cypress untuk critical flows
-3. **Performance budget** - set limit untuk bundle size
-4. **Accessibility audit** - full WCAG compliance check
+**Largest dependencies:**
+- mapbox-gl: ~500KB+
+- framer-motion
+- react-map-gl
+- socket.io-client
+- leaflet
+
+Tree-shaking: **EFFECTIVE**
+- No lodash imports found
+- No namespace imports (import * as) found
+
+Code splitting: **GOOD**
+- React.lazy() implemented untuk semua pages
+- Vite manual chunking untuk vendor bundles
+
+**Findings:**
+
+### [HIGH] Mapbox bundle sangat besar
+- File: `MapboxMapView.tsx` (1017 lines, 540 line component)
+- Issue: Mapbox GL ~500KB sendiri
+- Impact: Initial load lambat di mobile
+- Recommended: Lazy load map hanya saat needed, use dynamic import
+
+### [MEDIUM] Dashboard bundles > 60K
+- Files: DashboardPage (92K), AdminDashboardPage (83K)
+- Issue: Bundle size untuk dashboard pages
+- Recommended: Analyze apakah semua dependency necessary, consider tree-shake
+
+### [MEDIUM] authStore di separate chunk (43K)
+- Issue: Auth store seharusnya kecil
+- Possible cause: Unnecessary dependencies imported
+- Recommended: /gopolish phase 5h - audit store dependencies
 
 ---
 
-## Audit Info
+## Prioritized action plan
 
-```json
-{
-  "generated": "2026-07-03",
-  "auditor": "gorisetini skill",
-  "project": "kostfind_web",
-  "stack": "react-vite-ts"
-}
-```
+### Kritis (harus segera)
+
+1. **[HIGH] ws DoS vulnerability** → `/gowork --fix` - jalankan `npm audit fix`
+2. **[CRITICAL] Icon buttons tanpa aria-label** → `/gopolish phase 5d` - accessibility audit fix
+
+### Penting (minggu ini)
+
+3. **[HIGH] Oversized components (3 files > 1000 lines)** → `/gowork --refactor` - split menjadi sub-components
+4. **[HIGH] Focus outline-none issue** → `/gopolish phase 5d` - replace dengan visible focus ring
+5. **[MEDIUM] Error messages missing aria-describedby** → `/gopolish phase 5d` - add accessibility attributes
+6. **[MEDIUM] 53 ESLint errors** → `/gopolish phase 5a` - fix all lint errors
+7. **[MEDIUM] Warning color contrast fail** → `/gopolish phase 5d` - adjust color palette
+
+### Perlu perhatian (bulan ini)
+
+8. **[MEDIUM] Missing `strict: true`** → `/gopolish phase 5a` - enable TypeScript strict mode
+9. **[MEDIUM] Missing skip-to-content link** → `/gopolish phase 5d` - add skip navigation
+10. **[MEDIUM] No Prettier config** → `/gopolish phase 5a` - add Prettier integration
+11. **[MEDIUM] Mapbox lazy loading** → `/gopolish phase 5h` - optimize bundle
+12. **[MEDIUM] Search labels tidak associated** → `/gopolish phase 5d` - fix label/input associations
+
+### Nice to have (nanti)
+
+13. **[LOW] Dashboard bundle optimization** → `/gopolish phase 5h` - audit dependencies
+14. **[LOW] No .env.example** → `/gopolish phase 5a` - create env template
+15. **[LOW] No CI/CD pipeline** → `/goarch` - setup GitHub Actions
+
+---
+
+## Rekomendasi skill sequence
+
+Berdasarkan audit ini, urutan skill yang optimal:
+
+1. **`/gowork --fix`** - Fix `ws` vulnerability (HIGH priority, 5 menit)
+2. **`/gopolish phase 5d`** - Accessibility fixes (aria-labels, focus styles, contrast) - HIGH priority
+3. **`/gopolish phase 5a`** - TypeScript strict mode + ESLint fixes (MEDIUM priority)
+4. **`/gowork --refactor`** - Split oversized components (HIGH priority, 1-2 hari)
+5. **`/gopolish phase 5h`** - Bundle optimization untuk Mapbox (MEDIUM priority)
+6. **`/goarch`** - Setup CI/CD pipeline (LOW priority)
+
+---
+
+## ASSUMPTION
+
+- **Testing**: Coverage tidak terukur karena tidak ada test framework. Rekomendasi: setup Vitest sebelum /gowork --refactor agar bisa refactor dengan confidence.
+- **Backend schema**: Schema tidak available di project ini, hanya inferred dari API services.
+- **Bundle sizes**: Measured dari dist folder, bukan gzipped. Actual network transfer lebih kecil.
+- **Lighthouse scores**: Tidak diukur, perlu `/browse` atau `/lighthouse` audit untuk actual performance metrics.

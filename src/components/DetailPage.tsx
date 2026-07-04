@@ -22,12 +22,47 @@ export const DetailPage: React.FC<DetailPageProps> = ({
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
+  const [isFavorited, setIsFavorited] = useState(false);
   const photos = property.media || [];
+
+  // Check if already favorited
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem('kostfind_favorites') || '[]');
+    setIsFavorited(favorites.includes(property.id));
+  }, [property.id]);
 
   useEffect(() => {
     setActivePhotoIdx(0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [property.id]);
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    const title = property.name;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, url });
+      } catch (err) {
+        // User cancelled or error
+      }
+    } else {
+      await navigator.clipboard.writeText(url);
+      // Show toast notification (simple alert for now)
+      alert('Link berhasil disalin!');
+    }
+  };
+
+  const handleFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem('kostfind_favorites') || '[]');
+    let newFavorites;
+    if (isFavorited) {
+      newFavorites = favorites.filter((id: string) => id !== property.id);
+    } else {
+      newFavorites = [...favorites, property.id];
+    }
+    localStorage.setItem('kostfind_favorites', JSON.stringify(newFavorites));
+    setIsFavorited(!isFavorited);
+  };
 
   const heroPhoto = photos[activePhotoIdx];
   const propertyRooms = rooms.filter((r) => r.property_id === property.id);
@@ -64,11 +99,11 @@ export const DetailPage: React.FC<DetailPageProps> = ({
               <span className="material-symbols-outlined text-xl">arrow_back</span>
             </button>
             <div className="flex gap-2">
-              <button className="w-10 h-10 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center shadow-card active:scale-95 transition-transform cursor-pointer">
+              <button onClick={handleShare} className="w-10 h-10 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center shadow-card active:scale-95 transition-transform cursor-pointer">
                 <span className="material-symbols-outlined text-xl">share</span>
               </button>
-              <button className="w-10 h-10 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center shadow-card active:scale-95 transition-transform cursor-pointer">
-                <span className="material-symbols-outlined text-xl">favorite_border</span>
+              <button onClick={handleFavorite} className="w-10 h-10 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center shadow-card active:scale-95 transition-transform cursor-pointer">
+                <span className={`material-symbols-outlined text-xl ${isFavorited ? 'text-danger' : ''}`} style={{ fontVariationSettings: isFavorited ? "'FILL' 1" : "'FILL' 0" }}>favorite</span>
               </button>
             </div>
           </div>
@@ -108,10 +143,12 @@ export const DetailPage: React.FC<DetailPageProps> = ({
           <div className="flex flex-col gap-stack-sm">
             <div className="flex justify-between items-start gap-4">
               <h1 className="font-headline-lg text-headline-lg text-on-surface">{property.name}</h1>
-              <div className="flex items-center gap-1 bg-surface-container px-2.5 py-1 rounded-full shrink-0">
-                <span className="material-symbols-outlined text-base text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                <span className="font-label-md text-label-md text-primary">4.9</span>
-              </div>
+              {property.rating && (
+                <div className="flex items-center gap-1 bg-surface-container px-2.5 py-1 rounded-full shrink-0">
+                  <span className="material-symbols-outlined text-base text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                  <span className="font-label-md text-label-md text-primary">{property.rating}</span>
+                </div>
+              )}
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
               <span className="material-symbols-outlined text-lg">location_on</span>
@@ -182,7 +219,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                     <div className="w-24 h-24 bg-surface-variant shrink-0">
                       <img
                         className="w-full h-full object-cover"
-                        src={property.media?.[0]?.url_thumbnail || 'https://via.placeholder.com/100x100'}
+                        src={property.media?.[0]?.url_thumbnail || '/placeholder.svg'}
                         alt={room.room_number}
                       />
                     </div>
@@ -219,9 +256,9 @@ export const DetailPage: React.FC<DetailPageProps> = ({
             <motion.button
               whileTap={{ scale: 0.98 }}
               onClick={() => onStartChat(property.owner_id, property.id)}
-              className="px-6 py-3 border border-primary text-primary rounded-lg font-label-md font-label-md hover:bg-primary-fixed transition-colors"
+              className="px-3 sm:px-5 py-2.5 sm:py-3 border border-primary text-primary rounded-lg text-label-sm sm:text-label-md font-label-sm sm:font-label-md hover:bg-primary-fixed transition-colors whitespace-nowrap"
             >
-              Chat Pemilik
+              Chat
             </motion.button>
             <motion.button
               whileTap={{ scale: 0.98 }}
@@ -230,7 +267,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                 navigate(`/property/${property.id}/apply`);
               }}
               disabled={availableCount === 0}
-              className="px-6 py-3 bg-primary text-on-primary rounded-lg font-label-md font-label-md hover:brightness-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[0_4px_10px_rgba(0,53,148,0.2)]"
+              className="px-3 sm:px-5 py-2.5 sm:py-3 bg-primary text-on-primary rounded-lg text-label-sm sm:text-label-md font-label-sm sm:font-label-md hover:brightness-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[0_4px_10px_rgba(0,53,148,0.2)] whitespace-nowrap"
             >
               Ajukan Sewa
             </motion.button>
@@ -273,7 +310,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                 >
                   <div className="relative h-40">
                     <img
-                      src={p.media[0]?.url_medium || 'https://via.placeholder.com/400x300'}
+                      src={p.media[0]?.url_medium || '/placeholder.svg'}
                       alt={p.name}
                       className="w-full h-full object-cover"
                     />

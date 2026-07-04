@@ -210,7 +210,7 @@ export const AdminConversationsTab: React.FC = () => {
                     {selected.property?.city ? ` · ${selected.property.city}` : ''}
                   </p>
                 </div>
-                <span className="ml-auto inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider bg-slate-100 text-slate-500 px-2 py-1 rounded-full shrink-0">
+                <span className="ml-auto inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-wider bg-slate-100 text-slate-500 px-2 py-1 rounded-full shrink-0">
                   <ShieldCheck className="w-3 h-3" />
                   Read-only
                 </span>

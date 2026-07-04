@@ -246,7 +246,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   Pilihan kost terbaik yang paling banyak dilihat pengguna kami.
                 </p>
               </div>
-              <button className="flex items-center gap-2 text-primary font-body font-semibold text-sm hover:gap-3 transition-all">
+              <button onClick={() => onStartSearching()} className="flex items-center gap-2 text-primary font-body font-semibold text-sm hover:gap-3 transition-all cursor-pointer">
                 Lihat Semua <span className="material-symbols-outlined text-xl">arrow_forward</span>
               </button>
             </div>
@@ -268,10 +268,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                         <span className="material-symbols-outlined text-xs text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                         <span className="font-body text-[10px] font-bold text-on-surface uppercase tracking-wider">Verified</span>
                       </div>
-                      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
-                        <span className="material-symbols-outlined text-sm text-warning" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                        <span className="font-body text-xs font-bold">4.9</span>
-                      </div>
+                      {property.rating && (
+                        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+                          <span className="material-symbols-outlined text-sm text-warning" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                          <span className="font-body text-xs font-bold">{property.rating}</span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Content */}
@@ -361,7 +363,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   Temukan kost berkualitas di kota-kota besar favorit Anda.
                 </p>
               </div>
-              <button className="flex items-center gap-2 text-primary font-body font-semibold text-sm hover:gap-3 transition-all">
+              <button onClick={() => onStartSearching()} className="flex items-center gap-2 text-primary font-body font-semibold text-sm hover:gap-3 transition-all cursor-pointer">
                 Lihat Semua Kota <span className="material-symbols-outlined text-xl">arrow_forward</span>
               </button>
             </div>
@@ -370,6 +372,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               {POPULAR_CITIES.map((city, index) => (
                 <div
                   key={index}
+                  onClick={() => onStartSearching(city.name)}
                   className={`group relative rounded-2xl overflow-hidden cursor-pointer ${
                     index === 0 ? 'md:col-span-2 md:row-span-2' : ''
                   }`}
@@ -397,7 +400,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </section>
 
         {/* 4. HOW IT WORKS - Cara Kerja */}
-        <section className="py-24 px-margin-mobile md:px-margin-desktop bg-gradient-to-b from-surface-container-lowest to-background">
+        <section id="how-it-works" className="py-24 px-margin-mobile md:px-margin-desktop bg-gradient-to-b from-surface-container-lowest to-background">
           <div className="max-w-container-max mx-auto">
             <div className="text-center max-w-2xl mx-auto mb-16">
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-tertiary/10 text-tertiary text-xs font-bold mb-4">
@@ -454,7 +457,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 Kata <span className="italic font-normal">Mereka</span>
               </h2>
               <p className="font-body text-on-surface-variant/70">
-                Dengarkan pengalaman пользователи kami yang sudah menemukan kost impian.
+                Dengarkan pengalaman pengguna kami yang sudah menemukan kost impian.
               </p>
             </div>
 
@@ -517,7 +520,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               >
                 Cari Kost Sekarang
               </button>
-              <button className="bg-transparent border-2 border-white text-white font-body font-semibold px-10 py-4 rounded-xl hover:bg-white/10 transition-all">
+              <button onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })} className="bg-transparent border-2 border-white text-white font-body font-semibold px-10 py-4 rounded-xl hover:bg-white/10 transition-all cursor-pointer">
                 Pelajari Lebih Lanjut
               </button>
             </div>

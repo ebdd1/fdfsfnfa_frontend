@@ -20,8 +20,8 @@ export const useOfflineQueue = () => {
 
   // Initialize IndexedDB on mount
   useEffect(() => {
-    initOfflineQueue().catch((err) => {
-      console.error('[OfflineQueue] Init failed:', err);
+    initOfflineQueue().catch(() => {
+      // Silent init failure - offline queue may not be critical
     });
   }, []);
 
@@ -30,8 +30,8 @@ export const useOfflineQueue = () => {
     try {
       const messages = await getQueuedMessagesForConversation(conversationId);
       setQueuedMessages(messages);
-    } catch (err) {
-      console.error('[OfflineQueue] Load failed:', err);
+    } catch {
+      // Silent load failure
     }
   }, []);
 
@@ -42,7 +42,6 @@ export const useOfflineQueue = () => {
     contentType?: string
   ): Promise<string> => {
     const id = await queueMessage({ conversationId, content, contentType });
-    console.log('[OfflineQueue] Message queued:', id);
 
     // Reload queued messages for this conversation
     await loadQueuedMessages(conversationId);
@@ -55,18 +54,14 @@ export const useOfflineQueue = () => {
     if (isFlushing) return;
 
     setIsFlushing(true);
-    console.log('[OfflineQueue] Flushing pending messages...');
 
     try {
       const pending = await getPendingMessages();
 
       if (pending.length === 0) {
-        console.log('[OfflineQueue] No pending messages');
         setIsFlushing(false);
         return;
       }
-
-      console.log(`[OfflineQueue] Found ${pending.length} pending messages`);
 
       for (const msg of pending) {
         try {
@@ -81,10 +76,8 @@ export const useOfflineQueue = () => {
 
           // Success — remove from queue
           await removeFromQueue(msg.id);
-          console.log('[OfflineQueue] Message sent:', msg.id);
-        } catch (err) {
-          console.error('[OfflineQueue] Send failed:', msg.id, err);
-
+        } catch {
+          // Silent send failure - retry mechanism handles this
           // Retry or mark as failed
           if (msg.retryCount < MAX_RETRY) {
             await updateMessageStatus(msg.id, 'pending', msg.retryCount + 1);
@@ -95,8 +88,8 @@ export const useOfflineQueue = () => {
       }
 
       if (onSuccess) onSuccess();
-    } catch (err) {
-      console.error('[OfflineQueue] Flush failed:', err);
+    } catch {
+      // Silent flush failure
     } finally {
       setIsFlushing(false);
     }

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useAuthStore } from '../../stores/authStore';
 
 const uploadApi = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://api-production-fafbf.up.railway.app',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 // Attach Bearer token from localStorage (cross-origin auth — same as axios.ts)
