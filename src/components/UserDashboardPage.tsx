@@ -99,7 +99,7 @@ export const UserDashboardPage: React.FC = () => {
       ? (sectionParam as SeekerSection)
       : 'overview';
 
-  // Sidebar state
+  // Sidebar state - expanded by default on desktop
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   // Section state
@@ -482,62 +482,62 @@ export const UserDashboardPage: React.FC = () => {
         </div>
       )}
 
-      {/* DESKTOP SIDEBAR NAVIGATION - Premium Dwelling Style */}
+      {/* DESKTOP SIDEBAR - Premium Dwelling System */}
       <aside
-        className={`bg-surface hidden md:flex flex-col justify-between shrink-0 h-screen transition-all duration-300 border-r border-outline-variant ${
-          isSidebarCollapsed ? 'w-20' : 'w-64'
+        className={`hidden md:flex flex-col justify-between shrink-0 h-screen transition-all duration-300 border-r border-outline-variant bg-surface-container-low ${
+          isSidebarCollapsed ? 'w-20' : 'w-72'
         }`}
       >
-        <div className={`space-y-6 ${isSidebarCollapsed ? 'p-3' : 'p-5'}`}>
+        <div className={`space-y-5 ${isSidebarCollapsed ? 'p-3' : 'p-5'}`}>
           {/* Brand */}
           <div className={`flex items-center ${isSidebarCollapsed ? 'flex-col gap-3 justify-center' : 'justify-between'} px-1`}>
             <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate('/')}>
               {settings.logo_url ? (
-                <img src={settings.logo_url} alt={settings.site_name} className="h-9 w-auto object-contain rounded-xl" />
+                <img src={settings.logo_url} alt={settings.site_name} className="h-10 w-auto object-contain rounded-xl" />
               ) : (
                 <LogoText />
               )}
             </div>
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-              className="rounded-lg bg-surface-container hover:bg-surface-container-high p-1.5 text-on-surface-variant transition-colors cursor-pointer"
+              className="rounded-lg bg-surface-container-high hover:bg-surface-container-lowest p-2 text-on-surface-variant transition-all duration-200 cursor-pointer"
               title={isSidebarCollapsed ? "Tampilkan Sidebar" : "Sembunyikan Sidebar"}
             >
               {isSidebarCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
             </button>
           </div>
 
-          {/* User Profile Summary */}
+          {/* User Profile Card - Premium */}
           {!isSidebarCollapsed ? (
-            <div className="flex items-center gap-3 px-3 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-level-1">
-              <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shrink-0">
+            <div className="flex items-center gap-3 px-3 py-3.5 bg-surface-container-lowest rounded-2xl border border-outline-variant shadow-level-1">
+              <div className="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center text-on-primary-container shrink-0 overflow-hidden">
                 {user?.avatar_url ? (
-                  <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover rounded-full" />
+                  <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
                 ) : (
-                  <User className="w-5 h-5" />
+                  <User className="w-6 h-6" />
                 )}
               </div>
               <div className="min-w-0 flex-1 text-left">
                 <p className="text-sm font-bold text-on-surface leading-tight truncate">{user?.name || 'Pencari Kost'}</p>
-                <span className="text-label-sm font-bold text-primary uppercase tracking-wide block mt-0.5">Pencari Kost</span>
+                <span className="text-label-sm font-semibold text-primary uppercase tracking-wide block mt-1">Pencari Kost</span>
               </div>
             </div>
           ) : (
             <div className="flex justify-center">
-              <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container" title={user?.name || "Pencari Kost"}>
+              <div className="w-12 h-12 rounded-xl bg-primary-container flex items-center justify-center text-on-primary-container cursor-pointer hover:scale-105 transition-transform" title={user?.name || "Pencari Kost"}>
                 {user?.avatar_url ? (
-                  <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover rounded-full" />
+                  <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover rounded-xl" />
                 ) : (
-                  <User className="w-5 h-5" />
+                  <User className="w-6 h-6" />
                 )}
               </div>
             </div>
           )}
 
-          {/* Menu Items */}
+          {/* Navigation Menu - Premium */}
           <nav className="flex flex-col gap-1">
-            {/* CATEGORY 1: AKUN SAYA */}
-            <div className="space-y-1 w-full mb-4">
+            {/* Menu Items */}
+            <div className="space-y-1 w-full">
               {!isSidebarCollapsed && (
                 <p className="text-label-sm font-bold text-on-surface-variant uppercase tracking-wider px-3 mb-2 text-left">Menu Utama</p>
               )}
@@ -547,11 +547,11 @@ export const UserDashboardPage: React.FC = () => {
                   setActiveSection('overview');
                   if (isSidebarCollapsed) setIsSidebarCollapsed(false);
                 }}
-                className={`group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center w-10 h-10 mx-auto p-0' : ''
+                className={`group w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                  isSidebarCollapsed ? 'justify-center w-12 h-12 mx-auto p-0' : ''
                 } ${activeSection === 'overview'
                   ? 'bg-primary-container text-on-primary-container shadow-level-1'
-                  : 'text-on-surface-variant hover:bg-surface-container'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
                 }`}
                 title="Ringkasan"
               >
@@ -564,11 +564,11 @@ export const UserDashboardPage: React.FC = () => {
                   setActiveSection('leases');
                   if (isSidebarCollapsed) setIsSidebarCollapsed(false);
                 }}
-                className={`group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center w-10 h-10 mx-auto p-0' : ''
+                className={`group w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                  isSidebarCollapsed ? 'justify-center w-12 h-12 mx-auto p-0' : ''
                 } ${activeSection === 'leases'
                   ? 'bg-primary-container text-on-primary-container shadow-level-1'
-                  : 'text-on-surface-variant hover:bg-surface-container'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
                 }`}
                 title="Riwayat Sewa"
               >
@@ -577,8 +577,8 @@ export const UserDashboardPage: React.FC = () => {
               </button>
             </div>
 
-            {/* CATEGORY 2: EKSPLORASI */}
-            <div className="space-y-1 w-full">
+            {/* Eksplorasi Section */}
+            <div className="space-y-1 w-full mt-4 pt-4 border-t border-outline-variant">
               {!isSidebarCollapsed && (
                 <p className="text-label-sm font-bold text-on-surface-variant uppercase tracking-wider px-3 mb-2 text-left">Eksplorasi</p>
               )}
@@ -588,16 +588,16 @@ export const UserDashboardPage: React.FC = () => {
                   setActiveSection('search');
                   if (isSidebarCollapsed) setIsSidebarCollapsed(false);
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-body-sm font-medium'
+                className={`group w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                  isSidebarCollapsed ? 'justify-center w-12 h-12 mx-auto p-0' : ''
                 } ${activeSection === 'search'
                   ? 'bg-primary-container text-on-primary-container shadow-level-1'
-                  : 'text-on-surface-variant hover:bg-surface-container'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
                 }`}
                 title="Cari Kost"
               >
-                <Search className="w-5 h-5 shrink-0" />
-                {!isSidebarCollapsed && <span>Cari Kost</span>}
+                <Search className={`w-5 h-5 shrink-0 transition-colors duration-200 ${activeSection === 'search' ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'}`} />
+                {!isSidebarCollapsed && <span className="text-body-sm font-medium">Cari Kost</span>}
               </button>
 
               <button
@@ -605,16 +605,16 @@ export const UserDashboardPage: React.FC = () => {
                   setActiveSection('watchlist');
                   if (isSidebarCollapsed) setIsSidebarCollapsed(false);
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-body-sm font-medium'
+                className={`group w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                  isSidebarCollapsed ? 'justify-center w-12 h-12 mx-auto p-0' : ''
                 } ${activeSection === 'watchlist'
                   ? 'bg-primary-container text-on-primary-container shadow-level-1'
-                  : 'text-on-surface-variant hover:bg-surface-container'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
                 }`}
                 title="Watchlist"
               >
-                <Heart className="w-5 h-5 shrink-0" />
-                {!isSidebarCollapsed && <span>Watchlist</span>}
+                <Heart className={`w-5 h-5 shrink-0 transition-colors duration-200 ${activeSection === 'watchlist' ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'}`} />
+                {!isSidebarCollapsed && <span className="text-body-sm font-medium">Watchlist</span>}
               </button>
 
               <button
@@ -622,23 +622,19 @@ export const UserDashboardPage: React.FC = () => {
                   setActiveSection('chat');
                   if (isSidebarCollapsed) setIsSidebarCollapsed(false);
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-body-sm font-medium'
+                className={`group w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 cursor-pointer relative ${
+                  isSidebarCollapsed ? 'justify-center w-12 h-12 mx-auto p-0' : ''
                 } ${activeSection === 'chat'
                   ? 'bg-primary-container text-on-primary-container shadow-level-1'
-                  : 'text-on-surface-variant hover:bg-surface-container'
+                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
                 }`}
-                title="Pesan Masuk"
+                title="Pesan"
               >
-                <Mail className="w-5 h-5 shrink-0" />
-                {!isSidebarCollapsed && (
-                  <div className="flex items-center justify-between w-full">
-                    <span>Pesan Masuk</span>
-                    {conversations.some(c => c.unread_count > 0) && (
-                      <span className="bg-primary text-on-primary text-label-sm px-2 py-0.5 rounded-full font-bold">Baru</span>
-                    )}
-                  </div>
+                {unreadCount > 0 && (
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full" />
                 )}
+                <Mail className={`w-5 h-5 shrink-0 transition-colors duration-200 ${activeSection === 'chat' ? 'text-primary' : 'text-on-surface-variant group-hover:text-primary'}`} />
+                {!isSidebarCollapsed && <span className="text-body-sm font-medium">Pesan</span>}
               </button>
             </div>
           </nav>
@@ -903,14 +899,17 @@ export const UserDashboardPage: React.FC = () => {
             />
           </div>
         ) : activeSection === 'settings' ? (
-          <main className="flex-1 min-h-0 overflow-y-auto px-4 pt-4 pb-20 sm:px-6 md:p-8">
-            <SeekerSettings user={user} onLogout={() => { logout(); navigate('/'); }} />
+          <main className="flex-1 min-h-0 overflow-y-auto px-4 pt-4 pb-20 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+            <div className="max-w-5xl mx-auto">
+              <SeekerSettings user={user} onLogout={() => { logout(); navigate('/'); }} />
+            </div>
           </main>
         ) : (
-          <main className="flex-1 min-h-0 overflow-y-auto space-y-6 px-4 pt-4 pb-20 sm:px-6 md:p-8 md:space-y-8">
+          <main className="flex-1 min-h-0 overflow-y-auto px-4 pt-4 pb-20 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+            <div className="max-w-5xl mx-auto space-y-6 md:space-y-8">
 
-            {activeSection === 'overview' && (
-              <div className="space-y-6 animate-in fade-in duration-300">
+              {activeSection === 'overview' && (
+                <div className="space-y-6 animate-in fade-in duration-300">
 
                 {/* ── Header Section - Premium Style ── */}
                 <section>
@@ -1145,6 +1144,7 @@ export const UserDashboardPage: React.FC = () => {
 
             {activeSection === 'leases' && <SeekerOrdersSection />}
 
+            </div>
           </main>
         )}
       </div>
