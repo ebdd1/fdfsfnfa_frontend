@@ -19,7 +19,6 @@ import {
   Heart,
   Mail,
   ArrowLeft,
-  ArrowRight,
   ChevronLeft,
   ChevronRight,
   ChevronDown,
@@ -33,20 +32,25 @@ import {
   Shield,
   MapPin,
   Building2,
-  MessageSquare,
-  Settings
+  Settings,
+  Verified,
+  Star,
+  CreditCard,
+  Phone,
+  Wifi,
+  Receipt,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 type SeekerSection = 'overview' | 'leases' | 'watchlist' | 'chat' | 'search' | 'settings';
 
-// Bottom nav: 4 thumb-reachable items. Pesan Masuk diakses via sidebar/bottom-sheet.
-// Keep it minimal — only the 4 most essential daily actions.
+// Bottom nav: 5 items for mobile
 const BOTTOM_NAV: { key: SeekerSection; label: string; icon: LucideIcon }[] = [
-  { key: 'overview', label: 'Beranda', icon: LayoutDashboard },
-  { key: 'search', label: 'Cari Kost', icon: Search },
-  { key: 'watchlist', label: 'Tersimpan', icon: Heart },
-  { key: 'leases', label: 'Sewa Saya', icon: MessageSquare },
+  { key: 'search', label: 'Explore', icon: Search },
+  { key: 'watchlist', label: 'Saved', icon: Heart },
+  { key: 'leases', label: 'Bookings', icon: Receipt },
+  { key: 'chat', label: 'Inbox', icon: Mail },
+  { key: 'overview', label: 'Account', icon: User },
 ];
 
 export const UserDashboardPage: React.FC = () => {
@@ -199,72 +203,68 @@ export const UserDashboardPage: React.FC = () => {
   return (
     <div className="bg-background h-screen flex flex-col md:flex-row overflow-hidden font-body relative">
 
-      {/* MOBILE TOP BAR */}
-      <header className="flex md:hidden items-center justify-between px-3 h-14 bg-surface-container-lowest shrink-0 z-30 border-b border-surface-container">
+      {/* MOBILE TOP BAR - Premium Dwelling Style */}
+      <header className="flex md:hidden items-center justify-between px-margin-mobile h-14 bg-surface shrink-0 z-30 border-b border-outline-variant">
         {/* Left: Menu + Logo */}
-        <div className="flex items-center gap-1.5 min-w-0">
+        <div className="flex items-center gap-2">
           <button
             onClick={() => setIsMobileMenuOpen(true)}
             aria-label="Buka menu"
-            className="p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors active:scale-90 cursor-pointer shrink-0"
+            className="p-2 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-200 cursor-pointer"
           >
-            <Menu className="w-6 h-6" />
+            <Menu className="w-5 h-5 text-on-surface" />
           </button>
-          <div className="flex items-center cursor-pointer min-w-0" onClick={() => navigate('/')}>
+          <div
+            className="flex items-center cursor-pointer"
+            onClick={() => navigate('/')}
+          >
             {settings.logo_url ? (
               <img src={settings.logo_url} alt={settings.site_name} className="h-7 w-auto object-contain rounded-lg" />
             ) : (
-              <LogoText />
+              <span className="font-headline text-[20px] font-bold text-primary">KostFind</span>
             )}
           </div>
         </div>
 
-        {/* Right: Search + Chat + Notification */}
-        <div className="flex items-center gap-0.5 shrink-0">
+        {/* Right: Notifications + Profile */}
+        <div className="flex items-center gap-1">
           <button
-            onClick={() => navigate('/search')}
-            aria-label="Cari Kost"
-            className="p-2.5 text-slate-600 hover:bg-[var(--primary-50)] hover:text-[var(--primary-600)] rounded-xl transition-colors active:scale-90 cursor-pointer"
+            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+            aria-label="Notifikasi"
+            className="relative p-2 rounded-full hover:bg-surface-container-low transition-colors active:scale-95 duration-200 cursor-pointer"
           >
-            <Search className="w-[22px] h-[22px]" />
-          </button>
-
-          <button
-            onClick={() => setActiveSection('chat')}
-            aria-label="Pesan Masuk"
-            className="relative p-2.5 text-slate-600 hover:bg-sky-50 hover:text-sky-600 rounded-xl transition-colors active:scale-90 cursor-pointer"
-          >
-            <MessageSquare className="w-[22px] h-[22px]" />
-            {unreadCount > 0 && (
-              <span className="absolute top-1 right-1 min-w-[16px] h-[16px] px-0.5 rounded-full bg-rose-500 text-white text-[9px] font-black flex items-center justify-center ring-2 ring-white">
-                {unreadCount > 9 ? '9+' : unreadCount}
-              </span>
+            <Bell className="w-5 h-5 text-on-surface" />
+            {notifUnread > 0 && (
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-surface" />
             )}
           </button>
 
           <button
-            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-            aria-label="Notifikasi"
-            className="relative p-2.5 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors active:scale-90 cursor-pointer"
+            onClick={() => onSelectProperty(user?.id || '')}
+            className="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-container shrink-0 cursor-pointer"
+            aria-label="Profil"
           >
-            <Bell className="w-[22px] h-[22px]" />
-            {notifUnread > 0 && (
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white" />
+            {user?.avatar_url ? (
+              <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full bg-primary-container flex items-center justify-center text-on-primary-container">
+                <User className="w-4 h-4" />
+              </div>
             )}
           </button>
         </div>
       </header>
 
-      {/* MOBILE NOTIFICATIONS SHEET */}
+      {/* MOBILE NOTIFICATIONS SHEET - Premium Style */}
       {isNotificationsOpen && (
         <div className="md:hidden fixed inset-0 z-50" onClick={() => setIsNotificationsOpen(false)}>
-          <div className="absolute inset-0 bg-on-surface/40 animate-in fade-in duration-200" />
+          <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm animate-in fade-in duration-200" />
           <div
-            className="absolute top-14 right-3 left-3 bg-surface-container-lowest rounded-2xl shadow-elevation-hover border border-surface-container overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+            className="absolute top-14 right-3 left-3 bg-surface-container-lowest rounded-2xl shadow-elevation-hover overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-5 py-3.5 border-b border-surface-container flex items-center justify-between">
-              <span className="text-label-sm font-bold text-on-surface uppercase tracking-wider">Notifikasi</span>
+            <div className="px-5 py-4 border-b border-outline-variant flex items-center justify-between">
+              <span className="font-headline text-[18px] font-semibold text-on-surface">Notifikasi</span>
               {notifUnread > 0 && (
                 <button onClick={() => markAllRead()} className="text-label-sm font-semibold text-primary hover:text-primary/80 cursor-pointer">
                   Tandai dibaca
@@ -286,9 +286,9 @@ export const UserDashboardPage: React.FC = () => {
                   <button
                     key={n.id}
                     onClick={() => openNotification(n)}
-                    className={`w-full flex items-start gap-3 px-4 py-3 hover:bg-surface-container transition-colors text-left cursor-pointer ${n.isRead ? '' : 'bg-primary/5'}`}
+                    className={`w-full flex items-start gap-3 px-4 py-4 hover:bg-surface-container transition-colors text-left cursor-pointer ${n.isRead ? '' : 'bg-primary-fixed/20'}`}
                   >
-                    <div className="relative w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                    <div className="relative w-11 h-11 rounded-xl bg-primary-fixed-dim flex items-center justify-center text-primary shrink-0">
                       <Home className="w-5 h-5" />
                       {!n.isRead && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-error border-2 border-surface-container-lowest" />}
                     </div>
@@ -297,7 +297,7 @@ export const UserDashboardPage: React.FC = () => {
                         <p className="text-body-sm font-semibold text-on-surface truncate">{n.title}</p>
                         <span className="text-label-sm text-on-surface-variant shrink-0">{timeAgo(n.createdAt)}</span>
                       </div>
-                      <p className="text-label-sm text-on-surface-variant leading-snug line-clamp-2">{n.body}</p>
+                      <p className="text-label-sm text-on-surface-variant leading-snug line-clamp-2 mt-1">{n.body}</p>
                     </div>
                   </button>
                 ))}
@@ -307,20 +307,20 @@ export const UserDashboardPage: React.FC = () => {
         </div>
       )}
 
-      {/* MOBILE DRAWER */}
+      {/* MOBILE DRAWER - Premium Style */}
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-0 z-50 flex">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-on-surface/50 animate-in fade-in duration-200"
+            className="absolute inset-0 bg-inverse-surface/50 animate-in fade-in duration-200"
             onClick={() => setIsMobileMenuOpen(false)}
           />
           {/* Panel */}
           <aside className="relative flex flex-col w-[280px] max-w-[82%] h-full bg-surface-container-lowest shadow-elevation-hover animate-in slide-in-from-left duration-250">
             {/* Drawer header */}
-            <div className="flex items-center justify-between px-5 h-14 border-b border-surface-container shrink-0">
-              <div className="flex items-center gap-2.5">
-                <LogoText />
+            <div className="flex items-center justify-between px-margin-mobile h-14 border-b border-outline-variant shrink-0">
+              <div className="flex items-center gap-2">
+                <span className="font-headline text-[20px] font-bold text-primary">KostFind</span>
               </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -333,20 +333,20 @@ export const UserDashboardPage: React.FC = () => {
 
             {/* Profile */}
             <div className="px-4 pt-4">
-              <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-xl border border-primary/10">
-                <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center text-primary overflow-hidden shrink-0">
+              <div className="flex items-center gap-3 p-4 bg-surface-container rounded-xl border border-outline-variant">
+                <div className="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container overflow-hidden shrink-0">
                   {user?.avatar_url ? <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" /> : <User className="w-5 h-5" />}
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-body-sm font-semibold text-on-surface truncate">{user?.name || 'Pencari Kost'}</p>
-                  <span className="text-label-sm font-bold text-primary uppercase tracking-wide">Pencari Kost</span>
+                  <span className="text-label-sm font-semibold text-primary">Pencari Kost</span>
                 </div>
               </div>
             </div>
 
             {/* Nav */}
             <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-              <p className="text-label-sm font-bold text-on-surface-variant uppercase tracking-wider px-3 mb-2">Menu Utama</p>
+              <p className="text-label-sm font-semibold text-on-surface-variant uppercase tracking-wider px-3 mb-2">Menu Utama</p>
               {([
                 { key: 'overview', label: 'Ringkasan', icon: LayoutDashboard },
                 { key: 'leases', label: 'Riwayat Sewa', icon: Home },
@@ -354,8 +354,8 @@ export const UserDashboardPage: React.FC = () => {
                 <button
                   key={key}
                   onClick={() => goToSection(key)}
-                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-body-sm font-medium transition-colors cursor-pointer ${
-                    activeSection === key ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-surface-container'
+                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-colors cursor-pointer ${
+                    activeSection === key ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-container'
                   }`}
                 >
                   <Icon className="w-[18px] h-[18px] shrink-0" />
@@ -363,7 +363,7 @@ export const UserDashboardPage: React.FC = () => {
                 </button>
               ))}
 
-              <p className="text-label-sm font-bold text-on-surface-variant uppercase tracking-wider px-3 mb-2 mt-4">Eksplorasi</p>
+              <p className="text-label-sm font-semibold text-on-surface-variant uppercase tracking-wider px-3 mb-2 mt-4">Eksplorasi</p>
               {([
                 { key: 'search', label: 'Cari Kost', icon: Search },
                 { key: 'watchlist', label: 'Watchlist', icon: Heart },
@@ -372,26 +372,26 @@ export const UserDashboardPage: React.FC = () => {
                 <button
                   key={key}
                   onClick={() => goToSection(key)}
-                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-body-sm font-medium transition-colors cursor-pointer ${
-                    activeSection === key ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-surface-container'
+                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-colors cursor-pointer ${
+                    activeSection === key ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-container'
                   }`}
                 >
                   <span className="relative shrink-0">
                     <Icon className="w-[18px] h-[18px]" />
-                    {key === 'chat' && hasUnread && <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />}
+                    {key === 'chat' && hasUnread && <span className="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full" />}
                   </span>
                   <span className="flex-1 text-left">{label}</span>
                   {key === 'chat' && hasUnread && (
-                    <span className="text-label-sm font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">Baru</span>
+                    <span className="text-label-sm font-semibold bg-primary-container/20 text-primary px-2 py-0.5 rounded-full">Baru</span>
                   )}
                 </button>
               ))}
 
-              <p className="text-label-sm font-bold text-on-surface-variant uppercase tracking-wider px-3 mb-2 mt-4">Akun</p>
+              <p className="text-label-sm font-semibold text-on-surface-variant uppercase tracking-wider px-3 mb-2 mt-4">Akun</p>
               <button
                 onClick={() => goToSection('settings')}
-                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-body-sm font-medium transition-colors cursor-pointer ${
-                  activeSection === 'settings' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-surface-container'
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-colors cursor-pointer ${
+                  activeSection === 'settings' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-container'
                 }`}
               >
                 <Settings className="w-[18px] h-[18px] shrink-0" />
@@ -400,24 +400,24 @@ export const UserDashboardPage: React.FC = () => {
             </nav>
 
             {/* Footer */}
-            <div className="px-3 py-3 border-t border-surface-container space-y-1 shrink-0">
+            <div className="px-3 py-3 border-t border-outline-variant space-y-1 shrink-0">
               <button
                 onClick={() => { setIsMobileMenuOpen(false); navigate('/dashboard'); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-body-sm font-medium text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-sm font-medium text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer"
               >
                 <Sparkles className="w-[18px] h-[18px] text-primary shrink-0" />
                 <span>Mode Pemilik Kost</span>
               </button>
               <button
                 onClick={() => { setIsMobileMenuOpen(false); navigate('/'); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-body-sm font-medium text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-sm font-medium text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer"
               >
                 <ArrowLeft className="w-[18px] h-[18px] shrink-0" />
                 <span>Kembali Beranda</span>
               </button>
               <button
                 onClick={() => { setIsMobileMenuOpen(false); logout(); navigate('/'); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-body-sm font-medium text-error hover:bg-error-container transition-colors cursor-pointer"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-sm font-medium text-error hover:bg-error-container transition-colors cursor-pointer"
               >
                 <LogOut className="w-[18px] h-[18px] shrink-0" />
                 <span>Keluar</span>
@@ -484,16 +484,16 @@ export const UserDashboardPage: React.FC = () => {
                   setActiveSection('overview');
                   if (isSidebarCollapsed) setIsSidebarCollapsed(false);
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
+                className={`group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer ${
+                  isSidebarCollapsed ? 'justify-center w-10 h-10 mx-auto p-0' : ''
                 } ${activeSection === 'overview'
-                  ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  ? 'bg-[var(--color-primary-50)] text-[var(--color-primary-700)] border border-[var(--color-primary-200)] font-semibold'
+                  : 'text-slate-600 hover:bg-[var(--color-primary-50)] hover:text-[var(--color-primary-700)]'
                 }`}
                 title="Ringkasan"
               >
-                <LayoutDashboard className="w-4 h-4 shrink-0" />
-                {!isSidebarCollapsed && <span>Ringkasan</span>}
+                <LayoutDashboard className={`w-4 h-4 shrink-0 transition-colors duration-200 ${activeSection === 'overview' ? 'text-[var(--color-primary-600)]' : 'text-slate-500 group-hover:text-[var(--color-primary-600)]'}`} />
+                {!isSidebarCollapsed && <span className="text-sm font-medium">Ringkasan</span>}
               </button>
 
               <button
@@ -501,16 +501,16 @@ export const UserDashboardPage: React.FC = () => {
                   setActiveSection('leases');
                   if (isSidebarCollapsed) setIsSidebarCollapsed(false);
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 transition-colors cursor-pointer ${
-                  isSidebarCollapsed ? 'justify-center rounded-xl w-10 h-10 mx-auto p-0' : 'rounded-xl text-sm font-medium animate-in fade-in duration-200'
+                className={`group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer ${
+                  isSidebarCollapsed ? 'justify-center w-10 h-10 mx-auto p-0' : ''
                 } ${activeSection === 'leases'
-                  ? 'bg-[var(--primary-50)] text-[var(--primary-700)] border border-[var(--primary-100)]/30 font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  ? 'bg-[var(--color-primary-50)] text-[var(--color-primary-700)] border border-[var(--color-primary-200)] font-semibold'
+                  : 'text-slate-600 hover:bg-[var(--color-primary-50)] hover:text-[var(--color-primary-700)]'
                 }`}
                 title="Riwayat Sewa"
               >
-                <Home className="w-4 h-4 shrink-0" />
-                {!isSidebarCollapsed && <span>Riwayat Sewa</span>}
+                <Home className={`w-4 h-4 shrink-0 transition-colors duration-200 ${activeSection === 'leases' ? 'text-[var(--color-primary-600)]' : 'text-slate-500 group-hover:text-[var(--color-primary-600)]'}`} />
+                {!isSidebarCollapsed && <span className="text-sm font-medium">Riwayat Sewa</span>}
               </button>
             </div>
 
@@ -638,7 +638,7 @@ export const UserDashboardPage: React.FC = () => {
             >
               <Search className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-500 transition-colors" />
               <span className="text-xs font-semibold text-slate-500">Cari Kost...</span>
-              <span className="ml-auto text-[9px] text-slate-400 font-mono border border-slate-200 bg-white px-1.5 py-0.5 rounded shadow-sm">/</span>
+              <span className="ml-auto text-[11px] text-slate-400 font-mono border border-slate-200 bg-white px-1.5 py-0.5 rounded shadow-sm">/</span>
             </button>
 
             {/* Search CTA (Mobile) */}
@@ -847,225 +847,236 @@ export const UserDashboardPage: React.FC = () => {
           <main className="flex-1 min-h-0 overflow-y-auto space-y-6 px-4 pt-4 pb-20 sm:px-6 md:p-8 md:space-y-8">
 
             {activeSection === 'overview' && (
-              <div className="space-y-5 md:space-y-6 animate-in fade-in duration-300">
+              <div className="space-y-6 animate-in fade-in duration-300">
 
-                {/* ── Greeting + quick stats ── */}
-                <div className="relative overflow-hidden rounded-2xl bg-surface-container-lowest border border-surface-container p-5 sm:p-6">
-                  {/* Subtle accent glow */}
-                  <div className="absolute -top-12 -right-8 w-40 h-40 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-
-                  <div className="relative flex items-center gap-3.5">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 overflow-hidden flex items-center justify-center shrink-0 text-primary">
-                      {user?.avatar_url ? (
-                        <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <span className="text-lg font-bold">{(user?.name || 'U')[0].toUpperCase()}</span>
-                      )}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-label-sm text-on-surface-variant">{greeting},</p>
-                      <h1 className="text-heading-md font-headline-md font-bold text-on-surface truncate">
-                        {firstName}
-                      </h1>
-                    </div>
-                  </div>
-
-                  <p className="relative mt-3 text-body-sm text-on-surface-variant leading-relaxed max-w-md">
+                {/* ── Header Section - Premium Style ── */}
+                <section>
+                  <h1 className="font-headline text-[28px] md:text-[48px] font-bold tracking-tight text-on-surface">
+                    {greeting}, {firstName}
+                  </h1>
+                  <p className="font-body text-[14px] text-on-surface-variant mt-1">
                     {activeLeases.length > 0
                       ? `Kamu punya ${activeLeases.length} sewa aktif${unreadCount > 0 ? ` · ${unreadCount} pesan belum dibaca` : ''}. Semoga betah di kost-mu!`
                       : 'Belum ada sewa aktif. Yuk cari kost impianmu sekarang.'}
                   </p>
-                </div>
+                </section>
 
-                {/* ── Real metric tiles ── */}
-                <div className="grid grid-cols-3 gap-3 sm:gap-4">
-                  {[
-                    { key: 'leases' as const, label: 'Sewa Aktif', value: activeLeases.length, icon: Home, tint: 'bg-primary/10 text-primary', accent: 'hover:border-primary/30', onClick: () => setActiveSection('leases') },
-                    { key: 'watchlist' as const, label: 'Tersimpan', value: watchlistIds.length, icon: Heart, tint: 'bg-tertiary/10 text-tertiary', accent: 'hover:border-tertiary/30', onClick: () => setActiveSection('watchlist') },
-                    { key: 'chat' as const, label: 'Pesan Baru', value: unreadCount, icon: MessageSquare, tint: 'bg-secondary/10 text-secondary', accent: 'hover:border-secondary/30', onClick: () => setActiveSection('chat') },
-                  ].map(({ key, label, value, icon: Icon, tint, accent, onClick }) => (
-                    <button
-                      key={key}
-                      onClick={onClick}
-                      className={`group flex flex-col bg-surface-container-lowest rounded-xl p-4 border border-surface-container ${accent} active:scale-[0.98] transition-all text-left cursor-pointer`}
-                    >
-                      <div className="flex items-center justify-between mb-3">
-                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${tint}`}>
-                          <Icon className="w-5 h-5" />
-                        </div>
-                        <ChevronRight className="w-4 h-4 text-on-surface-variant group-hover:translate-x-0.5 transition-all" />
-                      </div>
-                      <p className="text-heading-lg font-headline-md font-bold text-on-surface tabular-nums">{value}</p>
-                      <p className="text-label-sm text-on-surface-variant mt-1">{label}</p>
-                    </button>
-                  ))}
-                </div>
-
-                {/* ── Active lease ── */}
-                <div className="bg-surface-container-lowest rounded-xl border border-surface-container overflow-hidden">
-                  <div className="flex items-center justify-between px-5 py-4 border-b border-surface-container-high">
-                    <div className="flex items-center gap-2">
-                      <span className="w-1 h-4 bg-primary rounded-full" />
-                      <h3 className="text-label-md font-label-md font-bold text-on-surface">Sewa Aktif Kamu</h3>
+                {/* ── Stats Grid - Premium Style ── */}
+                <section className="grid grid-cols-3 gap-2">
+                  {/* Stat 1: Sewa Aktif */}
+                  <div className="bg-surface-container-lowest rounded-lg p-3 shadow-elevation-1 flex flex-col items-center justify-center text-center">
+                    <div className="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center mb-2 text-on-primary-container">
+                      <Home className="w-5 h-5" />
                     </div>
-                    {activeLeases.length > 0 && (
-                      <button
-                        onClick={() => setActiveSection('leases')}
-                        className="text-label-sm text-primary hover:text-primary/80 flex items-center gap-1 cursor-pointer"
-                      >
-                        Semua <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
+                    <span className="font-headline text-[18px] font-bold text-on-surface">{activeLeases.length}</span>
+                    <span className="font-label text-[11px] text-on-surface-variant mt-0.5">Sewa Aktif</span>
+                  </div>
+
+                  {/* Stat 2: Tersimpan */}
+                  <button
+                    onClick={() => setActiveSection('watchlist')}
+                    className="bg-surface-container-lowest rounded-lg p-3 shadow-elevation-1 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container transition-colors active:scale-95"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-tertiary-fixed-dim flex items-center justify-center mb-2 text-tertiary">
+                      <Heart className="w-5 h-5" />
+                    </div>
+                    <span className="font-headline text-[18px] font-bold text-on-surface">{watchlistIds.length}</span>
+                    <span className="font-label text-[11px] text-on-surface-variant mt-0.5">Tersimpan</span>
+                  </button>
+
+                  {/* Stat 3: Pesan Baru */}
+                  <button
+                    onClick={() => setActiveSection('chat')}
+                    className="bg-surface-container-lowest rounded-lg p-3 shadow-elevation-1 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container transition-colors active:scale-95 relative"
+                  >
+                    {unreadCount > 0 && (
+                      <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-error" />
                     )}
+                    <div className="w-10 h-10 rounded-lg bg-secondary-fixed-dim flex items-center justify-center mb-2 text-secondary-container">
+                      <Mail className="w-5 h-5" />
+                    </div>
+                    <span className="font-headline text-[18px] font-bold text-on-surface">{unreadCount}</span>
+                    <span className="font-label text-[11px] text-on-surface-variant mt-0.5">Pesan Baru</span>
+                  </button>
+                </section>
+
+                {/* ── Active Rent Card - Premium Hero Style ── */}
+                <section>
+                  <div className="flex justify-between items-end mb-2">
+                    <h2 className="font-headline text-[20px] font-semibold text-on-surface">Sewa Aktif Kamu</h2>
                   </div>
 
                   {activeLeases.length === 0 ? (
-                    <div className="px-5 py-10 flex flex-col items-center justify-center text-center">
-                      <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-4 text-primary">
-                        <Home className="w-6 h-6" />
+                    <div className="bg-surface-container-lowest rounded-2xl shadow-elevation-1 overflow-hidden">
+                      <div className="p-6 flex flex-col items-center justify-center text-center">
+                        <div className="w-14 h-14 rounded-xl bg-primary-fixed-dim flex items-center justify-center mb-4 text-primary">
+                          <Home className="w-6 h-6" />
+                        </div>
+                        <p className="font-headline text-[16px] font-semibold text-on-surface mb-2">Belum ada sewa aktif</p>
+                        <p className="text-label-sm text-on-surface-variant mb-5 max-w-xs">Cari kost terverifikasi dan ajukan sewa untuk mulai menghuni.</p>
+                        <button
+                          onClick={() => navigate('/search')}
+                          className="w-full bg-primary-container text-on-primary-container font-label text-[14px] py-3 rounded-lg hover:brightness-95 active:scale-[0.98] transition-all flex justify-center items-center gap-2 cursor-pointer"
+                        >
+                          <Search className="w-4 h-4" /> Cari Kost Sekarang
+                        </button>
                       </div>
-                      <p className="text-body-sm font-semibold text-on-surface mb-1">Belum ada sewa aktif</p>
-                      <p className="text-label-sm text-on-surface-variant mb-5 max-w-xs">Cari kost terverifikasi dan ajukan sewa untuk mulai menghuni.</p>
-                      <button
-                        onClick={() => navigate('/search')}
-                        className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-on-primary text-label-sm font-semibold px-5 py-2.5 rounded-lg shadow-sm active:scale-95 transition-all cursor-pointer"
-                      >
-                        <Search className="w-4 h-4" /> Cari Kost Sekarang
-                      </button>
                     </div>
                   ) : (
-                    <div className="divide-y divide-surface-container">
-                      {activeLeases.map((lease) => {
-                        const start = new Date(lease.startDate);
-                        const end = new Date(start);
-                        end.setMonth(end.getMonth() + lease.durationMonths);
-                        const fmtDate = (d: Date) => d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                        return (
-                          <div key={lease.id} className="flex items-center gap-4 px-5 py-4">
-                            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                              <Home className="w-5 h-5" />
-                            </div>
-                            <div className="min-w-0 flex-1 text-left">
-                              <div className="flex items-center gap-2">
-                                <p className="text-body-sm font-semibold text-on-surface truncate">{lease.property?.name || 'Kost'}</p>
-                                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-label-sm font-bold text-primary">
-                                  <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Aktif
-                                </span>
-                              </div>
-                              <p className="text-label-sm text-on-surface-variant mt-0.5 truncate">
-                                Kamar {lease.room?.roomNumber || '—'}{lease.property?.city ? ` · ${lease.property.city}` : ''}
-                              </p>
-                              <p className="text-label-sm text-on-surface-variant/60 mt-0.5">{fmtDate(start)} — {fmtDate(end)} · {lease.durationMonths} bln</p>
-                            </div>
-                            <div className="text-right shrink-0">
-                              <p className="text-body-sm font-semibold text-on-surface">{fmtIDR(lease.priceMonthly)}</p>
-                              <p className="text-label-sm text-on-surface-variant">per bulan</p>
-                            </div>
+                    <div className="bg-surface-container-lowest rounded-2xl shadow-elevation-1 overflow-hidden">
+                      {/* Image Header - Using property image from API */}
+                      <div className="h-44 w-full relative overflow-hidden">
+                        {properties.find(p => p.id === activeLeases[0].propertyId)?.media?.[0]?.url_original ? (
+                          <img
+                            src={properties.find(p => p.id === activeLeases[0].propertyId)?.media[0].url_original}
+                            alt={activeLeases[0].property?.name || 'Kost'}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-surface-container flex items-center justify-center">
+                            <Building2 className="w-12 h-12 text-on-surface-variant" />
                           </div>
-                        );
-                      })}
+                        )}
+                        {/* Status Badge */}
+                        <div className="absolute top-3 left-3 bg-tertiary-fixed-dim text-on-tertiary-fixed px-2.5 py-1 rounded-full font-label text-[12px] flex items-center gap-1 shadow-elevation-1">
+                          <Verified className="w-[14px] h-[14px]" /> Aktif
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-4 flex flex-col gap-3">
+                        <div>
+                          <h3 className="font-headline text-[16px] font-semibold text-on-surface">{activeLeases[0].property?.name || 'Kost'}</h3>
+                          <div className="flex items-center gap-1 text-on-surface-variant font-body text-[13px] mt-1">
+                            <MapPin className="w-[14px] h-[14px]" />
+                            <span>{activeLeases[0].property?.city || 'Lokasi'}</span>
+                          </div>
+                        </div>
+
+                        {/* Tags - Using property facilities from full property data */}
+                        <div className="flex flex-wrap gap-1.5">
+                          <span className="bg-surface-container text-on-surface text-[11px] font-label px-2.5 py-1 rounded-full">
+                            {activeLeases[0].room?.roomNumber ? `Kamar ${activeLeases[0].room.roomNumber}` : 'Kamar'}
+                          </span>
+                          {properties.find(p => p.id === activeLeases[0].propertyId)?.facilities?.includes('ac') && (
+                            <span className="bg-surface-container text-on-surface text-[11px] font-label px-2.5 py-1 rounded-full flex items-center gap-1">
+                              <span className="text-[12px]">❄️</span> AC
+                            </span>
+                          )}
+                          {properties.find(p => p.id === activeLeases[0].propertyId)?.facilities?.includes('wifi') && (
+                            <span className="bg-surface-container text-on-surface text-[11px] font-label px-2.5 py-1 rounded-full flex items-center gap-1">
+                              <Wifi className="w-[12px] h-[12px]" /> WiFi
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Payment Info */}
+                        <div className="bg-surface-container-low rounded-lg p-3 flex justify-between items-center">
+                          <div>
+                            <p className="font-label text-[11px] text-on-surface-variant">Jatuh Tempo Berikutnya</p>
+                            <p className="font-headline text-[14px] font-semibold text-on-surface mt-0.5">
+                              {(() => {
+                                const start = new Date(activeLeases[0].startDate);
+                                const due = new Date(start);
+                                due.setMonth(due.getMonth() + 1);
+                                return due.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                              })()}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-headline text-[16px] font-bold text-primary">{fmtIDR(activeLeases[0].priceMonthly)}</p>
+                            <p className="text-label-sm text-on-surface-variant">per bulan</p>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex gap-2 mt-1">
+                          <button className="flex-1 bg-primary-container text-on-primary-container font-label text-[13px] py-2.5 rounded-lg hover:brightness-95 active:scale-[0.98] transition-all flex justify-center items-center gap-2 cursor-pointer">
+                            <CreditCard className="w-4 h-4" /> Bayar Tagihan
+                          </button>
+                          <button className="flex-1 border border-primary-container text-primary-container font-label text-[13px] py-2.5 rounded-lg hover:bg-surface-container-low active:scale-[0.98] transition-all flex justify-center items-center gap-2 cursor-pointer">
+                            <Phone className="w-4 h-4" /> Hubungi Pemilik
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   )}
-                </div>
+                </section>
 
-                {/* ── Recommendations carousel ── */}
+                {/* ── Recommendations Carousel - Premium Style ── */}
                 {recommendations.length > 0 && (
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="w-1 h-4 bg-primary rounded-full" />
-                        <h3 className="text-label-md font-label-md font-bold text-on-surface">Rekomendasi Buat Kamu</h3>
-                      </div>
+                  <section>
+                    <div className="flex justify-between items-end mb-3">
+                      <h2 className="font-headline text-[20px] font-semibold text-on-surface">Rekomendasi Buat Kamu</h2>
                       <button
                         onClick={() => navigate('/search')}
-                        className="text-label-sm text-primary hover:text-primary/80 flex items-center gap-1 cursor-pointer"
+                        className="text-primary font-label text-[13px] hover:underline cursor-pointer"
                       >
-                        Lihat semua <ArrowRight className="w-3.5 h-3.5" />
+                        Lihat Semua
                       </button>
                     </div>
 
-                    <div className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory scrollbar-thin">
+                    {/* Horizontal Scroll Container */}
+                    <div className="flex overflow-x-auto gap-3 pb-4 -mx-margin-mobile px-margin-mobile snap-x snap-mandatory scrollbar-thin">
                       {recommendations.map((p) => {
                         const cover = p.media?.[0]?.url_medium || p.media?.[0]?.url_original || p.media?.[0]?.url_thumbnail;
                         const price = lowestPrice(p);
+                        const rating = 4.5; // Default rating - can be enhanced with real data
                         return (
                           <button
                             key={p.id}
                             onClick={() => onSelectProperty(p.id)}
-                            className="group shrink-0 w-[260px] snap-start bg-surface-container-lowest rounded-xl border border-surface-container hover:border-primary/30 hover:shadow-lg transition-all overflow-hidden text-left cursor-pointer"
+                            className="min-w-[260px] w-[260px] bg-surface-container-lowest rounded-2xl shadow-elevation-1 overflow-hidden shrink-0 snap-start flex flex-col cursor-pointer hover:shadow-elevation-hover transition-shadow"
                           >
-                            <div className="relative h-36 bg-surface-container overflow-hidden">
+                            {/* Image */}
+                            <div className="h-36 w-full relative overflow-hidden">
                               {cover ? (
-                                <img src={cover} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                <img src={cover} alt={p.name} className="w-full h-full object-cover" />
                               ) : (
-                                <div className="w-full h-full flex items-center justify-center text-on-surface-variant">
-                                  <Building2 className="w-8 h-8" />
+                                <div className="w-full h-full bg-surface-container flex items-center justify-center">
+                                  <Building2 className="w-10 h-10 text-on-surface-variant" />
                                 </div>
                               )}
-                              {p.is_verified && (
-                                <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-surface-container-lowest px-2 py-1 text-label-sm font-bold text-primary shadow-sm">
-                                  <Shield className="w-3 h-3" /> Terverifikasi
-                                </span>
-                              )}
+                              {/* Favorite Button */}
+                              <button
+                                className="absolute top-2 right-2 bg-surface-container-lowest/90 backdrop-blur-sm p-1.5 rounded-full shadow-elevation-1 cursor-pointer hover:bg-error-container transition-colors"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleWatchlist(p.id);
+                                }}
+                              >
+                                <Heart className="w-[18px] h-[18px] text-on-surface-variant hover:text-error transition-colors" />
+                              </button>
                             </div>
-                            <div className="p-4">
-                              <p className="text-body-sm font-semibold text-on-surface truncate">{p.name}</p>
-                              <p className="text-label-sm text-on-surface-variant mt-1 flex items-center gap-1 truncate">
-                                <MapPin className="w-3 h-3 shrink-0" /> {p.location?.city || 'Lokasi tidak tersedia'}
-                              </p>
-                              <div className="mt-3 flex items-end justify-between">
-                                <div>
-                                  <p className="text-label-sm text-on-surface-variant leading-none">mulai</p>
-                                  <p className="text-body-sm font-semibold text-primary">{price > 0 ? fmtIDR(price) : '—'}</p>
+
+                            {/* Content */}
+                            <div className="p-3 flex flex-col flex-grow">
+                              <div className="flex justify-between items-start mb-1">
+                                <h3 className="font-headline text-[14px] font-semibold text-on-surface truncate flex-1">{p.name}</h3>
+                                <div className="flex items-center gap-0.5 text-on-surface ml-2 shrink-0">
+                                  <Star className="w-[12px] h-[12px] text-tertiary-container fill-current" />
+                                  <span className="font-label text-[11px]">{rating.toFixed(1)}</span>
                                 </div>
-                                <span className="text-label-sm text-on-surface-variant bg-surface-container px-2 py-1 rounded-lg">
-                                  {(p.rooms || []).filter((r) => r.status === 'available').length} kamar
-                                </span>
+                              </div>
+
+                              <div className="flex items-center gap-1 text-on-surface-variant font-body text-[11px] mb-2">
+                                <MapPin className="w-[12px] h-[12px]" />
+                                <span className="truncate">{p.location?.city || 'Lokasi'}</span>
+                              </div>
+
+                              <div className="mt-auto">
+                                <p className="font-headline text-[14px] font-bold text-primary">
+                                  {price > 0 ? fmtIDR(price) : '—'}
+                                  <span className="font-body text-[11px] text-on-surface-variant font-normal ml-1">/ bulan</span>
+                                </p>
                               </div>
                             </div>
                           </button>
                         );
                       })}
                     </div>
-                  </div>
+                  </section>
                 )}
-
-                {/* ── Quick shortcuts (desktop only — mobile uses header icons) ── */}
-                <div className="hidden md:block space-y-3">
-                  <h2 className="text-label-md font-label-md font-bold text-on-surface px-1">Akses Cepat</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Primary action — Cari Kost (marketplace core action) */}
-                    <button
-                      onClick={() => navigate('/search')}
-                      className="group relative flex items-center gap-4 overflow-hidden bg-gradient-to-br from-primary to-secondary rounded-xl p-5 shadow-lg shadow-primary/15 hover:shadow-xl hover:shadow-primary/20 transition-all text-left cursor-pointer active:scale-[0.98]"
-                    >
-                      <div className="w-12 h-12 rounded-lg bg-white/20 text-white flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                        <Search className="w-6 h-6" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-body-md font-semibold text-white">Cari Kost Baru</p>
-                        <p className="text-label-sm text-white/80 mt-0.5">Temukan kost terdekat terverifikasi</p>
-                      </div>
-                      <ChevronRight className="w-5 h-5 text-white/70 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
-                    </button>
-
-                    {/* Secondary action — Pesan Masuk */}
-                    <button
-                      onClick={() => setActiveSection('chat')}
-                      className="group flex items-center gap-4 bg-surface-container-lowest rounded-xl p-5 border border-surface-container hover:border-primary/30 shadow-sm hover:shadow-md transition-all text-left cursor-pointer active:scale-[0.98]"
-                    >
-                      <div className="relative w-12 h-12 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                        <Mail className="w-6 h-6" />
-                        {unreadCount > 0 && <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-error text-white text-label-sm font-bold flex items-center justify-center ring-2 ring-surface-container-lowest">{unreadCount}</span>}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-body-md font-semibold text-on-surface">Pesan Masuk</p>
-                        <p className="text-label-sm text-on-surface-variant mt-0.5">Tanya jawab dengan pemilik kost</p>
-                      </div>
-                      <ChevronRight className="w-5 h-5 text-on-surface-variant group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0" />
-                    </button>
-                  </div>
-                </div>
-
               </div>
             )}
 
@@ -1075,23 +1086,26 @@ export const UserDashboardPage: React.FC = () => {
         )}
       </div>
 
-      {/* MOBILE BOTTOM NAVIGATION */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-slate-100 flex items-stretch pb-[env(safe-area-inset-bottom)] shadow-lg">
+      {/* MOBILE BOTTOM NAVIGATION - Premium Style */}
+      <nav className="md:hidden fixed bottom-0 left-0 w-full z-30 flex justify-around items-center px-2 py-2 bg-surface shadow-[0_-4px_12px_rgba(0,0,0,0.05)] rounded-t-xl">
         {BOTTOM_NAV.map(({ key, label, icon: Icon }) => {
           const active = activeSection === key;
           return (
             <button
               key={key}
               onClick={() => goToSection(key)}
-              className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 cursor-pointer transition-colors active:scale-95"
+              className={`flex flex-col items-center justify-center px-3 py-1 cursor-pointer transition-all active:scale-90 ${
+                active ? 'text-primary' : 'text-on-surface-variant'
+              }`}
             >
-              <span className="relative">
-                <Icon className={`w-[22px] h-[22px] transition-colors ${active ? 'text-[var(--primary-600)]' : 'text-slate-400'}`} />
-                {key === 'chat' && hasUnread && (
-                  <span className="absolute -top-1 -right-1.5 w-2 h-2 bg-[var(--primary-500)] rounded-full ring-2 ring-white" />
-                )}
-              </span>
-              <span className={`text-xs font-semibold transition-colors ${active ? 'text-[var(--primary-600)]' : 'text-slate-500'}`}>
+              {active ? (
+                <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
+                  <Icon className="w-[22px] h-[22px] text-on-secondary-container" />
+                </div>
+              ) : (
+                <Icon className="w-[22px] h-[22px]" />
+              )}
+              <span className={`text-[10px] font-label mt-1 ${active ? 'font-semibold' : ''}`}>
                 {label}
               </span>
             </button>
