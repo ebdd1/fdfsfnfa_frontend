@@ -296,38 +296,38 @@ export const AdminDashboardPage: React.FC = () => {
 
       {/* ===================== MAIN ===================== */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Topbar — styled to match the user dashboard header */}
-        <header className="flex h-16 flex-shrink-0 items-center justify-between border-b border-slate-200 bg-white px-5 sm:px-8 relative z-30">
+        {/* Topbar — Premium Dwelling Style */}
+        <header className="flex h-16 flex-shrink-0 items-center justify-between border-b border-outline-variant bg-surface px-5 sm:px-8 relative z-30">
           {/* Left: hamburger (mobile) + breadcrumbs */}
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-surface-container md:hidden cursor-pointer"
+              className="flex h-9 w-9 items-center justify-center rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface-variant md:hidden cursor-pointer transition-colors duration-200"
               aria-label="Open menu"
             >
               <Menu className="h-5 w-5" />
             </button>
 
-            <div className="flex items-center gap-2.5 text-xs font-semibold text-slate-400">
+            <div className="flex items-center gap-2 text-[12px] font-medium text-on-surface">
               <button
                 onClick={() => navigate('/')}
-                className="hover:text-slate-900 transition-colors flex items-center gap-1 cursor-pointer font-bold"
+                className="hover:text-primary transition-colors flex items-center gap-1 cursor-pointer font-bold"
               >
                 {settings.logo_url ? (
                   <img src={settings.logo_url} alt={settings.site_name || 'Logo'} className="w-4 h-4 object-contain" />
                 ) : (
-                  <LogoText className="text-xs font-black" />
+                  <LogoText className="text-[12px] font-black" />
                 )}
               </button>
               <ChevronRight className="w-3 h-3 text-on-surface-variant" />
-              <span className="text-slate-800 font-extrabold capitalize bg-surface-container px-2.5 py-1 rounded-lg border border-slate-200">
+              <span className="font-bold text-on-surface bg-surface-container px-2.5 py-1 rounded-lg capitalize">
                 {SECTION_TITLE[activeSection]}
               </span>
             </div>
           </div>
 
           {/* Right: notifications + profile dropdowns */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {/* Notification Bell Dropdown */}
             <div className="relative">
               <button
@@ -335,21 +335,24 @@ export const AdminDashboardPage: React.FC = () => {
                   setIsNotificationsOpen(!isNotificationsOpen);
                   setIsProfileOpen(false);
                 }}
-                className="relative p-2.5 text-slate-400 hover:text-slate-800 hover:bg-surface-container border border-slate-200 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer"
+                className="relative p-2.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container border border-outline-variant rounded-xl transition-all duration-200 active:scale-95 cursor-pointer"
               >
                 <Bell className="w-4 h-4" />
+                {unreadCount > 0 && (
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full" />
+                )}
               </button>
 
               {isNotificationsOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsNotificationsOpen(false)} />
-                  <div className="absolute right-0 mt-3 w-80 bg-white border border-slate-200 rounded-2xl shadow-xl py-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="absolute right-0 mt-3 w-80 bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-elevation-hover py-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div className="px-4 pb-2 border-b border-outline-variant flex justify-between items-center">
-                      <span className="text-[10px] font-black text-slate-800 uppercase tracking-widest font-mono">Notifikasi</span>
+                      <span className="text-[11px] font-bold text-on-surface">Notifikasi</span>
                       {unreadCount > 0 && (
                         <button
                           onClick={() => markAllRead()}
-                          className="text-[10px] text-[var(--color-primary-600)] hover:underline font-semibold"
+                          className="text-[11px] text-primary hover:underline font-semibold cursor-pointer"
                         >
                           Tandai semua baca
                         </button>
@@ -357,19 +360,22 @@ export const AdminDashboardPage: React.FC = () => {
                     </div>
                     <div className="max-h-60 overflow-y-auto mt-2">
                       {notifications.length === 0 ? (
-                        <div className="px-4 py-6 text-center text-xs text-slate-400 font-semibold">
-                          Tidak ada notifikasi baru.
+                        <div className="px-4 py-10 flex flex-col items-center text-center">
+                          <div className="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center mb-3 text-on-surface-variant">
+                            <Bell className="w-5 h-5" />
+                          </div>
+                          <p className="text-[13px] font-semibold text-on-surface">Tidak ada notifikasi baru</p>
                         </div>
                       ) : (
                         notifications.slice(0, 5).map((notif) => (
                           <div
                             key={notif.id}
                             onClick={() => markRead(notif.id)}
-                            className={`px-4 py-3 hover:bg-surface-container cursor-pointer border-b border-slate-50 last:border-0 ${!notif.isRead ? 'bg-[var(--color-primary-50)]/30' : ''}`}
+                            className={`px-4 py-3 hover:bg-surface-container cursor-pointer border-b border-outline-variant/50 last:border-0 transition-colors ${!notif.isRead ? 'bg-primary/5' : ''}`}
                           >
-                            <p className="text-xs font-semibold text-slate-800 line-clamp-1">{notif.title}</p>
+                            <p className="text-[13px] font-bold text-on-surface line-clamp-1">{notif.title}</p>
                             {notif.body && <p className="text-[11px] text-on-surface-variant mt-0.5 line-clamp-2">{notif.body}</p>}
-                            <p className="text-[10px] text-slate-400 mt-1">
+                            <p className="text-[10px] text-on-surface-variant mt-1">
                               {new Date(notif.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                             </p>
                           </div>
@@ -388,26 +394,26 @@ export const AdminDashboardPage: React.FC = () => {
                   setIsProfileOpen(!isProfileOpen);
                   setIsNotificationsOpen(false);
                 }}
-                className="flex items-center gap-2 p-1.5 bg-surface-container hover:bg-slate-100 border border-slate-200 rounded-xl transition-all duration-200 cursor-pointer group"
+                className="flex items-center gap-2 p-1.5 bg-surface-container hover:bg-surface-container-high border border-outline-variant rounded-xl transition-all duration-200 cursor-pointer group"
               >
-                <div className="w-7 h-7 rounded-lg bg-slate-200 overflow-hidden border border-slate-200 flex-shrink-0 flex items-center justify-center text-on-surface-variant">
+                <div className="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container overflow-hidden border border-outline-variant">
                   {user?.avatar_url ? (
                     <img src={user.avatar_url} alt={user?.name || 'Admin'} className="w-full h-full object-cover" />
                   ) : (
-                    <Shield className="w-3.5 h-3.5" />
+                    <Shield className="w-4 h-4" />
                   )}
                 </div>
-                <ChevronDown className={`w-3.5 h-3.5 text-slate-400 group-hover:text-slate-600 transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-3.5 h-3.5 text-on-surface-variant group-hover:text-on-surface transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {isProfileOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsProfileOpen(false)} />
-                  <div className="absolute right-0 mt-3 w-56 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <div className="px-4 py-2.5 border-b border-outline-variant">
-                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest font-mono">Masuk Sebagai</p>
-                      <p className="text-xs font-black text-slate-800 leading-tight mt-0.5 truncate">{user?.name || 'Administrator'}</p>
-                      <p className="text-[10px] text-slate-400 font-semibold truncate mt-0.5">{user?.email || 'admin@kostfind.com'}</p>
+                  <div className="absolute right-0 mt-3 w-64 bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-elevation-hover py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                    <div className="px-4 py-3 border-b border-outline-variant">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Masuk Sebagai</p>
+                      <p className="text-[13px] font-bold text-on-surface leading-tight mt-1 truncate">{user?.name || 'Administrator'}</p>
+                      <p className="text-[11px] text-on-surface-variant font-medium truncate mt-0.5">{user?.email || 'admin@kostfind.com'}</p>
                     </div>
 
                     <div className="py-1">
@@ -416,9 +422,9 @@ export const AdminDashboardPage: React.FC = () => {
                           setIsProfileOpen(false);
                           setShowProfileEditor(true);
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-surface-container hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-on-surface hover:bg-surface-container flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
-                        <User className="w-4 h-4 text-slate-400" />
+                        <User className="w-4 h-4 text-on-surface-variant" />
                         <span>Edit Profil Saya</span>
                       </button>
                       <button
@@ -426,9 +432,9 @@ export const AdminDashboardPage: React.FC = () => {
                           setIsProfileOpen(false);
                           navigate('/');
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-bold text-slate-600 hover:bg-surface-container hover:text-[var(--primary-600)] flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-on-surface hover:bg-surface-container flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
-                        <Home className="w-4 h-4 text-slate-400" />
+                        <Home className="w-4 h-4 text-on-surface-variant" />
                         <span>Kembali ke Beranda</span>
                       </button>
                     </div>
@@ -439,9 +445,9 @@ export const AdminDashboardPage: React.FC = () => {
                           setIsProfileOpen(false);
                           handleLogout();
                         }}
-                        className="w-full text-left px-4 py-2 text-xs font-extrabold text-red-500 hover:bg-red-50 flex items-center gap-2.5 transition-colors cursor-pointer"
+                        className="w-full text-left px-4 py-2.5 text-[13px] font-bold text-error hover:bg-error/10 flex items-center gap-2.5 transition-colors cursor-pointer"
                       >
-                        <LogOut className="w-4 h-4 text-red-500" />
+                        <LogOut className="w-4 h-4" />
                         <span>Keluar / Logout</span>
                       </button>
                     </div>
@@ -466,9 +472,9 @@ export const AdminDashboardPage: React.FC = () => {
         </main>
       </div>
 
-      {/* ===================== BOTTOM NAVIGATION (MOBILE ONLY) ===================== */}
-      <div className="fixed bottom-4 left-4 right-4 z-40 md:hidden bg-white/85 backdrop-blur-lg border border-slate-200/50 rounded-[20px] px-2 shadow-[0_10px_30px_rgba(0,0,0,0.06)]">
-        <div className="flex h-[68px] items-center justify-around">
+      {/* Bottom Navigation - Premium Style */}
+      <div className="fixed bottom-4 left-4 right-4 z-40 md:hidden bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant rounded-2xl shadow-elevation-hover">
+        <div className="flex h-[68px] items-center justify-around px-2">
           {Object.entries(BOTTOM_NAV_LABELS).map(([key, label]) => {
             const secKey = key as Section;
             const IconComponent = BOTTOM_NAV_ICONS[secKey];
@@ -480,11 +486,10 @@ export const AdminDashboardPage: React.FC = () => {
                   setActiveSection(secKey);
                   setMobileMenuOpen(false);
                 }}
-                className="flex flex-col items-center justify-center flex-1 h-full py-1 transition-all duration-200 active:scale-95 cursor-pointer"
+                className={`flex flex-col items-center justify-center flex-1 h-full py-1 transition-all duration-200 active:scale-95 cursor-pointer ${active ? 'text-primary' : 'text-on-surface-variant'}`}
               >
-                <div className={`flex flex-col items-center justify-center w-[58px] h-[48px] rounded-xl transition-all duration-300 ${active ? 'bg-[var(--primary-50)]/90 text-[var(--primary-600)]' : 'text-slate-400 hover:text-slate-600'
-                  }`}>
-                  <IconComponent className={`h-5 w-5 stroke-[2.2] transition-transform duration-300 ${active ? 'scale-105' : ''}`} />
+                <div className={`flex flex-col items-center justify-center w-[58px] h-[48px] rounded-xl transition-all duration-300 ${active ? 'bg-primary/10 text-primary' : 'hover:text-on-surface'}`}>
+                  <IconComponent className={`h-5 w-5 stroke-[2.2] transition-transform duration-300 ${active ? 'scale-110' : ''}`} />
                   <span className={`mt-0.5 text-[11px] tracking-tight transition-colors duration-300 ${active ? 'font-black' : 'font-semibold'}`}>
                     {label}
                   </span>
@@ -510,30 +515,30 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
-      {/* Greeting banner with profile cover */}
-      <div className="relative overflow-hidden rounded-2xl border border-slate-200/50 shadow-sm">
+      {/* Greeting banner with profile cover - Premium Style */}
+      <div className="relative overflow-hidden rounded-2xl bg-surface-container-lowest shadow-elevation-1">
         {/* Banner background */}
-        <div className="h-28 w-full bg-gradient-to-r from-[var(--primary-500)] to-teal-500">
-          {user?.banner_url && <img src={user.banner_url} alt="Banner" className="h-full w-full object-cover" />}
-        </div>
-        {/* Content over white */}
-        <div className="relative bg-white/80 backdrop-blur-md px-6 pb-6 pt-10 sm:px-8">
+        <div className="h-24 sm:h-28 w-full bg-gradient-to-br from-primary via-primary/90 to-secondary" />
+        {/* Content */}
+        <div className="relative px-6 pb-6 sm:px-8 sm:pb-7 -mt-12">
           {/* Avatar overlapping banner */}
-          <div className="absolute -top-8 left-6 h-16 w-16 overflow-hidden rounded-2xl border-4 border-white bg-[var(--primary-100)] shadow-lg sm:left-8">
+          <div className="absolute -top-8 left-6 sm:left-8 h-16 w-16 rounded-2xl border-4 border-surface-container-lowest bg-primary-container shadow-elevation-hover overflow-hidden">
             {user?.avatar_url ? (
               <img src={user.avatar_url} alt={adminName || 'Admin'} className="h-full w-full object-cover" />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-xl font-black text-[var(--primary-600)]">
+              <div className="flex h-full w-full items-center justify-center text-[24px] font-black text-white">
                 {(adminName || 'A')[0].toUpperCase()}
               </div>
             )}
           </div>
-          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Panel Administrator</p>
-          <h1 className="mt-1 text-2.5xl font-black tracking-tight text-slate-900 sm:text-3xl">
-            Halo, {adminName?.split(' ')[0] || 'Admin'}
-          <Sparkles className="inline-block w-5 h-5 ml-1.5 text-amber-400 align-middle" />
-          </h1>
-          <p className="mt-1.5 text-xs font-semibold text-slate-400">{today}</p>
+          <div className="mt-10 sm:mt-12">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">Panel Administrator</p>
+            <h1 className="mt-1 text-[24px] sm:text-[28px] font-black tracking-tight text-on-surface">
+              Halo, {adminName?.split(' ')[0] || 'Admin'}
+              <Sparkles className="inline-block w-5 h-5 ml-1.5 text-amber-400 align-middle" />
+            </h1>
+            <p className="mt-1 text-[12px] font-medium text-on-surface-variant">{today}</p>
+          </div>
         </div>
       </div>
 
@@ -543,20 +548,20 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
         <ErrorState message="Gagal memuat ringkasan." />
       ) : (
         <>
-          {/* KPI grid */}
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            <KpiCard label="Total Pengguna" value={stats.users.total} icon={<Users className="h-5 w-5" />} accent="blue" sub={`${stats.users.seekers} pencari · ${stats.users.owners} pemilik · ${stats.users.admins} admin`} />
-            <KpiCard label="Kost Terverifikasi" value={`${stats.properties.verified}/${stats.properties.total}`} icon={<CheckCircle className="h-5 w-5" />} accent="emerald" progress={stats.properties.total ? (stats.properties.verified / stats.properties.total) * 100 : 0} sub={`${Math.round(stats.properties.total ? (stats.properties.verified / stats.properties.total) * 100 : 0)}% listing tervalidasi`} />
-            <KpiCard label="Menunggu Moderasi" value={stats.properties.pending} icon={<ShieldAlert className="h-5 w-5" />} accent="amber" sub={stats.properties.pending > 0 ? 'Perlu tindakan Anda' : 'Semua sudah ditinjau'} />
-            <KpiCard label="Total Kamar" value={stats.totalRooms} icon={<Home className="h-5 w-5" />} accent="indigo" sub={`${stats.totalConversations} percakapan aktif`} />
+          {/* KPI grid - Premium Style */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <KpiCard label="Total Pengguna" value={stats.users.total} icon={<Users className="h-5 w-5" />} sub={`${stats.users.seekers} pencari · ${stats.users.owners} pemilik · ${stats.users.admins} admin`} />
+            <KpiCard label="Kost Terverifikasi" value={`${stats.properties.verified}/${stats.properties.total}`} icon={<CheckCircle className="h-5 w-5" />} progress={stats.properties.total ? (stats.properties.verified / stats.properties.total) * 100 : 0} sub={`${Math.round(stats.properties.total ? (stats.properties.verified / stats.properties.total) * 100 : 0)}% listing tervalidasi`} />
+            <KpiCard label="Menunggu Moderasi" value={stats.properties.pending} icon={<ShieldAlert className="h-5 w-5" />} sub={stats.properties.pending > 0 ? 'Perlu tindakan Anda' : 'Semua sudah ditinjau'} />
+            <KpiCard label="Total Kamar" value={stats.totalRooms} icon={<Home className="h-5 w-5" />} sub={`${stats.totalConversations} percakapan aktif`} />
           </div>
 
-          {/* Order KPI row */}
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            <KpiCard label="Total Order" value={stats.orders.total} icon={<ClipboardList className="h-5 w-5" />} accent="indigo" sub={`${stats.orders.active} aktif · ${stats.orders.pending} menunggu`} />
-            <KpiCard label="Order Aktif" value={stats.orders.active} icon={<CheckCircle className="h-5 w-5" />} accent="emerald" sub="Sewa berjalan" />
-            <KpiCard label="Order Menunggu" value={stats.orders.pending} icon={<ShieldAlert className="h-5 w-5" />} accent="amber" sub={stats.orders.pending > 0 ? 'Menunggu persetujuan pemilik' : 'Tidak ada antrian'} />
-            <KpiCard label="Pendapatan Aktif" value={formatIDR(stats.orders.revenue)} icon={<TrendingUp className="h-5 w-5" />} accent="blue" sub="Total sewa aktif" />
+          {/* Order KPI row - Premium Style */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <KpiCard label="Total Order" value={stats.orders.total} icon={<ClipboardList className="h-5 w-5" />} sub={`${stats.orders.active} aktif · ${stats.orders.pending} menunggu`} />
+            <KpiCard label="Order Aktif" value={stats.orders.active} icon={<CheckCircle className="h-5 w-5" />} sub="Sewa berjalan" />
+            <KpiCard label="Order Menunggu" value={stats.orders.pending} icon={<ShieldAlert className="h-5 w-5" />} sub={stats.orders.pending > 0 ? 'Menunggu persetujuan pemilik' : 'Tidak ada antrian'} />
+            <KpiCard label="Pendapatan Aktif" value={formatIDR(stats.orders.revenue)} icon={<TrendingUp className="h-5 w-5" />} sub="Total sewa aktif" />
           </div>
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -566,7 +571,7 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
                 title="Kost Menunggu Verifikasi"
                 subtitle="Tinjau dan setujui listing terbaru"
                 right={
-                  <button onClick={() => onGo('verify')} className="inline-flex items-center gap-1 text-[11px] font-bold text-[var(--primary-600)] transition-colors hover:text-[var(--primary-700)] cursor-pointer">
+                  <button onClick={() => onGo('verify')} className="inline-flex items-center gap-1 text-[12px] font-bold text-primary hover:underline transition-colors cursor-pointer">
                     Lihat semua <ArrowRight className="h-3.5 w-3.5" />
                   </button>
                 }
@@ -574,16 +579,16 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
               {pending.length === 0 ? (
                 <EmptyState icon={<CheckCircle className="h-6 w-6" />} title="Tidak ada antrean moderasi" desc="Semua kost sudah terverifikasi." />
               ) : (
-                <div className="divide-y divide-slate-50">
+                <div>
                   {pending.map((p) => (
-                    <div key={p.id} className="flex items-center justify-between gap-4 px-6 py-3.5 transition-colors hover:bg-surface-container/60">
+                    <div key={p.id} className="flex items-center justify-between gap-4 px-5 py-3.5 hover:bg-surface-container/50 transition-colors border-b border-outline-variant/50 last:border-0">
                       <div className="flex min-w-0 items-center gap-3">
-                        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400">
-                          <Home className="h-4 w-4" />
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-surface-container text-on-surface-variant">
+                          <Home className="h-5 w-5" />
                         </div>
                         <div className="min-w-0">
-                          <p className="truncate text-sm font-bold text-slate-800">{p.name}</p>
-                          <p className="flex items-center gap-1 truncate text-[11px] font-medium text-slate-400">
+                          <p className="text-[14px] font-bold text-on-surface truncate">{p.name}</p>
+                          <p className="flex items-center gap-1 text-[11px] font-medium text-on-surface-variant">
                             <MapPin className="h-3 w-3" /> {p.city} · {p.owner?.name || '-'}
                           </p>
                         </div>
@@ -591,9 +596,9 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
                       <button
                         disabled={isUpdating}
                         onClick={() => updateListing({ id: p.id, data: { isVerified: true } })}
-                        className="inline-flex flex-shrink-0 items-center gap-1 rounded-lg border border-[var(--primary-100)] bg-[var(--primary-50)] px-3 py-1.5 text-[10px] font-black text-[var(--primary-600)] transition-colors hover:bg-[var(--primary-100)] disabled:opacity-50 cursor-pointer"
+                        className="inline-flex flex-shrink-0 items-center gap-1.5 rounded-xl bg-primary text-white px-3.5 py-2 text-[12px] font-bold transition-all hover:brightness-110 active:scale-95 disabled:opacity-50 cursor-pointer"
                       >
-                        <CheckCircle className="h-3.5 w-3.5" /> Setujui
+                        <CheckCircle className="h-4 w-4" /> Setujui
                       </button>
                     </div>
                   ))}
@@ -602,21 +607,21 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
             </Panel>
 
             {/* Right column: city distribution + quick actions */}
-            <div className="space-y-6">
+            <div className="space-y-5">
               <Panel>
                 <PanelHeader title="Sebaran Kota" subtitle="Distribusi kost" />
-                <div className="space-y-3 p-6 pt-4">
+                <div className="space-y-3 p-5 pt-4">
                   {Object.keys(stats.cityBreakdown).length === 0 ? (
-                    <p className="text-xs italic text-slate-400">Belum ada data.</p>
+                    <p className="text-[12px] italic text-on-surface-variant">Belum ada data.</p>
                   ) : (
                     Object.entries(stats.cityBreakdown).map(([city, count]) => (
                       <div key={city} className="space-y-1.5">
-                        <div className="flex items-center justify-between text-[11px] font-bold text-slate-600">
+                        <div className="flex items-center justify-between text-[12px] font-bold text-on-surface">
                           <span>{city}</span>
-                          <span className="text-slate-400">{count}</span>
+                          <span className="text-on-surface-variant">{count}</span>
                         </div>
-                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
-                          <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-indigo-400" style={{ width: `${(count / maxCity) * 100}%` }} />
+                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-container">
+                          <div className="h-full rounded-full bg-gradient-to-r from-primary to-secondary" style={{ width: `${(count / maxCity) * 100}%` }} />
                         </div>
                       </div>
                     ))
@@ -626,7 +631,7 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
 
               <Panel>
                 <PanelHeader title="Aksi Cepat" />
-                <div className="space-y-2 p-4">
+                <div className="p-4">
                   <QuickAction icon={<Shield className="h-4 w-4" />} label="Verifikasi Kost" onClick={() => onGo('verify')} />
                   <QuickAction icon={<Users className="h-4 w-4" />} label="Kelola Pengguna" onClick={() => onGo('users')} />
                   <QuickAction icon={<SettingsIcon className="h-4 w-4" />} label="Pengaturan Web" onClick={() => onGo('settings')} />
@@ -643,13 +648,13 @@ const OverviewSection: React.FC<{ adminName?: string; onGo: (s: Section) => void
 const QuickAction: React.FC<{ icon: React.ReactNode; label: string; onClick: () => void }> = ({ icon, label, onClick }) => (
   <button
     onClick={onClick}
-    className="group flex w-full items-center justify-between rounded-xl border border-outline-variant px-4 py-3 text-left transition-all hover:border-slate-200 hover:bg-surface-container"
+    className="group flex w-full items-center justify-between rounded-xl border border-outline-variant px-4 py-3 text-left transition-all hover:border-primary/30 hover:bg-primary/5 cursor-pointer"
   >
-    <span className="flex items-center gap-3 text-sm font-bold text-slate-700">
-      <span className="text-slate-400 transition-colors group-hover:text-[var(--primary-600)]">{icon}</span>
+    <span className="flex items-center gap-3 text-[14px] font-medium text-on-surface">
+      <span className="text-on-surface-variant transition-colors group-hover:text-primary">{icon}</span>
       {label}
     </span>
-    <ChevronRight className="h-4 w-4 text-on-surface-variant transition-transform group-hover:translate-x-0.5 group-hover:text-on-surface-variant" />
+    <ChevronRight className="h-4 w-4 text-on-surface-variant transition-transform group-hover:translate-x-1 group-hover:text-primary" />
   </button>
 );
 
@@ -671,30 +676,30 @@ const VerifySection: React.FC = () => {
     <div className="space-y-6 animate-in fade-in duration-300">
       <SectionHeading title="Antrean Moderasi Kost" desc="Verifikasi keaslian dan kelola listing kost yang didaftarkan pemilik." />
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-        <KpiCard label="Total Kost" value={listings.length} icon={<Home className="h-5 w-5" />} accent="blue" />
-        <KpiCard label="Terverifikasi" value={verifiedCount} icon={<CheckCircle className="h-5 w-5" />} accent="emerald" />
-        <KpiCard label="Menunggu" value={listings.length - verifiedCount} icon={<ShieldAlert className="h-5 w-5" />} accent="amber" />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <KpiCard label="Total Kost" value={listings.length} icon={<Home className="h-5 w-5" />} sub="Seluruh Indonesia" />
+        <KpiCard label="Terverifikasi" value={verifiedCount} icon={<CheckCircle className="h-5 w-5" />} sub="Listing aktif" />
+        <KpiCard label="Menunggu" value={listings.length - verifiedCount} icon={<ShieldAlert className="h-5 w-5" />} sub="Perlu review" />
       </div>
 
       <Panel>
-        <div className="flex flex-col gap-3 border-b border-outline-variant px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="text-sm font-bold text-slate-800">Daftar Kost</h3>
+        <div className="flex flex-col gap-3 border-b border-outline-variant px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <h3 className="text-[14px] font-bold text-on-surface">Daftar Kost</h3>
           <div className="flex flex-col gap-2 sm:flex-row">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-on-surface-variant" />
               <input
                 type="text"
                 placeholder="Cari kost atau kota..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-4 text-xs font-semibold outline-none transition-colors focus:border-[var(--primary-500)] sm:w-64"
+                className="w-full rounded-xl border border-outline-variant bg-surface-container px-4 py-2.5 pl-9 text-[12px] font-medium text-on-surface placeholder:text-on-surface-variant/50 outline-none transition-colors focus:border-primary sm:w-64"
               />
             </div>
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value as typeof filter)}
-              className="cursor-pointer rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 outline-none focus:border-[var(--primary-500)]"
+              className="cursor-pointer rounded-xl border border-outline-variant bg-surface-container px-4 py-2.5 text-[12px] font-medium text-on-surface outline-none transition-colors focus:border-primary"
             >
               <option value="all">Semua Status</option>
               <option value="unverified">Menunggu Verifikasi</option>
@@ -713,49 +718,49 @@ const VerifySection: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="border-b border-outline-variant bg-surface-container/50 text-[10px] uppercase tracking-wider text-slate-400">
-                  <th className="px-6 py-3 font-bold">Kost</th>
-                  <th className="px-6 py-3 font-bold">Lokasi</th>
-                  <th className="px-6 py-3 font-bold">Pemilik</th>
-                  <th className="px-6 py-3 text-center font-bold">Status</th>
-                  <th className="px-6 py-3 text-right font-bold">Aksi Moderasi</th>
+                <tr className="border-b border-outline-variant bg-surface-container/50 text-[11px] uppercase tracking-wider text-on-surface-variant">
+                  <th className="px-5 py-3 font-bold">Kost</th>
+                  <th className="px-5 py-3 font-bold">Lokasi</th>
+                  <th className="px-5 py-3 font-bold">Pemilik</th>
+                  <th className="px-5 py-3 text-center font-bold">Status</th>
+                  <th className="px-5 py-3 text-right font-bold">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50 text-xs font-semibold text-slate-700">
+              <tbody className="divide-y divide-outline-variant/50 text-[13px] font-medium text-on-surface">
                 {filtered.map((p) => (
-                  <tr key={p.id} className="transition-colors hover:bg-surface-container/60">
-                    <td className="px-6 py-3.5">
+                  <tr key={p.id} className="transition-colors hover:bg-surface-container/30">
+                    <td className="px-5 py-3.5">
                       <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400">
-                          <Home className="h-4 w-4" />
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-surface-container text-on-surface-variant">
+                          <Home className="h-5 w-5" />
                         </div>
-                        <span className="font-bold text-slate-800">{p.name}</span>
+                        <span className="font-bold">{p.name}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-3.5">
-                      <p className="font-bold text-slate-800">{p.city}</p>
-                      <p className="mt-0.5 max-w-[200px] truncate text-[10px] font-medium text-slate-400">{p.address}</p>
+                    <td className="px-5 py-3.5">
+                      <p className="font-bold">{p.city}</p>
+                      <p className="mt-0.5 max-w-[200px] truncate text-[11px] font-medium text-on-surface-variant">{p.address}</p>
                     </td>
-                    <td className="px-6 py-3.5 font-bold text-slate-600">{p.owner?.name || '-'}</td>
-                    <td className="px-6 py-3.5 text-center">
+                    <td className="px-5 py-3.5 font-medium">{p.owner?.name || '-'}</td>
+                    <td className="px-5 py-3.5 text-center">
                       <StatusBadge ok={p.isVerified} okLabel="Terverifikasi" noLabel="Menunggu" />
                     </td>
-                    <td className="px-6 py-3.5 text-right">
+                    <td className="px-5 py-3.5 text-right">
                       {p.isVerified ? (
                         <button
                           disabled={isUpdating}
                           onClick={() => updateListing({ id: p.id, data: { isVerified: false } })}
-                          className="ml-auto inline-flex items-center gap-1 rounded-lg border border-rose-100 bg-rose-50 px-3 py-1.5 text-[10px] font-black text-rose-600 transition-colors hover:bg-rose-100 disabled:opacity-50"
+                          className="inline-flex items-center gap-1.5 rounded-xl border border-error/30 bg-error/10 px-3 py-1.5 text-[12px] font-bold text-error transition-all hover:bg-error/20 active:scale-95 disabled:opacity-50 cursor-pointer"
                         >
-                          <XCircle className="h-3.5 w-3.5" /> Batalkan
+                          <XCircle className="h-4 w-4" /> Batalkan
                         </button>
                       ) : (
                         <button
                           disabled={isUpdating}
                           onClick={() => updateListing({ id: p.id, data: { isVerified: true } })}
-                          className="ml-auto inline-flex items-center gap-1 rounded-lg border border-[var(--primary-100)] bg-[var(--primary-50)] px-3 py-1.5 text-[10px] font-black text-[var(--primary-600)] transition-colors hover:bg-[var(--primary-100)] disabled:opacity-50"
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-primary text-white px-3 py-1.5 text-[12px] font-bold transition-all hover:brightness-110 active:scale-95 disabled:opacity-50 cursor-pointer"
                         >
-                          <CheckCircle className="h-3.5 w-3.5" /> Setujui
+                          <CheckCircle className="h-4 w-4" /> Setujui
                         </button>
                       )}
                     </td>
@@ -775,16 +780,16 @@ const ROLE_LABEL: Record<string, string> = { admin: 'Admin', owner: 'Pemilik Kos
 
 const roleBadgeClass = (role: string) =>
   role === 'admin'
-    ? 'border-indigo-100 bg-indigo-50 text-indigo-700'
+    ? 'border-primary/20 bg-primary/10 text-primary'
     : role === 'owner'
-      ? 'border-purple-100 bg-purple-50 text-purple-700'
-      : 'border-blue-100 bg-blue-50 text-blue-700';
+      ? 'border-secondary/20 bg-secondary/10 text-secondary'
+      : 'border-tertiary/20 bg-tertiary/10 text-tertiary';
 
 const formatJoinDate = (iso?: string) => {
   if (!iso) return '-';
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return '-';
-  return new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+  return new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }).format(d);
 };
 
 type PendingAction = { user: AdminUser; field: 'isVerified' | 'isActive'; next: boolean };
@@ -817,7 +822,7 @@ const UsersSection: React.FC = () => {
   })();
 
   const actionBtn =
-    'inline-flex cursor-pointer items-center gap-1 rounded-lg border px-2.5 py-1.5 text-[10px] font-black transition-all duration-150 hover:-translate-y-px hover:shadow-sm active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-none';
+    'inline-flex cursor-pointer items-center gap-1.5 rounded-xl border px-3 py-1.5 text-[12px] font-bold transition-all hover:brightness-110 active:scale-95 disabled:opacity-40';
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
@@ -833,72 +838,72 @@ const UsersSection: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="border-b border-outline-variant bg-surface-container/50 text-[10px] uppercase tracking-wider text-slate-400">
-                  <th className="px-6 py-3 font-bold">Pengguna</th>
-                  <th className="px-6 py-3 font-bold">Kontak</th>
-                  <th className="px-6 py-3 font-bold">Peran</th>
-                  <th className="px-6 py-3 text-center font-bold">Verifikasi</th>
-                  <th className="px-6 py-3 text-center font-bold">Status</th>
-                  <th className="px-6 py-3 text-right font-bold">Aksi</th>
+                <tr className="border-b border-outline-variant bg-surface-container/50 text-[11px] uppercase tracking-wider text-on-surface-variant">
+                  <th className="px-5 py-3 font-bold">Pengguna</th>
+                  <th className="px-5 py-3 font-bold">Kontak</th>
+                  <th className="px-5 py-3 font-bold">Peran</th>
+                  <th className="px-5 py-3 text-center font-bold">Verifikasi</th>
+                  <th className="px-5 py-3 text-center font-bold">Status</th>
+                  <th className="px-5 py-3 text-right font-bold">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50 text-xs font-semibold text-slate-700">
+              <tbody className="divide-y divide-outline-variant/50 text-[13px] font-medium text-on-surface">
                 {users.map((u) => (
                   <tr
                     key={u.id}
                     onClick={() => setViewUser(u)}
-                    className="cursor-pointer transition-colors hover:bg-surface-container/60"
+                    className="cursor-pointer transition-colors hover:bg-surface-container/30"
                   >
-                    <td className="px-6 py-3.5">
+                    <td className="px-5 py-3.5">
                       <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-100 text-slate-400">
-                          {u.avatar_url ? <img src={u.avatar_url} alt={u.name} className="h-full w-full object-cover" /> : <Users className="h-4 w-4" />}
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl border border-outline-variant bg-surface-container text-on-surface-variant">
+                          {u.avatar_url ? <img src={u.avatar_url} alt={u.name} className="h-full w-full object-cover" /> : <Users className="h-5 w-5" />}
                         </div>
-                        <span className="font-bold text-slate-800">{u.name}</span>
+                        <span className="font-bold">{u.name}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-3.5">
-                      <p className="text-slate-800">{u.email}</p>
-                      <p className="mt-0.5 text-[10px] font-medium text-slate-400">{u.phone || '-'}</p>
+                    <td className="px-5 py-3.5">
+                      <p>{u.email}</p>
+                      <p className="mt-0.5 text-[11px] font-medium text-on-surface-variant">{u.phone || '-'}</p>
                     </td>
-                    <td className="px-6 py-3.5">
-                      <span className={`inline-block rounded-md border px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider ${roleBadgeClass(u.role)}`}>{u.role}</span>
+                    <td className="px-5 py-3.5">
+                      <span className={`inline-block rounded-lg border px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${roleBadgeClass(u.role)}`}>{u.role}</span>
                     </td>
-                    <td className="px-6 py-3.5 text-center">
+                    <td className="px-5 py-3.5 text-center">
                       <StatusBadge ok={u.isVerified} okLabel="Terverifikasi" noLabel="Pending" />
                     </td>
-                    <td className="px-6 py-3.5 text-center">
+                    <td className="px-5 py-3.5 text-center">
                       <span
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-black uppercase tracking-wider ${u.isActive ? 'border-[var(--primary-100)] bg-[var(--primary-50)] text-[var(--primary-700)]' : 'border-rose-100 bg-rose-50 text-rose-700'
-                          }`}
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-wide ${
+                          u.isActive ? 'border-primary/20 bg-primary/10 text-primary' : 'border-error/20 bg-error/10 text-error'
+                        }`}
                       >
-                        <span className={`h-1.5 w-1.5 rounded-full ${u.isActive ? 'bg-[var(--primary-500)]' : 'bg-rose-500'}`} />
+                        <span className={`h-2 w-2 rounded-full ${u.isActive ? 'bg-primary' : 'bg-error'}`} />
                         {u.isActive ? 'Aktif' : 'Nonaktif'}
                       </span>
                     </td>
-                    {/* Stop row-click propagation so action buttons don't also open the profile. */}
-                    <td className="px-6 py-3.5 text-right" onClick={(e) => e.stopPropagation()}>
+                    <td className="px-5 py-3.5 text-right" onClick={(e) => e.stopPropagation()}>
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => setViewUser(u)}
                           title="Lihat profil"
                           aria-label="Lihat profil"
-                          className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant transition-all duration-150 hover:-translate-y-px hover:border-slate-300 hover:bg-surface-container hover:text-slate-700 hover:shadow-sm active:scale-95"
+                          className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-outline-variant bg-surface-container text-on-surface-variant transition-all hover:border-primary/30 hover:bg-primary/5 hover:text-primary active:scale-95"
                         >
-                          <Eye className="h-3.5 w-3.5" />
+                          <Eye className="h-4 w-4" />
                         </button>
                         <button
                           disabled={isUpdating || u.role === 'admin'}
                           onClick={() => setPending({ user: u, field: 'isVerified', next: !u.isVerified })}
-                          className={`${actionBtn} ${u.isVerified ? 'border-amber-100 bg-amber-50 text-amber-600 hover:bg-amber-100' : 'border-[var(--primary-100)] bg-[var(--primary-50)] text-[var(--primary-600)] hover:bg-[var(--primary-100)]'}`}
+                          className={`${actionBtn} ${u.isVerified ? 'border-error/30 bg-error/10 text-error hover:bg-error/20' : 'border-primary/30 bg-primary/10 text-primary hover:bg-primary/20'}`}
                         >
-                          {u.isVerified ? <X className="h-3.5 w-3.5" /> : <Check className="h-3.5 w-3.5" />}
+                          {u.isVerified ? <X className="h-4 w-4" /> : <Check className="h-4 w-4" />}
                           {u.isVerified ? 'Cabut' : 'Verifikasi'}
                         </button>
                         <button
                           disabled={isUpdating || u.role === 'admin'}
                           onClick={() => setPending({ user: u, field: 'isActive', next: !u.isActive })}
-                          className={`${actionBtn} ${u.isActive ? 'border-rose-100 bg-rose-50 text-rose-600 hover:bg-rose-100' : 'border-slate-200 bg-surface-container text-slate-600 hover:bg-slate-100'}`}
+                          className={`${actionBtn} ${u.isActive ? 'border-error/30 bg-error/10 text-error hover:bg-error/20' : 'border-outline-variant bg-surface-container text-on-surface hover:bg-surface-container-high'}`}
                         >
                           {u.isActive ? 'Nonaktifkan' : 'Aktifkan'}
                         </button>
@@ -996,10 +1001,10 @@ const UsersSection: React.FC = () => {
 
 const DetailRow: React.FC<{ icon: React.ReactNode; label: string; value: React.ReactNode }> = ({ icon, label, value }) => (
   <div className="flex items-center gap-3 rounded-xl px-1 py-2">
-    <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-surface-container text-slate-400">{icon}</span>
+    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-surface-container text-on-surface-variant">{icon}</span>
     <div className="min-w-0">
-      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</p>
-      <p className="truncate text-[13px] font-semibold text-slate-700">{value}</p>
+      <p className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">{label}</p>
+      <p className="text-[14px] font-semibold text-on-surface">{value}</p>
     </div>
   </div>
 );
@@ -1017,51 +1022,51 @@ const StatsSection: React.FC = () => {
     <div className="space-y-6 animate-in fade-in duration-300">
       <SectionHeading title="Statistik Global Platform" desc="Laporan metrik inventory dan sebaran kost secara menyeluruh." />
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard label="Total Pengguna" value={stats.users.total} icon={<Users className="h-5 w-5" />} accent="blue" sub={`${stats.users.seekers} pencari · ${stats.users.owners} pemilik`} />
-        <KpiCard label="Total Kost" value={stats.properties.total} icon={<Home className="h-5 w-5" />} accent="emerald" sub={`${stats.properties.verified} terverifikasi · ${stats.properties.pending} pending`} />
-        <KpiCard label="Total Kamar" value={stats.totalRooms} icon={<LayoutDashboard className="h-5 w-5" />} accent="indigo" sub="Kapasitas hunian sistem" />
-        <KpiCard label="Percakapan" value={stats.totalConversations} icon={<MessageSquare className="h-5 w-5" />} accent="amber" sub="Total chat aktif" />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <KpiCard label="Total Pengguna" value={stats.users.total} icon={<Users className="h-5 w-5" />} sub={`${stats.users.seekers} pencari · ${stats.users.owners} pemilik`} />
+        <KpiCard label="Total Kost" value={stats.properties.total} icon={<Home className="h-5 w-5" />} sub={`${stats.properties.verified} terverifikasi · ${stats.properties.pending} pending`} />
+        <KpiCard label="Total Kamar" value={stats.totalRooms} icon={<LayoutDashboard className="h-5 w-5" />} sub="Kapasitas hunian sistem" />
+        <KpiCard label="Percakapan" value={stats.totalConversations} icon={<MessageSquare className="h-5 w-5" />} sub="Total chat aktif" />
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard label="Total Order" value={stats.orders.total} icon={<ClipboardList className="h-5 w-5" />} accent="indigo" sub={`${stats.orders.active} aktif · ${stats.orders.pending} menunggu`} />
-        <KpiCard label="Order Aktif" value={stats.orders.active} icon={<CheckCircle className="h-5 w-5" />} accent="emerald" sub="Sewa berjalan" />
-        <KpiCard label="Order Menunggu" value={stats.orders.pending} icon={<ShieldAlert className="h-5 w-5" />} accent="amber" sub="Antrian persetujuan" />
-        <KpiCard label="Pendapatan Aktif" value={formatIDR(stats.orders.revenue)} icon={<TrendingUp className="h-5 w-5" />} accent="blue" sub="Total sewa aktif" />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <KpiCard label="Total Order" value={stats.orders.total} icon={<ClipboardList className="h-5 w-5" />} sub={`${stats.orders.active} aktif · ${stats.orders.pending} menunggu`} />
+        <KpiCard label="Order Aktif" value={stats.orders.active} icon={<CheckCircle className="h-5 w-5" />} sub="Sewa berjalan" />
+        <KpiCard label="Order Menunggu" value={stats.orders.pending} icon={<ShieldAlert className="h-5 w-5" />} sub="Antrian persetujuan" />
+        <KpiCard label="Pendapatan Aktif" value={formatIDR(stats.orders.revenue)} icon={<TrendingUp className="h-5 w-5" />} sub="Total sewa aktif" />
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Panel>
           <PanelHeader title="Sebaran Kost per Kota" />
-          <div className="space-y-3.5 p-6 pt-4">
+          <div className="space-y-3.5 p-5 pt-4">
             {Object.keys(stats.cityBreakdown).length === 0 ? (
               <div className="flex flex-col items-center justify-center py-10 text-center">
-                <div className="mb-2 flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-container text-on-surface-variant">
-                  <Building2 className="h-5 w-5" />
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-surface-container text-on-surface-variant">
+                  <Building2 className="h-6 w-6" />
                 </div>
-                <p className="text-xs font-semibold text-slate-400">Belum ada data kota.</p>
+                <p className="text-[13px] font-semibold text-on-surface-variant">Belum ada data kota.</p>
               </div>
             ) : (
               Object.entries(stats.cityBreakdown)
                 .sort((a, b) => b[1] - a[1])
                 .map(([city, count], i) => (
                   <div key={city} className="space-y-1.5">
-                    <div className="flex items-center justify-between text-xs font-bold text-slate-700">
-                      <span className="flex items-center gap-1.5">
-                        <Building2 className={`h-3.5 w-3.5 ${i === 0 ? 'text-[var(--primary-500)]' : 'text-on-surface-variant'}`} />
+                    <div className="flex items-center justify-between text-[13px] font-bold text-on-surface">
+                      <span className="flex items-center gap-2">
+                        <Building2 className={`h-4 w-4 ${i === 0 ? 'text-primary' : 'text-on-surface-variant'}`} />
                         {city}
                         {i === 0 && (
-                          <span className="rounded-md bg-[var(--primary-50)] px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wide text-[var(--primary-600)]">
+                          <span className="rounded-lg bg-primary/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
                             Terbanyak
                           </span>
                         )}
                       </span>
-                      <span className="text-slate-400">{count} Kost</span>
+                      <span className="text-on-surface-variant">{count} Kost</span>
                     </div>
-                    <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-surface-container">
                       <div
-                        className={`h-full rounded-full ${i === 0 ? 'bg-[var(--primary-500)]' : 'bg-[var(--primary-400)]/70'}`}
+                        className={`h-full rounded-full ${i === 0 ? 'bg-gradient-to-r from-primary to-secondary' : 'bg-primary/50'}`}
                         style={{ width: `${(count / maxCity) * 100}%` }}
                       />
                     </div>
@@ -1164,13 +1169,13 @@ const UserComposition: React.FC<{ seekers: number; owners: number; admins: numbe
 /* ============================ SHARED ============================ */
 const SectionHeading: React.FC<{ title: string; desc: string }> = ({ title, desc }) => (
   <div>
-    <h1 className="text-2xl font-black tracking-tight text-slate-800">{title}</h1>
-    <p className="mt-1 text-xs font-medium text-slate-400">{desc}</p>
+    <h1 className="text-[24px] font-black tracking-tight text-on-surface">{title}</h1>
+    <p className="mt-1 text-[13px] font-medium text-on-surface-variant">{desc}</p>
   </div>
 );
 
 const RefreshBtn: React.FC<{ onClick: () => void }> = ({ onClick }) => (
-  <button onClick={onClick} title="Muat ulang" className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-[11px] font-bold text-on-surface-variant transition-colors hover:bg-surface-container hover:text-slate-700">
-    <RefreshCw className="h-3.5 w-3.5" /> Muat ulang
+  <button onClick={onClick} title="Muat ulang" className="inline-flex items-center gap-1.5 rounded-xl border border-outline-variant bg-surface-container px-3.5 py-2 text-[12px] font-bold text-on-surface hover:bg-surface-container-high hover:border-primary/30 transition-colors cursor-pointer">
+    <RefreshCw className="h-4 w-4" /> Muat ulang
   </button>
 );
