@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import {
-  CheckCircle, XCircle, Clock, Home, Loader2,
-  Banknote, HandCoins, ZoomIn, X,
+  CheckCircle, XCircle, Clock, Loader2,
+  Banknote, HandCoins, ZoomIn, X, Bed, Building2, Calendar, FileText,
 } from 'lucide-react';
 import { useMyOrders, useOrderActions } from '../hooks/useOrders';
 import { useAuthStore } from '../stores/authStore';
 import { OrderTimeline } from '../components/OrderTimeline';
-import { OrderStatusBadge, OrderEmptyState } from '../components/order';
 import type { RentalOrder } from '../types';
 
 const fmtIDR = (n: number) =>
@@ -44,169 +43,199 @@ const OrderCard: React.FC<OrderCardProps> = ({
   const [lightbox, setLightbox] = useState('');
   const seeker = order.seeker;
 
+  const isCOD = order.paymentMethod === 'cod';
+  const isTransfer = order.paymentMethod === 'transfer';
+
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/60 p-5 shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-surface-container-lowest rounded-[16px] shadow-[0_2px_4px_rgba(0,0,0,0.02)] border border-surface-container-high hover:shadow-[0_10px_25px_rgba(0,53,148,0.05)] transition-shadow duration-300 overflow-hidden">
       {lightbox && <Lightbox url={lightbox} onClose={() => setLightbox('')} />}
 
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-start gap-3 min-w-0 flex-1">
-          <div className="w-11 h-11 rounded-xl bg-[var(--primary-50)] border border-[var(--primary-100)] flex items-center justify-center text-[var(--primary-600)] font-black text-sm shrink-0 overflow-hidden">
+      <div className="p-6">
+        {/* Header / User Info */}
+        <div className="flex justify-between items-start mb-6">
+          <div className="flex items-center gap-4">
+            {/* Avatar */}
             {seeker?.avatar_url ? (
-              <img src={seeker.avatar_url} alt={seeker.name} className="w-full h-full object-cover" />
+              <img
+                src={seeker.avatar_url}
+                alt={seeker.name}
+                className="w-14 h-14 rounded-xl object-cover border border-surface-container"
+              />
             ) : (
-              (seeker?.name || '?')[0].toUpperCase()
+              <div className="w-14 h-14 rounded-xl bg-surface-dim flex items-center justify-center text-on-surface-variant font-headline text-xl border border-surface-container">
+                {(seeker?.name || '?')[0].toUpperCase()}
+              </div>
             )}
+            <div>
+              <h3 className="font-headline text-headline-sm text-on-surface leading-none mb-1">
+                {seeker?.name || 'Pencari Kost'}
+              </h3>
+              <p className="text-body-sm text-on-surface-variant flex items-center gap-1">
+                <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 0, 'wght' 400" }}>call</span>
+                {seeker?.phone || '—'}
+              </p>
+            </div>
           </div>
-
-          <div className="min-w-0 flex-1 text-left">
-            <p className="text-sm font-bold text-slate-800 truncate">{seeker?.name || 'Pencari Kost'}</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">{seeker?.phone || '—'}</p>
-
-            <div className="mt-2 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-600 bg-slate-50 border border-slate-100 px-2 py-1 rounded-lg">
-                <Home className="w-3 h-3" />
-                {order.room?.roomNumber || order.roomId.slice(0, 4)}
-              </span>
-              <span className="text-[10px] font-semibold text-slate-500">{order.property?.name}</span>
-              {order.paymentMethod === 'transfer' ? (
-                <span className="inline-flex items-center gap-1 text-[9px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full">
-                  <Banknote className="w-3 h-3" /> Transfer
-                </span>
-              ) : order.paymentMethod === 'cod' ? (
-                <span className="inline-flex items-center gap-1 text-[9px] font-bold text-amber-600 bg-amber-50 border border-amber-100 px-2 py-0.5 rounded-full">
-                  <HandCoins className="w-3 h-3" /> COD
-                </span>
-              ) : null}
-            </div>
-
-            <div className="mt-2 flex flex-wrap gap-3 text-[11px] text-slate-400 font-medium">
-              <span>Mulai: {fmtDate(order.startDate)}</span>
-              <span>{order.durationMonths} bulan</span>
-            </div>
+          <div className="text-right">
+            <p className="font-headline text-headline-sm text-primary mb-1">
+              {fmtIDR(order.priceMonthly)}
+            </p>
+            <p className="text-[11px] text-outline uppercase tracking-wide">per bulan</p>
           </div>
         </div>
 
-        <div className="flex flex-col items-end gap-2 shrink-0">
-          <span className="text-base font-black text-slate-900">{fmtIDR(order.priceMonthly)}</span>
-          <span className="text-[10px] font-semibold text-slate-400">per bulan</span>
-          <OrderStatusBadge status={order.status} size="sm" />
-          {order.status === 'active' && order.paidAt && (
-            <span className="text-[10px] text-slate-400">Lunas: {fmtDate(order.paidAt)}</span>
+        {/* Request Details */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          <div className="flex items-center gap-1.5 bg-surface-container-low text-on-surface text-sm px-3 py-1.5 rounded-lg border border-surface-container">
+            <Bed className="w-4 h-4 text-primary" />
+            <span className="font-medium">{order.room?.roomNumber || `Kamar ${order.roomId.slice(0, 4)}`}</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-surface-container-low text-on-surface text-sm px-3 py-1.5 rounded-lg border border-surface-container">
+            <Building2 className="w-4 h-4 text-primary" />
+            <span className="font-medium">{order.property?.name || 'Kost'}</span>
+          </div>
+          {isCOD && (
+            <div className="flex items-center gap-1.5 bg-secondary-fixed text-on-secondary-fixed text-sm px-3 py-1.5 rounded-lg">
+              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}>local_shipping</span>
+              <span className="font-bold">COD</span>
+            </div>
           )}
+          {isTransfer && (
+            <div className="flex items-center gap-1.5 bg-tertiary-fixed text-on-tertiary-fixed text-sm px-3 py-1.5 rounded-lg">
+              <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400" }}>account_balance</span>
+              <span className="font-bold">Transfer</span>
+            </div>
+          )}
+          <div className="flex items-center gap-1.5 bg-surface-container-low text-on-surface text-sm px-3 py-1.5 rounded-lg border border-surface-container ml-auto">
+            <Calendar className="w-4 h-4 text-outline" />
+            <span>Mulai: <strong className="text-on-surface">{fmtDate(order.startDate)}</strong> ({order.durationMonths} bulan)</span>
+          </div>
         </div>
-      </div>
 
-      {/* Timeline progress — only for non-terminal statuses */}
-      {!['rejected', 'cancelled', 'completed'].includes(order.status) && (
-        <div className="mt-3 pt-3 border-t border-slate-100">
-          <OrderTimeline
-            status={order.status}
-            createdAt={order.createdAt}
-            paidAt={order.paidAt}
-          />
-        </div>
-      )}
-
-      {/* Actions */}
-      <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
-        {/* Tab: pending — accept / reject */}
-        {tab === 'pending' && (
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => onAccept?.(order.id)}
-              disabled={isMutating}
-              className="flex-1 flex items-center justify-center gap-1.5 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] disabled:opacity-50 text-white font-extrabold text-xs py-2.5 rounded-xl transition-all cursor-pointer"
-            >
-              {isMutating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle className="w-3.5 h-3.5" />}
-              Terima
-            </button>
-            <button
-              onClick={() => onReject?.(order.id)}
-              disabled={isMutating}
-              className="flex-1 flex items-center justify-center gap-1.5 bg-white hover:bg-rose-50 disabled:opacity-50 text-rose-600 font-extrabold text-xs py-2.5 rounded-xl border border-rose-100 transition-all cursor-pointer"
-            >
-              {isMutating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <XCircle className="w-3.5 h-3.5" />}
-              Tolak
-            </button>
+        {/* Timeline progress */}
+        {!['rejected', 'cancelled', 'completed'].includes(order.status) && (
+          <div className="mb-6">
+            <OrderTimeline
+              status={order.status}
+              createdAt={order.createdAt}
+              paidAt={order.paidAt}
+            />
           </div>
         )}
 
-        {/* Tab: payment */}
-        {tab === 'payment' && (
-          <>
-            {/* Transfer: tampilkan bukti + konfirmasi/tolak */}
-            {order.status === 'awaiting_confirmation' && (
-              <div className="space-y-3">
-                {order.paymentProofUrl && (
-                  <div
-                    className="relative cursor-pointer rounded-xl overflow-hidden border border-slate-200 group"
-                    onClick={() => setLightbox(order.paymentProofUrl!)}
-                  >
-                    <img src={order.paymentProofUrl} alt="bukti transfer" className="w-full h-28 object-cover" />
-                    <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <ZoomIn className="w-6 h-6 text-white" />
+        {/* Actions */}
+        <div className="flex gap-3 justify-end items-center pt-4 border-t border-surface-container-low">
+          <span className="mr-auto inline-flex items-center gap-1 bg-surface-variant text-primary text-xs font-bold px-2 py-1 rounded">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            {order.status === 'pending' && 'MENUNGGU PERSETUJUAN'}
+            {order.status === 'awaiting_payment' && 'MENUNGGU PEMBAYARAN'}
+            {order.status === 'awaiting_confirmation' && 'MENUNGGU KONFIRMASI'}
+            {order.status === 'active' && 'AKTIF'}
+          </span>
+          <div className="text-sm text-outline mr-4">
+            Total: <strong className="text-on-surface">{fmtIDR(order.totalAmount)}</strong>
+          </div>
+
+          {/* Tab: pending */}
+          {tab === 'pending' && (
+            <>
+              <button
+                onClick={() => onReject?.(order.id)}
+                disabled={isMutating}
+                className="px-5 py-2.5 rounded-lg font-label text-label-md bg-surface-container-lowest border border-error text-error hover:bg-error-container hover:text-on-error-container transition-colors flex items-center gap-2"
+              >
+                {isMutating ? <Loader2 className="w-4 h-4 animate-spin" /> : <XCircle className="w-4 h-4" />}
+                Tolak
+              </button>
+              <button
+                onClick={() => onAccept?.(order.id)}
+                disabled={isMutating}
+                className="px-5 py-2.5 rounded-lg font-label text-label-md bg-primary text-on-primary hover:bg-primary/90 hover:scale-[1.02] transition-all flex items-center gap-2 shadow-sm"
+              >
+                {isMutating ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
+                Terima
+              </button>
+            </>
+          )}
+
+          {/* Tab: payment */}
+          {tab === 'payment' && (
+            <>
+              {order.status === 'awaiting_confirmation' && (
+                <>
+                  {order.paymentProofUrl && (
+                    <div
+                      className="relative cursor-pointer rounded-xl overflow-hidden border border-outline-variant group mb-3"
+                      onClick={() => setLightbox(order.paymentProofUrl!)}
+                    >
+                      <img src={order.paymentProofUrl} alt="bukti transfer" className="w-full h-28 object-cover" />
+                      <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <ZoomIn className="w-6 h-6 text-white" />
+                      </div>
                     </div>
-                  </div>
-                )}
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => onConfirmPayment?.(order.id)}
-                    disabled={isMutating}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-[var(--primary-600)] hover:bg-[var(--primary-700)] disabled:opacity-50 text-white font-extrabold text-xs py-2.5 rounded-xl transition-all cursor-pointer"
-                  >
-                    {isMutating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle className="w-3.5 h-3.5" />}
-                    Konfirmasi Transfer
-                  </button>
+                  )}
                   <button
                     onClick={() => onRejectPayment?.(order.id)}
                     disabled={isMutating}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-white hover:bg-rose-50 disabled:opacity-50 text-rose-600 font-extrabold text-xs py-2.5 rounded-xl border border-rose-100 transition-all cursor-pointer"
+                    className="px-5 py-2.5 rounded-lg font-label text-label-md bg-surface-container-lowest border border-error text-error hover:bg-error-container hover:text-on-error-container transition-colors flex items-center gap-2"
                   >
-                    {isMutating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <XCircle className="w-3.5 h-3.5" />}
-                    Tolak Bukti
+                    {isMutating ? <Loader2 className="w-4 h-4 animate-spin" /> : <XCircle className="w-4 h-4" />}
+                    Tolak
                   </button>
-                </div>
-              </div>
-            )}
+                  <button
+                    onClick={() => onConfirmPayment?.(order.id)}
+                    disabled={isMutating}
+                    className="px-5 py-2.5 rounded-lg font-label text-label-md bg-primary text-on-primary hover:bg-primary/90 hover:scale-[1.02] transition-all flex items-center gap-2 shadow-sm"
+                  >
+                    {isMutating ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
+                    Konfirmasi Transfer
+                  </button>
+                </>
+              )}
+              {order.status === 'awaiting_payment' && order.paymentMethod === 'cod' && (
+                <>
+                  <p className="text-[11px] text-amber-600 font-medium bg-amber-50 border border-amber-100 rounded-xl px-3 py-2 mb-3">
+                    Penyewa akan membayar tunai {fmtIDR(order.totalAmount)} saat check-in. Klik konfirmasi setelah menerima pembayaran.
+                  </p>
+                  <button
+                    onClick={() => onConfirmPayment?.(order.id)}
+                    disabled={isMutating}
+                    className="w-full px-5 py-2.5 rounded-lg font-label text-label-md bg-secondary text-on-secondary hover:bg-secondary/90 transition-colors flex items-center justify-center gap-2"
+                  >
+                    {isMutating ? <Loader2 className="w-4 h-4 animate-spin" /> : <HandCoins className="w-4 h-4" />}
+                    Konfirmasi Terima Pembayaran COD
+                  </button>
+                </>
+              )}
+            </>
+          )}
 
-            {/* COD: konfirmasi setelah terima uang */}
-            {order.status === 'awaiting_payment' && order.paymentMethod === 'cod' && (
-              <div className="space-y-2">
-                <p className="text-[11px] text-amber-600 font-medium bg-amber-50 border border-amber-100 rounded-xl px-3 py-2">
-                  Penyewa akan membayar tunai {fmtIDR(order.totalAmount)} saat check-in. Klik konfirmasi setelah menerima pembayaran.
-                </p>
-                <button
-                  onClick={() => onConfirmPayment?.(order.id)}
-                  disabled={isMutating}
-                  className="w-full flex items-center justify-center gap-1.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-extrabold text-xs py-2.5 rounded-xl transition-all cursor-pointer"
-                >
-                  {isMutating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <HandCoins className="w-3.5 h-3.5" />}
-                  Konfirmasi Terima Pembayaran COD
-                </button>
-              </div>
-            )}
-          </>
-        )}
-
-        {/* Tab: active — mark complete */}
-        {tab === 'active' && order.status === 'active' && (
-          <button
-            onClick={() => onComplete?.(order.id)}
-            disabled={isMutating}
-            className="w-full flex items-center justify-center gap-1.5 bg-slate-800 hover:bg-slate-900 disabled:opacity-50 text-white font-extrabold text-xs py-2.5 rounded-xl transition-all cursor-pointer"
-          >
-            {isMutating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle className="w-3.5 h-3.5" />}
-            Tandai Selesai
-          </button>
-        )}
-
-        <div className="flex justify-end">
-          <span className="text-[10px] text-slate-400 font-medium">Total: <b>{fmtIDR(order.totalAmount)}</b></span>
+          {/* Tab: active */}
+          {tab === 'active' && order.status === 'active' && (
+            <button
+              onClick={() => onComplete?.(order.id)}
+              disabled={isMutating}
+              className="px-5 py-2.5 rounded-lg font-label text-label-md bg-surface-container-lowest border border-surface-container text-on-surface hover:bg-surface-container transition-colors flex items-center gap-2"
+            >
+              {isMutating ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
+              Tandai Selesai
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
 };
+
+const OrderEmptyStateNew: React.FC<{ message: { title: string; description: string } }> = ({ message }) => (
+  <div className="bg-surface-container-lowest rounded-xl p-16 flex flex-col items-center justify-center text-center shadow-level-1 border border-outline-variant/20 min-h-[400px]">
+    <div className="w-20 h-20 bg-surface-container-low rounded-full flex items-center justify-center mb-6 shadow-inner">
+      <FileText className="w-10 h-10 text-primary opacity-80" />
+    </div>
+    <h3 className="font-headline text-headline-sm font-semibold text-on-surface mb-2">{message.title}</h3>
+    <p className="text-body-sm text-on-surface-variant max-w-md">{message.description}</p>
+  </div>
+);
 
 export const OwnerOrdersSection: React.FC = () => {
   const [tab, setTab] = useState<TabKey>('pending');
@@ -226,12 +255,6 @@ export const OwnerOrdersSection: React.FC = () => {
   const listMap: Record<TabKey, RentalOrder[]> = { pending, payment, active };
   const list = listMap[tab];
 
-  const TABS: { key: TabKey; label: string; count: number; icon: React.ReactNode }[] = [
-    { key: 'pending', label: 'Menunggu', count: pending.length, icon: <Clock className="w-3.5 h-3.5" /> },
-    { key: 'payment', label: 'Pembayaran', count: payment.length, icon: <Banknote className="w-3.5 h-3.5" /> },
-    { key: 'active', label: 'Aktif', count: active.length, icon: <CheckCircle className="w-3.5 h-3.5" /> },
-  ];
-
   const getEmptyMessage = (tab: TabKey) => {
     switch (tab) {
       case 'pending':
@@ -242,7 +265,7 @@ export const OwnerOrdersSection: React.FC = () => {
       case 'payment':
         return {
           title: 'Tidak ada pembayaran menunggu verifikasi',
-          description: 'Pembayaran dari penyewa akan muncul di sini setelah Anda menerima pengajuan.',
+          description: 'Pembayaran dari penyewa akan muncul di sini setelah Anda menerima pengajuan dan mereka melakukan transfer.',
         };
       case 'active':
         return {
@@ -253,59 +276,80 @@ export const OwnerOrdersSection: React.FC = () => {
   };
 
   return (
-    <div className="space-y-5 animate-in fade-in duration-300">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 animate-in fade-in duration-300">
+      {/* Page Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 bg-surface-container-lowest p-6 rounded-xl shadow-level-1 border border-outline-variant/10">
         <div>
-          <h2 className="text-xl font-semibold text-slate-800 tracking-tight">Permintaan Sewa</h2>
-          <p className="text-[12px] text-slate-400 mt-0.5">Kelola pengajuan sewa dari pencari kost</p>
+          <h2 className="font-headline text-headline-lg text-on-surface mb-1">Permintaan Sewa</h2>
+          <p className="text-body-sm text-on-surface-variant">Kelola pengajuan sewa dari pencari kost</p>
         </div>
-        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-100 px-3 py-1.5 rounded-full font-mono">
-          {ownerOrders.length} total
-        </span>
+        <div className="flex items-center gap-2 text-label-sm text-outline font-medium bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/20">
+          <span className="text-primary font-bold">{ownerOrders.length}</span> TOTAL
+        </div>
       </div>
 
-      <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl w-fit">
-        {TABS.map(({ key, label, count, icon }) => (
-          <button
-            key={key}
-            onClick={() => setTab(key)}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-              tab === key ? 'bg-white text-[var(--primary-700)] shadow-sm' : 'text-slate-500 hover:text-slate-700'
-            }`}
-          >
-            {icon}
-            {label}
-            {count > 0 && (
-              <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-black ${
-                key === 'pending' ? 'bg-amber-500 text-white' :
-                key === 'payment' ? 'bg-blue-500 text-white' :
-                'bg-[var(--primary-500)] text-white'
-              }`}>
-                {count}
-              </span>
-            )}
-          </button>
-        ))}
+      {/* Tabs */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-2">
+        <button
+          onClick={() => setTab('pending')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors text-label-sm whitespace-nowrap ${
+            tab === 'pending'
+              ? 'bg-primary text-on-primary shadow-sm'
+              : 'bg-surface-container-lowest text-on-surface-variant border border-outline-variant/50 hover:bg-surface-container-low'
+          }`}
+        >
+          <Clock className="w-[18px] h-[18px]" />
+          Menunggu
+          {pending.length > 0 && (
+            <span className="bg-error text-on-error text-[10px] px-1.5 rounded-full font-bold">{pending.length}</span>
+          )}
+        </button>
+        <button
+          onClick={() => setTab('payment')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors text-label-sm whitespace-nowrap ${
+            tab === 'payment'
+              ? 'bg-primary-container text-on-primary-container shadow-sm'
+              : 'bg-surface-container-lowest text-on-surface-variant border border-outline-variant/50 hover:bg-surface-container-low'
+          }`}
+        >
+          <Banknote className="w-[18px] h-[18px]" />
+          Pembayaran
+        </button>
+        <button
+          onClick={() => setTab('active')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors text-label-sm whitespace-nowrap ${
+            tab === 'active'
+              ? 'bg-secondary-container text-on-secondary-container shadow-sm'
+              : 'bg-surface-container-lowest text-on-surface-variant border border-outline-variant/50 hover:bg-surface-container-low'
+          }`}
+        >
+          <CheckCircle className="w-[18px] h-[18px]" />
+          Aktif
+          {active.length > 0 && (
+            <span className="bg-secondary text-on-secondary text-[10px] px-1.5 rounded-full font-bold">{active.length}</span>
+          )}
+        </button>
       </div>
 
+      {/* Content */}
       {isLoading ? (
         <div className="flex items-center justify-center py-16">
-          <Loader2 className="w-6 h-6 animate-spin text-[var(--primary-500)]" />
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </div>
       ) : isError ? (
-        <div className="bg-white rounded-2xl border border-slate-200/60 p-8 text-center">
-          <p className="text-sm font-semibold text-rose-500 mb-3">Gagal memuat data permintaan sewa</p>
-          <button onClick={() => refetch()} className="text-xs font-bold text-[var(--primary-600)] hover:text-[var(--primary-700)] underline">
+        <div className="bg-surface-container-lowest rounded-xl p-8 text-center shadow-level-1 border border-outline-variant/10">
+          <p className="text-body-md font-semibold text-error mb-3">Gagal memuat data permintaan sewa</p>
+          <button
+            onClick={() => refetch()}
+            className="px-6 py-2.5 bg-surface text-primary border border-primary/20 rounded-lg text-label-md font-semibold hover:bg-surface-container-low transition-colors shadow-sm"
+          >
             Coba lagi
           </button>
         </div>
       ) : list.length === 0 ? (
-        <OrderEmptyState
-          icon={<Clock className="w-6 h-6" />}
-          {...getEmptyMessage(tab)}
-        />
+        <OrderEmptyStateNew message={getEmptyMessage(tab)} />
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-6">
           {list.map((order) => (
             <OrderCard
               key={order.id}

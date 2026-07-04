@@ -1,10 +1,10 @@
 import React from 'react';
-import { CheckCircle, Circle, CircleDot } from 'lucide-react';
+import { Check } from 'lucide-react';
 import type { OrderStatus } from '../types';
 
 /** Linear step flow visible in the timeline (rejected/cancelled = terminal, no timeline) */
 const STEPS: { key: OrderStatus; label: string }[] = [
-  { key: 'pending', label: 'Ajukan' },
+  { key: 'pending', label: 'Diajukan' },
   { key: 'awaiting_payment', label: 'Bayar' },
   { key: 'awaiting_confirmation', label: 'Konfirmasi' },
   { key: 'active', label: 'Aktif' },
@@ -55,7 +55,7 @@ function StepDate({ state, stepKey, createdAt, paidAt }: {
   const date = dateKey === 'createdAt' ? createdAt : paidAt;
   if (!date) return null;
   return (
-    <span className="text-[9px] font-semibold text-slate-400 mt-0.5">
+    <span className="text-[10px] text-outline font-medium mt-1">
       {fmtDate(date)}
     </span>
   );
@@ -65,51 +65,37 @@ function StepDate({ state, stepKey, createdAt, paidAt }: {
 function StepDot({ state }: { state: StepState }) {
   if (state === 'done') {
     return (
-      <CheckCircle
-        className="w-4 h-4 text-[var(--primary-500)] shrink-0"
-        strokeWidth={2.5}
-        aria-label="selesai"
-      />
+      <div className="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center ring-4 ring-surface-container-low shadow-sm">
+        <Check className="w-3.5 h-3.5 font-bold" strokeWidth={3} />
+      </div>
     );
   }
   if (state === 'active') {
     return (
-      <span className="relative flex w-4 h-4 shrink-0">
-        <CircleDot
-          className="w-4 h-4 text-blue-500 shrink-0"
-          strokeWidth={2.5}
-          aria-label="sedang"
-        />
-      </span>
+      <div className="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center ring-4 ring-surface-container-low shadow-sm animate-pulse">
+        <div className="w-2 h-2 rounded-full bg-current" />
+      </div>
     );
   }
   return (
-    <Circle
-      className="w-4 h-4 text-slate-300 shrink-0"
-      strokeWidth={2}
-      aria-label="belum"
-    />
+    <div className="w-6 h-6 rounded-full bg-surface-container-lowest border-2 border-surface-container flex items-center justify-center">
+      <div className="w-1.5 h-1.5 rounded-full bg-surface-container" />
+    </div>
   );
 }
 
 /** Connector line antar step */
 function Connector({ state }: { state: StepState }) {
   return (
-    <div
-      className={`flex-1 h-0.5 rounded-full mx-1 ${
-        state === 'done' ? 'bg-[var(--primary-400)]' : 'bg-slate-200'
-      }`}
-    />
+    <div className={`flex-1 h-0.5 rounded-full mx-1 ${state === 'done' ? 'bg-primary' : 'bg-surface-container'}`} />
   );
 }
 
 /**
  * OrderTimeline — horizontal stepper for order progress.
  *
- * Shows linear flow: Ajukan → Bayar → Konfirmasi → Aktif
+ * Shows linear flow: Diajukan → Bayar → Konfirmasi → Aktif
  * Terminal states (rejected/cancelled/completed) → no timeline (parent hides this component).
- *
- * Props match RentalOrder fields so parent can pass order directly.
  */
 export const OrderTimeline: React.FC<{
   status: OrderStatus;
@@ -119,44 +105,44 @@ export const OrderTimeline: React.FC<{
   const currentIndex = getStepIndex(status);
 
   return (
-    <div
-      className="flex items-center w-full overflow-x-auto pb-1 -mx-1 px-1 snap-x snap-mandatory"
-      role="list"
-      aria-label="Progress pesanan"
-    >
-      {STEPS.map((step, i) => {
-        const state = getStepState(i, currentIndex, status);
-        return (
-          <React.Fragment key={step.key}>
-            {/* Step */}
-            <div className="flex flex-col items-center gap-1 shrink-0 snap-center">
-              <StepDot state={state} />
-              <span
-                className={`text-[10px] font-bold whitespace-nowrap ${
-                  state === 'done'
-                    ? 'text-[var(--primary-600)]'
-                    : state === 'active'
-                    ? 'text-blue-600'
-                    : 'text-slate-400'
-                }`}
-              >
-                {step.label}
-              </span>
-              <StepDate
-                state={state}
-                stepKey={step.key}
-                createdAt={createdAt}
-                paidAt={paidAt}
-              />
-            </div>
+    <div className="relative max-w-3xl mx-auto px-4">
+      {/* Track Background */}
+      <div className="absolute top-3 left-4 right-4 h-0.5 bg-surface-container z-0" />
 
-            {/* Connector (except after last step) */}
-            {i < STEPS.length - 1 && (
-              <Connector state={state} />
-            )}
-          </React.Fragment>
-        );
-      })}
+      <div className="relative z-10 flex justify-between items-start">
+        {STEPS.map((step, i) => {
+          const state = getStepState(i, currentIndex, status);
+          const isDone = state === 'done';
+          const isActive = state === 'active';
+
+          return (
+            <React.Fragment key={step.key}>
+              {/* Step */}
+              <div className="flex flex-col items-center w-20">
+                <StepDot state={state} />
+                <div className="mt-3 flex flex-col items-center">
+                  <span className={`text-[11px] font-bold uppercase tracking-tight ${
+                    isDone ? 'text-primary' : isActive ? 'text-primary' : 'text-outline'
+                  }`}>
+                    {step.label}
+                  </span>
+                  <StepDate
+                    state={state}
+                    stepKey={step.key}
+                    createdAt={createdAt}
+                    paidAt={paidAt}
+                  />
+                </div>
+              </div>
+
+              {/* Connector (except after last step) */}
+              {i < STEPS.length - 1 && (
+                <Connector state={state} />
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
     </div>
   );
 };
