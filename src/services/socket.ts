@@ -99,3 +99,19 @@ export const emitTyping = (payload: {
 export const emitPresenceCheck = () => {
   getSocket().emit('presence:check');
 };
+
+/**
+ * Join a conversation room for targeted message delivery.
+ * Call this when user opens a conversation.
+ */
+export const joinConversation = (conversationId: string) => {
+  getSocket().emit('conversation:join', { conversationId });
+};
+
+/**
+ * Leave a conversation room.
+ * Call this when user closes a conversation.
+ */
+export const leaveConversation = (conversationId: string) => {
+  getSocket().emit('conversation:leave', { conversationId });
+};

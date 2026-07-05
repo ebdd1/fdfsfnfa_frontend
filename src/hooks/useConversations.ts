@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useQuery, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
 import { conversationService, type OptimisticMessage } from '../services/api/conversation.service';
 import { useAuthStore } from '../stores/authStore';
-import { getSocket, emitTyping } from '../services/socket';
+import { getSocket, emitTyping, joinConversation, leaveConversation } from '../services/socket';
 import { useConnectionStore } from '../stores/connectionStore';
 import { useOfflineQueue } from './useOfflineQueue';
 
@@ -289,8 +289,16 @@ export const useConversations = () => {
   };
 
   const selectConversation = (convId: string | null) => {
+    // Leave previous conversation room
+    if (selectedConversationId && selectedConversationId !== convId) {
+      leaveConversation(selectedConversationId);
+    }
+
     setSelectedId(convId);
     if (convId) {
+      // Join new conversation room for targeted message delivery
+      joinConversation(convId);
+
       conversationService.markRead(convId).catch(() => {});
       queryClient.invalidateQueries({ queryKey: ['conversations', userId] });
       // Load queued messages for this conversation
