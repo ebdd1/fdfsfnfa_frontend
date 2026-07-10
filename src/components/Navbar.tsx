@@ -38,15 +38,15 @@ export const Navbar: React.FC = () => {
     <header className="w-full top-0 sticky z-40 transition-all duration-300" style={{ padding: '0 16px', marginTop: '12px' }}>
       {/* Modern Gradient Navbar Container */}
       <div className="relative w-full overflow-hidden rounded-2xl" style={{
-        background: 'var(--navbar-gradient)',
-        boxShadow: 'var(--navbar-shadow)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid var(--navbar-border)',
+        background: 'rgba(0, 74, 198, 0.75)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        boxShadow: '0 4px 24px rgba(0, 74, 198, 0.12), 0 0 1px rgba(0, 74, 198, 0.08)',
+        border: '1px solid rgba(255, 255, 255, 0.25)',
       }}>
         {/* Subtle inner glow effect */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 60%)',
+          background: 'linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 50%)',
         }} />
 
         {/* Full width navbar content */}
@@ -180,9 +180,13 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
 
-        {/* Mobile Menu - Dark Theme */}
+        {/* Mobile Menu - Glass Effect */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-white/10" style={{ background: 'linear-gradient(180deg, rgba(0,74,198,0.95) 0%, rgba(0,53,148,0.98) 100%)' }}>
+          <div className="md:hidden border-t border-white/20" style={{
+            background: 'rgba(0, 53, 148, 0.9)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+          }}>
             <nav className="px-margin-mobile py-stack-md flex flex-col gap-1">
               {isAuthenticated && user && (
                 <div className="flex items-center gap-3 p-3 mb-2 rounded-xl border border-white/20" style={{ background: 'rgba(255,255,255,0.1)' }}>

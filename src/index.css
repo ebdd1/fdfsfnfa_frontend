@@ -146,12 +146,12 @@
   /* ============================================
      NAVBAR GRADIENT SYSTEM
      ============================================ */
-  --navbar-gradient: linear-gradient(135deg, #003594 0%, #004ac6 50%, #003594 100%);
-  --navbar-gradient-start: #003594;
-  --navbar-gradient-end: #004ac6;
-  --navbar-glow: rgba(0, 74, 198, 0.3);
-  --navbar-shadow: 0 4px 20px rgba(0, 74, 198, 0.25), 0 0 40px rgba(0, 74, 198, 0.1);
-  --navbar-border: rgba(255, 255, 255, 0.15);
+  --navbar-gradient: linear-gradient(135deg, rgba(0, 74, 198, 0.85) 0%, rgba(0, 53, 148, 0.85) 100%);
+  --navbar-gradient-start: rgba(0, 74, 198, 0.85);
+  --navbar-gradient-end: rgba(0, 53, 148, 0.85);
+  --navbar-glow: rgba(0, 74, 198, 0.15);
+  --navbar-shadow: 0 4px 20px rgba(0, 74, 198, 0.15), 0 0 30px rgba(0, 74, 198, 0.08);
+  --navbar-border: rgba(255, 255, 255, 0.2);
 }
 
 /* ============================================
