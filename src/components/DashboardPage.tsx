@@ -192,24 +192,24 @@ export const DashboardPage = () => {
   return (
     <div className="bg-[#F7F8FA] h-screen flex flex-col md:flex-row overflow-hidden font-sans text-on-surface relative">
       
-      {/* MOBILE TOP BAR - Premium Dwelling Style */}
-      <header className="flex md:hidden items-center justify-between px-margin-mobile h-14 bg-surface shrink-0 z-30 border-b border-outline-variant">
+      {/* MOBILE TOP BAR - iOS Glassmorphic Style */}
+      <header className="flex md:hidden items-center justify-between px-margin-mobile h-14 bg-primary/80 backdrop-blur-xl border-b border-white/20 shrink-0 z-30">
         <button
           onClick={() => setIsMobileMenuOpen(true)}
           aria-label="Buka menu"
-          className="p-2 -ml-2 text-on-surface hover:bg-surface-container-low rounded-xl transition-[background-color] active:scale-[0.96] cursor-pointer"
+          className="p-2 -ml-2 text-white hover:bg-white/10 rounded-xl transition-colors active:scale-95 cursor-pointer"
         >
           <Menu className="w-6 h-6" />
         </button>
 
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-secondary-container text-on-secondary-container">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/20 text-white">
             <Sparkles className="w-4 h-4" />
           </div>
           {settings.logo_url ? (
             <img src={settings.logo_url} alt={settings.site_name || 'Logo'} className="h-8 w-8 object-contain rounded-xl" />
           ) : (
-            <LogoText />
+            <span className="font-headline text-lg font-bold text-white">KostFind</span>
           )}
         </div>
 
@@ -218,10 +218,10 @@ export const DashboardPage = () => {
             setIsNotificationsOpen(!isNotificationsOpen);
           }}
           aria-label="Notifikasi"
-          className="relative p-2 -mr-2 text-on-surface hover:bg-surface-container-low rounded-xl transition-[background-color] active:scale-[0.96] cursor-pointer"
+          className="relative p-2 -mr-2 text-white hover:bg-white/10 rounded-xl transition-colors active:scale-95 cursor-pointer"
         >
           <Bell className="w-5 h-5" />
-          {notifUnread > 0 && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-surface" />}
+          {notifUnread > 0 && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-400 rounded-full ring-2 ring-white/30" />}
         </button>
       </header>
 
@@ -276,29 +276,29 @@ export const DashboardPage = () => {
         </div>
       )}
 
-      {/* MOBILE DRAWER - Premium Style */}
+      {/* MOBILE DRAWER - iOS Glassmorphic Style */}
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-0 z-50 flex">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-inverse-surface/50 animate-in fade-in duration-200"
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200"
             onClick={() => setIsMobileMenuOpen(false)}
           />
           {/* Panel */}
-          <aside className="relative flex flex-col w-[280px] max-w-[82%] h-full bg-surface-container-lowest shadow-elevation-hover animate-in slide-in-from-left duration-250">
+          <aside className="relative flex flex-col w-[280px] max-w-[82%] h-full bg-primary/90 backdrop-blur-xl shadow-2xl animate-in slide-in-from-left duration-250">
             {/* Drawer header */}
-            <div className="flex items-center justify-between px-margin-mobile h-14 border-b border-outline-variant shrink-0">
+            <div className="flex items-center justify-between px-margin-mobile h-14 border-b border-white/20 shrink-0">
               <div className="flex items-center gap-2">
                 {settings.logo_url ? (
                   <img src={settings.logo_url} alt={settings.site_name || 'Logo'} className="h-9 w-9 object-contain rounded-xl" />
                 ) : (
-                  <LogoText />
+                  <span className="font-headline text-lg font-bold text-white">KostFind</span>
                 )}
               </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Tutup menu"
-                className="p-1.5 text-on-surface-variant hover:bg-surface-container rounded-lg transition-[background-color] cursor-pointer"
+                className="p-1.5 text-white/80 hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -306,47 +306,47 @@ export const DashboardPage = () => {
 
             {/* Profile */}
             <div className="px-4 pt-4">
-              <div className="flex items-center gap-3 p-4 bg-surface-container rounded-xl border border-outline-variant">
-                <div className="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container overflow-hidden shrink-0">
+              <div className="flex items-center gap-3 p-4 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
+                <div className="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center text-white overflow-hidden shrink-0">
                   {user?.avatar_url ? <img src={user.avatar_url} alt={user.name} className="w-full h-full object-cover" /> : <User className="w-5 h-5" />}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-body-sm font-semibold text-on-surface truncate">{user?.name || 'Pemilik Kost'}</p>
-                  <span className="text-label-sm font-semibold text-primary">Pemilik Kost</span>
+                  <p className="text-body-sm font-semibold text-white truncate">{user?.name || 'Pemilik Kost'}</p>
+                  <span className="text-label-sm font-semibold text-white/70">Pemilik Kost</span>
                 </div>
               </div>
             </div>
 
             {/* Nav */}
             <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-              <p className="text-label-sm font-semibold text-on-surface-variant uppercase tracking-wider px-3 mb-2">Menu Utama</p>
+              <p className="text-label-sm font-semibold text-white/50 uppercase tracking-wider px-3 mb-2">Menu Utama</p>
               {NAV_ITEMS.map(({ key, label, icon: Icon }) => (
                 <button
                   key={key}
                   onClick={() => goToSection(key)}
-                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-[background-color] cursor-pointer ${
-                    activeSection === key ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-container'
+                  className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-body-sm font-medium transition-colors cursor-pointer ${
+                    activeSection === key ? 'bg-white/20 text-white' : 'text-white/80 hover:bg-white/10'
                   }`}
                 >
                   <span className="relative shrink-0">
                     <Icon className="w-[18px] h-[18px]" />
-                    {key === 'chat' && hasUnread && <span className="absolute -top-1 -right-1 w-2 h-2 bg-error rounded-full" />}
+                    {key === 'chat' && hasUnread && <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-400 rounded-full" />}
                   </span>
                   <span className="flex-1 text-left">{label}</span>
                   {key === 'properties' && properties.length > 0 && (
-                    <span className="text-label-sm font-semibold text-primary bg-primary-container/20 px-2 py-0.5 rounded-full">{properties.length}</span>
+                    <span className="text-label-sm font-semibold text-primary bg-white/20 px-2 py-0.5 rounded-full">{properties.length}</span>
                   )}
                   {key === 'chat' && hasUnread && (
-                    <span className="text-label-sm font-semibold bg-primary-container/20 text-primary px-2 py-0.5 rounded-full">Baru</span>
+                    <span className="text-label-sm font-semibold bg-white/20 text-white px-2 py-0.5 rounded-full">Baru</span>
                   )}
                 </button>
               ))}
 
-              <p className="text-label-sm font-semibold text-on-surface-variant uppercase tracking-wider px-3 mb-2 mt-4">Umum</p>
+              <p className="text-label-sm font-semibold text-white/50 uppercase tracking-wider px-3 mb-2 mt-4">Umum</p>
               <button
                 onClick={() => goToSection('settings')}
-                className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-body-sm font-medium transition-[background-color] cursor-pointer ${
-                  activeSection === 'settings' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface-variant hover:bg-surface-container'
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-body-sm font-medium transition-colors cursor-pointer ${
+                  activeSection === 'settings' ? 'bg-white/20 text-white' : 'text-white/80 hover:bg-white/10'
                 }`}
               >
                 <Settings className="w-[18px] h-[18px] shrink-0" />
@@ -355,17 +355,17 @@ export const DashboardPage = () => {
             </nav>
 
             {/* Footer */}
-            <div className="px-3 py-3 border-t border-outline-variant space-y-1 shrink-0">
+            <div className="px-3 py-3 border-t border-white/20 space-y-1 shrink-0">
               <button
                 onClick={() => { setIsMobileMenuOpen(false); navigate('/'); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-sm font-medium text-on-surface-variant hover:bg-surface-container transition-[background-color] cursor-pointer"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-body-sm font-medium text-white/80 hover:bg-white/10 transition-colors cursor-pointer"
               >
                 <ArrowLeft className="w-[18px] h-[18px] shrink-0" />
                 <span>Kembali Beranda</span>
               </button>
               <button
                 onClick={() => { setIsMobileMenuOpen(false); logout(); navigate('/'); }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-sm font-medium text-error hover:bg-error-container transition-[background-color] cursor-pointer"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-body-sm font-medium text-red-300 hover:bg-red-500/20 transition-colors cursor-pointer"
               >
                 <LogOut className="w-[18px] h-[18px] shrink-0" />
                 <span>Keluar</span>

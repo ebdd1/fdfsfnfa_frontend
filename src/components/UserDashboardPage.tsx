@@ -204,7 +204,7 @@ export const UserDashboardPage: React.FC = () => {
     <div className="bg-background h-screen flex flex-col md:flex-row overflow-hidden font-body relative">
 
       {/* MOBILE TOP BAR - Premium Dwelling Style */}
-      <header className="flex md:hidden items-center justify-between px-margin-mobile h-14 bg-surface shrink-0 z-30 border-b border-outline-variant">
+      <header className="flex md:hidden items-center justify-between px-margin-mobile h-14 bg-primary/80 backdrop-blur-xl border-b border-white/20 shrink-0 z-30">
         {/* Left: Menu + Logo */}
         <div className="flex items-center gap-2">
           <button
