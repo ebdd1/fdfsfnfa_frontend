@@ -142,6 +142,16 @@
      ============================================ */
   --transition-fast: 0.2s ease;
   --transition-base: 0.3s ease;
+
+  /* ============================================
+     NAVBAR GRADIENT SYSTEM
+     ============================================ */
+  --navbar-gradient: linear-gradient(135deg, #003594 0%, #004ac6 50%, #003594 100%);
+  --navbar-gradient-start: #003594;
+  --navbar-gradient-end: #004ac6;
+  --navbar-glow: rgba(0, 74, 198, 0.3);
+  --navbar-shadow: 0 4px 20px rgba(0, 74, 198, 0.25), 0 0 40px rgba(0, 74, 198, 0.1);
+  --navbar-border: rgba(255, 255, 255, 0.15);
 }
 
 /* ============================================
