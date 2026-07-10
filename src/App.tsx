@@ -156,7 +156,7 @@ function App() {
   if (settings.maintenance_mode && !isAdmin) {
     return (
       <div
-        className="min-h-screen bg-slate-50 flex flex-col font-sans"
+        className="min-h-screen flex flex-col font-sans"
         style={{ '--primary-color': settings.primary_color || '#10b981' } as React.CSSProperties}
       >
         <ToastProvider />
@@ -170,7 +170,7 @@ function App() {
 
   return (
     <div
-      className="min-h-screen bg-slate-50 flex flex-col font-sans"
+      className="min-h-screen flex flex-col font-sans"
       style={{ '--primary-color': settings.primary_color || '#10b981' } as React.CSSProperties}
     >
       <ToastProvider />
